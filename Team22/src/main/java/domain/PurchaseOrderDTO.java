@@ -2,7 +2,7 @@ package domain;
 
 public class PurchaseOrderDTO {
 	private int amount;
-	public Drug drug;
+	private Drug drug;
 	
 	public PurchaseOrderDTO() {
 		super();
