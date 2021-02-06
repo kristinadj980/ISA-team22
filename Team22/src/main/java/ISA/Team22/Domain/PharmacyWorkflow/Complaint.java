@@ -2,11 +2,14 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Users.Patient;
 
@@ -29,6 +32,7 @@ public class Complaint {
 	@Column(name = "roleId",  nullable = false)
 	private Long roleId;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
 	
 	@Column(name = "isAnswered",  nullable = false)

@@ -1,10 +1,13 @@
 package ISA.Team22.Domain.DTO;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.Period;
@@ -26,7 +29,8 @@ public class DrugDTO {
 	@Column(name = "drugAmount", nullable = false)
 	private Integer drugAmount;
 	
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "drug_id", referencedColumnName = "id", nullable = false)
 	private Drug drug;
 	
 	public DrugDTO() {

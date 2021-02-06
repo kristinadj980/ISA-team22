@@ -1,12 +1,15 @@
 package ISA.Team22.Domain.DrugManipulation;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Examination.IssuanceRegime;
 
@@ -44,7 +47,7 @@ public class Drug {
 	@Column(name = "allGrades", nullable = false)
 	private Integer allGrades;
 	
-	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private DrugSpecification drugSpecification;
 	
 	public Drug() {

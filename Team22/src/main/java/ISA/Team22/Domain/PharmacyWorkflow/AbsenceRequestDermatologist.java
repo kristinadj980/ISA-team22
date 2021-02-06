@@ -1,12 +1,15 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Pharmacy.OfferStatus;
 import ISA.Team22.Domain.Users.Dermatologist;
@@ -29,6 +32,7 @@ public class AbsenceRequestDermatologist {
 	@Enumerated(EnumType.ORDINAL)
 	private OfferStatus status;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Dermatologist dermatologist;
 	
 	public AbsenceRequestDermatologist() {

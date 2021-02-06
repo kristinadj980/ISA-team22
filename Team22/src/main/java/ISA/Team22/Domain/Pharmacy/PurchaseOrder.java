@@ -3,11 +3,17 @@ package ISA.Team22.Domain.Pharmacy;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
@@ -19,6 +25,7 @@ public class PurchaseOrder {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Enumerated(EnumType.ORDINAL)
 	private PurchaseOrderStatus purchaseOrderStatus;
 	
 	@Column(name = "drugAmount",  nullable = false)
@@ -27,9 +34,12 @@ public class PurchaseOrder {
 	@Column(name = "dueDate",  nullable = false)
 	private Date dueDate;
 	
-	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private PharmacyAdministrator pharmacyAdministrator;
+	
+	@OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
+	
 	private List<PurchaseOrderDTO> purchaseOrderDTO;
 	
 	public PurchaseOrder() {

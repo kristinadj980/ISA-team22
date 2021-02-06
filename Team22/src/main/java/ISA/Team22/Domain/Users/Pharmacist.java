@@ -2,11 +2,15 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Prescription;
@@ -31,10 +35,19 @@ public class Pharmacist extends User{
 	@Column(name = "counselingPrice",  nullable = false)
 	private Double counselingPrice;
 	
+	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayPharmacist> businessDays;
+	
+	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Prescription> prescriptions;
+	
+	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Counseling> counselings;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacy pharmacy;
+	
+	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AbsenceRequestPharmacist> absenceRequests;
 	
 	public Pharmacist() {

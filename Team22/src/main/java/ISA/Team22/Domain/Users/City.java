@@ -1,10 +1,13 @@
 package ISA.Team22.Domain.Users;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class City {
@@ -16,7 +19,8 @@ public class City {
 	@Column(name = "name",  nullable = false)
 	private String name;
 	
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
 	private Country country;
 	
 	public City() {

@@ -3,13 +3,18 @@ package ISA.Team22.Domain.Examination;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Pharmacist;
 
@@ -29,9 +34,13 @@ public class Prescription {
 	@Column(name = "durationOfTherapy",  nullable = false)
     private Double durationOfTherapy;
 	
-	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacist pharmacist;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
+	
+	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
 	private List<Drug> drugs;
     
 	public Prescription() {

@@ -2,11 +2,17 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -27,10 +33,19 @@ public class Dermatologist extends User {
 	@Column(name = "numberOfGrades",  nullable = false)
 	private Integer numberOfGrades;
 	
-	
+	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayDermatologist> businessDays;
+	
+	@ManyToMany
+	@JoinTable(name = "pharmacyDermatologists", 
+	joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> pharmacies;
+	
+	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Examination> examinations;
+	
+	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AbsenceRequestDermatologist> absenceRequests;
 	
 	public Dermatologist() {

@@ -3,14 +3,21 @@ package ISA.Team22.Domain.Examination;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 
@@ -30,17 +37,21 @@ public class Examination {
 	@Column(name = "duration",  nullable = false)
 	private Integer duration;
 	
+	@Enumerated(EnumType.ORDINAL)
 	private ExaminationStatus examinationStatus;
 	
 	@Column(name = "diagnosis",  nullable = false)
 	private String diagnosis;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Dermatologist dermatologist;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
 	
 	private Pharmacy pharmacy;
 	
+	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
 	private List<Drug> drugs;
 	
 	public Examination() {

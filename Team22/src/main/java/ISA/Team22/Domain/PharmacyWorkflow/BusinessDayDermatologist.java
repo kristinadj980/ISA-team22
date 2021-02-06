@@ -2,11 +2,14 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Users.Dermatologist;
 
@@ -19,6 +22,8 @@ public class BusinessDayDermatologist {
 	
 	private Period shift;
 	private List<Period> scheduledPeriods;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Dermatologist dermatologist;
 	
 	@Column(name = "pharmacyId",  nullable = false)

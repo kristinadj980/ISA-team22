@@ -1,9 +1,12 @@
 package ISA.Team22.Domain.DrugManipulation;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Users.Supplier;
 
@@ -26,6 +29,7 @@ public class SupplierDrugStock {
 	@Column(name = "code", unique = true,  nullable = false)
     private Long code;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Supplier supplier;
     
 	public SupplierDrugStock() {

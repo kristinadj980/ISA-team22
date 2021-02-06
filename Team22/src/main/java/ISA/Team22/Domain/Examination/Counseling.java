@@ -2,11 +2,16 @@ package ISA.Team22.Domain.Examination;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Pharmacist;
@@ -24,8 +29,13 @@ public class Counseling {
 	@Column(name = "diagnosis",  nullable = false)
 	private String diagnosis;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacist pharmacist;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
+	
+	@Enumerated(EnumType.ORDINAL)
 	private ExaminationStatus counselingStatus;
 	
 	public Counseling() {

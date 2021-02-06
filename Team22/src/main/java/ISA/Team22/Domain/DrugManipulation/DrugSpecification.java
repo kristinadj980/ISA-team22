@@ -2,11 +2,14 @@ package ISA.Team22.Domain.DrugManipulation;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class DrugSpecification {
@@ -27,14 +30,14 @@ public class DrugSpecification {
 	@Column(name = "compositions", nullable = false)
 	private String compositions;
 	
-	
-	private List<Long> alternativeDrugCodes;
+	@OneToMany(mappedBy = "drugSpecification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Drug> alternativeDrugCodes;
 	
 	public DrugSpecification() {
 		super();
 	}
 	public DrugSpecification(Long id, String contraindications, String therapy, String compositions,
-			List<Long> substituteDrugCodes, Integer therapyDuration) {
+			List<Drug> substituteDrugCodes, Integer therapyDuration) {
 		super();
 		this.contraindications = contraindications;
 		this.therapy = therapy;
@@ -75,16 +78,16 @@ public class DrugSpecification {
 	public void setCompositions(String compositions) {
 		this.compositions = compositions;
 	}
-	public List<Long> getSubstituteDrugCodes() {
+	public List<Drug> getSubstituteDrugCodes() {
 		return alternativeDrugCodes;
 	}
-	public void setSubstituteDrugCodes(List<Long> substituteDrugCodes) {
+	public void setSubstituteDrugCodes(List<Drug> substituteDrugCodes) {
 		this.alternativeDrugCodes = substituteDrugCodes;
 	}
-	public List<Long> getAlternativeDrugCodes() {
+	public List<Drug> getAlternativeDrugCodes() {
 		return alternativeDrugCodes;
 	}
-	public void setAlternativeDrugCodes(List<Long> alternativeDrugCodes) {
+	public void setAlternativeDrugCodes(List<Drug> alternativeDrugCodes) {
 		this.alternativeDrugCodes = alternativeDrugCodes;
 	}
 	

@@ -2,14 +2,22 @@ package ISA.Team22.Domain.Pharmacy;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
+import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
@@ -32,18 +40,31 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	private List<Long> subscribedUsersIDs;
+	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
+	private List<Patient> subscribedUsersIDs;
+	
+	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pharmacist> pharmacist;
+	
+	@ManyToMany(mappedBy = "pharmacies")
 	private List<Dermatologist> dermatologist;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private Address address;
+	
+	@OneToOne(cascade = CascadeType.ALL, optional = false )
+	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
+	
+	@OneToMany(mappedBy = "pharmacyAdministrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
 	
 	public Pharmacy() {
 		super();
 	}
 
-	public Pharmacy(Long id, String name, String description, Integer allGrades, Integer numberOfGrades, List<Long> subscribedUsersIDs,
+	public Pharmacy(Long id, String name, String description, Integer allGrades, Integer numberOfGrades, List<Patient> subscribedUsersIDs,
 			List<Pharmacist> pharmacist, List<Dermatologist> dermatologist, Address address,
 			PharmacyInventory pharmacyInventory, List<PharmacyAdministrator> pharmacyAdministrator) {
 		super();
@@ -99,11 +120,11 @@ public class Pharmacy {
 		this.numberOfGrades = numberOfGrades;
 	}
 
-	public List<Long> getSubscribedUsersIDs() {
+	public List<Patient> getSubscribedUsersIDs() {
 		return subscribedUsersIDs;
 	}
 
-	public void setSubscribedUsersIDs(List<Long> subscribedUsersIDs) {
+	public void setSubscribedUsersIDs(List<Patient> subscribedUsersIDs) {
 		this.subscribedUsersIDs = subscribedUsersIDs;
 	}
 

@@ -2,11 +2,18 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugReservation;
@@ -14,6 +21,7 @@ import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.EPrescription;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.Prescription;
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
 
@@ -27,13 +35,29 @@ public class Patient extends User {
 	@Column(name = "penalty",  nullable = false)
 	private Integer penalty;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "loyaltyProgram_id", referencedColumnName = "id")
 	private LoyaltyProgram loyaltyProgram;
+	
+	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
 	private List<Drug> drugs;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Counseling> counseling;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Prescription> prescription;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DrugReservation> drugReservations;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Examination> examinations;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<EPrescription> ePrescriptions;
 	
 	public Patient() {

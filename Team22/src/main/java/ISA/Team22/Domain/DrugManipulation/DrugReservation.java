@@ -3,13 +3,16 @@ package ISA.Team22.Domain.DrugManipulation;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import ISA.Team22.Domain.Users.Patient;
 
@@ -26,6 +29,7 @@ public class DrugReservation {
 	@Column(name = "dueDate",  nullable = false)
 	private Date dueDate;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
 	
 	@Column(name = "pharmacyId",  nullable = false)
