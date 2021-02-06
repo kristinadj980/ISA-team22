@@ -2,6 +2,8 @@ package ISA.Team22.Domain.DrugManipulation;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,8 +26,13 @@ public class Drug {
 	@Column(name = "producer", nullable = false)
 	private String producer;
 	
+	@Enumerated(EnumType.ORDINAL)
 	private DrugType drugType;
+	
+	@Enumerated(EnumType.ORDINAL)
 	private DrugForm drugForm;
+	
+	@Enumerated(EnumType.ORDINAL)
 	private IssuanceRegime issuance;
 	
 	@Column(name = "note", nullable = false)

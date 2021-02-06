@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +20,7 @@ public class DrugReservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long resevationId;
 	
-	
+	@Enumerated(EnumType.ORDINAL)
 	private DrugStatus status;
 	
 	@Column(name = "dueDate",  nullable = false)

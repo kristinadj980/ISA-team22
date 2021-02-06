@@ -2,6 +2,8 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,12 +20,16 @@ public class AbsenceRequestPharmacist {
 	private Long id;
 	
 	private Period period;
+	
+	@Enumerated(EnumType.ORDINAL)
 	private VacationType vacationType;
 	
 	@Column(name = "description",  nullable = false)
 	private String description;
 	
+	@Enumerated(EnumType.ORDINAL)
 	private OfferStatus status;
+	
 	private Pharmacist pharmacist;
 	
 	public AbsenceRequestPharmacist() {
