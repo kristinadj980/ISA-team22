@@ -2,13 +2,24 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
-public class PharmacyAdministrator {
+@Entity
+public class PharmacyAdministrator extends User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private Pharmacy pharmacy;
 	private List<PurchaseOrder> purchaseOrders;
@@ -20,16 +31,22 @@ public class PharmacyAdministrator {
 		super();
 	}
 
-	public PharmacyAdministrator(Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
+	public PharmacyAdministrator(Long id, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
 			List<AbsenceRequestDermatologist> absenceRequest, List<Notification> notification,List<AbsenceRequestPharmacist> absenceRequestPharmacist) {
 		super();
+		this.id = id;
 		this.pharmacy = pharmacy;
 		this.purchaseOrders = purchaseOrders;
 		this.absenceRequests = absenceRequest;
 		this.notifications = notification;
 		this.absenceRequestPharmacists = absenceRequestPharmacist;
 	}
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Pharmacy getPharmacy() {
 		return pharmacy;
 	}

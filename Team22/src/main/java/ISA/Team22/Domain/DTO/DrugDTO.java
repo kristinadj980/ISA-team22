@@ -1,19 +1,39 @@
 package ISA.Team22.Domain.DTO;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.Period;
 
+
+@Entity
 public class DrugDTO {
-	private double price;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "price", nullable = false)
+	private Double price;
+	
+	
 	private Period period;
-	 private int drugAmount;
-	public Drug drug;
+	
+	@Column(name = "drugAmount", nullable = false)
+	private Integer drugAmount;
+	
+	
+	private Drug drug;
 	
 	public DrugDTO() {
 		super();
 	}
 
-	public DrugDTO(double price, Period period, int drugAmount, Drug drug) {
+	public DrugDTO(Long id, Double price, Period period, Integer drugAmount, Drug drug) {
 		super();
 		this.price = price;
 		this.period = period;
@@ -21,11 +41,17 @@ public class DrugDTO {
 		this.drug = drug;
 	}
 
-	public double getPrice() {
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -37,11 +63,11 @@ public class DrugDTO {
 		this.period = period;
 	}
 
-	public int getDrugAmount() {
+	public Integer getDrugAmount() {
 		return drugAmount;
 	}
 
-	public void setDrugAmount(int drugAmount) {
+	public void setDrugAmount(Integer drugAmount) {
 		this.drugAmount = drugAmount;
 	}
 

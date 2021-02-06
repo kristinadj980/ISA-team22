@@ -2,23 +2,45 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Users.Patient;
 
+@Entity
 public class Complaint {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "description",  nullable = false)
 	private String description;
+	
+	@Column(name = "answer")
 	private String answer;
+	
+	@Column(name = "complaintDate",  nullable = false)
 	private Date complaintDate;
-	private long roleId;
+	
+	@Column(name = "roleId",  nullable = false)
+	private Long roleId;
+	
 	private Patient patient;
-	private boolean isAnswered;
+	
+	@Column(name = "isAnswered",  nullable = false)
+	private Boolean isAnswered;
 	
 	public Complaint() {
 		super();
 	}
 
-	public Complaint(String description, String answer, Date complaintDate, long roleId, Patient patient, boolean isAnswerd) {
+	public Complaint(Long id, String description, String answer, Date complaintDate, Long roleId, Patient patient, Boolean isAnswerd) {
 		super();
+		this.id = id;
 		this.description = description;
 		this.answer = answer;
 		this.complaintDate = complaintDate;
@@ -27,6 +49,12 @@ public class Complaint {
 		this.isAnswered = isAnswerd;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -51,11 +79,11 @@ public class Complaint {
 		this.complaintDate = complaintDate;
 	}
 
-	public long getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(long roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 
@@ -67,11 +95,11 @@ public class Complaint {
 		this.patient = patient;
 	}
 
-	public boolean isAnswered() {
+	public Boolean isAnswered() {
 		return isAnswered;
 	}
 
-	public void setAnswered(boolean isAnswered) {
+	public void setAnswered(Boolean isAnswered) {
 		this.isAnswered = isAnswered;
 	}
 

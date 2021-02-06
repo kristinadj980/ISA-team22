@@ -2,16 +2,36 @@ package ISA.Team22.Domain.Pharmacy;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
+@Entity
 public class Pharmacy {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "name",  nullable = false)
 	private String name;
+	
+	@Column(name = "description",  nullable = false)
 	private String description;
-	private int allGrades;
-	private int numberOfGrades;
+	
+	@Column(name = "allGrades")
+	private Integer allGrades;
+	
+	@Column(name = "numberOfGrades")
+	private Integer numberOfGrades;
+	
 	private List<Long> subscribedUsersIDs;
 	private List<Pharmacist> pharmacist;
 	private List<Dermatologist> dermatologist;
@@ -23,10 +43,11 @@ public class Pharmacy {
 		super();
 	}
 
-	public Pharmacy(String name, String description, int allGrades, int numberOfGrades, List<Long> subscribedUsersIDs,
+	public Pharmacy(Long id, String name, String description, Integer allGrades, Integer numberOfGrades, List<Long> subscribedUsersIDs,
 			List<Pharmacist> pharmacist, List<Dermatologist> dermatologist, Address address,
 			PharmacyInventory pharmacyInventory, List<PharmacyAdministrator> pharmacyAdministrator) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.allGrades = allGrades;
@@ -39,6 +60,13 @@ public class Pharmacy {
 		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
 
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -55,19 +83,19 @@ public class Pharmacy {
 		this.description = description;
 	}
 
-	public int getAllGrades() {
+	public Integer getAllGrades() {
 		return allGrades;
 	}
 
-	public void setAllGrades(int allGrades) {
+	public void setAllGrades(Integer allGrades) {
 		this.allGrades = allGrades;
 	}
 
-	public int getNumberOfGrades() {
+	public Integer getNumberOfGrades() {
 		return numberOfGrades;
 	}
 
-	public void setNumberOfGrades(int numberOfGrades) {
+	public void setNumberOfGrades(Integer numberOfGrades) {
 		this.numberOfGrades = numberOfGrades;
 	}
 

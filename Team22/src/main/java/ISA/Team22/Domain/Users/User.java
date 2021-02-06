@@ -1,20 +1,42 @@
 package ISA.Team22.Domain.Users;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public abstract class User {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "email",  unique = true, nullable = false)
 	private String email;
+	
+	@Column(name = "password",  nullable = false)
 	private String password;
+	
+	@Column(name = "name",  nullable = false)
 	private String name;
+	
+	@Column(name = "lastName",  nullable = false)
 	private String lastName;
-	private int contact;
+	
+	@Column(name = "contact")
+	private String contact;
+	
 	public Address address;
 	   
 	public User() {
 		super();
 	}
 
-	public User(String email, String password, String name, String lastName, int contact, Address address) {
+	public User(Long id, String email, String password, String name, String lastName, String contact, Address address) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.name = name;
@@ -22,7 +44,12 @@ public abstract class User {
 		this.contact = contact;
 		this.address = address;
 	}
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -55,11 +82,11 @@ public abstract class User {
 		this.lastName = lastName;
 	}
 
-	public int getContact() {
+	public String getContact() {
 		return contact;
 	}
 
-	public void setContact(int contact) {
+	public void setContact(String contact) {
 		this.contact = contact;
 	}
 

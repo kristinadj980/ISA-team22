@@ -2,28 +2,48 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Users.Dermatologist;
 
+@Entity
 public class BusinessDayDermatologist {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private Period shift;
 	private List<Period> scheduledPeriods;
 	private Dermatologist dermatologist;
-	private long pharmacyId;
+	
+	@Column(name = "pharmacyId",  nullable = false)
+	private Long pharmacyId;
 	
 	public BusinessDayDermatologist() {
 		super();
 	}
 
-	public BusinessDayDermatologist(Period shift, List<Period> scheduledPeriods, Dermatologist dermatologist,
-			long pharmacyId) {
+	public BusinessDayDermatologist(Long id, Period shift, List<Period> scheduledPeriods, Dermatologist dermatologist,
+			Long pharmacyId) {
 		super();
+		this.id = id;
 		this.shift = shift;
 		this.scheduledPeriods = scheduledPeriods;
 		this.dermatologist = dermatologist;
 		this.pharmacyId = pharmacyId;
 	}
-
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Period getShift() {
 		return shift;
 	}
@@ -48,11 +68,11 @@ public class BusinessDayDermatologist {
 		this.dermatologist = dermatologist;
 	}
 
-	public long getPharmacyId() {
+	public Long getPharmacyId() {
 		return pharmacyId;
 	}
 
-	public void setPharmacyId(long pharmacyId) {
+	public void setPharmacyId(Long pharmacyId) {
 		this.pharmacyId = pharmacyId;
 	}
 	

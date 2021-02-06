@@ -2,9 +2,20 @@ package ISA.Team22.Domain.Pharmacy;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DTO.DrugDTO;
 
+@Entity
 public class PharmacyInventory {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private Pharmacy pharmacy;
 	private List<DrugDTO> drugDTOs;
@@ -13,10 +24,19 @@ public class PharmacyInventory {
 		super();
 	}
 
-	public PharmacyInventory(Pharmacy pharmacy, List<DrugDTO> drugDTOs) {
+	public PharmacyInventory(Long id, Pharmacy pharmacy, List<DrugDTO> drugDTOs) {
 		super();
+		this.id = id;
 		this.pharmacy = pharmacy;
 		this.drugDTOs = drugDTOs;
+	}
+	
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Pharmacy getPharmacy() {

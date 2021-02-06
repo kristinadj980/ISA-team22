@@ -2,6 +2,12 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugReservation;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -11,9 +17,16 @@ import ISA.Team22.Domain.Examination.Prescription;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
 
+@Entity
 public class Patient extends User {
 	
-	private int penalty;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "penalty",  nullable = false)
+	private Integer penalty;
+	
 	private LoyaltyProgram loyaltyProgram;
 	private List<Drug> drugs;
 	private List<Counseling> counseling;
@@ -27,10 +40,11 @@ public class Patient extends User {
 		super();
 	}
 
-	public Patient(int penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs, List<Counseling> counseling,
+	public Patient(Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs, List<Counseling> counseling,
 			List<Prescription> prescription, List<DrugReservation> drugReservations, List<Examination> examinations,
 			List<Complaint> complaints, List<EPrescription> ePrescriptions) {
 		super();
+		this.id = id;
 		this.penalty = penalty;
 		this.loyaltyProgram = loyaltyProgram;
 		this.drugs = drugs;
@@ -41,12 +55,17 @@ public class Patient extends User {
 		this.complaints = complaints;
 		this.ePrescriptions = ePrescriptions;
 	}
-
-	public int getPenalty() {
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Integer getPenalty() {
 		return penalty;
 	}
 
-	public void setPenalty(int penalty) {
+	public void setPenalty(Integer penalty) {
 		this.penalty = penalty;
 	}
 

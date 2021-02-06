@@ -3,14 +3,31 @@ package ISA.Team22.Domain.Pharmacy;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
+@Entity
 public class PurchaseOrder {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private PurchaseOrderStatus purchaseOrderStatus;
-	private int drugAmount;
+	
+	@Column(name = "drugAmount",  nullable = false)
+	private Integer drugAmount;
+	
+	@Column(name = "dueDate",  nullable = false)
 	private Date dueDate;
+	
+	
 	private PharmacyAdministrator pharmacyAdministrator;
 	private List<Offer> offer;
 	private List<PurchaseOrderDTO> purchaseOrderDTO;
@@ -19,9 +36,10 @@ public class PurchaseOrder {
 		super();
 	}
 
-	public PurchaseOrder(PurchaseOrderStatus purchaseOrderStatus, int drugAmount, Date dueDate,
+	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, Integer drugAmount, Date dueDate,
 			PharmacyAdministrator pharmacyAdministrator, List<Offer> offer, List<PurchaseOrderDTO> purchaseOrderDTO) {
 		super();
+		this.id = id;
 		this.purchaseOrderStatus = purchaseOrderStatus;
 		this.drugAmount = drugAmount;
 		this.dueDate = dueDate;
@@ -30,6 +48,13 @@ public class PurchaseOrder {
 		this.purchaseOrderDTO = purchaseOrderDTO;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public PurchaseOrderStatus getPurchaseOrderStatus() {
 		return purchaseOrderStatus;
 	}
@@ -38,11 +63,11 @@ public class PurchaseOrder {
 		this.purchaseOrderStatus = purchaseOrderStatus;
 	}
 
-	public int getDrugAmount() {
+	public Integer getDrugAmount() {
 		return drugAmount;
 	}
 
-	public void setDrugAmount(int drugAmount) {
+	public void setDrugAmount(Integer drugAmount) {
 		this.drugAmount = drugAmount;
 	}
 

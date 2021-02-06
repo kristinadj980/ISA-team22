@@ -2,6 +2,12 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Prescription;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -9,11 +15,22 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
+@Entity
 public class Pharmacist extends User{
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
+	
+	@Column(name = "numberOfGrades",  nullable = false)
 	private Integer numberOfGrades;
+	
+	@Column(name = "counselingPrice",  nullable = false)
 	private Double counselingPrice;
+	
 	private List<BusinessDayPharmacist> businessDays;
 	private List<Prescription> prescriptions;
 	private List<Counseling> counselings;
@@ -24,10 +41,11 @@ public class Pharmacist extends User{
 		super();
 	}
 	
-	public Pharmacist(Integer allGrades, Integer numberOfGrades, Double counselingPrice, List<BusinessDayPharmacist> businessDay,
+	public Pharmacist(Long id, Integer allGrades, Integer numberOfGrades, Double counselingPrice, List<BusinessDayPharmacist> businessDay,
 			List<Prescription> prescription, List<Counseling> counseling, Pharmacy pharmacy,
 			List<AbsenceRequestPharmacist> absenceRequest) {
 		super();
+		this.id = id;
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.counselingPrice = counselingPrice;
@@ -36,6 +54,12 @@ public class Pharmacist extends User{
 		this.counselings = counseling;
 		this.pharmacy = pharmacy;
 		this.absenceRequests = absenceRequest;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public int getAllGrades() {
 		return allGrades;

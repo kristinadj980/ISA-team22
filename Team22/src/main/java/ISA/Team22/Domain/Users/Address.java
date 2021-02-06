@@ -1,22 +1,43 @@
 package ISA.Team22.Domain.Users;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Address {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "streetName",  nullable = false)
 	private String streetName;
+	
+	@Column(name = "streetNumber",  nullable = false)
 	private String streetNumber;
+	
 	private City city;
 	
 	public Address() {
 		super();
 	}
 	
-	public Address(String streetName, String streetNumber, City city) {
+	public Address(Long id, String streetName, String streetNumber, City city) {
 		super();
+		this.id = id;
 		this.streetName = streetName;
 		this.streetNumber = streetNumber;
 		this.city = city;
 	}
-	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getStreetName() {
 		return streetName;
 	}

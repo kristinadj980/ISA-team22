@@ -1,25 +1,52 @@
 package ISA.Team22.Domain.DrugManipulation;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Examination.IssuanceRegime;
 
+@Entity
 public class Drug {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "name",  nullable = false)
 	private String name;
-	private long code;
+	
+	@Column(name = "code", unique = true, nullable = false)
+	private Long code;
+	
+	@Column(name = "producer", nullable = false)
 	private String producer;
+	
 	private DrugType drugType;
 	private DrugForm drugForm;
 	private IssuanceRegime issuance;
+	
+	@Column(name = "note", nullable = false)
 	private String note;
-	private int numberOfGrades;
-	private int allGrades;
+	
+	@Column(name = "numberOfGrades", nullable = false)
+	private Integer numberOfGrades;
+	
+	@Column(name = "allGrades", nullable = false)
+	private Integer allGrades;
+	
+	
 	private DrugSpecification drugSpecification;
 	
 	public Drug() {
 		super();
 	}
-	public Drug(String name, long code, String producer, DrugType drugType, DrugForm drugForm, IssuanceRegime issuance,
-			String note, int numberOfGrades, int allGrades, DrugSpecification drugSpecification) {
+	public Drug(Long id, String name, Long code, String producer, DrugType drugType, DrugForm drugForm, IssuanceRegime issuance,
+			String note, Integer numberOfGrades, Integer allGrades, DrugSpecification drugSpecification) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.code = code;
 		this.producer = producer;
@@ -31,16 +58,24 @@ public class Drug {
 		this.allGrades = allGrades;
 		this.drugSpecification = drugSpecification;
 	}
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getCode() {
+	public Long getCode() {
 		return code;
 	}
-	public void setCode(long code) {
+	public void setCode(Long code) {
 		this.code = code;
 	}
 	public String getProducer() {
@@ -73,16 +108,16 @@ public class Drug {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	public int getNumberOfGrades() {
+	public Integer getNumberOfGrades() {
 		return numberOfGrades;
 	}
-	public void setNumberOfGrades(int numberOfGrades) {
+	public void setNumberOfGrades(Integer numberOfGrades) {
 		this.numberOfGrades = numberOfGrades;
 	}
-	public int getAllGrades() {
+	public Integer getAllGrades() {
 		return allGrades;
 	}
-	public void setAllGrades(int allGrades) {
+	public void setAllGrades(Integer allGrades) {
 		this.allGrades = allGrades;
 	}
 	public DrugSpecification getDrugSpecification() {

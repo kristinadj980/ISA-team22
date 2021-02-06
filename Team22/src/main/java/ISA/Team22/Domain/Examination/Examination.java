@@ -3,29 +3,53 @@ package ISA.Team22.Domain.Examination;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 
+@Entity
 public class Examination {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "price",  nullable = false)
 	private Double price;
+	
+	@Column(name = "startDate",  nullable = false)
 	private Date startDate;
-	private int duration;
+	
+	@Column(name = "duration",  nullable = false)
+	private Integer duration;
+	
 	private ExaminationStatus examinationStatus;
+	
+	@Column(name = "diagnosis",  nullable = false)
 	private String diagnosis;
+	
 	private Dermatologist dermatologist;
+	
 	private Patient patient;
+	
 	private Pharmacy pharmacy;
+	
 	private List<Drug> drugs;
 	
 	public Examination() {
 		super();
 	}
-	public Examination(Double price, Date startDate, int duration, ExaminationStatus examinationStatus,
+	public Examination(Long id, Double price, Date startDate, Integer duration, ExaminationStatus examinationStatus,
 			String diagnosis, Dermatologist dermatologist, Patient patient, List<Drug> drug,Pharmacy pharmacy) {
 		super();
+		this.id = id;
 		this.price = price;
 		this.startDate = startDate;
 		this.duration = duration;
@@ -35,6 +59,14 @@ public class Examination {
 		this.patient = patient;
 		this.drugs = drug;
 		this.pharmacy = pharmacy;
+	}
+	
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public Double getPrice() {
 		return price;
@@ -48,10 +80,10 @@ public class Examination {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public int getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
+	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 	public ExaminationStatus getExaminationStatus() {

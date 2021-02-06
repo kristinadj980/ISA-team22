@@ -2,16 +2,32 @@ package ISA.Team22.Domain.Users;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
-public class Dermatologist  {
-
+@Entity
+public class Dermatologist extends User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
+	
+	@Column(name = "numberOfGrades",  nullable = false)
 	private Integer numberOfGrades;
+	
+	
 	private List<BusinessDayDermatologist> businessDays;
 	private List<Pharmacy> pharmacies;
 	private List<Examination> examinations;
@@ -21,9 +37,10 @@ public class Dermatologist  {
 		super();
 	}
 
-	public Dermatologist(Integer allGrades, Integer numberOfGrades, List<BusinessDayDermatologist> businessDay, List<Pharmacy> pharmacies,
+	public Dermatologist(Long id, Integer allGrades, Integer numberOfGrades, List<BusinessDayDermatologist> businessDay, List<Pharmacy> pharmacies,
 			List<Examination> examinations, List<AbsenceRequestDermatologist> absenceRequest) {
 		super();
+		this.id = id;
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.businessDays = businessDay;
@@ -31,7 +48,12 @@ public class Dermatologist  {
 		this.examinations = examinations;
 		this.absenceRequests = absenceRequest;
 	}
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public Integer getAllGrades() {
 		return allGrades;
 	}

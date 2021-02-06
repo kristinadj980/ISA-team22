@@ -1,13 +1,28 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Pharmacy.OfferStatus;
 import ISA.Team22.Domain.Users.Pharmacist;
 
+@Entity
 public class AbsenceRequestPharmacist {
+	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private Period period;
 	private VacationType vacationType;
+	
+	@Column(name = "description",  nullable = false)
 	private String description;
+	
 	private OfferStatus status;
 	private Pharmacist pharmacist;
 	
@@ -15,9 +30,10 @@ public class AbsenceRequestPharmacist {
 		super();
 	}
 
-	public AbsenceRequestPharmacist(Period period, VacationType vacationType, String description, OfferStatus status,
+	public AbsenceRequestPharmacist(Long id, Period period, VacationType vacationType, String description, OfferStatus status,
 			Pharmacist pharmacist) {
 		super();
+		this.id = id;
 		this.period = period;
 		this.vacationType = vacationType;
 		this.description = description;
@@ -25,6 +41,13 @@ public class AbsenceRequestPharmacist {
 		this.pharmacist = pharmacist;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public Period getPeriod() {
 		return period;
 	}

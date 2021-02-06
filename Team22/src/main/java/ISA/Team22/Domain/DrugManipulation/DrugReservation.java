@@ -3,23 +3,41 @@ package ISA.Team22.Domain.DrugManipulation;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Users.Patient;
 
+@Entity
 public class DrugReservation {
 	
-	private long resevationId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long resevationId;
+	
+	
 	private DrugStatus status;
-	private Date dueDate;	   
+	
+	@Column(name = "dueDate",  nullable = false)
+	private Date dueDate;
+	
 	private Patient patient;
-	private long pharmacyId;
-	private long drugId;
+	
+	@Column(name = "pharmacyId",  nullable = false)
+	private Long pharmacyId;
+	
+	@Column(name = "drugId",  nullable = false)
+	private Long drugId;
 	   
 	public DrugReservation() {
 		super();
 	}
 
-	public DrugReservation(long resevationId, DrugStatus status, Date dueDate, Patient patient, long pharmacyId,
-			long drugId) {
+	public DrugReservation(Long resevationId, DrugStatus status, Date dueDate, Patient patient, Long pharmacyId,
+			Long drugId) {
 		super();
 		this.resevationId = resevationId;
 		this.status = status;
@@ -29,11 +47,12 @@ public class DrugReservation {
 		this.drugId = drugId;
 	}
 
-	public long getResevationId() {
+	
+	public Long getResevationId() {
 		return resevationId;
 	}
 
-	public void setResevationId(long resevationId) {
+	public void setResevationId(Long resevationId) {
 		this.resevationId = resevationId;
 	}
 
@@ -61,19 +80,19 @@ public class DrugReservation {
 		this.patient = patient;
 	}
 
-	public long getPharmacyId() {
+	public Long getPharmacyId() {
 		return pharmacyId;
 	}
 
-	public void setPharmacyId(long pharmacyId) {
+	public void setPharmacyId(Long pharmacyId) {
 		this.pharmacyId = pharmacyId;
 	}
 
-	public long getDrugId() {
+	public Long getDrugId() {
 		return drugId;
 	}
 
-	public void setDrugId(long drugId) {
+	public void setDrugId(Long drugId) {
 		this.drugId = drugId;
 	}
 	   

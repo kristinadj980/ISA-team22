@@ -4,25 +4,51 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.Users.Patient;
 
+@Entity
 public class EPrescription {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "code", unique = true,  nullable = false)
 	private String code;
+	
+	@Column(name = "prescriptionDate",  nullable = false)
 	private Date prescriptionDate;
+	
+	
 	public List<PurchaseOrderDTO> purchaseOrderDTO;
 	public Patient patient;
 	
 	public EPrescription() {
 		super();
 	}
-	public EPrescription(String code, Date prescriptionDate, List<PurchaseOrderDTO> purchaseOrderDTO,
+	public EPrescription(Long id, String code, Date prescriptionDate, List<PurchaseOrderDTO> purchaseOrderDTO,
 			Patient patient) {
 		super();
+		this.id = id;
 		this.code = code;
 		this.prescriptionDate = prescriptionDate;
 		this.purchaseOrderDTO = purchaseOrderDTO;
 		this.patient = patient;
+	}
+	
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getCode() {
 		return code;

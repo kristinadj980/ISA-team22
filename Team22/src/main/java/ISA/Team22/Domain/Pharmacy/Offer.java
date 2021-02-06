@@ -1,13 +1,31 @@
 package ISA.Team22.Domain.Pharmacy;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import ISA.Team22.Domain.Users.Supplier;
 
+@Entity
 public class Offer {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "totalPrice",  nullable = false)
 	private Double totalPrice;
-	private int deliveryTime;
+	
+	@Column(name = "deliveryTime",  nullable = false)
+	private Integer deliveryTime;
+	
     private OfferStatus offerStatus;
-    private long purchaseOrderId;
+    
+    @Column(name = "purchaseOrderId",  nullable = false)
+    private Long purchaseOrderId;
+    
     private Supplier supplier;
     
    
@@ -16,9 +34,10 @@ public class Offer {
 	}
 
 
-	public Offer(Double totalPrice, int deliveryTime, OfferStatus offerStatus, long purchaseOrder,
+	public Offer(Long id, Double totalPrice, Integer deliveryTime, OfferStatus offerStatus, Long purchaseOrder,
 			Supplier supplier) {
 		super();
+		this.id = id;
 		this.totalPrice = totalPrice;
 		this.deliveryTime = deliveryTime;
 		this.offerStatus = offerStatus;
@@ -26,6 +45,13 @@ public class Offer {
 		this.supplier = supplier;
 	}
 
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Double getTotalPrice() {
 		return totalPrice;
@@ -37,12 +63,12 @@ public class Offer {
 	}
 
 
-	public int getDeliveryTime() {
+	public Integer getDeliveryTime() {
 		return deliveryTime;
 	}
 
 
-	public void setDeliveryTime(int deliveryTime) {
+	public void setDeliveryTime(Integer deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 
@@ -57,12 +83,12 @@ public class Offer {
 	}
 
 
-	public long getPurchaseOrder() {
+	public Long getPurchaseOrder() {
 		return purchaseOrderId;
 	}
 
 
-	public void setPurchaseOrder(long purchaseOrder) {
+	public void setPurchaseOrder(Long purchaseOrder) {
 		this.purchaseOrderId = purchaseOrder;
 	}
 
