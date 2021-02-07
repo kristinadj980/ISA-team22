@@ -3,11 +3,11 @@ package ISA.Team22.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import ISA.Team22.Service.PersonService;
+import ISA.Team22.Service.DermatologistService;
 
 @RestController
-public class PersonController {
+public class DermatologistController {
 	
 	@Autowired
-	private PersonService personService;
+	private DermatologistService dermatologistService;
 }
