@@ -43,7 +43,7 @@ public class Pharmacy {
 	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
 	private List<Patient> subscribedUsersIDs;
 	
-	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pharmacist> pharmacist;
 	
 	@ManyToMany(mappedBy = "pharmacies")
@@ -57,7 +57,7 @@ public class Pharmacy {
 	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
 	
-	@OneToMany(mappedBy = "pharmacyAdministrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
 	
 	public Pharmacy() {

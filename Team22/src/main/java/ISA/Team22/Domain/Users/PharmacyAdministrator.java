@@ -9,9 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
@@ -20,11 +22,15 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
 @Entity
-public class PharmacyAdministrator extends User {
+public class PharmacyAdministrator{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
+	private Person person;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacy pharmacy;
@@ -45,61 +51,87 @@ public class PharmacyAdministrator extends User {
 		super();
 	}
 
-	public PharmacyAdministrator(Long id, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
-			List<AbsenceRequestDermatologist> absenceRequest, List<Notification> notification,List<AbsenceRequestPharmacist> absenceRequestPharmacist) {
+	
+	public PharmacyAdministrator(Long id, Person person, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
+			List<AbsenceRequestDermatologist> absenceRequests, List<AbsenceRequestPharmacist> absenceRequestPharmacists,
+			List<Notification> notifications) {
 		super();
 		this.id = id;
+		this.person = person;
 		this.pharmacy = pharmacy;
 		this.purchaseOrders = purchaseOrders;
-		this.absenceRequests = absenceRequest;
-		this.notifications = notification;
-		this.absenceRequestPharmacists = absenceRequestPharmacist;
+		this.absenceRequests = absenceRequests;
+		this.absenceRequestPharmacists = absenceRequestPharmacists;
+		this.notifications = notifications;
 	}
+
+
 	public Long getId() {
 		return id;
 	}
+
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
 	public Pharmacy getPharmacy() {
 		return pharmacy;
 	}
+
 
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
 	}
 
+
 	public List<PurchaseOrder> getPurchaseOrders() {
 		return purchaseOrders;
 	}
+
 
 	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
 		this.purchaseOrders = purchaseOrders;
 	}
 
-	public List<AbsenceRequestDermatologist> getAbsenceRequest() {
+
+	public List<AbsenceRequestDermatologist> getAbsenceRequests() {
 		return absenceRequests;
 	}
 
-	public void setAbsenceRequest(List<AbsenceRequestDermatologist> absenceRequest) {
-		this.absenceRequests = absenceRequest;
+
+	public void setAbsenceRequests(List<AbsenceRequestDermatologist> absenceRequests) {
+		this.absenceRequests = absenceRequests;
 	}
 
-	public List<Notification> getNotification() {
-		return notifications;
-	}
 
-	public void setNotification(List<Notification> notification) {
-		this.notifications = notification;
-	}
-
-	public List<AbsenceRequestPharmacist> getAbsenceRequestPharmacist() {
+	public List<AbsenceRequestPharmacist> getAbsenceRequestPharmacists() {
 		return absenceRequestPharmacists;
 	}
 
-	public void setAbsenceRequestPharmacist(List<AbsenceRequestPharmacist> absenceRequestPharmacist) {
-		this.absenceRequestPharmacists = absenceRequestPharmacist;
+
+	public void setAbsenceRequestPharmacists(List<AbsenceRequestPharmacist> absenceRequestPharmacists) {
+		this.absenceRequestPharmacists = absenceRequestPharmacists;
 	}
-	   
-	 
+
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+
+
+	
 }

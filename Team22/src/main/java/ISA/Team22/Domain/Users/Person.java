@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public abstract class User {
+public class Person {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +33,13 @@ public abstract class User {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
-	public Address address;
+	private Address address;
 	   
-	public User() {
+	public Person() {
 		super();
 	}
 
-	public User(Long id, String email, String password, String name, String lastName, String contact, Address address) {
+	public Person(Long id, String email, String password, String name, String lastName, String contact, Address address) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -102,8 +102,5 @@ public abstract class User {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
-	
-	   
-	   
+	  
 }

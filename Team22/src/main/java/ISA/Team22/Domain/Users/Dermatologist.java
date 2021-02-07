@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -21,11 +22,15 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
-public class Dermatologist extends User {
+public class Dermatologist {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
+	private Person person;
 	
 	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
@@ -52,23 +57,59 @@ public class Dermatologist extends User {
 		super();
 	}
 
-	public Dermatologist(Long id, Integer allGrades, Integer numberOfGrades, List<BusinessDayDermatologist> businessDay, List<Pharmacy> pharmacies,
-			List<Examination> examinations, List<AbsenceRequestDermatologist> absenceRequest) {
+	public Dermatologist(Long id, Person person, Integer allGrades, Integer numberOfGrades,
+			List<BusinessDayDermatologist> businessDays, List<Pharmacy> pharmacies, List<Examination> examinations,
+			List<AbsenceRequestDermatologist> absenceRequests) {
 		super();
 		this.id = id;
+		this.person = person;
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
-		this.businessDays = businessDay;
+		this.businessDays = businessDays;
 		this.pharmacies = pharmacies;
 		this.examinations = examinations;
-		this.absenceRequests = absenceRequest;
+		this.absenceRequests = absenceRequests;
 	}
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public List<BusinessDayDermatologist> getBusinessDays() {
+		return businessDays;
+	}
+
+	public void setBusinessDays(List<BusinessDayDermatologist> businessDays) {
+		this.businessDays = businessDays;
+	}
+
+	public List<Pharmacy> getPharmacies() {
+		return pharmacies;
+	}
+
+	public void setPharmacies(List<Pharmacy> pharmacies) {
+		this.pharmacies = pharmacies;
+	}
+
+	public List<AbsenceRequestDermatologist> getAbsenceRequests() {
+		return absenceRequests;
+	}
+
+	public void setAbsenceRequests(List<AbsenceRequestDermatologist> absenceRequests) {
+		this.absenceRequests = absenceRequests;
+	}
+
 	public Integer getAllGrades() {
 		return allGrades;
 	}
@@ -85,38 +126,7 @@ public class Dermatologist extends User {
 		this.numberOfGrades = numberOfGrades;
 	}
 
-	public List<BusinessDayDermatologist> getBusinessDay() {
-		return businessDays;
-	}
 
-	public void setBusinessDay(List<BusinessDayDermatologist> businessDay) {
-		this.businessDays = businessDay;
-	}
-
-	public List<Pharmacy> getPharmacy() {
-		return pharmacies;
-	}
-
-	public void setPharmacy(List<Pharmacy> pharmacy) {
-		this.pharmacies = pharmacy;
-	}
-
-	public List<Examination> getExaminations() {
-		return examinations;
-	}
-
-	public void setExaminations(List<Examination> examinations) {
-		this.examinations = examinations;
-	}
-
-	public List<AbsenceRequestDermatologist> getAbsenceRequest() {
-		return absenceRequests;
-	}
-
-	public void setAbsenceRequest(List<AbsenceRequestDermatologist> absenceRequest) {
-		this.absenceRequests = absenceRequest;
-	}
-	
 	
 	   
 }
