@@ -2,6 +2,7 @@ package ISA.Team22.Domain.DTO;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,8 @@ public class DrugDTO {
 	@Column(name = "price", nullable = false)
 	private Double price;
 	
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "period_id", referencedColumnName = "id", nullable = false)
 	private Period period;
 	
 	@Column(name = "drugAmount", nullable = false)

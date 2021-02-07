@@ -1,5 +1,6 @@
 package ISA.Team22.Domain.DrugManipulation;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import ISA.Team22.Domain.Users.Patient;
 
@@ -27,7 +30,7 @@ public class DrugReservation {
 	private DrugStatus status;
 	
 	@Column(name = "dueDate",  nullable = false)
-	private Date dueDate;
+	private LocalDate dueDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
@@ -42,7 +45,7 @@ public class DrugReservation {
 		super();
 	}
 
-	public DrugReservation(Long resevationId, DrugStatus status, Date dueDate, Patient patient, Long pharmacyId,
+	public DrugReservation(Long resevationId, DrugStatus status, LocalDate dueDate, Patient patient, Long pharmacyId,
 			Long drugId) {
 		super();
 		this.resevationId = resevationId;
@@ -70,11 +73,11 @@ public class DrugReservation {
 		this.status = status;
 	}
 
-	public Date getDueDate() {
+	public LocalDate getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
 

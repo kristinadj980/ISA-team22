@@ -1,6 +1,7 @@
 package ISA.Team22.Domain.Examination;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,7 +25,10 @@ public class Counseling {
 	private Long id;
 	
 	@Column(name = "startDate",  nullable = false)
-	private Date startDate;
+	private LocalDate startDate;
+	
+	@Column(name = "startTime",  nullable = false)
+	private LocalTime startTime;
 	
 	@Column(name = "diagnosis",  nullable = false)
 	private String diagnosis;
@@ -41,10 +45,11 @@ public class Counseling {
 	public Counseling() {
 		super();
 	}
-	public Counseling(Long id, Date startDate, String diagnosis, Pharmacist pharmacist, Patient patient,ExaminationStatus counselingStatus) {
+	public Counseling(Long id, LocalDate startDate, LocalTime startTime, String diagnosis, Pharmacist pharmacist, Patient patient,ExaminationStatus counselingStatus) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
+		this.startTime = startTime;
 		this.diagnosis = diagnosis;
 		this.pharmacist = pharmacist;
 		this.patient = patient;
@@ -58,11 +63,18 @@ public class Counseling {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
+	}
+	
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(LocalTime startTime) {
+		this.startTime = startTime;
 	}
 	public String getDiagnosis() {
 		return diagnosis;

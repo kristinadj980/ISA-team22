@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.Users.Dermatologist;
 
@@ -20,7 +24,11 @@ public class BusinessDayDermatologist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "shift_id", referencedColumnName = "id", nullable = false)
 	private Period shift;
+	
+	@ManyToMany(targetEntity = Period.class,  cascade = CascadeType.ALL)
 	private List<Period> scheduledPeriods;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

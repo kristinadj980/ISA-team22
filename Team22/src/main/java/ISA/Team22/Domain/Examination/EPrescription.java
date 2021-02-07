@@ -1,7 +1,7 @@
 package ISA.Team22.Domain.Examination;
 
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
@@ -29,7 +31,7 @@ public class EPrescription {
 	private String code;
 	
 	@Column(name = "prescriptionDate",  nullable = false)
-	private Date prescriptionDate;
+	private LocalDate prescriptionDate;
 	
 	@ManyToMany(targetEntity = PurchaseOrderDTO.class,  cascade = CascadeType.ALL)
 	public List<PurchaseOrderDTO> purchaseOrderDTO;
@@ -40,7 +42,7 @@ public class EPrescription {
 	public EPrescription() {
 		super();
 	}
-	public EPrescription(Long id, String code, Date prescriptionDate, List<PurchaseOrderDTO> purchaseOrderDTO,
+	public EPrescription(Long id, String code, LocalDate prescriptionDate, List<PurchaseOrderDTO> purchaseOrderDTO,
 			Patient patient) {
 		super();
 		this.id = id;
@@ -63,10 +65,10 @@ public class EPrescription {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public Date getPrescriptionDate() {
+	public LocalDate getPrescriptionDate() {
 		return prescriptionDate;
 	}
-	public void setPrescriptionDate(Date prescriptionDate) {
+	public void setPrescriptionDate(LocalDate prescriptionDate) {
 		this.prescriptionDate = prescriptionDate;
 	}
 	public List<PurchaseOrderDTO> getPurchaseOrderDTO() {

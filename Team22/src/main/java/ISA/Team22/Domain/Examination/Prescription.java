@@ -1,6 +1,6 @@
 package ISA.Team22.Domain.Examination;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,7 +26,7 @@ public class Prescription {
 	private Long id;
 	
 	@Column(name = "prescriptionDate",  nullable = false)
-	private Date prescriptionDate;
+	private LocalDate prescriptionDate;
 	
 	@Column(name = "amountOfDrug",  nullable = false)
 	private Integer amountOfDrug;
@@ -46,7 +46,7 @@ public class Prescription {
 	public Prescription() {
 		super();
 	}
-	public Prescription(Long id, Date prescriptionDate, Integer amountOfDrug, Pharmacist pharmacist, Patient patient,
+	public Prescription(Long id, LocalDate prescriptionDate, Integer amountOfDrug, Pharmacist pharmacist, Patient patient,
 			List<Drug> drugs, Double durationOfTherapy) {
 		super();
 		this.id = id;
@@ -65,10 +65,10 @@ public class Prescription {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getPrescriptionDate() {
+	public LocalDate getPrescriptionDate() {
 		return prescriptionDate;
 	}
-	public void setPrescriptionDate(Date prescriptionDate) {
+	public void setPrescriptionDate(LocalDate prescriptionDate) {
 		this.prescriptionDate = prescriptionDate;
 	}
 	public Integer getAmountOfDrug() {

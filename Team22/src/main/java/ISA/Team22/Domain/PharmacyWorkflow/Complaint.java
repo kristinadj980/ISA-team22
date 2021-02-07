@@ -1,6 +1,6 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ public class Complaint {
 	private String answer;
 	
 	@Column(name = "complaintDate",  nullable = false)
-	private Date complaintDate;
+	private LocalDate complaintDate;
 	
 	@Column(name = "roleId",  nullable = false)
 	private Long roleId;
@@ -42,7 +42,7 @@ public class Complaint {
 		super();
 	}
 
-	public Complaint(Long id, String description, String answer, Date complaintDate, Long roleId, Patient patient, Boolean isAnswerd) {
+	public Complaint(Long id, String description, String answer, LocalDate complaintDate, Long roleId, Patient patient, Boolean isAnswerd) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -75,11 +75,11 @@ public class Complaint {
 		this.answer = answer;
 	}
 
-	public Date getComplaintDate() {
+	public LocalDate getComplaintDate() {
 		return complaintDate;
 	}
 
-	public void setComplaintDate(Date complaintDate) {
+	public void setComplaintDate(LocalDate complaintDate) {
 		this.complaintDate = complaintDate;
 	}
 

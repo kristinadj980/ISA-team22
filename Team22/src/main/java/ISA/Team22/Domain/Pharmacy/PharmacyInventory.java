@@ -9,10 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import ISA.Team22.Domain.DTO.DrugDTO;
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 
 @Entity
 public class PharmacyInventory {
@@ -24,6 +26,7 @@ public class PharmacyInventory {
 	@OneToOne(mappedBy = "pharmacyInventory")
 	private Pharmacy pharmacy;
 	
+	@ManyToMany(targetEntity = DrugDTO.class,  cascade = CascadeType.ALL)
 	private List<DrugDTO> drugDTOs;
 	
 	public PharmacyInventory() {

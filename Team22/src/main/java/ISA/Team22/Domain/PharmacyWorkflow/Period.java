@@ -1,38 +1,86 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Period {
 
-	private Date startDate;
-	private Date endDate;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(name = "startDate",  nullable = false)
+	private LocalDate startDate;
+	
+	@Column(name = "endDate",  nullable = false)
+	private LocalDate endDate;
+	
+	@Column(name = "startTime",  nullable = false)
+	private LocalTime startTime;
+	
+	@Column(name = "endTime",  nullable = false)
+	private LocalTime endTime;
 	
 	public Period() {
 		super();
 	}
 
-	public Period(Date startDate, Date endDate) {
+	public Period(Long id, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
 		super();
+		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
-	public Date getStartDate() {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
-	
-	
+
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(LocalTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(LocalTime endTime) {
+		this.endTime = endTime;
+	}
+
+
 	
 }

@@ -1,6 +1,6 @@
 package ISA.Team22.Domain.Pharmacy;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,10 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
@@ -32,7 +34,7 @@ public class PurchaseOrder {
 	private Integer drugAmount;
 	
 	@Column(name = "dueDate",  nullable = false)
-	private Date dueDate;
+	private LocalDate dueDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private PharmacyAdministrator pharmacyAdministrator;
@@ -40,13 +42,14 @@ public class PurchaseOrder {
 	@OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
 	
+	@ManyToMany(targetEntity = PurchaseOrderDTO.class,  cascade = CascadeType.ALL)
 	private List<PurchaseOrderDTO> purchaseOrderDTO;
 	
 	public PurchaseOrder() {
 		super();
 	}
 
-	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, Integer drugAmount, Date dueDate,
+	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, Integer drugAmount, LocalDate dueDate,
 			PharmacyAdministrator pharmacyAdministrator, List<Offer> offer, List<PurchaseOrderDTO> purchaseOrderDTO) {
 		super();
 		this.id = id;
@@ -81,11 +84,11 @@ public class PurchaseOrder {
 		this.drugAmount = drugAmount;
 	}
 
-	public Date getDueDate() {
+	public LocalDate getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
 
