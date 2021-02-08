@@ -15,7 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-
+import ISA.Team22.Security.TokenUtils;
+import ISA.Team22.Security.Auth.RestAuthenticationEntryPoint;
+import ISA.Team22.Security.Auth.TokenAuthenticationFilter;
+import ISA.Team22.Service.PersonService;
 
 @Configuration
 //Ukljucivanje podrske za anotacije "@Pre*" i "@Post*" koje ce aktivirati autorizacione provere za svaki pristup metodi
@@ -30,7 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Servis koji se koristi za citanje podataka o korisnicima aplikacije
 		@Autowired
-		private CustomUserDetailsService jwtUserDetailsService;
+		private PersonService jwtPersonService;
+		
+		@Autowired
+		private TokenUtils tokenUtils;
 
 		// Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
 		@Autowired
@@ -47,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//kao i kroz koji enkoder da provuce lozinku koju je dobio od klijenta u zahtevu da bi adekvatan hash koji dobije kao rezultat bcrypt algoritma uporedio sa onim koji se nalazi u bazi (posto se u bazi ne cuva plain lozinka)
 		@Autowired
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+			auth.userDetailsService(jwtPersonService).passwordEncoder(passwordEncoder());
 		}
 
 		// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
@@ -70,11 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
 					.anyRequest().authenticated().and()
 					// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
-					.cors().and();
+					.cors().and()
 
 					// umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
-					//.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-						//	BasicAuthenticationFilter.class);
+					.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtPersonService),
+							BasicAuthenticationFilter.class);
 			// zbog jednostavnosti primera
 			http.csrf().disable();
 		}

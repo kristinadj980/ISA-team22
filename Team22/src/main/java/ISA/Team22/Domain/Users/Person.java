@@ -2,6 +2,7 @@ package ISA.Team22.Domain.Users;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,8 +34,8 @@ public class Person implements UserDetails{
 	@Column(name = "password",  nullable = false)
 	private String password;
 	
-	@Column(name = "userName",  nullable = false)
-	private String userName;
+	@Column(name = "username",  nullable = false)
+	private String username;
 	
 	@Column(name = "name",  nullable = false)
 	private String name;
@@ -67,7 +68,7 @@ public class Person implements UserDetails{
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.userName = userName;
+		this.username = userName;
 		this.name = name;
 		this.lastName = lastName;
 		this.contact = contact;
@@ -93,16 +94,18 @@ public class Person implements UserDetails{
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		 Timestamp now = new Timestamp(new Date().getTime());
+	     this.setLastPasswordResetDate(now);
+	     this.password = password;
 	}
 	
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 
 	public void setAuthorities(List<Authority> authorities) {

@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Repository.AuthorityRepository;
 import ISA.Team22.Service.IService.IAuthorityService;
 
+@Service
 public class AuthorityService implements IAuthorityService{
 	 @Autowired
 	  private AuthorityRepository authorityRepository;

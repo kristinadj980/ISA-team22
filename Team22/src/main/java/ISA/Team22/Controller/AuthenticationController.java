@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ISA.Team22.Domain.DTO.JwtAuthenticationRequest;
+import ISA.Team22.Domain.DTO.PersonRequest;
 import ISA.Team22.Domain.DTO.UserTokenState;
 import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Exception.ResourceConflictException;
+import ISA.Team22.Security.TokenUtils;
 import ISA.Team22.Service.PersonService;
 
 
@@ -67,14 +70,14 @@ public class AuthenticationController {
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
-	public ResponseEntity<Person> addUser(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Person> addUser(@RequestBody PersonRequest personRequest, UriComponentsBuilder ucBuilder) {
 
-		Person existPerson = this.personService.findByUsername(userRequest.getUsername());
+		Person existPerson = this.personService.findByUsername(personRequest.getUsername());
 		if (existPerson != null) {
-			throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+			throw new ResourceConflictException(personRequest.getId(), "Username already exists");
 		}
 
-		Person person = this.personService.save(userRequest);
+		Person person = this.personService.save(personRequest);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(person.getId()).toUri());
 		return new ResponseEntity<>(person, HttpStatus.CREATED);
@@ -86,7 +89,7 @@ public class AuthenticationController {
 
 		String token = tokenUtils.getToken(request);
 		String username = this.tokenUtils.getUsernameFromToken(token);
-		Person person = (Person) this.userDetailsService.loadUserByUsername(username);
+		Person person = (Person) this.personService.loadUserByUsername(username);
 
 		if (this.tokenUtils.canTokenBeRefreshed(token, person.getLastPasswordResetDate())) {
 			String refreshedToken = tokenUtils.refreshToken(token);
@@ -102,7 +105,7 @@ public class AuthenticationController {
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+		personService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
 
 		Map<String, String> result = new HashMap<>();
 		result.put("result", "success");
