@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <dermatologist-homepage />
+    
+    <login/>
   </div>
 </template>
 
 <script>
-import DermatologistHomepage from './view/dermatologistView/DermatologistHomepage'
+//import DermatologistHomepage from './view/dermatologistView/DermatologistHomepage'
+import Login from './view/loginView/Login.vue'
 export default {
   name: 'App',
   components: {
-    DermatologistHomepage
+   // DermatologistHomepage,
+    Login
   }
 }
 </script>
