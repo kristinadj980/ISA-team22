@@ -1,5 +1,5 @@
 <template>
-<div id="login">
+<div id="dermatologyRregistration">
     <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -15,32 +15,47 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-     <div class="vue-tempalte">
+    <div class="vue-tempalte">
         <form>
-            <h3>Sign In</h3>
+            <h3>Sign Up</h3>
 
             <div class="form-group">
                 <label style="color:white">Email address</label>
                 <input type="email" class="form-control form-control-lg" />
                 <label style="color:white">Password</label>
                 <input type="password" class="form-control form-control-lg" />
+                <label style="color:white">Confirm password</label>
+                <input type="password" class="form-control form-control-lg" />
+                <label style="color:white">Name</label>
+                <input type="text" class="form-control form-control-lg"/>
+                <label style="color:white">Surname</label>
+                <input type="text" class="form-control form-control-lg"/>
+                <label style="color:white">Address</label>
+                <input type="text" class="form-control form-control-lg" />
+                <label style="color:white">City</label>
+                <input type="text" class="form-control form-control-lg" />
+                <label style="color:white">Country</label>
+                <input type="text" class="form-control form-control-lg" />
+                <label style="color:white">Phone number</label>
+                <input type="text" class="form-control form-control-lg" />
             </div>
 
-            <button style="color:white" type="submit" class="button">Sign In</button>
+            <button style="color:white" type="submit" class="button">Sign Up</button>
 
-            <p class="forgot-password text-center mt-2 mb-4">
-                <router-link to="/forgot-password">Forgot password ?</router-link>
+            <p class="forgot-password text-center">
+                Already registered 
+                <router-link :to="{name: 'login'}">sign in?</router-link>
             </p>
-
         </form>
     </div>
-</div>   
+</div>
 </template>
 
 <script>
 export default {
-    name: 'Login',
-    methods:{
+    name: 'DermatologyRegistration',
+     methods:{
+       
          showProfile: function(){
            window.location.href = "/profileData";
         },
@@ -90,7 +105,6 @@ export default {
    
 }
 
-
 .homepage_style{
         background: #17a2b8; 
         position: fixed;
@@ -104,5 +118,4 @@ export default {
     .space_style{
         margin-right:5px
     }
-
 </style>

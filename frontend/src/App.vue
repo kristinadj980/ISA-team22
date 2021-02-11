@@ -1,27 +1,12 @@
 <template>
   <div id="app">
-     
-    <profile/>
-    <login/>
-    <registration/>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
-
-<script>
-//import DermatologistHomepage from './view/dermatologistView/DermatologistHomepage'
-import Login from './views/SystemAdmin/Login.vue'
-import Profile from './views/SystemAdmin/Profile.vue'
-import Registration from './views/SystemAdmin/Registration.vue'
-export default {
-  name: 'App',
-  components: {
-    //DermatologistHomepage,
-    Profile,
-    Login,
-    Registration,
-  }
-}
-</script>
 
 <style>
 #app {

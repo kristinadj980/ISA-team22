@@ -2,8 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/SystemAdmin/Login.vue'
-import Registration from '../views/SystemAdmin/Registration.vue'
-
+import DermatologyRegistration from '../views/SystemAdmin/DermatologyRegistration.vue'
+import Profile from '../views/SystemAdmin/Profile.vue'
+import ProfileData from '../views/SystemAdmin/ProfileData.vue'
+import PharmacyRegistration from '../views/SystemAdmin/PharmacyRegistration.vue'
+import SupplierRegistration from '../views/SystemAdmin/SupplierRegistration.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,9 +29,29 @@ const routes = [
     component: Login
   },
   {
-    path: '/registration',
-    name: 'Registration',
-    component: Registration
+    path: '/dermatologyRegistration',
+    name: 'DermatologyRegistration',
+    component: DermatologyRegistration
+  },
+  {
+    path: '/pharmacyRegistration',
+    name: 'PharmacyRegistration',
+    component: PharmacyRegistration
+  },
+  {
+    path: '/supplierRegistration',
+    name: 'SupplierRegistration',
+    component: SupplierRegistration
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
+  {
+    path: '/profileData',
+    name: 'ProfileData',
+    component: ProfileData
   }
 ]
 

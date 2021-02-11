@@ -6,18 +6,13 @@
 
 <script>
 // @ is an alias to /src
-
+import Profile from '../views/SystemAdmin/Profile.vue'
 
 
 export default {
   name: 'Home',
-  methods:{
-        showRegistration: function(){
-           window.location.href = "/registration";
-        },
-        showProfile: function(){
-           window.location.href = "/dermatologistProfile";
-        }
-    }
+  components: {
+    Profile
+  }
 }
 </script>

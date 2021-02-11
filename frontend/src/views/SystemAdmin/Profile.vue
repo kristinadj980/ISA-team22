@@ -4,12 +4,12 @@
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomePage">Home</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">Pharmacy registration</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "workCalendar">Dermatology registration</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "vacation">Supplier registration</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Drug manipulation</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "scheduleExamination">Complaints</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy registration</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology registration</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier registration</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drug manipulation</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
               <span  style="float:right;margin:15px">
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
@@ -21,7 +21,21 @@
 
 <script>
 export default {
-    name: 'Profile'
+    name: 'Profile',
+    methods:{
+        showProfile: function(){
+           window.location.href = "/profileData";
+        },
+        showDermatologyRegistration: function(){
+           window.location.href = "/dermatologyRegistration";
+        },
+        showPharmacyRegistration: function(){
+           window.location.href = "/pharmacyRegistration";
+        },
+        showSupplierRegistration: function(){
+           window.location.href = "/supplierRegistration";
+        }
+    }
 }
 </script>
 
