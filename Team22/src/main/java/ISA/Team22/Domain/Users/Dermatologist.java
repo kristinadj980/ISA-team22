@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -22,15 +23,8 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
-public class Dermatologist {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
-	private Person person;
+@PrimaryKeyJoinColumn(name = "id")
+public class Dermatologist extends Person {
 	
 	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
@@ -57,33 +51,16 @@ public class Dermatologist {
 		super();
 	}
 
-	public Dermatologist(Long id, Person person, Integer allGrades, Integer numberOfGrades,
+	public Dermatologist( Integer allGrades, Integer numberOfGrades,
 			List<BusinessDayDermatologist> businessDays, List<Pharmacy> pharmacies, List<Examination> examinations,
 			List<AbsenceRequestDermatologist> absenceRequests) {
 		super();
-		this.id = id;
-		this.person = person;
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.businessDays = businessDays;
 		this.pharmacies = pharmacies;
 		this.examinations = examinations;
 		this.absenceRequests = absenceRequests;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 
 	public List<BusinessDayDermatologist> getBusinessDays() {

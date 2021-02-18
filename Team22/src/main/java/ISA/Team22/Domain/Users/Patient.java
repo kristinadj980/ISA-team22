@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugReservation;
@@ -26,15 +27,8 @@ import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
 
 @Entity
-public class Patient{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
-	private Person person;
+@PrimaryKeyJoinColumn(name = "id")
+public class Patient extends Person{
 	
 	@Column(name = "penalty",  nullable = false)
 	private Integer penalty;
@@ -68,12 +62,10 @@ public class Patient{
 		super();
 	}
 
-	public Patient(Long id, Person person, Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs,
+	public Patient(Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs,
 			List<Counseling> counseling, List<Prescription> prescription, List<DrugReservation> drugReservations,
 			List<Examination> examinations, List<Complaint> complaints, List<EPrescription> ePrescriptions) {
 		super();
-		this.id = id;
-		this.person = person;
 		this.penalty = penalty;
 		this.loyaltyProgram = loyaltyProgram;
 		this.drugs = drugs;
@@ -83,21 +75,6 @@ public class Patient{
 		this.examinations = examinations;
 		this.complaints = complaints;
 		this.ePrescriptions = ePrescriptions;
-	}
-
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 
 	public Integer getPenalty() {
