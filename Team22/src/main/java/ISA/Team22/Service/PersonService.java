@@ -95,7 +95,7 @@ public class PersonService implements IPersonService, UserDetailsService {
 	}
 	@Override
 	public Person save(PersonRequest personRequest) {
-		Person p = new Person();
+		/*Person p = new Person();
 		p.setUserName(personRequest.getUsername());
 		// pre nego sto postavimo lozinku u atribut hesiramo je
 		p.setPassword(passwordEncoder.encode(personRequest.getPassword()));
@@ -107,8 +107,8 @@ public class PersonService implements IPersonService, UserDetailsService {
 		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		p.setAuthorities(auth);
 		
-		p = this.personRepository.save(p);
-		return p;
+		p = this.personRepository.save(p);*/
+		return null;
 	}
 	
 	
