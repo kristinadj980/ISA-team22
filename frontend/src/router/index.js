@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/SystemAdmin/Login.vue'
 import DermatologyRegistration from '../views/SystemAdmin/DermatologyRegistration.vue'
-import Profile from '../views/SystemAdmin/Profile.vue'
+import HomePage from '../views/SystemAdmin/HomePage.vue'
 import ProfileData from '../views/SystemAdmin/ProfileData.vue'
 import PharmacyRegistration from '../views/SystemAdmin/PharmacyRegistration.vue'
 import SupplierRegistration from '../views/SystemAdmin/SupplierRegistration.vue'
@@ -24,6 +24,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+    path: '/homePage',
+    name: 'HomePage',
+    component: HomePage
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login
@@ -42,11 +47,6 @@ const routes = [
     path: '/supplierRegistration',
     name: 'SupplierRegistration',
     component: SupplierRegistration
-  },
-  {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile
   },
   {
     path: '/profileData',

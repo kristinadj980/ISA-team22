@@ -1,5 +1,5 @@
 <template>
-<div id="profile">
+<div id="homePage">
     <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -23,8 +23,8 @@
 export default {
     name: 'Profile',
     methods:{
-        showProfile: function(){
-           window.location.href = "/profileData";
+        showHomePage: function(){
+           window.location.href = "/homePage";
         },
         showDermatologyRegistration: function(){
            window.location.href = "/dermatologyRegistration";
@@ -34,7 +34,10 @@ export default {
         },
         showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
-        }
+        },
+         showProfile: function(){
+           window.location.href = "/profileData";
+        },
     }
 }
 </script>

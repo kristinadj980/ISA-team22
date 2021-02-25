@@ -45,7 +45,9 @@
 export default {
     name: 'PharmacyRegistration',
      methods:{
-       
+        showHomePage: function(){
+           window.location.href = "/homePage";
+        },
          showProfile: function(){
            window.location.href = "/profileData";
         },

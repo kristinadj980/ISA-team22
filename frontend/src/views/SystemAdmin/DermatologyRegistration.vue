@@ -21,25 +21,24 @@
 
             <div class="form-group">
                 <label style="color:white">Email address</label>
-                <input type="email" class="form-control form-control-lg" />
+                <input type="email" class="form-control form-control-lg" required v-model="email"/>
                 <label style="color:white">Password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" class="form-control form-control-lg" required v-model="password"/>
                 <label style="color:white">Confirm password</label>
-                <input type="password" class="form-control form-control-lg" />
+                <input type="password" class="form-control form-control-lg" required v-model="passwordConf"/>
                 <label style="color:white">Name</label>
-                <input type="text" class="form-control form-control-lg"/>
+                <input type="text" class="form-control form-control-lg" required v-model="name"/>
                 <label style="color:white">Surname</label>
-                <input type="text" class="form-control form-control-lg"/>
+                <input type="text" class="form-control form-control-lg" required v-model="surname"/>
                 <label style="color:white">Address</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control form-control-lg" required v-model="address"/>
                 <label style="color:white">City</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control form-control-lg" required v-model="city"/>
                 <label style="color:white">Country</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control form-control-lg" required v-model="country"/>
                 <label style="color:white">Phone number</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control form-control-lg"  required v-model="phone"/>
             </div>
-
             <button style="color:white" type="submit" class="button">Sign Up</button>
 
             <p class="forgot-password text-center">
@@ -54,10 +53,24 @@
 <script>
 export default {
     name: 'DermatologyRegistration',
-     methods:{
+    data(){
+        return{
+            email:'',
+            password:'',
+            passwordConf:'',
+            name:'',
+            surname:'',
+            address:'',
+            city:'',
+            couuntry:'',
+            phone:'',
+        }
+
+    },
+    methods:{
        
-         showProfile: function(){
-           window.location.href = "/profileData";
+         showHomePage: function(){
+           window.location.href = "/homePage";
         },
         showDermatologyRegistration: function(){
            window.location.href = "/dermatologyRegistration";
@@ -67,7 +80,10 @@ export default {
         },
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
-        }
+        },
+         showProfile: function(){
+           window.location.href = "/profileData";
+         }
     }
 }
 </script>

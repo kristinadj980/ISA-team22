@@ -1,5 +1,5 @@
 <template>
-    <div id="dermatologistProfile">
+    <div id="adminProfile">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -24,17 +24,17 @@
                     <h4 class="text-right"> <b>Profile</b></h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"> {{dermatologist.name}}</div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control">{{dermatologist.surname}}</div>
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"> {{admin.name}}</div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control">{{admin.surname}}</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control" >{{dermatologist.contact}}</div>
-                    <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control">{{dermatologist.address}}</div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control">{{dermatologist.email}}</div>
+                    <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control" >{{admin.contact}}</div>
+                    <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control">{{admin.address}}</div>
+                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control">{{admin.email}}</div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control">{{dermatologist.address}}</div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control">{{dermatologist.address}}</div>
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control">{{admin.address}}</div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control">{{admin.address}}</div>
                 </div>
                 <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Changes</button></div>
             </div>
@@ -51,7 +51,7 @@ export default {
     name: 'ProfileData',
      data() {
     return {
-        dermatologist : "",
+        admin : "",
         name: "",
         surname: "",
         email: "",
@@ -69,6 +69,9 @@ export default {
     }
   },
     methods:{
+         showHomePage: function(){
+           window.location.href = "/homePage";
+        },
          showProfile: function(){
            window.location.href = "/profileData";
         },
