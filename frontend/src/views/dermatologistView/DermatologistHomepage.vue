@@ -15,7 +15,7 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-        <div style="border-bottom-color: #313052;">
+        <div>
             <img class="image_style" src="@/images/dermaa.jpg">
         </div>
     </div>
