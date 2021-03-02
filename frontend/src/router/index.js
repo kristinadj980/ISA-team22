@@ -7,6 +7,10 @@ import HomePage from '../views/SystemAdmin/HomePage.vue'
 import ProfileData from '../views/SystemAdmin/ProfileData.vue'
 import PharmacyRegistration from '../views/SystemAdmin/PharmacyRegistration.vue'
 import SupplierRegistration from '../views/SystemAdmin/SupplierRegistration.vue'
+import DermatologistHomepage from '../views/dermatologistView/DermatologistHomepage.vue'
+import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
+import Registration from '../views/SystemAdmin/Registration.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -24,6 +28,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+
     path: '/homePage',
     name: 'HomePage',
     component: HomePage
@@ -32,6 +37,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/systemAdminRegistration',
+    name: 'Registration',
+    component: Registration
   },
   {
     path: '/dermatologyRegistration',
@@ -52,6 +62,16 @@ const routes = [
     path: '/profileData',
     name: 'ProfileData',
     component: ProfileData
+  },
+  {
+    path: '/dermatologistHomepage',
+    name: 'DermatologistHomepage',
+    component: DermatologistHomepage
+  },
+  {
+    path: '/dermatologistProfile',
+    name: 'DermatologistProfile',
+    component: DermatologistProfile
   }
 ]
 

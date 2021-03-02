@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ISA.Team22.Domain.DTO.PersonRequest;
+import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.PersonRepository;
@@ -46,8 +46,8 @@ public class PersonService implements IPersonService, UserDetailsService {
 	}
 
 	@Override
-	public Person findByUsername(String username) {
-		Person p = personRepository.findByUsername(username);
+	public Person findByEmail(String email) {
+		Person p = personRepository.findByEmail(email);
 		return p;
 	}
 
@@ -58,10 +58,11 @@ public class PersonService implements IPersonService, UserDetailsService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Person person = personRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { //email ne username!
+		//kako hocemo da nam dobavi korisnika spring security
+		Person person = personRepository.findByEmail(email);
 		if (person == null) {
-			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
 		} else {
 			return person;
 		}
@@ -69,7 +70,7 @@ public class PersonService implements IPersonService, UserDetailsService {
 
 	public void changePassword(String oldPassword, String newPassword) {
 
-		// Ocitavamo trenutno ulogovanog korisnika
+		// Ocitavamo trenutno ulogovanog korisnika sa pvpm dole linijom
 		Authentication currentPerson = SecurityContextHolder.getContext().getAuthentication();
 		String username = currentPerson.getName();
 
@@ -94,8 +95,8 @@ public class PersonService implements IPersonService, UserDetailsService {
 
 	}
 	@Override
-	public Person save(PersonRequest personRequest) {
-		Person p = new Person();
+	public Person save(PersonRequestDTO personRequest) {
+		/*Person p = new Person();
 		p.setUserName(personRequest.getUsername());
 		// pre nego sto postavimo lozinku u atribut hesiramo je
 		p.setPassword(passwordEncoder.encode(personRequest.getPassword()));
@@ -107,8 +108,8 @@ public class PersonService implements IPersonService, UserDetailsService {
 		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		p.setAuthorities(auth);
 		
-		p = this.personRepository.save(p);
-		return p;
+		p = this.personRepository.save(p);*/
+		return null;
 	}
 	
 	

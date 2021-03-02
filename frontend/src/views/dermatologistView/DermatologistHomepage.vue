@@ -1,10 +1,10 @@
 <template>
-    <div id="dermaHomepage">
+    <div id="dermatologistHomepage">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomePage">Home</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyProfile">Profile</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomepage">Home</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "workCalendar">Work calendar</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "vacation">Create a vacation</button>
@@ -15,7 +15,7 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-        <div style="border-bottom-color: #313052;">
+        <div>
             <img class="image_style" src="@/images/dermaa.jpg">
         </div>
     </div>
@@ -24,7 +24,15 @@
 
 <script>
 export default {
-    name: 'DermatologistHomepage'
+    name: 'DermatologistHomepage',
+    methods:{
+        showHomepage: function(){
+           window.location.href = "/dermatologistHomepage";
+        },
+        showProfile: function(){
+           window.location.href = "/dermatologistProfile";
+        }
+    }
 }
 </script>
 

@@ -37,6 +37,13 @@ public class Address {
 		this.streetNumber = streetNumber;
 		this.city = city;
 	}
+	
+	public Address(String streetName, String streetNumber, City city) {
+		super();
+		this.streetName = streetName;
+		this.streetNumber = streetNumber;
+		this.city = city;
+	}
 	public Long getId() {
 		return id;
 	}

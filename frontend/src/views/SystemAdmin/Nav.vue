@@ -30,7 +30,7 @@ export default {
  nav {
     margin-top: 5px;
     margin-bottom: 5px;
-    
+    background-color: #17a2b8;
   } 
   .navbar a {
   float: left;

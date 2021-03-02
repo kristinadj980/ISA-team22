@@ -22,15 +22,11 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
-public class Pharmacist{
+public class Pharmacist extends Person{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
-	private Person person;
 	
 	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
@@ -60,12 +56,11 @@ public class Pharmacist{
 		super();
 	}
 	
-	public Pharmacist(Long id, Person person, Integer allGrades, Integer numberOfGrades, Double counselingPrice,
+	public Pharmacist(Long id, Integer allGrades, Integer numberOfGrades, Double counselingPrice,
 			List<BusinessDayPharmacist> businessDays, List<Prescription> prescriptions, List<Counseling> counselings,
 			Pharmacy pharmacy, List<AbsenceRequestPharmacist> absenceRequests) {
 		super();
 		this.id = id;
-		this.person = person;
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.counselingPrice = counselingPrice;
@@ -83,16 +78,6 @@ public class Pharmacist{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
 
 	public Integer getAllGrades() {
 		return allGrades;

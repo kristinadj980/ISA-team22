@@ -34,9 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Servis koji se koristi za citanje podataka o korisnicima aplikacije
 		@Autowired
 		private PersonService jwtPersonService;
-		
-		@Autowired
-		private TokenUtils tokenUtils;
 
 		// Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
 		@Autowired
@@ -58,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
 		@Autowired
-		//private TokenUtils tokenUtils;
+		private TokenUtils tokenUtils;
 
 		// Definisemo prava pristupa odredjenim URL-ovima
 		@Override

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    
     <section class="hero is-dark">
     <div class="hero-body">
       <div class="container">
@@ -14,16 +13,19 @@
       </div>
     </div>
   </section>
+    <dermatologist-homepage></dermatologist-homepage>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+//import DermatologistHomepage from '../views/dermatologistView/DermatologistHomepage.vue'
+
 
 export default {
   name: 'Home',
   components: {
-   
+    //DermatologistHomepage
   }
 }
 </script>

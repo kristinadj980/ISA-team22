@@ -1,5 +1,6 @@
 package ISA.Team22.Domain.Users;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -7,25 +8,39 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy;
 
 @Entity
-public class Person implements UserDetails{
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Person implements UserDetails, Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "mySeqGenV2", sequenceName = "mySeqV2", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV2")
+	@Column(name = "id", nullable = false)
 	private Long id;
 	
 	@Column(name = "email", nullable = false)
@@ -34,8 +49,8 @@ public class Person implements UserDetails{
 	@Column(name = "password",  nullable = false)
 	private String password;
 	
-	@Column(name = "username",  nullable = false)
-	private String username;
+	//@Column(name = "username",  nullable = false)
+	//private String username;
 	
 	@Column(name = "name",  nullable = false)
 	private String name;
@@ -50,31 +65,40 @@ public class Person implements UserDetails{
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private Address address;
 	
-	 @Column(name = "last_password_reset_date")
-	    private Timestamp lastPasswordResetDate;
+    @Column(name = "last_password_reset_date")
+	private Timestamp lastPasswordResetDate;
+	@Column(name = "enabled")
+	private boolean enabled;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+	
+	@Column(name = "firstLogged", nullable = true)
+    private Boolean firstLogged;
 	   
 	public Person() {
 		super();
 	}
 
-	public Person(Long id, String email, String password,String userName, String name, String lastName, String contact, Address address,Timestamp lastPasswordResetDate) {
+	public Person(Long id, String email, String password, String name, String lastName, String contact, Address address,
+			Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities, Boolean firstLogged) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.username = userName;
 		this.name = name;
 		this.lastName = lastName;
 		this.contact = contact;
 		this.address = address;
 		this.lastPasswordResetDate = lastPasswordResetDate;
+		this.enabled = enabled;
+		this.authorities = authorities;
+		this.firstLogged = firstLogged;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -99,14 +123,6 @@ public class Person implements UserDetails{
 	     this.password = password;
 	}
 	
-
-	public String getUserName() {
-		return username;
-	}
-
-	public void setUserName(String userName) {
-		this.username = userName;
-	}
 
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
@@ -186,5 +202,19 @@ public class Person implements UserDetails{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public Boolean getFirstLogged() {
+		return firstLogged;
+	}
+
+	public void setFirstLogged(Boolean firstLogged) {
+		this.firstLogged = firstLogged;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 	  
+	
+	
 }

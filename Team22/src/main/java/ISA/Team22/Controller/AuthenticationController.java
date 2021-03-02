@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ISA.Team22.Domain.DTO.JwtAuthenticationRequest;
-import ISA.Team22.Domain.DTO.PersonRequest;
+import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.DTO.UserTokenState;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
@@ -53,8 +53,8 @@ public class AuthenticationController {
 
 		// 
 		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-						authenticationRequest.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+						authenticationRequest.getPassword()));  //pokusavamo autentifikaciju
 
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -70,11 +70,11 @@ public class AuthenticationController {
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/signup")
-	public ResponseEntity<Person> addUser(@RequestBody PersonRequest personRequest, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Person> addUser(@RequestBody PersonRequestDTO personRequest, UriComponentsBuilder ucBuilder) {
 
-		Person existPerson = this.personService.findByUsername(personRequest.getUsername());
+		Person existPerson = this.personService.findByEmail((personRequest.getEmail()));
 		if (existPerson != null) {
-			throw new ResourceConflictException(personRequest.getId(), "Username already exists");
+			throw new ResourceConflictException(personRequest.getEmail(), "Username already exists");
 		}
 
 		Person person = this.personService.save(personRequest);

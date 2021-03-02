@@ -16,28 +16,26 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 
 @Entity
-public class SystemAdministrator{
+public class SystemAdministrator extends Person{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
-	private Person person;
-	
 	@ManyToMany(targetEntity = Complaint.class,  cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
+	
+	private Boolean mainAdmin;
 
 	public SystemAdministrator() {
 		super();
 	}
 
-	public SystemAdministrator(Long id, Person person, List<Complaint> complaints) {
+	public SystemAdministrator(Long id, List<Complaint> complaints, Boolean mainAdmin) {
 		super();
 		this.id = id;
-		this.person = person;
 		this.complaints = complaints;
+		this.mainAdmin = mainAdmin;
 	}
 
 	public Long getId() {
@@ -47,14 +45,6 @@ public class SystemAdministrator{
 		this.id = id;
 	}
 
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
 	public List<Complaint> getComplaints() {
 		return complaints;
 	}
@@ -62,7 +52,16 @@ public class SystemAdministrator{
 	public void setComplaints(List<Complaint> complaints) {
 		this.complaints = complaints;
 	}
+
+	public Boolean getMainAdmin() {
+		return mainAdmin;
+	}
+
+	public void setMainAdmin(Boolean mainAdmin) {
+		this.mainAdmin = mainAdmin;
+	}
 	 
+	
 	
 	 
 }

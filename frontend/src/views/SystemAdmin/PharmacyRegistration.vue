@@ -68,7 +68,7 @@ export default {
 .vue-tempalte{
   width: 100%;
   height: 100%;
-  background:  #17a2b8!important;
+  background:  #f6f9fa!important;
   min-height: 100vh;
   display: flex;
   font-weight: 400;

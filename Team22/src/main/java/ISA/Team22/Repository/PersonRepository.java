@@ -7,5 +7,5 @@ import ISA.Team22.Domain.Users.Person;
 
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
-	 Person findByUsername( String username );
+	 Person findByEmail(String email);
 }

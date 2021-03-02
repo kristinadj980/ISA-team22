@@ -22,15 +22,12 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
 @Entity
-public class PharmacyAdministrator{
+public class PharmacyAdministrator extends Person{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", unique = true, nullable = false)
-	private Person person;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacy pharmacy;
@@ -52,12 +49,11 @@ public class PharmacyAdministrator{
 	}
 
 	
-	public PharmacyAdministrator(Long id, Person person, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
+	public PharmacyAdministrator(Long id, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
 			List<AbsenceRequestDermatologist> absenceRequests, List<AbsenceRequestPharmacist> absenceRequestPharmacists,
 			List<Notification> notifications) {
 		super();
 		this.id = id;
-		this.person = person;
 		this.pharmacy = pharmacy;
 		this.purchaseOrders = purchaseOrders;
 		this.absenceRequests = absenceRequests;
@@ -73,14 +69,6 @@ public class PharmacyAdministrator{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 
 	public Pharmacy getPharmacy() {
