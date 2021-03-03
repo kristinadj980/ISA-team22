@@ -28,6 +28,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -179,29 +180,29 @@ public abstract class Person implements UserDetails, Serializable{
 		return null;
 	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	 @Override
+	    public boolean isAccountNonExpired() {
+	        return true;
+	    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	    @JsonIgnore
+	    @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
 
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	    @JsonIgnore
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+	    
+	    @Override
+	    public boolean isEnabled() {
+	        return enabled;
+	    }
 
 	public Boolean getFirstLogged() {
 		return firstLogged;

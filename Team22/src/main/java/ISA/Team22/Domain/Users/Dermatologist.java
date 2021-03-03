@@ -103,6 +103,13 @@ public class Dermatologist extends Person {
 		this.numberOfGrades = numberOfGrades;
 	}
 
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
 
 	
 	   

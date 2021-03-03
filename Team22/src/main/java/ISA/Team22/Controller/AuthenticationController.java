@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,9 @@ import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Security.TokenUtils;
 import ISA.Team22.Service.PersonService;
 
-
 //Kontroler zaduzen za autentifikaciju korisnika
 @RestController
-@RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -44,13 +44,16 @@ public class AuthenticationController {
 	
 	@Autowired
 	private PersonService personService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
-
+		
 		// 
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
@@ -83,24 +86,7 @@ public class AuthenticationController {
 		return new ResponseEntity<>(person, HttpStatus.CREATED);
 	}
 
-	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
-	@PostMapping(value = "/refresh")
-	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
-
-		String token = tokenUtils.getToken(request);
-		String username = this.tokenUtils.getUsernameFromToken(token);
-		Person person = (Person) this.personService.loadUserByUsername(username);
-
-		if (this.tokenUtils.canTokenBeRefreshed(token, person.getLastPasswordResetDate())) {
-			String refreshedToken = tokenUtils.refreshToken(token);
-			int expiresIn = tokenUtils.getExpiredIn();
-
-			return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
-		} else {
-			UserTokenState userTokenState = new UserTokenState();
-			return ResponseEntity.badRequest().body(userTokenState);
-		}
-	}
+	
 
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('USER')")

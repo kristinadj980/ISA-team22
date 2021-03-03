@@ -16,7 +16,7 @@ INSERT INTO CITY (id, name, country_id) VALUES (3, 'Ljubljana', 2);
 INSERT INTO ADDRESS (id, street_name, street_number, city_id) VALUES (1, 'Kisacka', 55, 1);
 
 INSERT INTO SYSTEM_ADMINISTRATOR (id, contact, email, enabled, first_logged, last_name, name, password, address_id,main_admin)
-VALUES (1,'0608245666','pera@peric.com', true, true, 'peric', 'pera', '123', 1,true);
+VALUES (1,'0608245666','pera@peric.com', true, true, 'peric', 'pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 1,true);
 
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (1,5);
 

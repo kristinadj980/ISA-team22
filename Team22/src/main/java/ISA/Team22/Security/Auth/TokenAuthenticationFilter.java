@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import ISA.Team22.Security.TokenUtils;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -26,19 +25,19 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
-		
-		String username;
+	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+
+		String email;
 		String authToken = tokenUtils.getToken(request);
 
 		if (authToken != null) {
 			// uzmi username iz tokena
-			username = tokenUtils.getUsernameFromToken(authToken);
+			email = tokenUtils.getEmailFromToken(authToken);
 			
-			if (username != null) {
+			if (email != null) {
 				// uzmi user-a na osnovu username-a
-				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 				
 				// proveri da li je prosledjeni token validan
 				if (tokenUtils.validateToken(authToken, userDetails)) {
@@ -52,7 +51,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 		
 		// prosledi request dalje u sledeci filter
 		chain.doFilter(request, response);
-		
 	}
 
 }

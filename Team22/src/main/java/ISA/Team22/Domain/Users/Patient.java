@@ -148,6 +148,12 @@ public class Patient extends Person{
 	public void setePrescriptions(List<EPrescription> ePrescriptions) {
 		this.ePrescriptions = ePrescriptions;
 	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 	
 	

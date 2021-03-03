@@ -60,7 +60,7 @@ public class SystemAdministrator extends Person{
 	public void setMainAdmin(Boolean mainAdmin) {
 		this.mainAdmin = mainAdmin;
 	}
-	 
+
 	
 	
 	 
