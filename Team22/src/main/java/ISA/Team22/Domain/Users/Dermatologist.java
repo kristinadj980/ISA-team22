@@ -26,6 +26,11 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 @PrimaryKeyJoinColumn(name = "id")
 public class Dermatologist extends Person {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "allGrades",  nullable = false)
 	private Integer allGrades;
 	
@@ -104,11 +109,12 @@ public class Dermatologist extends Person {
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public String getUsername() {
 		// TODO Auto-generated method stub
-		return true;
+		return this.getEmail();
 	}
 
+	
 
 
 	

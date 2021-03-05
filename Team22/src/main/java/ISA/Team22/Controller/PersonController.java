@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +32,15 @@ public class PersonController {
 		}
 
 		@GetMapping("/user/all")
-		@PreAuthorize("hasRole('ADMIN')")
+		@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
 		public List<Person> loadAll() {
 			return this.personService.findAll();
+		}
+		
+		@GetMapping(value = "/me")
+		@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')" + "||" + "hasRole('PHARMACY_ADMIN')" + "||" + "hasRole('PATIENT')" + "||"
+				+ "hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')" + "||" + "hasRole('DEALER')")
+		public Person getMe(Authentication auth) {
+			return personService.findById(((Person) auth.getPrincipal()).getId());
 		}
 }

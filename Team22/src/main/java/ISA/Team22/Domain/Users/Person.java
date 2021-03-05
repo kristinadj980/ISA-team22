@@ -169,20 +169,21 @@ public abstract class Person implements UserDetails, Serializable{
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 	
-	 @Override
-	    public Collection<? extends GrantedAuthority> getAuthorities() {
-	        return this.authorities;
-	    }
 
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean getFirstLogged() {
+		return firstLogged;
 	}
 
-	
+	public void setFirstLogged(Boolean firstLogged) {
+		this.firstLogged = firstLogged;
+	}
 
-	 @Override
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	  
+	 @JsonIgnore
+	    @Override
 	    public boolean isAccountNonExpired() {
 	        return true;
 	    }
@@ -198,24 +199,14 @@ public abstract class Person implements UserDetails, Serializable{
 	    public boolean isCredentialsNonExpired() {
 	        return true;
 	    }
-	    
+	    @Override
+	    public Collection<? extends GrantedAuthority> getAuthorities() {
+	        return this.authorities;
+	    }
+
 	    @Override
 	    public boolean isEnabled() {
 	        return enabled;
 	    }
-
-	public Boolean getFirstLogged() {
-		return firstLogged;
-	}
-
-	public void setFirstLogged(Boolean firstLogged) {
-		this.firstLogged = firstLogged;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-	  
-	
 	
 }

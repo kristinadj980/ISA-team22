@@ -121,7 +121,11 @@ public class PharmacyAdministrator extends Person{
 	}
 
 
-
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
 
 	
 }

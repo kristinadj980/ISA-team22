@@ -29,6 +29,11 @@ public class TokenUtils {
 	@Value("Authorization")
 	private String AUTH_HEADER;
 	
+
+    private static final String AUDIENCE_MOBILE = "mobile";
+    private static final String AUDIENCE_TABLET = "tablet";
+
+	
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 	
 	public String generateToken(String email) {
@@ -48,6 +53,28 @@ public class TokenUtils {
 	private Date generateExpirationDate() {
 		return new Date(new Date().getTime() + EXPIRES_IN);
 	}
+	
+	// Funkcija za refresh JWT tokena
+    public String refreshToken(String token) {
+        String refreshedToken;
+        try {
+            final Claims claims = this.getAllClaimsFromToken(token);
+            claims.setIssuedAt(new Date());
+            refreshedToken = Jwts.builder()
+                    .setClaims(claims)
+                    .setExpiration(generateExpirationDate())
+                    .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+        } catch (Exception e) {
+            refreshedToken = null;
+        }
+        return refreshedToken;
+    }
+
+    public boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
+        final Date created = this.getIssuedAtDateFromToken(token);
+        return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset))
+                && (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
+    }
 	
 	// Funkcija za validaciju JWT tokena
 	public Boolean validateToken(String token, UserDetails userDetails) {
@@ -77,6 +104,32 @@ public class TokenUtils {
 		}
 		return issueAt;
 	}
+	
+	 private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
+	        return (lastPasswordReset != null && created.before(lastPasswordReset));
+	    }
+
+	    private Boolean isTokenExpired(String token) {
+	        final Date expiration = this.getExpirationDateFromToken(token);
+	        return expiration.before(new Date());
+	    }
+
+	    private Boolean ignoreTokenExpiration(String token) {
+	        String audience = this.getAudienceFromToken(token);
+	        return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
+	    }
+	    
+	    public String getAudienceFromToken(String token) {
+	        String audience;
+	        try {
+	            final Claims claims = this.getAllClaimsFromToken(token);
+	            audience = claims.getAudience();
+	        } catch (Exception e) {
+	            audience = null;
+	        }
+	        return audience;
+	    }
+
 
 	public Date getExpirationDateFromToken(String token) {
 		Date expiration;

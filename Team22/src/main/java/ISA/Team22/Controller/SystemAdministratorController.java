@@ -1,11 +1,15 @@
 package ISA.Team22.Controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +23,14 @@ import ISA.Team22.Service.SystemAdministratorService;
 
 @RestController
 @RequestMapping("/api/systemAdmin")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SystemAdministratorController {
 
 	@Autowired
 	private SystemAdministratorService systemAdministratorService;
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ROLE_SYSTEM_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest) {
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -51,5 +56,11 @@ public class SystemAdministratorController {
         Person user = systemAdministratorService.save(userRequest);
         return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
     }
+    
+    @GetMapping("/whoami")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+	public ResponseEntity<String> user() {
+    	return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
+	}
 }
 

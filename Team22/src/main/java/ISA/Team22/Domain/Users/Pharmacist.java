@@ -143,5 +143,11 @@ public class Pharmacist extends Person{
 		this.absenceRequests = absenceRequests;
 	}
 
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
+
 	
 }

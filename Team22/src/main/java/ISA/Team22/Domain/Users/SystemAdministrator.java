@@ -61,7 +61,11 @@ public class SystemAdministrator extends Person{
 		this.mainAdmin = mainAdmin;
 	}
 
-	
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
 	
 	 
 }

@@ -149,10 +149,11 @@ public class Patient extends Person{
 		this.ePrescriptions = ePrescriptions;
 	}
 
+
 	@Override
-	public boolean isEnabled() {
+	public String getUsername() {
 		// TODO Auto-generated method stub
-		return true;
+		return this.getEmail();
 	}
 	
 	

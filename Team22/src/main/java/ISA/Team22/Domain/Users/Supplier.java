@@ -65,6 +65,10 @@ public class Supplier extends Person{
 		this.drugStocks = drugStocks;
 	}
 
-	
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
 	
 }
