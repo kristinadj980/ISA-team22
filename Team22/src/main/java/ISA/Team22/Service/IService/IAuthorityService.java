@@ -6,6 +6,7 @@ import ISA.Team22.Domain.Users.Authority;
 
 
 public interface IAuthorityService {
-	List<Authority> findById(Long id);
-	List<Authority> findByname(String name);
+	 Authority findById(Long id);
+	    Authority findByname(String name);
+
 }

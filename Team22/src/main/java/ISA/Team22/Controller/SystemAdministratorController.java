@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.SystemAdministrator;
@@ -31,13 +30,13 @@ public class SystemAdministratorController {
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
-    public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest) {
+    public ResponseEntity<String> registerSystemAdmin(@RequestBody PersonRequestDTO userRequest) {
 
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 
         Person loggedUser =(Person)currentUser.getPrincipal();
-        SystemAdministrator systemAdmin = systemAdministratorService.findById(loggedUser.getId());
-        if(!systemAdmin.getMainAdmin()) {
+        SystemAdministrator systemAdministrator = systemAdministratorService.findById(loggedUser.getId());
+        if(!systemAdministrator.getMainAdmin()) {
             throw new IllegalArgumentException("Only main system admin can register new system admin!");
         }
 
@@ -57,10 +56,6 @@ public class SystemAdministratorController {
         return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
     }
     
-    @GetMapping("/whoami")
-    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
-	public ResponseEntity<String> user() {
-    	return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
-	}
+    
 }
 

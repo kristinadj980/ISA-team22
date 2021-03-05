@@ -13,21 +13,18 @@ import ISA.Team22.Service.IService.IAuthorityService;
 @Service
 public class AuthorityService implements IAuthorityService{
 	 @Autowired
-	  private AuthorityRepository authorityRepository;
+	    private AuthorityRepository authorityRepository;
 
-	  @Override
-	  public List<Authority> findById(Long id) {
-	    Authority auth = this.authorityRepository.getOne(id);
-	    List<Authority> auths = new ArrayList<>();
-	    auths.add(auth);
-	    return auths;
-	  }
+	    @Override
+	    public Authority findById(Long id) {
+	        Authority auth = this.authorityRepository.getOne(id);
 
-	  @Override
-	  public List<Authority> findByname(String name) {
-	    Authority auth = this.authorityRepository.findByName(name);
-	    List<Authority> auths = new ArrayList<>();
-	    auths.add(auth);
-	    return auths;
-	  }
+	        return auth;
+	    }
+
+	    @Override
+	    public Authority findByname(String name) {
+	        Authority auth = this.authorityRepository.findByName(name);
+	        return auth;
+	    }
 }

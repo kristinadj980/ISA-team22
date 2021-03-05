@@ -51,9 +51,9 @@ public class SystemAdministratorService implements ISystemAdministratorService {
 
 	@Override
 	public SystemAdministrator save(PersonRequestDTO userRequest) {
-		SystemAdministrator systemAdmin =  new SystemAdministrator();
-        systemAdmin.setName(userRequest.getName());
-        systemAdmin.setLastName(userRequest.getSurname());
+		SystemAdministrator systemAdministrator =  new SystemAdministrator();
+        systemAdministrator.setName(userRequest.getName());
+        systemAdministrator.setLastName(userRequest.getSurname());
         AddressDTO addressDTO = userRequest.getAddress();
         City city = new City();
         city.setName(addressDTO.getTown());
@@ -61,24 +61,24 @@ public class SystemAdministratorService implements ISystemAdministratorService {
         country.setName(addressDTO.getCountry());
         city.setCountry(country);
         Address address = new Address(addressDTO.getStreet(),addressDTO.getNumber(),city);
-        systemAdmin.setAddress(address);
-        systemAdmin.setEmail(userRequest.getEmail());
-        systemAdmin.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        systemAdmin.setFirstLogged(true);
-        systemAdmin.setContact(userRequest.getPhoneNumber());
-        Authority authoritySystemAdmin = (Authority) authorityService.findByname("ROLE_SYSTEM_ADMINISTRATOR");
+        systemAdministrator.setAddress(address);
+        systemAdministrator.setEmail(userRequest.getEmail());
+        systemAdministrator.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        systemAdministrator.setFirstLogged(true);
+        systemAdministrator.setContact(userRequest.getPhoneNumber());
+        Authority authoritySystemAdmin =  authorityService.findByname("ROLE_SYSTEM_ADMINISTRATOR");
         List<Authority> auth = new ArrayList<Authority>();
         if(authoritySystemAdmin==null) {
             authorityRepository.save(new Authority("ROLE_SYSTEM_ADMINISTRATOR"));
-            auth.add((Authority) authorityService.findByname("ROLE_SYSTEM_ADMIN"));
+            auth.add((Authority) authorityService.findByname("ROLE_SYSTEM_ADMINISTRATOR"));
         }
         else {
             auth.add(authoritySystemAdmin);
         }
-        systemAdmin.setAuthorities(auth);
-        systemAdmin.setEnabled(true);
-        systemAdmin.setMainAdmin(true);
-        return systemAdministratorRepository.save(systemAdmin);
+        systemAdministrator.setAuthorities(auth);
+        systemAdministrator.setEnabled(true);
+        systemAdministrator.setMainAdmin(true);
+        return systemAdministratorRepository.save(systemAdministrator);
 	}
 
 }
