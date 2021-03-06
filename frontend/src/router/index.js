@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import BootstrapVue from "bootstrap-vue";
 import Home from '../views/Home.vue'
 import Login from '../views/SystemAdmin/Login.vue'
 import DermatologyRegistration from '../views/SystemAdmin/DermatologyRegistration.vue'
@@ -11,6 +12,10 @@ import DermatologistHomepage from '../views/dermatologistView/DermatologistHomep
 import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
 import Registration from '../views/SystemAdmin/Registration.vue'
 
+Vue.use(BootstrapVue)
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(VueRouter)
 
 const routes = [

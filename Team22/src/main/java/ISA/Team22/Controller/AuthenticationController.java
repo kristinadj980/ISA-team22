@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +54,10 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
-		
+		System.out.println("****************Usao...**************");
+		System.out.println(authenticationRequest.getEmail());
+		System.out.println(authenticationRequest.getPassword());
+		System.out.println("*******************************");
 		// 
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
@@ -66,7 +70,6 @@ public class AuthenticationController {
 		Person person = (Person) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(person.getUsername());
 		int expiresIn = tokenUtils.getExpiredIn();
-
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
@@ -97,9 +100,49 @@ public class AuthenticationController {
 		result.put("result", "success");
 		return ResponseEntity.accepted().body(result);
 	}
+	
+	@RequestMapping(value = "/passwordFirstLogin", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    public ResponseEntity<?> changePasswordFirstLogin(@RequestBody PasswordChanger passwordChanger) {
+
+        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewriteNewPassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
+            throw new IllegalArgumentException("Please fill all the required fields!");
+        }
+        if(!passwordChanger.newPassword.equals(passwordChanger.rewriteNewPassword)) {
+            throw new IllegalArgumentException("Please make sure your new password and rewrite password match!");
+        }
+        if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+            throw new IllegalArgumentException("New password can not be same as old password!");
+        }
+
+        personService.changePasswordFirstLogin(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
+	
+	@GetMapping("/authority")
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    ResponseEntity<Person> getMyAccount()
+    {
+		System.out.println("################################################################");
+		System.out.println(" ");
+		System.out.println(" ");
+		System.out.println(" ");
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        
+        Person user = (Person)currentUser.getPrincipal();
+        Person userWithId = personService.findById(user.getId());
+        System.out.println("RADIIII");
+        return (ResponseEntity<Person>) (userWithId == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(userWithId));
+    }
 
 	static class PasswordChanger {
 		public String oldPassword;
 		public String newPassword;
+		public String rewriteNewPassword;
 	}
 }

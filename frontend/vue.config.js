@@ -2,6 +2,7 @@ module.exports = {
     "transpileDependencies": [
       "vuetify"
     ],
+   
     "runtimeCompiler": true,
   
     devServer: {
@@ -9,6 +10,7 @@ module.exports = {
         '^/api': {
           target: 'http://localhost:8085',
           ws: true,
+         
           changeOrigin: true
         }
       }
