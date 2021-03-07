@@ -31,10 +31,10 @@ public class Dermatologist extends Person {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "allGrades",  nullable = false)
+	@Column(name = "allGrades")
 	private Integer allGrades;
 	
-	@Column(name = "numberOfGrades",  nullable = false)
+	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

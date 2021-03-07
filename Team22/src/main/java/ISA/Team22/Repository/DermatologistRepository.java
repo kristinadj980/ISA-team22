@@ -13,6 +13,8 @@ public interface DermatologistRepository extends JpaRepository<Dermatologist, Lo
 	
 	 @Query(value = "SELECT * FROM dermatologist", nativeQuery = true)
 	 Iterable<Dermatologist> getAllDermatologists();
+	 
+	 Dermatologist findByEmail(String email);
 
 
 }

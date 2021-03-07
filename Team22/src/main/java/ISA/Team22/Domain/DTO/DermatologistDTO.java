@@ -2,33 +2,44 @@ package ISA.Team22.Domain.DTO;
 
 public class DermatologistDTO {
 		
-	private String name;
-	private String lastName;
-	private String email;
-	private String address;
-	
-	public DermatologistDTO(String name, String lastName, String email, String address) {
+	 private String email;
+
+	 private String password;
+	 
+	 private String confirmPassword;
+
+	 private String name;
+
+	 private String surname;
+
+	 private String phoneNumber;
+
+	 private AddressDTO address;
+
+	public DermatologistDTO() {
 		super();
-		this.name = name;
-		this.lastName = lastName;
+	}
+
+	public DermatologistDTO(String email, String password, String confirmPassword, String name, String surname,
+			String phoneNumber, AddressDTO address) {
+		super();
 		this.email = email;
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+		this.name = name;
+		this.surname = surname;
+		this.phoneNumber = phoneNumber;
 		this.address = address;
 	}
+	
+	
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
+	public DermatologistDTO(String email, String name, String surname, AddressDTO address) {
+		super();
+		this.email = email;
 		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.surname = surname;
+		this.address = address;
 	}
 
 	public String getEmail() {
@@ -39,13 +50,52 @@ public class DermatologistDTO {
 		this.email = email;
 	}
 
-	public String getAddress() {
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
-	
-	
+
 }

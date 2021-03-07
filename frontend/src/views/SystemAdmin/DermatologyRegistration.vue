@@ -16,28 +16,61 @@
                 </span>
         </div>
     <div class="vue-tempalte">
-        <form>
+       
             <h3>Sign Up</h3>
 
             <div class="form-group">
-                <label style="color:white">Email address {{email}}</label>
-                <input type="email" class="form-control form-control-lg" v-model="registerUserData.email" required/>
-                <label style="color:white">Password</label>
-                <input type="password" class="form-control form-control-lg" required v-model="registerUserData.password"/>
-                <label style="color:white">Confirm password</label>
-                <input type="password" class="form-control form-control-lg" required v-model="registerUserData.passwordConf"/>
-                <label style="color:white">Name {{name}}</label>
-                <input type="text" class="form-control form-control-lg" required v-model="registerUserData.name"/>
-                <label style="color:white">Surname</label>
-                <input type="text" class="form-control form-control-lg" required v-model="registerUserData.surname"/>
-                <label style="color:white">Address</label>
-                <input type="text" class="form-control form-control-lg" required v-model="registerUserData.address"/>
-                <label style="color:white">City</label>
-                <input type="text" class="form-control form-control-lg" required v-model="registerUserData.city"/>
-                <label style="color:white">Country</label>
-                <input type="text" class="form-control form-control-lg" required v-model="registerUserData.country"/>
-                <label style="color:white">Phone number</label>
-                <input type="text" class="form-control form-control-lg"  required v-model="registerUserData.phone"/>
+                 
+                 <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Name</label>
+                        <input type="text" class="form-control" v-model="name" placeholder="Enter name">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Surname</label>
+                        <input type="text" class="form-control" v-model = "surname" placeholder="Enter surname">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Email</label>
+                        <input type="email" class="form-control" v-model="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Phone number</label>
+                        <input type="text" class="form-control" v-model="phone" placeholder="Enter phone number">
+                        </div>
+                    </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Country</label>
+                        <input type="text" class="form-control" v-model="country" placeholder="Enter country">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label style="color:white">City</label>
+                        <input type="text" class="form-control" v-model="city" placeholder="Enter city">
+                        </div>
+                    </div>
+                     <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Street</label>
+                        <input type="text" class="form-control" v-model="street" placeholder="Enter street">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Street Number</label>
+                        <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Password</label>
+                        <input type="password" class="form-control" v-model="password" placeholder="Enter password">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label style="color:white">Confirm password</label>
+                        <input type="password" class="form-control" v-model="passwordConf" placeholder="Repeat password">
+                        </div>
+                    </div>
             </div>
             <button style="color:white" type="submit" class="button" v-on:click = "registerUser">Sign Up</button>
 
@@ -45,7 +78,7 @@
                 Already registered 
                 <router-link :to="{name: 'login'}">sign in?</router-link>
             </p>
-        </form>
+        
     </div>
 </div>
 </template>
@@ -55,17 +88,16 @@ export default {
     name: 'DermatologyRegistration',
     data(){
         return{
-            registerUserData:{
             email:'',
             password:'',
             passwordConf:'',
             name:'',
             surname:'',
-            address:'',
+            street:'',
+            streetNumber:'',
             city:'',
             country:'',
             phone:'',
-            }
         }
 
     },
@@ -86,8 +118,28 @@ export default {
          showProfile: function(){
            window.location.href = "/profileData";
         },
-          registerUser: function(){
-                this.axios.post('/dermatologyRegistration/register', this.registerUserData)
+         registerUser: function(){
+              const addressInfo ={
+               street: this.street,
+               number: this.streetNumber,
+               town: this.city,
+               country: this.country
+          }
+            const userInfo ={
+                email : this.email,
+                password : this.password,
+                confirmPassword : this.passwordConf,
+                name : this.name,
+                surname : this.surname,
+                phoneNumber : this.phone,
+                address : addressInfo
+            }
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+            this.axios.post('/dermatologist/register',userInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                        }})
                 .then(response => {
                        alert("Dermatologist is successfully registred!");
                         console.log(response.data);
@@ -95,6 +147,7 @@ export default {
                 .catch(response => {
                     alert(response.response.data.message);
                  });    
+      
         }
     }
 
@@ -117,21 +170,24 @@ export default {
   position: relative;
   z-index: 1;
   background:  #174452;
-  max-width: 400px;
-  margin: 0 auto 100px;
-  padding: 65px;
+  max-width: 900px;
+  margin: 0 auto 20px;
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin: auto;
   
     }
+
 .button {
-   width: 20%;
-   height: 10%;
    background:  #174452;
    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
    border:  1px solid rgb(25, 40, 90); 
    padding: 10px 20px;
-   position: relative
+   position: absolute;
+   top: 110%;
+   right: 40%;
+   width: 20%;
+   height: 7%;
 }
 
 .homepage_style{
