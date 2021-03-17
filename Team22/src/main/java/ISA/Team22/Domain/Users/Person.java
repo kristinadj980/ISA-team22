@@ -35,7 +35,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public abstract class Person implements UserDetails, Serializable{
 	
 	@Id

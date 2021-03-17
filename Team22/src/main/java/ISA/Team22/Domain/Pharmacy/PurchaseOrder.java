@@ -16,8 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
+import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
@@ -42,15 +42,15 @@ public class PurchaseOrder {
 	@OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
 	
-	@ManyToMany(targetEntity = PurchaseOrderDTO.class,  cascade = CascadeType.ALL)
-	private List<PurchaseOrderDTO> purchaseOrderDTO;
+	@ManyToMany(targetEntity = PurchaseOrderDrug.class,  cascade = CascadeType.ALL)
+	private List<PurchaseOrderDrug> purchaseOrderDrugs;
 	
 	public PurchaseOrder() {
 		super();
 	}
 
 	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, Integer drugAmount, LocalDate dueDate,
-			PharmacyAdministrator pharmacyAdministrator, List<Offer> offer, List<PurchaseOrderDTO> purchaseOrderDTO) {
+			PharmacyAdministrator pharmacyAdministrator, List<Offer> offer, List<PurchaseOrderDrug> purchaseOrderDrugs) {
 		super();
 		this.id = id;
 		this.purchaseOrderStatus = purchaseOrderStatus;
@@ -58,7 +58,7 @@ public class PurchaseOrder {
 		this.dueDate = dueDate;
 		this.pharmacyAdministrator = pharmacyAdministrator;
 		this.offer = offer;
-		this.purchaseOrderDTO = purchaseOrderDTO;
+		this.purchaseOrderDrugs = purchaseOrderDrugs;
 	}
 
 	public Long getId() {
@@ -108,12 +108,12 @@ public class PurchaseOrder {
 		this.offer = offer;
 	}
 
-	public List<PurchaseOrderDTO> getPurchaseOrderDTO() {
-		return purchaseOrderDTO;
+	public List<PurchaseOrderDrug> getPurchaseOrderDrugs() {
+		return purchaseOrderDrugs;
 	}
 
-	public void setPurchaseOrderDTO(List<PurchaseOrderDTO> purchaseOrderDTO) {
-		this.purchaseOrderDTO = purchaseOrderDTO;
+	public void setPurchaseOrderDrugs(List<PurchaseOrderDrug> purchaseOrderDrugs) {
+		this.purchaseOrderDrugs = purchaseOrderDrugs;
 	}
 
 	 

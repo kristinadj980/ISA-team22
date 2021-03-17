@@ -1,9 +1,11 @@
 package ISA.Team22.Domain.Users;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,12 +19,8 @@ import ISA.Team22.Domain.DrugManipulation.SupplierDrugStock;
 import ISA.Team22.Domain.Pharmacy.Offer;
 
 @Entity
+@DiscriminatorValue("Supplier")
 public class Supplier extends Person{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
 	
 	@OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offers;
@@ -34,19 +32,12 @@ public class Supplier extends Person{
 		super();
 	}
 
-	public Supplier(Long id, List<Offer> offers, List<SupplierDrugStock> drugStocks) {
-		super();
-		this.id = id;
+	public Supplier(Long id, String email, String password, String name, String lastName, String contact,
+			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
+			Boolean firstLogged, List<Offer> offers, List<SupplierDrugStock> drugStocks) {
+		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.offers = offers;
 		this.drugStocks = drugStocks;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public List<Offer> getOffers() {

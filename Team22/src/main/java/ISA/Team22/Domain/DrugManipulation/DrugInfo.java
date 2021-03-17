@@ -1,4 +1,4 @@
-package ISA.Team22.Domain.DTO;
+package ISA.Team22.Domain.DrugManipulation;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,12 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.Period;
 
 
 @Entity
-public class DrugDTO {
+public class DrugInfo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +34,11 @@ public class DrugDTO {
 	@JoinColumn(name = "drug_id", referencedColumnName = "id", nullable = false)
 	private Drug drug;
 	
-	public DrugDTO() {
+	public DrugInfo() {
 		super();
 	}
 
-	public DrugDTO(Long id, Double price, Period period, Integer drugAmount, Drug drug) {
+	public DrugInfo(Long id, Double price, Period period, Integer drugAmount, Drug drug) {
 		super();
 		this.price = price;
 		this.period = period;

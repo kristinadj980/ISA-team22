@@ -1,9 +1,11 @@
 package ISA.Team22.Domain.Users;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,19 +24,16 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
+@DiscriminatorValue("Pharmacist")
 public class Pharmacist extends Person{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "allGrades",  nullable = false)
+	@Column(name = "allGrades")
 	private Integer allGrades;
 	
-	@Column(name = "numberOfGrades",  nullable = false)
+	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@Column(name = "counselingPrice",  nullable = false)
+	@Column(name = "counselingPrice")
 	private Double counselingPrice;
 	
 	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,12 +54,13 @@ public class Pharmacist extends Person{
 	public Pharmacist() {
 		super();
 	}
-	
-	public Pharmacist(Long id, Integer allGrades, Integer numberOfGrades, Double counselingPrice,
+
+	public Pharmacist(Long id, String email, String password, String name, String lastName, String contact,
+			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
+			Boolean firstLogged,Integer allGrades, Integer numberOfGrades, Double counselingPrice,
 			List<BusinessDayPharmacist> businessDays, List<Prescription> prescriptions, List<Counseling> counselings,
 			Pharmacy pharmacy, List<AbsenceRequestPharmacist> absenceRequests) {
-		super();
-		this.id = id;
+		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.counselingPrice = counselingPrice;
@@ -69,14 +69,6 @@ public class Pharmacist extends Person{
 		this.counselings = counselings;
 		this.pharmacy = pharmacy;
 		this.absenceRequests = absenceRequests;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Integer getAllGrades() {
