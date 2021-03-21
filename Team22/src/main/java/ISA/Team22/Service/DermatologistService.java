@@ -62,7 +62,6 @@ public class DermatologistService implements IDermatologistService {
         dermatologist.setEmail(userRequest.getEmail());
         dermatologist.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         dermatologist.setFirstLogged(true);
-        dermatologist.setContact(userRequest.getPhoneNumber());
         Authority authorityDermatologist = authService.findByname("ROLE_DERMATOLOGIST");
         List<Authority> auth = new ArrayList<Authority>();
         if(authorityDermatologist==null) {
@@ -76,4 +75,21 @@ public class DermatologistService implements IDermatologistService {
         dermatologist.setEnabled(true);
         return dermatologistRepository.save(dermatologist);
 	}
+
+	@Override
+	public Dermatologist getById(Long id) {
+		 return dermatologistRepository.findById(id).get();
+	}
+
+	@Override
+	public void update(DermatologistDTO userDto) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AddressDto addressDto = userDto.getAddress();
+
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
+        user.setAddress(new Address(addressDto.getCountry(), addressDto.getStreet(), addressDto.getCity()));
+
+        userRepository.save(user);
+    }
 }

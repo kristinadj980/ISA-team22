@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +71,28 @@ public class DermatologistController {
 	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
 	    }
 	
-	
+	  @GetMapping("/profile")
+	  @PreAuthorize("hasRole('DERMATOLOGIST')")
+	  public ResponseEntity<DermatologistDTO> getMyAccount()
+	  {	
+		  Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+	      Person person = (Person)currentUser.getPrincipal();
+	      Dermatologist dermatologist = dermatologistService.getById(person.getId());
+	      AddressDTO addressDto = new AddressDTO(dermatologist.getAddress().getCity().getName(), dermatologist.getAddress().getStreetName(), dermatologist.getAddress().getStreetNumber(), dermatologist.getAddress().getCity().getCountry().getName());
+	      DermatologistDTO dermatologistDTO = new DermatologistDTO(dermatologist.getName(), dermatologist.getLastName(), dermatologist.getEmail(), addressDto);
+	      return dermatologist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(dermatologistDTO);
+	    }
+	  
+	  @PostMapping("/update")
+	  @PreAuthorize("hasRole('DERMTOLOGIST')")
+	  public ResponseEntity<String> updateDermatologistInfo(@RequestBody DermatologistDTO dermatologistDTO) {
+	        try {
+	            dermatologistService.update(dermatologistDTO);
+	            return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
+	        } catch (Exception e) {
+	            return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+	        }
+	    }
+
+
 }

@@ -5,12 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Country {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "order_sequence_generator", sequenceName = "order_sequence", initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sequence_generator")
 	private Long id;
 	
 	@Column(name = "name",  nullable = false)
@@ -22,6 +24,11 @@ public class Country {
 	public Country(Long id, String name) {
 		super();
 		this.id = id;
+		this.name = name;
+	}
+	
+	public Country(String name) {
+		super();
 		this.name = name;
 	}
 	

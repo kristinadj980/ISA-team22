@@ -11,6 +11,12 @@ import SupplierRegistration from '../views/SystemAdmin/SupplierRegistration.vue'
 import DermatologistHomepage from '../views/dermatologistView/DermatologistHomepage.vue'
 import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
 import Registration from '../views/SystemAdmin/Registration.vue'
+import DermatologistAbsenceRequest from '../views/dermatologistView/DermatologistAbsenceRequest.vue'
+import DermatologistExamination from '../views/dermatologistView/DermatologistExamination.vue'
+import DermatologistNewExamination from '../views/dermatologistView/DermatologistNewExamination.vue'
+import DermatologistPatients from '../views/dermatologistView/DermatologistPatients.vue'
+import DermatologistWorkCalendar from '../views/dermatologistView/DermatologistWorkCalendar.vue'
+import DermatologistProfileEdit from '../views/dermatologistView/DermatologistProfileEdit.vue'
 
 Vue.use(BootstrapVue)
 
@@ -77,6 +83,36 @@ const routes = [
     path: '/dermatologistProfile',
     name: 'DermatologistProfile',
     component: DermatologistProfile
+  },
+  {
+    path: '/dermatologistAbsenceRequest',
+    name: 'DermatologistAbsenceRequest',
+    component: DermatologistAbsenceRequest
+  },
+  {
+    path: '/dermatologistExamination',
+    name: 'DermatologistExamination',
+    component: DermatologistExamination
+  },
+  {
+    path: '/dermatologistNewExamination',
+    name: 'DermatologistNewExamination',
+    component: DermatologistNewExamination
+  },
+  {
+    path: '/dermatologistPatients',
+    name: 'DermatologistPatients',
+    component: DermatologistPatients
+  },
+  {
+    path: '/dermatologistWorkCalendar',
+    name: 'DermatologistWorkCalendar',
+    component: DermatologistWorkCalendar
+  },
+  {
+    path: '/DermatologistProfileEdit',
+    name: 'DermatologistProfileEdit',
+    component: DermatologistProfileEdit
   }
 ]
 
