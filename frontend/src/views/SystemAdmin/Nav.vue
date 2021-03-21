@@ -12,7 +12,7 @@
           <a class="button is-dark"  href="/login">
             <strong>LogIn</strong>
           </a>
-          <a class="button is-dark"  href="/dermatologyRegistration">
+          <a class="button is-dark"  href="/registration">
             <strong>Register</strong>
           </a>
         </div>

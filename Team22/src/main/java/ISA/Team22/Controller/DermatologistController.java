@@ -53,11 +53,6 @@ public class DermatologistController {
 	  @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
 	  public ResponseEntity<String> registerDermatologist(@RequestBody DermatologistDTO userRequest) {
 		  
-		   System.out.println("*****************************");
-		   System.out.println(userRequest.getPassword());
-		   System.out.println(userRequest.getConfirmPassword());
-		   System.out.println(userRequest.getName());
-		   System.out.println("************************");
 	        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
 	            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
 	        }

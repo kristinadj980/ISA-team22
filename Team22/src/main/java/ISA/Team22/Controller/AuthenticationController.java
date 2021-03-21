@@ -31,6 +31,7 @@ import ISA.Team22.Domain.DTO.UserTokenState;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Security.TokenUtils;
+import ISA.Team22.Service.PatientService;
 import ISA.Team22.Service.PersonService;
 
 //Kontroler zaduzen za autentifikaciju korisnika
@@ -47,6 +48,9 @@ public class AuthenticationController {
 	private PersonService personService;
 	
 	@Autowired
+	private PatientService patientService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
@@ -54,11 +58,6 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
-		System.out.println("****************Usao...**************");
-		System.out.println(authenticationRequest.getEmail());
-		System.out.println(authenticationRequest.getPassword());
-		System.out.println("*******************************");
-		// 
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 						authenticationRequest.getPassword()));  //pokusavamo autentifikaciju
@@ -75,18 +74,18 @@ public class AuthenticationController {
 	}
 
 	// Endpoint za registraciju novog korisnika
-	@PostMapping("/signup")
-	public ResponseEntity<Person> addUser(@RequestBody PersonRequestDTO personRequest, UriComponentsBuilder ucBuilder) {
-
-		Person existPerson = this.personService.findByEmail((personRequest.getEmail()));
-		if (existPerson != null) {
-			throw new ResourceConflictException(personRequest.getEmail(), "Username already exists");
-		}
-
-		Person person = this.personService.save(personRequest);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(person.getId()).toUri());
-		return new ResponseEntity<>(person, HttpStatus.CREATED);
+	@PostMapping("/register")
+	public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest) {
+		
+		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
+        }
+        Person existingUser = patientService.findByEmail(userRequest.getEmail());
+        if (existingUser != null) {
+            throw new ResourceConflictException("Entered email already exists", "Email already exists");
+        }
+        Person user = patientService.save(userRequest);
+        return new ResponseEntity<>("User is successfully registred!", HttpStatus.CREATED);
 	}
 
 	

@@ -1,6 +1,6 @@
 <template>
-<div id="supplierRregistration">
-    <div class="homepage_style ">
+<div id="systemAdminRegistration">
+   <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                      <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
@@ -85,7 +85,7 @@
 
 <script>
 export default {
-    name: 'SupplierRegistration',
+    name: 'SystemAdminRegistration',
     data(){
         return{
             email:'',
@@ -139,12 +139,12 @@ export default {
             }
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
-            this.axios.post('/supplier/register',userInfo,{ 
+            this.axios.post('/systemAdmin/register',userInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                         }})
                 .then(response => {
-                       alert("Supplier is successfully registred!");
+                       alert("System administrator is successfully registred!");
                         console.log(response.data);
                 })
                 .catch(response => {
