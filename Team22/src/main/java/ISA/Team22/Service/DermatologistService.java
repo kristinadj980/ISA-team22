@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -82,14 +83,22 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
-	public void update(DermatologistDTO userDto) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        AddressDto addressDto = userDto.getAddress();
+	public void update(DermatologistDTO dto) {
+		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    AddressDTO addressDTO = dto.getAddress();
+	    City city = new City();
+        city.setName(addressDTO.getTown());
+        Country country = new Country();
+        country.setName(addressDTO.getCountry());
+        city.setCountry(country);
+        
+	    dermatologist.setName(dto.getName());
+	    dermatologist.setLastName(dto.getSurname());
+	    dermatologist.setAddress(new Address(addressDTO.getCountry(), addressDTO.getStreet(), city));
 
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        user.setAddress(new Address(addressDto.getCountry(), addressDto.getStreet(), addressDto.getCity()));
+	    dermatologistRepository.save(dermatologist);
+	    
+	}
 
-        userRepository.save(user);
-    }
+	
 }

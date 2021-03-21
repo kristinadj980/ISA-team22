@@ -84,7 +84,7 @@ public class DermatologistController {
 	    }
 	  
 	  @PostMapping("/update")
-	  @PreAuthorize("hasRole('DERMTOLOGIST')")
+	  @PreAuthorize("hasRole('DERMATOLOGIST')")
 	  public ResponseEntity<String> updateDermatologistInfo(@RequestBody DermatologistDTO dermatologistDTO) {
 	        try {
 	            dermatologistService.update(dermatologistDTO);

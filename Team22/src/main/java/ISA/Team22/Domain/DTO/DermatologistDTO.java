@@ -1,7 +1,7 @@
 package ISA.Team22.Domain.DTO;
 
 public class DermatologistDTO {
-		
+	
 	 private String name;
 
 	 private String surname;

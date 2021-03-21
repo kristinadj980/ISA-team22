@@ -143,36 +143,33 @@ data() {
         cancel() {
             this.$refs['modal-ref'].hide();
         },
-       update : function(){
-         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-           const ad = {
-                   
-                    country: this.dermatologist.address.country,
-                    town: this.dermatologist.address.town,
-                    street: this.dermatologist.address.street,
-                    number:this.dermatologist.address.number
-                };
-            const p = {
-                    id: this.dermatologist.id,
-                    email:this.dermatologist.email,
-                    firstname: this.dermatologist.name,
-                    surname : this.dermatologist.surname,
-                    address: ad,
-                };
+        update : function(){
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            const addressInfo = {
+                town: this.dermatologist.address.town,
+                street: this.dermatologist.address.street,
+                number:this.dermatologist.address.number,
+                country: this.dermatologist.address.country
+            };
+            const dermatologistInfo = {
+                name: this.dermatologist.name,
+                surname : this.dermatologist.surname,
+                email:this.dermatologist.email,
+                address: addressInfo
+           };
        
-                this.axios.post('/dermatologist/update',p, { 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                        }})
-                    .then(res => {
-                        alert("Successfully updated info.")
-                        window.location.href = "/dermatologistProfile";
+            this.axios.post('/dermatologist/update',dermatologistInfo, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(res => {
+                    alert("Successfully updated info.")
                         console.log(res);
-                    })
-                    .catch(res => {
-                        alert("Try later.")
-                        console.log(res);
-                    })
+                })
+                .catch(res => {
+                    alert("Try later.")
+                    console.log(res);
+                })
             
       },
     }

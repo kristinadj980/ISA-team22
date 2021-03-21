@@ -11,6 +11,6 @@ public interface IDermatologistService {
 	Dermatologist getById(Long id);
 	Dermatologist findByEmail(String email);
 	Dermatologist save(DermatologistDTO userRequest);
-    void update(DermatologistDTO dto);
+	void update(DermatologistDTO dto);
 	
 }
