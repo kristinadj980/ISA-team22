@@ -31,18 +31,20 @@ public class SupplierController {
 	}
 	
 	@PostMapping("/register")
-	  @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
-	  public ResponseEntity<String> registerSupplier(@RequestBody PersonRequestDTO userRequest) {
+	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+     public ResponseEntity<String> registerSupplier(@RequestBody PersonRequestDTO userRequest) 
+	{
 		   
-	        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
-	            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
-	        }
-	        Person existingUser = supplierService.findByEmail(userRequest.getEmail());
-	        if (existingUser != null) {
-	            throw new ResourceConflictException("Entered email already exists", "Email already exists");
-	        }
-	        Person user = supplierService.save(userRequest);
-	        return new ResponseEntity<>("Supplier is successfully registred!", HttpStatus.CREATED);
-	    }
+	     if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+	         throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
+	     }
+	     Person existingUser = supplierService.findByEmail(userRequest.getEmail());
+	     if (existingUser != null) {
+	          throw new ResourceConflictException("Entered email already exists", "Email already exists");
+	     }
+	     Person person = supplierService.save(userRequest);
+	     
+	     return new ResponseEntity<>("Supplier is successfully registred!", HttpStatus.CREATED);
+	 }
 	
 }

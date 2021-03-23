@@ -130,7 +130,8 @@ export default {
                                 'Authorization': 'Bearer ' + token,
                         }})
                 .then(response => {
-                       alert("Supplier is successfully registred!");
+                       alert("Please check your email for validation link, so you could login!");
+                        this.$router.push('/login') 
                         console.log(response.data);
                 })
                 .catch(response => {

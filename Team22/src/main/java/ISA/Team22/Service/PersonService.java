@@ -137,6 +137,9 @@ public class PersonService implements IPersonService, UserDetailsService {
 	        user.setFirstLogged(false);
 	        personRepository.save(user);
 	    }
-	
+	 @Override
+		public Person savePerson(Person person) {
+			return personRepository.save(person);
+		}
 	
 }

@@ -69,7 +69,7 @@ private final PatientRepository patientRepository;
             auth.add(authorityDermatologist);
         }
         patient.setAuthorities(auth);
-        patient.setEnabled(true);
+        patient.setEnabled(false);
         return patientRepository.save(patient);
 	}
 }

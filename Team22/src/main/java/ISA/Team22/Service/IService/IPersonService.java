@@ -10,4 +10,5 @@ public interface IPersonService {
 	 Person  findByEmail(String email);
 	 List<Person > findAll ();
 	 Person  save(PersonRequestDTO personRequest);
+	 Person savePerson(Person person);
 }

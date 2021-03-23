@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import ISA.Team22.Domain.DTO.UserTokenState;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Security.TokenUtils;
+import ISA.Team22.Service.EmailService;
 import ISA.Team22.Service.PatientService;
 import ISA.Team22.Service.PersonService;
 
@@ -38,20 +40,25 @@ import ISA.Team22.Service.PersonService;
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
-	@Autowired
-	private TokenUtils tokenUtils;
+	
+	private final TokenUtils tokenUtils;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
+	
+	private final PersonService personService;
+	
+	private final PatientService patientService;
+	
+	private final EmailService emailService;
 	
 	@Autowired
-	private PersonService personService;
-	
-	@Autowired
-	private PatientService patientService;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	public AuthenticationController(TokenUtils tokenUtils,AuthenticationManager authenticationManager,PersonService personService, PatientService patientService,EmailService emailService) {
+		this.tokenUtils = tokenUtils;
+		this.authenticationManager = authenticationManager;
+		this.personService = personService;
+		this.patientService = patientService;
+		this.emailService = emailService;
+	}
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
@@ -75,20 +82,35 @@ public class AuthenticationController {
 
 	// Endpoint za registraciju novog korisnika
 	@PostMapping("/register")
-	public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest) {
+	public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest, UriComponentsBuilder ucBuilder) {
 		
-		if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
-            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
-        }
-        Person existingUser = patientService.findByEmail(userRequest.getEmail());
-        if (existingUser != null) {
-            throw new ResourceConflictException("Entered email already exists", "Email already exists");
-        }
-        Person user = patientService.save(userRequest);
-        return new ResponseEntity<>("User is successfully registred!", HttpStatus.CREATED);
+       if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+        throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
+       }
+       Person existingUser = patientService.findByEmail(userRequest.getEmail());
+       if (existingUser != null) {
+        throw new ResourceConflictException("Entered email already exists", "Email already exists");
+       }
+       Person user = patientService.save(userRequest);
+    
+       HttpHeaders headers = new HttpHeaders();
+	   headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+	   this.emailService.sendNotificationAsync(user.getEmail(), "Account Validation", "Click this link and validate your account: http://localhost:8085/api/auth/validateAccount/" + user.getId() + "/");
+	
+       return new ResponseEntity<>("User is successfully registred!", HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/validateAccount/{id}")
+	public String validatePatient(@PathVariable("id") Long id) {
+		Person person = this.personService.findById(id);
+		if(person  == null)
+			return "Bad Request!";
+		person .setEnabled(true);
+		this.personService.savePerson(person);
+		System.out.println("Account is validated!");
+		return "Validation succesfull, now you can use your account. Please return to login page.";
 	}
 
-	
 
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('USER')")
@@ -125,10 +147,6 @@ public class AuthenticationController {
     @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
     ResponseEntity<Person> getMyAccount()
     {
-		System.out.println("################################################################");
-		System.out.println(" ");
-		System.out.println(" ");
-		System.out.println(" ");
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         
         Person user = (Person)currentUser.getPrincipal();
