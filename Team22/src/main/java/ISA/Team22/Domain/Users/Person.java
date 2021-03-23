@@ -28,13 +28,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public abstract class Person implements UserDetails, Serializable{
 	
 	@Id
@@ -49,8 +51,8 @@ public abstract class Person implements UserDetails, Serializable{
 	@Column(name = "password",  nullable = false)
 	private String password;
 	
-	@Column(name = "username",  nullable = false)
-	private String username;
+	//@Column(name = "username",  nullable = false)
+	//private String username;
 	
 	@Column(name = "name",  nullable = false)
 	private String name;
@@ -65,31 +67,40 @@ public abstract class Person implements UserDetails, Serializable{
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private Address address;
 	
-	 @Column(name = "last_password_reset_date")
-	    private Timestamp lastPasswordResetDate;
+    @Column(name = "last_password_reset_date")
+	private Timestamp lastPasswordResetDate;
+	@Column(name = "enabled")
+	private boolean enabled;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+	
+	@Column(name = "firstLogged", nullable = true)
+    private Boolean firstLogged;
 	   
 	public Person() {
 		super();
 	}
 
-	public Person(Long id, String email, String password,String userName, String name, String lastName, String contact, Address address,Timestamp lastPasswordResetDate) {
+	public Person(Long id, String email, String password, String name, String lastName, String contact, Address address,
+			Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities, Boolean firstLogged) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.username = userName;
 		this.name = name;
 		this.lastName = lastName;
 		this.contact = contact;
 		this.address = address;
 		this.lastPasswordResetDate = lastPasswordResetDate;
+		this.enabled = enabled;
+		this.authorities = authorities;
+		this.firstLogged = firstLogged;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -114,14 +125,6 @@ public abstract class Person implements UserDetails, Serializable{
 	     this.password = password;
 	}
 	
-
-	public String getUserName() {
-		return username;
-	}
-
-	public void setUserName(String userName) {
-		this.username = userName;
-	}
 
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
@@ -167,39 +170,44 @@ public abstract class Person implements UserDetails, Serializable{
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 	
-	 @Override
+
+	public Boolean getFirstLogged() {
+		return firstLogged;
+	}
+
+	public void setFirstLogged(Boolean firstLogged) {
+		this.firstLogged = firstLogged;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	  
+	 @JsonIgnore
+	    @Override
+	    public boolean isAccountNonExpired() {
+	        return true;
+	    }
+
+	    @JsonIgnore
+	    @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
+
+	    @JsonIgnore
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+	    @Override
 	    public Collection<? extends GrantedAuthority> getAuthorities() {
 	        return this.authorities;
 	    }
 
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	  
+	    @Override
+	    public boolean isEnabled() {
+	        return enabled;
+	    }
+	
 }

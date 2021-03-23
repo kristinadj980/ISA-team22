@@ -2,28 +2,28 @@ package ISA.Team22.Security.Auth;
 
 public class JwtAuthenticationRequest {
 	
-    private String username;
+	private String email;
     private String password;
 
     public JwtAuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
-        this.setUsername(username);
-        this.setPassword(password);
+    public JwtAuthenticationRequest(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {

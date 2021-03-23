@@ -14,9 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import ISA.Team22.Domain.DTO.PersonRequest;
+import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
+import ISA.Team22.Domain.Users.City;
+import ISA.Team22.Domain.Users.Country;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.PersonRepository;
 import ISA.Team22.Service.IService.IPersonService;
@@ -25,7 +27,7 @@ import ISA.Team22.Service.IService.IPersonService;
 public class PersonService implements IPersonService, UserDetailsService {
 	
 	protected final Log LOGGER = LogFactory.getLog(getClass());
-
+   
 	@Autowired
 	private PersonRepository personRepository;
 	
@@ -46,8 +48,8 @@ public class PersonService implements IPersonService, UserDetailsService {
 	}
 
 	@Override
-	public Person findByUsername(String username) {
-		Person p = personRepository.findByUsername(username);
+	public Person findByEmail(String email) {
+		Person p = personRepository.findByEmail(email);
 		return p;
 	}
 
@@ -58,10 +60,11 @@ public class PersonService implements IPersonService, UserDetailsService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Person person = personRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { //email ne username!
+		//kako hocemo da nam dobavi korisnika spring security
+		Person person = personRepository.findByEmail(email);
 		if (person == null) {
-			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
 		} else {
 			return person;
 		}
@@ -69,7 +72,7 @@ public class PersonService implements IPersonService, UserDetailsService {
 
 	public void changePassword(String oldPassword, String newPassword) {
 
-		// Ocitavamo trenutno ulogovanog korisnika
+		// Ocitavamo trenutno ulogovanog korisnika sa pvpm dole linijom
 		Authentication currentPerson = SecurityContextHolder.getContext().getAuthentication();
 		String username = currentPerson.getName();
 
@@ -94,22 +97,49 @@ public class PersonService implements IPersonService, UserDetailsService {
 
 	}
 	@Override
-	public Person save(PersonRequest personRequest) {
-		/*Person p = new Person();
-		p.setUserName(personRequest.getUsername());
-		// pre nego sto postavimo lozinku u atribut hesiramo je
-		p.setPassword(passwordEncoder.encode(personRequest.getPassword()));
-		p.setName(personRequest.getFirstname());
-		p.setLastName(personRequest.getLastname());
-		
-		
-		List<Authority> auth = authService.findByname("ROLE_USER");
-		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
-		p.setAuthorities(auth);
-		
-		p = this.personRepository.save(p);*/
-		return null;
+	public Person save(PersonRequestDTO personRequest) {
+		Person u = new Person() {
+			
+			@Override
+			public String getUsername() {
+				// TODO Auto-generated method stub
+				return this.getEmail();
+			}
+		};
+        u.setEmail(personRequest.getEmail());
+        // pre nego sto postavimo lozinku u atribut hesiramo je
+        u.setPassword(passwordEncoder.encode(personRequest.getPassword()));
+        u.setName(personRequest.getName());
+        u.setLastName(personRequest.getSurname());
+        u.setEnabled(true);
+        City city = new City();
+        city.setName(personRequest.getAddress().getTown());
+        Country country = new Country();
+        country.setName(personRequest.getAddress().getCountry());
+        city.setCountry(country);
+        Address address = new Address( personRequest.getAddress().getStreet(), personRequest.getAddress().getNumber(),city);
+        u.setAddress(address);
+        u.setFirstLogged(true);
+        u.setContact(personRequest.getPhoneNumber());
+
+        Authority auth = authService.findByname("ROLE_USER");
+        // u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
+        //u.setAuthorities(auth);
+
+        u = this.personRepository.save(u);
+        return u;
 	}
 	
+	 public void changePasswordFirstLogin(String oldPassword, String newPassword) {
+	        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+	        Person user = (Person)currentUser.getPrincipal();
+	        user.setPassword(passwordEncoder.encode(newPassword));
+	        user.setFirstLogged(false);
+	        personRepository.save(user);
+	    }
+	 @Override
+		public Person savePerson(Person person) {
+			return personRepository.save(person);
+		}
 	
 }

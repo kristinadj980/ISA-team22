@@ -1,9 +1,11 @@
 package ISA.Team22.Domain.Users;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,13 +25,15 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@DiscriminatorValue("Dermatologist")
 public class Dermatologist extends Person {
 	
-	@Column(name = "allGrades",  nullable = false)
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "allGrades")
 	private Integer allGrades;
 	
-	@Column(name = "numberOfGrades",  nullable = false)
+	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -50,11 +54,14 @@ public class Dermatologist extends Person {
 	public Dermatologist() {
 		super();
 	}
-
-	public Dermatologist( Integer allGrades, Integer numberOfGrades,
+	
+	
+	public Dermatologist(Long id, String email, String password, String name, String lastName, String contact,
+			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
+			Boolean firstLogged,  Integer allGrades, Integer numberOfGrades,
 			List<BusinessDayDermatologist> businessDays, List<Pharmacy> pharmacies, List<Examination> examinations,
 			List<AbsenceRequestDermatologist> absenceRequests) {
-		super();
+		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.businessDays = businessDays;
@@ -102,6 +109,14 @@ public class Dermatologist extends Person {
 	public void setNumberOfGrades(Integer numberOfGrades) {
 		this.numberOfGrades = numberOfGrades;
 	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
+
+	
 
 
 	

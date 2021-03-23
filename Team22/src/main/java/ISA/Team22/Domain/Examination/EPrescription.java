@@ -16,8 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import ISA.Team22.Domain.DTO.PurchaseOrderDTO;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
+import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Patient;
 
 @Entity
@@ -33,8 +33,8 @@ public class EPrescription {
 	@Column(name = "prescriptionDate",  nullable = false)
 	private LocalDate prescriptionDate;
 	
-	@ManyToMany(targetEntity = PurchaseOrderDTO.class,  cascade = CascadeType.ALL)
-	public List<PurchaseOrderDTO> purchaseOrderDTO;
+	@ManyToMany(targetEntity = PurchaseOrderDrug.class,  cascade = CascadeType.ALL)
+	public List<PurchaseOrderDrug> purchaseOrderDrugs;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Patient patient;
@@ -42,13 +42,13 @@ public class EPrescription {
 	public EPrescription() {
 		super();
 	}
-	public EPrescription(Long id, String code, LocalDate prescriptionDate, List<PurchaseOrderDTO> purchaseOrderDTO,
+	public EPrescription(Long id, String code, LocalDate prescriptionDate, List<PurchaseOrderDrug> purchaseOrderDrugs,
 			Patient patient) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.prescriptionDate = prescriptionDate;
-		this.purchaseOrderDTO = purchaseOrderDTO;
+		this.purchaseOrderDrugs = purchaseOrderDrugs;
 		this.patient = patient;
 	}
 	
@@ -71,11 +71,11 @@ public class EPrescription {
 	public void setPrescriptionDate(LocalDate prescriptionDate) {
 		this.prescriptionDate = prescriptionDate;
 	}
-	public List<PurchaseOrderDTO> getPurchaseOrderDTO() {
-		return purchaseOrderDTO;
+	public List<PurchaseOrderDrug> getPurchaseOrderDrugs() {
+		return purchaseOrderDrugs;
 	}
-	public void setPurchaseOrderDTO(List<PurchaseOrderDTO> purchaseOrderDTO) {
-		this.purchaseOrderDTO = purchaseOrderDTO;
+	public void setPurchaseOrderDrugs(List<PurchaseOrderDrug> purchaseOrderDrugs) {
+		this.purchaseOrderDrugs = purchaseOrderDrugs;
 	}
 	public Patient getPatient() {
 		return patient;

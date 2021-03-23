@@ -34,9 +34,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Servis koji se koristi za citanje podataka o korisnicima aplikacije
 		@Autowired
 		private PersonService jwtPersonService;
-		
-		@Autowired
-		private TokenUtils tokenUtils;
 
 		// Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
 		@Autowired
@@ -49,29 +46,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			return super.authenticationManagerBean();
 		}
 
-		// Definisemo uputstvo za authentication managera koji servis da koristi da izvuce podatke o korisniku koji zeli da se autentifikuje,
-		//kao i kroz koji enkoder da provuce lozinku koju je dobio od klijenta u zahtevu da bi adekvatan hash koji dobije kao rezultat bcrypt algoritma uporedio sa onim koji se nalazi u bazi (posto se u bazi ne cuva plain lozinka)
-		@Autowired
-		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(jwtPersonService).passwordEncoder(passwordEncoder());
-		}
+		 // Define instructions for the authentication manager which service to use to extract data about the user who wants to be authenticated,
+	    // as well as through which encoder to pass the password received from the client in the request to compare the adequate hash obtained as a result of the bcrypt algorithm with the one in the database (since no plain password is stored in the database)
+	    @Autowired
+	    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	        auth.userDetailsService(jwtPersonService).passwordEncoder(passwordEncoder());
+	    }
 
 		// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
 		@Autowired
-		//private TokenUtils tokenUtils;
+		private TokenUtils tokenUtils;
 
 		// Definisemo prava pristupa odredjenim URL-ovima
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-					// komunikacija izmedju klijenta i servera je stateless posto je u pitanju REST aplikacija
-					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+			 // Communication between the client and the server is stateless since it is a REST application
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
-					// sve neautentifikovane zahteve obradi uniformno i posalji 401 gresku
-					.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
+            // Process all unauthenticated requests uniformly and send a 401 error
+            .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
 					// svim korisnicima dopusti da pristupe putanjama /auth/**, (/h2-console/** ako se koristi H2 baza) i /api/foo
-					.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().antMatchers("/api/foo").permitAll()
+					.authorizeRequests().antMatchers("/api/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().antMatchers("/api/foo").permitAll()
 					
 					// za svaki drugi zahtev korisnik mora biti autentifikovan
 					.anyRequest().authenticated().and()
@@ -89,7 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		@Override
 		public void configure(WebSecurity web) throws Exception {
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-			web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
+			web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/login");
+			web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/register");
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 					"/**/*.css", "/**/*.js");
 		}

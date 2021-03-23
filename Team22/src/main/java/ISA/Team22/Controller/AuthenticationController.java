@@ -16,6 +16,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,37 +27,47 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ISA.Team22.Domain.DTO.JwtAuthenticationRequest;
-import ISA.Team22.Domain.DTO.PersonRequest;
+import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.DTO.UserTokenState;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Security.TokenUtils;
+import ISA.Team22.Service.EmailService;
+import ISA.Team22.Service.PatientService;
 import ISA.Team22.Service.PersonService;
-
 
 //Kontroler zaduzen za autentifikaciju korisnika
 @RestController
-@RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
-	@Autowired
-	private TokenUtils tokenUtils;
+	
+	private final TokenUtils tokenUtils;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
+	
+	private final PersonService personService;
+	
+	private final PatientService patientService;
+	
+	private final EmailService emailService;
 	
 	@Autowired
-	private PersonService personService;
+	public AuthenticationController(TokenUtils tokenUtils,AuthenticationManager authenticationManager,PersonService personService, PatientService patientService,EmailService emailService) {
+		this.tokenUtils = tokenUtils;
+		this.authenticationManager = authenticationManager;
+		this.personService = personService;
+		this.patientService = patientService;
+		this.emailService = emailService;
+	}
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
-
-		// 
 		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-						authenticationRequest.getPassword()));
+				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+						authenticationRequest.getPassword()));  //pokusavamo autentifikaciju
 
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,44 +76,41 @@ public class AuthenticationController {
 		Person person = (Person) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(person.getUsername());
 		int expiresIn = tokenUtils.getExpiredIn();
-
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
 	// Endpoint za registraciju novog korisnika
-	@PostMapping("/signup")
-	public ResponseEntity<Person> addUser(@RequestBody PersonRequest personRequest, UriComponentsBuilder ucBuilder) {
-
-		Person existPerson = this.personService.findByUsername(personRequest.getUsername());
-		if (existPerson != null) {
-			throw new ResourceConflictException(personRequest.getId(), "Username already exists");
-		}
-
-		Person person = this.personService.save(personRequest);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(person.getId()).toUri());
-		return new ResponseEntity<>(person, HttpStatus.CREATED);
+	@PostMapping("/register")
+	public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest, UriComponentsBuilder ucBuilder) {
+		
+       if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+        throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
+       }
+       Person existingUser = patientService.findByEmail(userRequest.getEmail());
+       if (existingUser != null) {
+        throw new ResourceConflictException("Entered email already exists", "Email already exists");
+       }
+       Person user = patientService.save(userRequest);
+    
+       HttpHeaders headers = new HttpHeaders();
+	   headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+	   this.emailService.sendNotificationAsync(user.getEmail(), "Account Validation", "Click this link and validate your account: http://localhost:8085/api/auth/validateAccount/" + user.getId() + "/");
+	
+       return new ResponseEntity<>("User is successfully registred!", HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/validateAccount/{id}")
+	public String validatePatient(@PathVariable("id") Long id) {
+		Person person = this.personService.findById(id);
+		if(person  == null)
+			return "Bad Request!";
+		person .setEnabled(true);
+		this.personService.savePerson(person);
+		System.out.println("Account is validated!");
+		return "Validation succesfull, now you can use your account. Please return to login page.";
 	}
 
-	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
-	@PostMapping(value = "/refresh")
-	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
-
-		String token = tokenUtils.getToken(request);
-		String username = this.tokenUtils.getUsernameFromToken(token);
-		Person person = (Person) this.personService.loadUserByUsername(username);
-
-		if (this.tokenUtils.canTokenBeRefreshed(token, person.getLastPasswordResetDate())) {
-			String refreshedToken = tokenUtils.refreshToken(token);
-			int expiresIn = tokenUtils.getExpiredIn();
-
-			return ResponseEntity.ok(new UserTokenState(refreshedToken, expiresIn));
-		} else {
-			UserTokenState userTokenState = new UserTokenState();
-			return ResponseEntity.badRequest().body(userTokenState);
-		}
-	}
 
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('USER')")
@@ -111,9 +121,45 @@ public class AuthenticationController {
 		result.put("result", "success");
 		return ResponseEntity.accepted().body(result);
 	}
+	
+	@RequestMapping(value = "/passwordFirstLogin", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    public ResponseEntity<?> changePasswordFirstLogin(@RequestBody PasswordChanger passwordChanger) {
+
+        if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewriteNewPassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
+            throw new IllegalArgumentException("Please fill all the required fields!");
+        }
+        if(!passwordChanger.newPassword.equals(passwordChanger.rewriteNewPassword)) {
+            throw new IllegalArgumentException("Please make sure your new password and rewrite password match!");
+        }
+        if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
+            throw new IllegalArgumentException("New password can not be same as old password!");
+        }
+
+        personService.changePasswordFirstLogin(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+        return ResponseEntity.accepted().body(result);
+    }
+	
+	@GetMapping("/authority")
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    ResponseEntity<Person> getMyAccount()
+    {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        
+        Person user = (Person)currentUser.getPrincipal();
+        Person userWithId = personService.findById(user.getId());
+        System.out.println("RADIIII");
+        return (ResponseEntity<Person>) (userWithId == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(userWithId));
+    }
 
 	static class PasswordChanger {
 		public String oldPassword;
 		public String newPassword;
+		public String rewriteNewPassword;
 	}
 }

@@ -1,9 +1,11 @@
 package ISA.Team22.Domain.Users;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,12 +24,8 @@ import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
 @Entity
+@DiscriminatorValue("PharmacyAdministrator")
 public class PharmacyAdministrator extends Person{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacy pharmacy;
@@ -36,7 +34,7 @@ public class PharmacyAdministrator extends Person{
 	private List<PurchaseOrder> purchaseOrders;
 	
 	@ManyToMany(targetEntity = AbsenceRequestDermatologist.class,  cascade = CascadeType.ALL)
-	private List<AbsenceRequestDermatologist> absenceRequests;
+	private List<AbsenceRequestDermatologist> absenceRequestDermatologists;
 	
 	@ManyToMany(targetEntity = AbsenceRequestPharmacist.class,  cascade = CascadeType.ALL)
 	private List<AbsenceRequestPharmacist> absenceRequestPharmacists;
@@ -48,28 +46,20 @@ public class PharmacyAdministrator extends Person{
 		super();
 	}
 
-	
-	public PharmacyAdministrator(Long id, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
-			List<AbsenceRequestDermatologist> absenceRequests, List<AbsenceRequestPharmacist> absenceRequestPharmacists,
+
+	public PharmacyAdministrator(Long id, String email, String password, String name, String lastName, String contact,
+			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
+			Boolean firstLogged, Pharmacy pharmacy, List<PurchaseOrder> purchaseOrders,
+			List<AbsenceRequestDermatologist> absenceRequestDermatologists, List<AbsenceRequestPharmacist> absenceRequestPharmacists,
 			List<Notification> notifications) {
-		super();
-		this.id = id;
+		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.pharmacy = pharmacy;
 		this.purchaseOrders = purchaseOrders;
-		this.absenceRequests = absenceRequests;
+		this.absenceRequestDermatologists = absenceRequestDermatologists;
 		this.absenceRequestPharmacists = absenceRequestPharmacists;
 		this.notifications = notifications;
 	}
 
-
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Pharmacy getPharmacy() {
 		return pharmacy;
@@ -91,13 +81,13 @@ public class PharmacyAdministrator extends Person{
 	}
 
 
-	public List<AbsenceRequestDermatologist> getAbsenceRequests() {
-		return absenceRequests;
+	public List<AbsenceRequestDermatologist> getAbsenceRequestDermatologists() {
+		return absenceRequestDermatologists;
 	}
 
 
-	public void setAbsenceRequests(List<AbsenceRequestDermatologist> absenceRequests) {
-		this.absenceRequests = absenceRequests;
+	public void setAbsenceRequestDermatologists(List<AbsenceRequestDermatologist> absenceRequestDermatologists) {
+		this.absenceRequestDermatologists = absenceRequestDermatologists;
 	}
 
 
@@ -120,6 +110,12 @@ public class PharmacyAdministrator extends Person{
 		this.notifications = notifications;
 	}
 
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
+	}
 
 	
 }

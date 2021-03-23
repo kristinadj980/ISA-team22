@@ -1,9 +1,11 @@
 package ISA.Team22.Domain.Users;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,10 +29,10 @@ import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+@DiscriminatorValue("Patient")
 public class Patient extends Person{
 	
-	@Column(name = "penalty",  nullable = false)
+	@Column(name = "penalty")
 	private Integer penalty;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -62,10 +64,12 @@ public class Patient extends Person{
 		super();
 	}
 
-	public Patient(Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs,
+	public Patient(Long id, String email, String password, String name, String lastName, String contact,
+			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
+			Boolean firstLogged, Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs,
 			List<Counseling> counseling, List<Prescription> prescription, List<DrugReservation> drugReservations,
 			List<Examination> examinations, List<Complaint> complaints, List<EPrescription> ePrescriptions) {
-		super();
+		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.penalty = penalty;
 		this.loyaltyProgram = loyaltyProgram;
 		this.drugs = drugs;
@@ -147,6 +151,13 @@ public class Patient extends Person{
 
 	public void setePrescriptions(List<EPrescription> ePrescriptions) {
 		this.ePrescriptions = ePrescriptions;
+	}
+
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getEmail();
 	}
 	
 	
