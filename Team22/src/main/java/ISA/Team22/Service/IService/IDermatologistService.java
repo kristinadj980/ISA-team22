@@ -7,10 +7,10 @@ import ISA.Team22.Domain.Users.Dermatologist;
 
 public interface IDermatologistService {
 	
-	List<Dermatologist> getAllDermatologists();
 	Dermatologist getById(Long id);
 	Dermatologist findByEmail(String email);
 	Dermatologist save(DermatologistDTO userRequest);
 	void update(DermatologistDTO dto);
+	void updatePassword(DermatologistDTO dto);
 	
 }

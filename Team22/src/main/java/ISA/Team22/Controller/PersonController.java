@@ -50,14 +50,4 @@ public class PersonController {
 			return personService.findById(((Person) auth.getPrincipal()).getId());
 		}
 		
-		 @PostMapping("/update")
-		 @PreAuthorize("hasAnyRole('SYSTEM_ADMINISTRATOR','PHARMACY_ADMIN','PATIENT','PHARMACIST','DERMATOLOGIST','DEALER')")
-		 public ResponseEntity<String> updatePersonInfo(@RequestBody PersonRequestDTO personDTO) {
-			 try {
-				 personService.save(personDTO);
-		         return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
-		     } catch (Exception e) {
-		         return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
-		     }
-		}
 }

@@ -39,6 +39,14 @@ public class DermatologistDTO {
 		this.address = address;
 	}
 	
+	
+	public DermatologistDTO(String password, String confirmPassword) {
+		super();
+		this.password = password;
+		this.confirmPassword = confirmPassword;
+	}
+
+
 	public String getEmail() {
 		return email;
 	}

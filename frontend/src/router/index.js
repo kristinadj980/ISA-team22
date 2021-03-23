@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import BootstrapVue from "bootstrap-vue";
+import { ValidationObserver, ValidationProvider, extend } from 'vee-validate';
+import * as rules from 'vee-validate/dist/rules';
 import Home from '../views/Home.vue'
 import Login from '../views/SystemAdmin/Login.vue'
 import DermatologyRegistration from '../views/SystemAdmin/DermatologyRegistration.vue'
@@ -16,13 +18,20 @@ import DermatologistExamination from '../views/dermatologistView/DermatologistEx
 import DermatologistNewExamination from '../views/dermatologistView/DermatologistNewExamination.vue'
 import DermatologistPatients from '../views/dermatologistView/DermatologistPatients.vue'
 import DermatologistWorkCalendar from '../views/dermatologistView/DermatologistWorkCalendar.vue'
-import DermatologistProfileEdit from '../views/dermatologistView/DermatologistProfileEdit.vue'
 
 Vue.use(BootstrapVue)
+Vue.use(VueRouter)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-Vue.use(VueRouter)
+
+
+Object.keys(rules).forEach(rule => {
+  extend(rule, rules[rule]);
+});
+
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
 
 const routes = [
   {
@@ -108,11 +117,6 @@ const routes = [
     path: '/dermatologistWorkCalendar',
     name: 'DermatologistWorkCalendar',
     component: DermatologistWorkCalendar
-  },
-  {
-    path: '/DermatologistProfileEdit',
-    name: 'DermatologistProfileEdit',
-    component: DermatologistProfileEdit
   }
 ]
 
@@ -123,3 +127,5 @@ const router = new VueRouter({
 })
 
 export default router
+
+

@@ -24,23 +24,19 @@ import ISA.Team22.Service.IService.IDermatologistService;
 public class DermatologistService implements IDermatologistService {
 
 	private final DermatologistRepository dermatologistRepository;
+    private final AuthorityService authService;
+    private final AuthorityRepository authorityRepository;
+    private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
-    private AuthorityService authService;
-    @Autowired
-    private AuthorityRepository authorityRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	public DermatologistService(DermatologistRepository dermatologistRepository) {
+	public DermatologistService(DermatologistRepository dermatologistRepository, AuthorityService authService, AuthorityRepository authorityRepository,
+			PasswordEncoder passwordEncoder) {
+		
 		this.dermatologistRepository = dermatologistRepository;
+		this.authService = authService;
+		this.authorityRepository = authorityRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
-
-	@Override
-    public List<Dermatologist> getAllDermatologists() {
-        return dermatologistRepository.findAll();
-    }
 
 	@Override
 	public Dermatologist findByEmail(String email) {
@@ -83,21 +79,30 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
-	public void update(DermatologistDTO dto) {
+	public void update(DermatologistDTO dermatologistDTO) {
 		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    AddressDTO addressDTO = dto.getAddress();
+	    AddressDTO addressDTO = dermatologistDTO.getAddress();
 	    City city = new City();
         city.setName(addressDTO.getTown());
         Country country = new Country();
         country.setName(addressDTO.getCountry());
         city.setCountry(country);
         
-	    dermatologist.setName(dto.getName());
-	    dermatologist.setLastName(dto.getSurname());
+	    dermatologist.setName(dermatologistDTO.getName());
+	    dermatologist.setLastName(dermatologistDTO.getSurname());
 	    dermatologist.setAddress(new Address(addressDTO.getCountry(), addressDTO.getStreet(), city));
 
 	    dermatologistRepository.save(dermatologist);
 	    
+	}
+
+	@Override
+	public void updatePassword(DermatologistDTO dermatologistDTO) {
+		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("SERVICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+		dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
+		
+		dermatologistRepository.save(dermatologist);
 	}
 
 	
