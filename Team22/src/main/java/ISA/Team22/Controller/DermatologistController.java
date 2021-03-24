@@ -37,21 +37,6 @@ public class DermatologistController {
 		this.dermatologistService = dermatologistService;
 	}
 
-	@PostMapping("/register")
-	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
-	public ResponseEntity<String> registerDermatologist(@RequestBody DermatologistDTO userRequest) {
-
-		if (!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
-			throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
-		}
-		Person existingUser = dermatologistService.findByEmail(userRequest.getEmail());
-		if (existingUser != null) {
-			throw new ResourceConflictException("Entered email already exists", "Email already exists");
-		}
-		Person user = dermatologistService.save(userRequest);
-		return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
-	}
-
 	@GetMapping("/profile")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<DermatologistDTO> getMyAccount() {
@@ -89,4 +74,19 @@ public class DermatologistController {
 		}
 	}
 
+	  @PostMapping("/register")
+	  @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+	  public ResponseEntity<String> registerDermatologist(@RequestBody DermatologistDTO userRequest) {
+		  
+	        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
+	            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
+	        }
+	        Person existingUser = dermatologistService.findByEmail(userRequest.getEmail());
+	        if (existingUser != null) {
+	            throw new ResourceConflictException("Entered email already exists", "Email already exists");
+	        }
+	        Person user = dermatologistService.save(userRequest);
+	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
+	    }
+	
 }

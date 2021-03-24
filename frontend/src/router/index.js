@@ -12,6 +12,7 @@ import PharmacyRegistration from '../views/SystemAdmin/PharmacyRegistration.vue'
 import SupplierRegistration from '../views/SystemAdmin/SupplierRegistration.vue'
 import DermatologistHomepage from '../views/dermatologistView/DermatologistHomepage.vue'
 import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
+import SystemAdminRegistration from '../views/SystemAdmin/SystemAdminRegistration.vue'
 import Registration from '../views/SystemAdmin/Registration.vue'
 import DermatologistAbsenceRequest from '../views/dermatologistView/DermatologistAbsenceRequest.vue'
 import DermatologistExamination from '../views/dermatologistView/DermatologistExamination.vue'
@@ -59,9 +60,14 @@ const routes = [
     component: Login
   },
   {
-    path: '/systemAdminRegistration',
+    path: '/registration',
     name: 'Registration',
     component: Registration
+  },
+  {
+    path: '/systemAdminRegistration',
+    name: 'SystemAdminRegistration',
+    component: SystemAdminRegistration
   },
   {
     path: '/dermatologyRegistration',

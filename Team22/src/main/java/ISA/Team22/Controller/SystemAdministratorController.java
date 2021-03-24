@@ -18,6 +18,7 @@ import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.SystemAdministrator;
 import ISA.Team22.Exception.ResourceConflictException;
+import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.SystemAdministratorService;
 
 @RestController
@@ -25,8 +26,13 @@ import ISA.Team22.Service.SystemAdministratorService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SystemAdministratorController {
 
+	
+	private final SystemAdministratorService systemAdministratorService;
+	
 	@Autowired
-	private SystemAdministratorService systemAdministratorService;
+	public SystemAdministratorController(SystemAdministratorService systemAdministratorService) {
+		this.systemAdministratorService = systemAdministratorService;
+	}
 
     @PostMapping("/register")
     @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")

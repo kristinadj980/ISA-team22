@@ -77,7 +77,7 @@ public class SystemAdministratorService implements ISystemAdministratorService {
         }
         systemAdministrator.setAuthorities(auth);
         systemAdministrator.setEnabled(true);
-        systemAdministrator.setMainAdmin(true);
+        systemAdministrator.setMainAdmin(false);
         return systemAdministratorRepository.save(systemAdministrator);
 	}
 
