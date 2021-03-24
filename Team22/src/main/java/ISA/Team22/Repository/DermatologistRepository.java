@@ -1,7 +1,5 @@
 package ISA.Team22.Repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +13,9 @@ public interface DermatologistRepository extends JpaRepository<Dermatologist, Lo
 	 Iterable<Dermatologist> getAllDermatologists();
 	 
 	 Dermatologist findByEmail(String email);
+	 
+	 @Query("select p from Person p where p.id = :id")
+	 public Dermatologist findOneById(@Param("id")Long id);
 
 
 }

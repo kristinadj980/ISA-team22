@@ -1,5 +1,5 @@
 <template>
-    <div id="dermatologistHomepage">
+    <div id="dermatologistNewExamination">
         <div class="homepage_style ">
            <span style="float: left; margin: 15px;">
                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -15,16 +15,13 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-        <div>
-            <img class="image_style" src="@/images/dermaa.jpg">
-        </div>
     </div>
 
 </template>
 
 <script>
 export default {
-    name: 'DermatologistHomepage',
+    name: 'DermatologistNewExamination',
     methods:{
        showHomepage: function(){
            window.location.href = "/dermatologistHomepage";
