@@ -1,5 +1,5 @@
 <template>
-    <div id="pharmacisttHomepage">
+    <div id="pharmacistProfile">
         <div class="homepage_style ">
            <span style="float: left; margin: 15px;">
                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -15,32 +15,12 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-        <div style="width: 60%;
-        height: 30%;
-        margin-left: 300px;">
-            <b-carousel
-                id="carousel-fade"
-                style="text-shadow: 0px 0px 2px #000"
-                fade
-                indicators
-            >
-                <b-carousel-slide
-                img-src="https://image.freepik.com/free-vector/medicine-pharmacy-store-healthcare-industry-concept-flat-illustration-doctors-pharmacists-people-with-medical-drugs-vitamin-pills-capsules-online-pharmacy-drugstore-medicine-prescription_213110-153.jpg"
-                ></b-carousel-slide>
-                <b-carousel-slide
-                img-src="https://static.vecteezy.com/system/resources/previews/001/871/342/large_2x/illustration-of-medicines-for-disease-and-vaccinations-flat-symbol-and-icon-for-drugs-health-pharmacy-can-be-used-for-landing-page-website-web-mobile-apps-flyer-banner-template-poster-free-vector.jpg"
-                ></b-carousel-slide>
-                <b-carousel-slide
-                img-src ="https://image.freepik.com/free-vector/pharmaceutical-drug-products-manufactured-from-biological-sources-biopharmacology-products-biological-medical-product-natural-pharmacy-concept-pinkish-coral-bluevector-vector-isolated-illustration_335657-1603.jpg" 
-                ></b-carousel-slide>
-            </b-carousel>
-        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'PharmacistHomepage',
+    name: 'PharmacistProfile',
     methods:{
        showHomepage: function(){
            window.location.href = "/pharmacistHomepage";
