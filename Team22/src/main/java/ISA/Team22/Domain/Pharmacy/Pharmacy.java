@@ -40,6 +40,12 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
+	@Column(name = "examination_price")
+	private Double examinationPrice;
+	
+	@Column(name = "counseling_price")
+	private Double counselingPrice;
+	
 	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
 	private List<Patient> subscribedUsersIDs;
 	

@@ -31,9 +31,6 @@ public class Examination {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "price",  nullable = false)
-	private Double price;
-	
 	@Column(name = "startDate",  nullable = false)
 	private LocalDate startDate;
 	
@@ -66,12 +63,11 @@ public class Examination {
 		super();
 	}
 
-	public Examination(Long id, Double price, LocalDate startDate, LocalTime startTime, Integer duration,
+	public Examination(Long id, LocalDate startDate, LocalTime startTime, Integer duration,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
 		this.id = id;
-		this.price = price;
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.duration = duration;
@@ -91,13 +87,6 @@ public class Examination {
 		this.id = id;
 	}
 
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
 
 	public LocalDate getStartDate() {
 		return startDate;
