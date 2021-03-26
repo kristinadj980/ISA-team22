@@ -65,7 +65,6 @@ public class DermatologistController {
 	@PostMapping("/updatePassword")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<String> updateDermatologistPassword(@RequestBody DermatologistDTO dermatologistDTO) {
-		System.out.println("******************************************** " + dermatologistDTO.getPassword() + dermatologistDTO.getConfirmPassword());
 		try {
 			dermatologistService.updatePassword(dermatologistDTO);
 			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
