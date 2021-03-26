@@ -80,7 +80,19 @@ public class PharmacistService implements IPharmacistService {
 
 	@Override
 	public void update(PharmacistDTO pharmacistDTO) {
-		
+		Pharmacist pharmacist = (Pharmacist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    AddressDTO addressDTO = pharmacistDTO.getAddress();
+	    City city = new City();
+        city.setName(addressDTO.getTown());
+        Country country = new Country();
+        country.setName(addressDTO.getCountry());
+        city.setCountry(country);
+        
+        pharmacist.setName(pharmacistDTO.getName());
+        pharmacist.setLastName(pharmacistDTO.getSurname());
+        pharmacist.setAddress(new Address(addressDTO.getCountry(), addressDTO.getStreet(), city));
+
+        pharmacistRepository.save(pharmacist);
 		
 	}
 

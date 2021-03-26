@@ -195,6 +195,35 @@ data() {
         },
         cancelPassword() {
             this.$refs['modal-ref2'].hide();
+        },
+        update : function(){
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            const addressInfo = {
+                town: this.pharmacist.address.town,
+                street: this.pharmacist.address.street,
+                number:this.pharmacist.address.number,
+                country: this.pharmacist.address.country
+            };
+            const pharmacistInfo = {
+                name: this.pharmacist.name,
+                surname : this.pharmacist.surname,
+                email:this.pharmacist.email,
+                address: addressInfo
+           };
+       
+            this.axios.post('/pharmacist/update',pharmacistInfo, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert("Successfully edited profile.")
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    console.log(response);
+                })
+            
         }
       
     }
