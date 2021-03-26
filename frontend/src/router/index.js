@@ -19,6 +19,13 @@ import DermatologistExamination from '../views/dermatologistView/DermatologistEx
 import DermatologistNewExamination from '../views/dermatologistView/DermatologistNewExamination.vue'
 import DermatologistPatients from '../views/dermatologistView/DermatologistPatients.vue'
 import DermatologistWorkCalendar from '../views/dermatologistView/DermatologistWorkCalendar.vue'
+import PharmacistHomepage from '../views/pharmacistView/PharmacistHomepage.vue'
+import PharmacistAbsenceRequest from '../views/pharmacistView/PharmacistAbsenceRequest.vue'
+import PharmacistConsalting from '../views/pharmacistView/PharmacistConsalting.vue'
+import PharmacistNewConsalting from '../views/pharmacistView/PharmacistNewConsalting.vue'
+import PharmacistPatients from '../views/pharmacistView/PharmacistPatients.vue'
+import PharmacistProfile from '../views/pharmacistView/PharmacistProfile.vue'
+import PharmacistWorkCalendar from '../views/pharmacistView/PharmacistWorkCalendar.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -123,6 +130,41 @@ const routes = [
     path: '/dermatologistWorkCalendar',
     name: 'DermatologistWorkCalendar',
     component: DermatologistWorkCalendar
+  },
+  {
+    path: '/pharmacistHomepage',
+    name: 'PharmacistHomepage',
+    component: PharmacistHomepage
+  },
+  {
+    path: '/pharmacistAbsenceRequest',
+    name: 'PharmacistAbsenceRequest',
+    component: PharmacistAbsenceRequest
+  },
+  {
+    path: '/pharmacistConsalting',
+    name: 'PharmacistConsalting',
+    component: PharmacistConsalting
+  },
+  {
+    path: '/pharmacistNewConsalting',
+    name: 'PharmacistNewConsalting',
+    component: PharmacistNewConsalting
+  },
+  {
+    path: '/pharmacistPatients',
+    name: 'PharmacistPatients',
+    component: PharmacistPatients
+  },
+  {
+    path: '/pharmacistProfile',
+    name: 'PharmacistProfile',
+    component: PharmacistProfile
+  },
+  {
+    path: '/pharmacistWorkCalendar',
+    name: 'PharmacistWorkCalendar',
+    component: PharmacistWorkCalendar
   }
 ]
 

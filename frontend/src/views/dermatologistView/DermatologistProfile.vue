@@ -8,7 +8,7 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showVacation">Create a vacation</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Examinations</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new examination</button>
             </span>
