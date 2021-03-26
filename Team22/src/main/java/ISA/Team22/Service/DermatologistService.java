@@ -99,7 +99,6 @@ public class DermatologistService implements IDermatologistService {
 	@Override
 	public void updatePassword(DermatologistDTO dermatologistDTO) {
 		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("SERVICEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 		dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
 		
 		dermatologistRepository.save(dermatologist);

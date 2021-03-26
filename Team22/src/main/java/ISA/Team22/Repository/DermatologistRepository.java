@@ -9,9 +9,6 @@ import ISA.Team22.Domain.Users.Dermatologist;
 
 public interface DermatologistRepository extends JpaRepository<Dermatologist, Long>{
 	
-	 @Query(value = "SELECT * FROM dermatologist", nativeQuery = true)
-	 Iterable<Dermatologist> getAllDermatologists();
-	 
 	 Dermatologist findByEmail(String email);
 	 
 	 @Query("select p from Person p where p.id = :id")
