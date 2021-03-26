@@ -224,6 +224,29 @@ data() {
                     console.log(response);
                 })
             
+        },
+        updatePassword : function () {
+            if(this.pharmacist.newPassword != this.pharmacist.repeatNewPassword) {
+            alert("New passwords are not equals!")
+            return;
+            }
+            const changePassword ={
+                password : this.pharmacist.currentPassword,
+                confirmPassword : this.pharmacist.newPassword
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/pharmacist/updatePassword',changePassword, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert("Successfully edited password.")
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    console.log(response);
+                })
         }
       
     }
