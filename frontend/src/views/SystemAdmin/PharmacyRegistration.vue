@@ -16,9 +16,7 @@
                 </span>
         </div>
     <div class="vue-tempalte">
-        <form>
             <h3>Pharmacy registration</h3>
-
             <div class="form-group">
                 <label style="color:white">Pharmacy name</label>
                 <input type="text" class="form-control" v-model="name" placeholder="Enter name">
@@ -35,8 +33,6 @@
             </div>
 
             <button style="color:white" type="submit" class="button" v-on:click = "registerPharmacy">Register</button>
-
-        </form>
     </div>
 </div>
 </template>
@@ -72,7 +68,6 @@ export default {
            window.location.href = "/supplierRegistration";
         },
         registerPharmacy : function(){
-            alert("OK?")
           const addressInfo ={
               town: this.city,
               street: this.street,
@@ -86,7 +81,7 @@ export default {
             }
             
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            alert("OK????")
+            
             this.axios.post('/pharmacy/registerPharmacy',pharmacyInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
@@ -129,12 +124,15 @@ export default {
   
     }
 .button {
-   width: 20%;
-   height: 20%;
    background:  #174452;
    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
    border:  1px solid rgb(25, 40, 90); 
    padding: 10px 20px;
+   position: absolute;
+   top: 110%;
+   right: 40%;
+   width: 20%;
+   height: 7%;
    
 }
 

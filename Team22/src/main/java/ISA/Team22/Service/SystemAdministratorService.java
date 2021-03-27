@@ -21,17 +21,21 @@ import ISA.Team22.Service.IService.ISystemAdministratorService;
 @Service
 public class SystemAdministratorService implements ISystemAdministratorService {
 
-	@Autowired
-	private SystemAdministratorRepository systemAdministratorRepository;
+	private final SystemAdministratorRepository systemAdministratorRepository;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private AuthorityService authorityService;
+	private final AuthorityService authorityService;
 	
-	@Autowired
-	private AuthorityRepository authorityRepository;
+	private final  AuthorityRepository authorityRepository;
+	
+     public SystemAdministratorService(SystemAdministratorRepository systemAdministratorRepository,PasswordEncoder passwordEncoder,
+    		 AuthorityService authorityService,AuthorityRepository authorityRepository) {
+		this.systemAdministratorRepository = systemAdministratorRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.authorityService = authorityService;
+		this.authorityRepository = authorityRepository;
+	}
 
 	@Override
 	public SystemAdministrator findById(Long id) {

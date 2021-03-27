@@ -12,6 +12,7 @@ import DermatologistHomepage from '../views/dermatologistView/DermatologistHomep
 import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
 import SystemAdminRegistration from '../views/SystemAdmin/SystemAdminRegistration.vue'
 import Registration from '../views/SystemAdmin/Registration.vue'
+import PharmacyAdminRegistration from '../views/SystemAdmin/PharmacyAdminRegistration.vue'
 
 Vue.use(BootstrapVue)
 
@@ -53,6 +54,11 @@ const routes = [
     path: '/systemAdminRegistration',
     name: 'SystemAdminRegistration',
     component: SystemAdminRegistration
+  },
+  {
+    path: '/pharmacyAdminRegistration',
+    name: 'PharmacyAdminRegistration',
+    component: PharmacyAdminRegistration
   },
   {
     path: '/dermatologyRegistration',

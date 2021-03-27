@@ -115,11 +115,11 @@ export default {
                             else if(this.authority==="ROLE_SYSTEM_ADMINISTRATOR")
                                 if(response.data.firstLogged) {
                                      this.$refs['my-modal'].show();
-                                     alert("uspeloo"); 
+                                     alert("Please change password during first LogIn!"); 
                                 }
                                 else {
                                      window.location.href = '/profileData';
-                                     alert("uspelo."); 
+                                     alert("Success!"); 
 
                                 }
                             else if(this.authority==="ROLE_PHARMACY_ADMIN")
