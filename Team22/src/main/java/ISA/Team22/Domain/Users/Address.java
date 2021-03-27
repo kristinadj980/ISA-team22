@@ -8,12 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Address {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "order_sequence_generator", sequenceName = "order_sequence", initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sequence_generator")
 	private Long id;
 	
 	@Column(name = "streetName",  nullable = false)

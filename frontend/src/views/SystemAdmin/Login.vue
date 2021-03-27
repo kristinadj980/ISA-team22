@@ -173,13 +173,13 @@ export default {
                     else if(this.authority==="ROLE_PATIENT") 
                         window.location.href = '/patientProfile';
                     else if(this.authority==="ROLE_DERMATOLOGIST")
-                       window.location.href = '/dermatologistHomePage';
+                       window.location.href = '/dermatologistHomepage';
                     else if(this.authority==="ROLE_SUPPLIER")
                         window.location.href = '/supplierProfile';
                     else if(this.authority==="ROLE_PHARMACY_ADMIN")
                         window.location.href = '/pharmacyAdminProfile';   
                     else if(this.authority==="ROLE_PHARMACIST")
-                         window.location.href = '/pharmacistHomePage';
+                         window.location.href = '/pharmacistHomepage';
                     else alert("Error has occured."); 
                 }).catch(res => {
                     alert(res.response.data.message);

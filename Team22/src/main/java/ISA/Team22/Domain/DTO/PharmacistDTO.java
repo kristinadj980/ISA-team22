@@ -1,6 +1,6 @@
 package ISA.Team22.Domain.DTO;
 
-public class DermatologistDTO {
+public class PharmacistDTO {
 	
 	 private String name;
 
@@ -14,12 +14,12 @@ public class DermatologistDTO {
 	 
 	 private String confirmPassword;
 	 
-	public DermatologistDTO() {
+	public PharmacistDTO() {
 		super();
 	}
 
 	
-	public DermatologistDTO(String name, String surname, String email, AddressDTO address, String password,
+	public PharmacistDTO(String name, String surname, String email, AddressDTO address, String password,
 			String confirmPassword) {
 		super();
 		this.name = name;
@@ -31,7 +31,7 @@ public class DermatologistDTO {
 	}
 
 
-	public DermatologistDTO(String name, String surname, String email, AddressDTO address) {
+	public PharmacistDTO(String name, String surname, String email, AddressDTO address) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -40,7 +40,7 @@ public class DermatologistDTO {
 	}
 	
 	
-	public DermatologistDTO(String password, String confirmPassword) {
+	public PharmacistDTO(String password, String confirmPassword) {
 		super();
 		this.password = password;
 		this.confirmPassword = confirmPassword;
@@ -99,5 +99,4 @@ public class DermatologistDTO {
 		this.confirmPassword = confirmPassword;
 	}
 	
-
 }

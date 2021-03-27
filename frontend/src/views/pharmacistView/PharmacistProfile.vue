@@ -1,5 +1,5 @@
 <template>
-    <div id="dermatologistProfile">
+    <div id="pharmacistProfile">
         <!-- Navigation bar -->
         <div class="homepage_style "  >
             <span style="float: left; margin: 15px;">
@@ -9,8 +9,8 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Examinations</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new examination</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsalting">Consaltings</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewConsalting">Schedule new consalting</button>
             </span>
             <span  style="float:right;margin:15px">
                 <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
@@ -25,22 +25,22 @@
                     <img class="img-circle img-responsive rounded-circle"  src="@/images/dermatologist.png" style="width:120px; height:120px;"  />
                 </div>
                 <div class=" d-inline-block " style=" height:100%; background-color: #ced2d3;">
-                    <h4 style = "position:left; left:60px; top:2px; background-color:#ebf0fa;"><b>dr {{dermatologist.name}}  {{dermatologist.surname}} </b></h4>
+                    <h4 style = "position:left; left:60px; top:2px; background-color:#ebf0fa;"><b>dr {{pharmacist.name}}  {{pharmacist.surname}} </b></h4>
                     <div class="p-3 py-5 ">
                     <div class="col-md-8 ">
                     <div class="card mb-3 " style = "position:right; left:90px; top:2px; background-color:#ebf0fa;">
                     <div class="card-body" style="background-color: #ebf0fa;">
-                        <h4 class ="text-justify top-buffer"> Name:   {{dermatologist.name}} </h4>
+                        <h4 class ="text-justify top-buffer"> Name:   {{pharmacist.name}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Surname:   {{dermatologist.surname}} </h4>
+                        <h4 class ="text-justify top-buffer"> Surname:   {{pharmacist.surname}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Email:   {{dermatologist.email}} </h4>
+                        <h4 class ="text-justify top-buffer"> Email:   {{pharmacist.email}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Password:   {{dermatologist.password}}</h4>
+                        <h4 class ="text-justify top-buffer"> Password:   {{pharmacist.password}}</h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Address:   {{dermatologist.address.street}}, {{dermatologist.address.number}} </h4>
+                        <h4 class ="text-justify top-buffer"> Address:   {{pharmacist.address.street}}, {{pharmacist.address.number}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> City:  {{dermatologist.address.town}}, {{dermatologist.address.country}} </h4>
+                        <h4 class ="text-justify top-buffer"> City:  {{pharmacist.address.town}}, {{pharmacist.address.country}} </h4>
                         
                 </div>
               </div>
@@ -54,25 +54,25 @@
                             <b-modal ref="modal-ref" id="modal-1" title="Edit profile info" hide-footer>
                                 <div>
                                     <h5 class ="text-justify top-buffer"> Name:
-                                        <b-form-input v-model="dermatologist.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
+                                        <b-form-input v-model="pharmacist.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Last Name:
-                                        <b-form-input v-model="dermatologist.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
+                                        <b-form-input v-model="pharmacist.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Email:
-                                        <b-form-input v-model="dermatologist.email" label="Email" disabled></b-form-input>
+                                        <b-form-input v-model="pharmacist.email" label="Email" disabled></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street:
-                                        <b-form-input v-model="dermatologist.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
+                                        <b-form-input v-model="pharmacist.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street Number:
-                                        <b-form-input v-model="dermatologist.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
+                                        <b-form-input v-model="pharmacist.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> City:
-                                        <b-form-input v-model="dermatologist.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
+                                        <b-form-input v-model="pharmacist.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Country:
-                                        <b-form-input v-model="dermatologist.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
+                                        <b-form-input v-model="pharmacist.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
                                         <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancel">Cancel</b-button>
@@ -86,7 +86,7 @@
                                         <div class="mb-4">
                                         <label for="password">Current Password</label>
                                         <VuePassword
-                                            v-model="dermatologist.currentPassword"
+                                            v-model="pharmacist.currentPassword"
                                             id="password1"
                                             placeholder="Enter your current password"
                                             :badge="false" 
@@ -98,7 +98,7 @@
                                         <div class="mb-4">
                                         <label for="password">New Password:</label>
                                         <VuePassword
-                                            v-model="dermatologist.newPassword"
+                                            v-model="pharmacist.newPassword"
                                             id="password1"
                                             placeholder="Enter your current password"
                                            
@@ -109,7 +109,7 @@
                                         <div class="mb-4">
                                         <label for="password">Repeat New Password:</label>
                                         <VuePassword
-                                            v-model="dermatologist.repeatNewPassword"
+                                            v-model="pharmacist.repeatNewPassword"
                                             id="password1"
                                             placeholder="Enter your current password"
                                         />
@@ -134,13 +134,13 @@
 
 import VuePassword from 'vue-password'
 export default {
-name: 'DermatologistProfile',
+name: 'PharmacistProfile',
  components: {
     VuePassword,
   },
 data() {
     return {
-        dermatologist : "",
+        pharmacist : "",
         name: "",
         surname: "",
         email: "",
@@ -153,12 +153,12 @@ data() {
   },
   mounted(){
      let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/dermatologist/profile',{ 
+        this.axios.get('/pharmacist/profile',{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }
          }).then(response => {
-               this.dermatologist=response.data;
+               this.pharmacist = response.data;
          }).catch(res => {
                        alert("Error");
                         console.log(res);
@@ -169,29 +169,26 @@ data() {
         toggle () {
         this.show = !this.show
         },
-        showHomepage: function(){
-           window.location.href = "/dermatologistHomepage";
+       showHomepage: function(){
+           window.location.href = "/pharmacistHomepage";
         },
         showProfile: function(){
-           window.location.href = "/dermatologistProfile";
+           window.location.href = "/pharmacistProfile";
         },
         showPatients: function(){
-            window.location.href = "/dermatologistPatients";
+            window.location.href = "/pharmacistPatients";
         },
         showWorkCalendar: function(){
-            window.location.href = "/dermatologistWorkCalendar";
+            window.location.href = "/pharmacistWorkCalendar";
         },
         showAbsenceRequest: function(){
-            window.location.href = "/dermatologistAbsenceRequest";
+            window.location.href = "/pharmacistAbsenceRequest";
         },
-        showExamination: function(){
-            window.location.href = "/dermatologistExamination";
+        showConsalting: function(){
+            window.location.href = "/pharmacistConsalting";
         },
-        showNewExamination: function(){
-            window.location.href = "/dermatologistNewExamination";
-        },
-        editProfile: function(){
-            window.location.href = "/dermatologistNewExamination";
+        showNewConsalting: function(){
+            window.location.href = "/pharmacistNewConsalting";
         },
         cancel() {
             this.$refs['modal-ref'].hide();
@@ -202,19 +199,19 @@ data() {
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const addressInfo = {
-                town: this.dermatologist.address.town,
-                street: this.dermatologist.address.street,
-                number:this.dermatologist.address.number,
-                country: this.dermatologist.address.country
+                town: this.pharmacist.address.town,
+                street: this.pharmacist.address.street,
+                number:this.pharmacist.address.number,
+                country: this.pharmacist.address.country
             };
-            const dermatologistInfo = {
-                name: this.dermatologist.name,
-                surname : this.dermatologist.surname,
-                email:this.dermatologist.email,
+            const pharmacistInfo = {
+                name: this.pharmacist.name,
+                surname : this.pharmacist.surname,
+                email:this.pharmacist.email,
                 address: addressInfo
            };
        
-            this.axios.post('/dermatologist/update',dermatologistInfo, { 
+            this.axios.post('/pharmacist/update',pharmacistInfo, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 }})
@@ -229,16 +226,16 @@ data() {
             
         },
         updatePassword : function () {
-            if(this.dermatologist.newPassword != this.dermatologist.repeatNewPassword) {
+            if(this.pharmacist.newPassword != this.pharmacist.repeatNewPassword) {
             alert("New passwords are not equals!")
             return;
             }
             const changePassword ={
-                password : this.dermatologist.currentPassword,
-                confirmPassword : this.dermatologist.newPassword
+                password : this.pharmacist.currentPassword,
+                confirmPassword : this.pharmacist.newPassword
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            this.axios.post('/dermatologist/updatePassword',changePassword, { 
+            this.axios.post('/pharmacist/updatePassword',changePassword, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 }})

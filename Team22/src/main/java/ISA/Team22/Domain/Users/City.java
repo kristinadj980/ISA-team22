@@ -8,12 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class City {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "order_sequence_generator", sequenceName = "order_sequence", initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sequence_generator")
 	private Long id;
 	
 	@Column(name = "name",  nullable = false)
@@ -23,9 +25,9 @@ public class City {
 	@JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
 	private Country country;
 	
-	public City() {
-		super();
-	}
+	public City() {}
+	
+	
 	
 	public City(Long id, String name, Country country) {
 		super();
@@ -33,6 +35,9 @@ public class City {
 		this.name = name;
 		this.country = country;
 	}
+
+
+
 	public Long getId() {
 		return id;
 	}
