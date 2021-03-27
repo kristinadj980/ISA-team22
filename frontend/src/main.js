@@ -20,10 +20,10 @@ if (typeof baseURL !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL;
 }
 
-const baseURL2 = 'http://localhost:8080/api';
+/*const baseURL2 = 'http://localhost:8080/api';
 if (typeof baseURL2 !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL2;
-}
+}*/
 
 new Vue({
   router,
