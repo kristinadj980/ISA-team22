@@ -86,7 +86,7 @@ export default {
                                 'Authorization': 'Bearer ' + token,
                         }
                     }).then(response => {
-                        alert("OK?");
+                        
                             this.authority = response.data.authorities[0].authority;
                             
                             if(this.authority==="ROLE_PATIENT") 

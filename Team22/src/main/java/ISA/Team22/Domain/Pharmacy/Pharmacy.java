@@ -53,7 +53,7 @@ public class Pharmacy {
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private Address address;
 	
-	@OneToOne(cascade = CascadeType.ALL, optional = false )
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
 	

@@ -3,11 +3,11 @@
     <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomePage">Home</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy registration</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology registration</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier registration</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Admin register</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy register</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology register</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier register</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drug manipulation</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
@@ -17,25 +17,25 @@
         </div>
     <div class="vue-tempalte">
         <form>
-            <h3>Sign Up</h3>
+            <h3>Pharmacy registration</h3>
 
             <div class="form-group">
                 <label style="color:white">Pharmacy name</label>
-                <input type="text" class="form-control form-control-lg" />
-                 <label style="color:white">City</label>
-                  <input type="text" class="form-control form-control-lg" />
-                <label style="color:white">Address</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control" v-model="name" placeholder="Enter name">
                 <label style="color:white">Country</label>
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control" v-model="country" placeholder="Enter country">
+                <label style="color:white">City</label>
+                <input type="text" class="form-control" v-model="city" placeholder="Enter city">
+                <label style="color:white">Street</label>
+                <input type="text" class="form-control" v-model="street" placeholder="Enter street">
+                <label style="color:white">Street number</label>
+                <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number">
+                <label style="color:white">Description</label>
+                <input type="text" class="form-control form-control-lg" v-model="description" placeholder="Enter description"/>
             </div>
 
-            <button style="color:white" type="submit" class="button">Sign Up</button>
+            <button style="color:white" type="submit" class="button" v-on:click = "registerPharmacy">Register</button>
 
-            <p class="forgot-password text-center">
-                Already registered 
-                <router-link :to="{name: 'login'}">sign in?</router-link>
-            </p>
         </form>
     </div>
 </div>
@@ -44,6 +44,17 @@
 <script>
 export default {
     name: 'PharmacyRegistration',
+    data(){
+        return{
+            city:'',
+            street:'',
+            streerNumber:'',
+            country:'',
+            name:'',
+            description:'',
+        }
+
+    },
      methods:{
         showHomePage: function(){
            window.location.href = "/homePage";
@@ -59,8 +70,38 @@ export default {
         },
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
-        }
-    }
+        },
+        registerPharmacy : function(){
+            alert("OK?")
+          const addressInfo ={
+              town: this.city,
+              street: this.street,
+              number: this.streetNumber,
+              country: this.country
+            }
+            const pharmacyInfo ={
+              name : this.name,
+              addressDTO : addressInfo,
+              description: this.description
+            }
+            
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            alert("OK????")
+            this.axios.post('/pharmacy/registerPharmacy',pharmacyInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                        }
+                        })
+                .then(response => {
+                       alert("Pharmacy is successfully registred!");
+                        console.log(response.data);
+                })
+                .catch(res => {
+                    alert("Greska " + res.response.data.message);
+                 });    
+       }
+     }
+    
 }
 </script>
 
