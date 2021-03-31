@@ -110,6 +110,9 @@ export default {
         showPharmacyAdminRegistration: function(){
            window.location.href = "/pharmacyAdminRegistration";
         },
+        showDrugManipulation: function(){
+           window.location.href = "/addingDrug";
+        }
     }
 }
 </script>

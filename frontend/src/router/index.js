@@ -27,7 +27,7 @@ import PharmacistNewConsalting from '../views/pharmacistView/PharmacistNewConsal
 import PharmacistPatients from '../views/pharmacistView/PharmacistPatients.vue'
 import PharmacistProfile from '../views/pharmacistView/PharmacistProfile.vue'
 import PharmacistWorkCalendar from '../views/pharmacistView/PharmacistWorkCalendar.vue'
-
+import AddingDrug from '../views/SystemAdmin/AddingDrug.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -172,6 +172,11 @@ const routes = [
     path: '/pharmacistWorkCalendar',
     name: 'PharmacistWorkCalendar',
     component: PharmacistWorkCalendar
+  },
+  {
+    path: '/addingDrug',
+    name: 'AddingDrug',
+    component: AddingDrug
   }
 ]
 
