@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.DTO.SupplierDTO;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Repository.AuthorityRepository;
 import ISA.Team22.Repository.SupplierRepository;
@@ -69,5 +72,36 @@ public class SupplierService implements ISupplierService  {
         supplier.setAuthorities(auth);
         supplier.setEnabled(true);
         return supplierRepository.save(supplier);
+	}
+
+	@Override
+	public Supplier findById(Long id) {
+		return supplierRepository.findById(id).get();
+	}
+
+	@Override
+	public void update(SupplierDTO supplierDTO) {
+		Supplier supplier = (Supplier) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    AddressDTO addressDTO = supplierDTO.getAddress();
+	    City city = new City();
+        city.setName(addressDTO.getTown());
+        Country country = new Country();
+        country.setName(addressDTO.getCountry());
+        city.setCountry(country);
+        Address address = new Address(addressDTO.getStreet(),addressDTO.getNumber(),city);
+        supplier.setAddress(address);
+        supplier.setName(supplierDTO.getName());
+        supplier.setLastName(supplierDTO.getSurname());
+        
+	    supplierRepository.save(supplier);
+		
+	}
+
+	@Override
+	public void updatePassword(SupplierDTO supplierDTO) {
+		Supplier supplier = (Supplier) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		supplier.setPassword(passwordEncoder.encode(supplierDTO.getConfirmPassword()));
+		
+		supplierRepository.save(supplier);
 	}
 }

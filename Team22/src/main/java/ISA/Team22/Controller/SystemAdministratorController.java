@@ -70,19 +70,16 @@ public class SystemAdministratorController {
     @GetMapping("/profile")
 	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
 	public ResponseEntity<SystemAdminDTO> getMyAccount() {
+    	
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		SystemAdministrator admin = systemAdministratorService.findById(person.getId());
-		System.out.println("************************");
-		System.out.println(admin.getName());
-		System.out.println(admin.getLastName());
-		System.out.println(admin.getEmail());
 		AddressDTO addressDto = new AddressDTO(admin.getAddress().getCity().getName(),
 				admin.getAddress().getStreetName(), admin.getAddress().getStreetNumber(),
 				admin.getAddress().getCity().getCountry().getName());
 		SystemAdminDTO adminDTO = new SystemAdminDTO(admin.getName(), admin.getLastName(),
 				admin.getEmail(), addressDto, admin.getPassword());
-		System.out.println("****************************");
+		
 		return (ResponseEntity<SystemAdminDTO>) (admin == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(adminDTO));
 	}
     
