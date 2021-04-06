@@ -24,3 +24,5 @@ INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, 
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (100, 3);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (101, 5);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (102, 2);
+INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);
+

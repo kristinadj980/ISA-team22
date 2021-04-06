@@ -29,6 +29,7 @@ import PharmacistProfile from '../views/pharmacistView/PharmacistProfile.vue'
 import PharmacistWorkCalendar from '../views/pharmacistView/PharmacistWorkCalendar.vue'
 import AddingDrug from '../views/SystemAdmin/AddingDrug.vue'
 import ProfileDataSupplier from '../views/SupplierView/ProfileDataSupplier.vue'
+import Offers from '../views/SupplierView/Offers.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -183,6 +184,11 @@ const routes = [
     path: '/profileDataSupplier',
     name: 'ProfileDataSupplier',
     component: ProfileDataSupplier
+  },
+  {
+    path: '/offers',
+    name: 'Offers',
+    component: Offers
   }
 ]
 

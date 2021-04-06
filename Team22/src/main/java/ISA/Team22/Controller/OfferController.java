@@ -1,13 +1,91 @@
 package ISA.Team22.Controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import ISA.Team22.Domain.DTO.DrugOrderDTO;
+import ISA.Team22.Domain.DTO.OfferInfoDTO;
+import ISA.Team22.Domain.Pharmacy.Offer;
+import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
+import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
+import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Domain.Users.Supplier;
+import ISA.Team22.Repository.OfferRepository;
 import ISA.Team22.Service.OfferService;
+import ISA.Team22.Service.SupplierService;
 
 @RestController
+@RequestMapping("/api/offer")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OfferController {
 
+	private final OfferService offerService;
+	
+	private final OfferRepository offerRepository;
+	
+	private final SupplierService supplierService;
+	
 	@Autowired
-	private OfferService offerService;
+	public OfferController(OfferService offerService, OfferRepository offerRepository,SupplierService supplierService) {
+		this.offerService = offerService;
+		this.offerRepository = offerRepository;
+		this.supplierService = supplierService;
+	}
+	
+	@GetMapping("/myOffers")
+    @PreAuthorize("hasRole('SUPPLIER')")
+    ResponseEntity<List<OfferInfoDTO>> getMyActiveOffers()
+    {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        Person person = (Person)currentUser.getPrincipal();
+        Supplier supplier = supplierService.findById(person.getId());
+        List<OfferInfoDTO> offersDto = getSupplierOffersInfoDTOS(supplier);
+
+        return (ResponseEntity<List<OfferInfoDTO>>) (offersDto == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(offersDto));
+    }
+	
+	private List<OfferInfoDTO> getSupplierOffersInfoDTOS(Supplier supplier) {
+        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
+        List<Offer> offers =  supplier.getOffers();
+        for (Offer o: offers) {
+            PurchaseOrder order = o.getPurchaseOrder();
+            if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("processed") && order.getDueDate().isAfter(LocalDate.now()))
+            {
+                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true));
+            }
+            else {
+                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false));
+            }
+
+        }
+        return supplierOffersDto;
+    }
+	
+	private List<DrugOrderDTO> getMedicationsInOrder(List<PurchaseOrderDrug> purchaseOrderDrugs) {
+        List<DrugOrderDTO> drugs = new ArrayList<>();
+        for (PurchaseOrderDrug drug: purchaseOrderDrugs) {
+        	drugs.add(new DrugOrderDTO(drug.getId(), drug.getDrug().getName(),
+        			drug.getDrug().getCode(),drug.getDrug().getDrugForm(),
+        			drug.getDrug().getDrugType(),drug.getAmount()));
+        }
+        return drugs;
+    }
 }

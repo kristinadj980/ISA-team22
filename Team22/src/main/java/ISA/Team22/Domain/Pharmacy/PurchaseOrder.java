@@ -30,8 +30,6 @@ public class PurchaseOrder {
 	@Enumerated(EnumType.ORDINAL)
 	private PurchaseOrderStatus purchaseOrderStatus;
 	
-	@Column(name = "drugAmount",  nullable = false)
-	private Integer drugAmount;
 	
 	@Column(name = "dueDate",  nullable = false)
 	private LocalDate dueDate;
@@ -49,12 +47,11 @@ public class PurchaseOrder {
 		super();
 	}
 
-	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, Integer drugAmount, LocalDate dueDate,
+	public PurchaseOrder(Long id, PurchaseOrderStatus purchaseOrderStatus, LocalDate dueDate,
 			PharmacyAdministrator pharmacyAdministrator, List<Offer> offer, List<PurchaseOrderDrug> purchaseOrderDrugs) {
 		super();
 		this.id = id;
 		this.purchaseOrderStatus = purchaseOrderStatus;
-		this.drugAmount = drugAmount;
 		this.dueDate = dueDate;
 		this.pharmacyAdministrator = pharmacyAdministrator;
 		this.offer = offer;
@@ -74,14 +71,6 @@ public class PurchaseOrder {
 
 	public void setPurchaseOrderStatus(PurchaseOrderStatus purchaseOrderStatus) {
 		this.purchaseOrderStatus = purchaseOrderStatus;
-	}
-
-	public Integer getDrugAmount() {
-		return drugAmount;
-	}
-
-	public void setDrugAmount(Integer drugAmount) {
-		this.drugAmount = drugAmount;
 	}
 
 	public LocalDate getDueDate() {

@@ -171,7 +171,7 @@ export default {
            window.location.href = "/profileDataSupplier";
         },
         showOffers: function(){
-           window.location.href = "/showOffers";
+           window.location.href = "/offers";
         },
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
