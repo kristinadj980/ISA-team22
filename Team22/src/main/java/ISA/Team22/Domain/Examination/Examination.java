@@ -79,6 +79,16 @@ public class Examination {
 		this.drugs = drugs;
 	}
 
+	public Examination(LocalDate startDate, LocalTime startTime, Integer duration,
+			ExaminationStatus examinationStatus, Dermatologist dermatologist) {
+		super();
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.duration = duration;
+		this.examinationStatus = examinationStatus;
+		this.dermatologist = dermatologist;
+	}
+
 	public Long getId() {
 		return id;
 	}

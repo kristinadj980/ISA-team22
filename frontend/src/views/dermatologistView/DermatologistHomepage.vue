@@ -46,6 +46,10 @@ export default {
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         }
     }
 }

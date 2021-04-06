@@ -158,7 +158,7 @@ data() {
                  'Authorization': 'Bearer ' + token,
              }
          }).then(response => {
-               this.dermatologist=response.data;
+               this.dermatologist = response.data;
          }).catch(res => {
                        alert("Error");
                         console.log(res);
@@ -189,6 +189,11 @@ data() {
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+
         },
         editProfile: function(){
             window.location.href = "/dermatologistNewExamination";
