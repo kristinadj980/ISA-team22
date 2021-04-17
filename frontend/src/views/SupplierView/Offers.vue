@@ -14,10 +14,56 @@
 
         <div class="row">
             <div class="form-group col">
-                <h5 style="color: #0D184F">Filter offers by status</h5>
+                <h5 style="color: #0D184F">Filter offers by status: </h5>
             </div >
-           
+             <template>
+              <div class="custom-control custom-radio form-group col ">
+
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios" v-on:click="updateFiler($event,'created')">
+                   <label class="custom-control-label" for="defaultGroupExample1">created</label>
+                
+              </div> 
+              <div class="custom-control custom-radio form-group col ">
+
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample2" name="groupOfDefaultRadios" v-on:click="updateFiler($event,'accepted')">
+                   <label class="custom-control-label" for="defaultGroupExample2">accepted</label>
+                
+              </div> 
+              <div class="custom-control custom-radio form-group col ">
+
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample3" name="groupOfDefaultRadios" v-on:click="updateFiler($event,'refused')">
+                 <label class="custom-control-label" for="defaultGroupExample3">refused</label>
+                
+              </div> 
+              <div class="custom-control custom-radio form-group col ">
+
+                  <input type="radio" class="custom-control-input" id="defaultGroupExample4" name="groupOfDefaultRadios" v-on:click="updateFiler($event,'all')" checked>
+                 <label class="custom-control-label" for="defaultGroupExample4" >all</label>
+                
+              </div> 
+             </template>
         </div>
+         <!--TABELA-->
+           <vue-table ref="vuetable" class="table mt-5" id="table">
+      <thead  >
+        <tr class="text-center bg-info text-light">
+          <th scope="col">Pharmacy</th>
+          <th scope="col">Drug</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Offered price</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-center" v-for="offer in myOffers"   v-bind:key="offer.offerId" >
+          <td> {{offer.pharmacyName}}</td>
+          <td>{{offer.drugs.name}}</td>
+          <td>{{offer.amount}}</td>
+          <td>{{offer.totalPrice}}</td>
+          <td>{{offer.status}}</td>
+        </tr>
+      </tbody>
+           </vue-table>
     </div>
         
     </template>
@@ -27,7 +73,7 @@ export default {
 
   data() {
     return {
-      myOffers :[],
+      myOffers :[''],
       choosenOffer : {},
       choosenOfferDate : null,
       choosenOfferPrice : 0,
@@ -35,12 +81,47 @@ export default {
       choosenOfferId : 0,
       choosenOfferChangable : false,
       choosenOfferNotChangable : false,
-      isAuthorized : false
     }
   },
 
   methods:{
-      
+      showProfile: function(){
+           window.location.href = "/profileDataSupplier";
+        },
+        showOffers: function(){
+           window.location.href = "/offers";
+        },
+      updateFiler : function(event, filter) {
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        if(filter==="all") {
+            this.axios.get('/offer/myOffers',{ 
+                                          headers: {
+                                                  'Authorization': 'Bearer ' + token,
+                                  }}).then(response => {
+                                      this.myOffers=response.data;
+                                      this.showTable = true;
+                                      alert(this.myOffers.length)
+                                  }).catch(res => {
+                                        alert("Please try later.");
+                                          console.log(res);
+                                  }); 
+        }
+        
+        else {
+            this.axios.get('/offer/myOffers/'+filter,{ 
+                                    headers: {
+                                            'Authorization': 'Bearer ' + token,
+                            }}).then(response => {
+                                this.myOffers=response.data;
+                                
+                                alert(this.myOffers.length)
+                                this.$refs.vuetable.refresh()
+                            }).catch(res => {
+                                  alert("Please try later.");
+                                    console.log(res);
+                            }); 
+        }
+      },
      
       
 },
@@ -50,13 +131,11 @@ export default {
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                 }}).then(response => {
-                   
-                    this.isAuthorized = true;
                     this.myOffers=response.data;
+                    
+                    console.log(response.data)
                 }).catch(res => {
-                  this.isAuthorized = false;
-                    alert("Please, log in first!");
-                    window.location.href = "/login";
+                 
                     console.log(res);
                 }); 
     }
@@ -106,5 +185,11 @@ export default {
         left:10px;
         bottom:-50%;
     }
+
+    .row{
+        padding: 15px;
+        
+    }
+
 
 </style>

@@ -88,7 +88,7 @@ export default {
                     }).then(response => {
                         
                             this.authority = response.data.authorities[0].authority;
-                            
+                            alert("OK?")
                             if(this.authority==="ROLE_PATIENT") 
                              if(response.data.firstLogged) {
                                     this.$refs['my-modal'].show();
@@ -124,7 +124,7 @@ export default {
                                      alert("Success!"); 
 
                                 }
-                            else if(this.authority==="ROLE_PHARMACY_ADMIN")
+                            else if(this.authority==="ROLE_PHARMACY_ADMINISTRATOR")
                                 if(response.data.firstLogged) {
                                        this.$refs['my-modal'].show();
                                 }
@@ -143,6 +143,7 @@ export default {
 
                     }).catch(res => {
                                 alert("NOT OK");
+                                 window.location.href = '/profileDataSupplier';
                                     console.log(res);
                             });
 

@@ -144,13 +144,13 @@ public class AuthenticationController {
     }
 	
 	@GetMapping("/authority")
-    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST')")
     ResponseEntity<Person> getMyAccount()
     {
 		System.out.println("************************");
 		System.out.println("Usao");
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Trenutni:" + currentUser.getName());
+        System.out.println("Trenutni:" + currentUser.getPrincipal());
         
         Person user = (Person)currentUser.getPrincipal();
         Person userWithId = personService.findById(user.getId());

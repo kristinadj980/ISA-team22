@@ -13,10 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import ISA.Team22.Domain.DTO.DrugOrderDTO;
 import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.Pharmacy.Offer;
@@ -65,17 +64,19 @@ public class OfferController {
         List<Offer> offers =  supplier.getOffers();
         for (Offer o: offers) {
             PurchaseOrder order = o.getPurchaseOrder();
+            System.out.println("Admin:" + order.getPharmacyAdministrator());
             if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("processed") && order.getDueDate().isAfter(LocalDate.now()))
             {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true));
+                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
             }
             else {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false));
+                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false,o.getOfferStatus()));
             }
 
         }
+
         return supplierOffersDto;
     }
 	
@@ -87,5 +88,41 @@ public class OfferController {
         			drug.getDrug().getDrugType(),drug.getAmount()));
         }
         return drugs;
+    }
+	
+	@GetMapping("/myOffers/{offerStatus}")
+    @PreAuthorize("hasRole('SUPPLIER')")
+    ResponseEntity<List<OfferInfoDTO>> getMyActiveOffersByStatus(@PathVariable String offerStatus)
+    {	
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        Person person = (Person)currentUser.getPrincipal();
+        Supplier supplier = supplierService.findById(person.getId());
+        List<OfferInfoDTO> offersDto = getOffersInfoDTOSByStatus(supplier,offerStatus);
+
+        return offersDto == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(offersDto);
+    }
+
+    private List<OfferInfoDTO> getOffersInfoDTOSByStatus(Supplier supplier, String offerStatus) {
+        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
+        List<Offer> offers =  supplier.getOffers();
+        for (Offer o: offers) {
+            if(o.getOfferStatus().toString().equals(offerStatus)) {
+                PurchaseOrder order = o.getPurchaseOrder();
+                if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("closed"))
+                {
+                	 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                             order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+                 }
+                else {
+                	supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                            order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+                }
+            }
+
+        }
+       
+        return supplierOffersDto;
     }
 }

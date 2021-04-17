@@ -3,6 +3,8 @@ package ISA.Team22.Domain.DTO;
 import java.time.LocalDate;
 import java.util.List;
 
+import ISA.Team22.Domain.Pharmacy.OfferStatus;
+
 
 public class OfferInfoDTO {
 	private Long offerId;
@@ -13,13 +15,14 @@ public class OfferInfoDTO {
     private List<DrugOrderDTO> drugs;
     private String pharmacyName;
     private boolean changable;
+    private OfferStatus status;
     
 	public OfferInfoDTO() {
 		super();
 	}
 
 	public OfferInfoDTO(Long offerId, Long purchaseOrderId, Integer deliveryTime, Double totalPrice,
-			LocalDate date, List<DrugOrderDTO> drugs, String pharmacyName, boolean changable) {
+			LocalDate date, List<DrugOrderDTO> drugs, String pharmacyName, boolean changable,OfferStatus status) {
 		super();
 		this.offerId = offerId;
 		this.purchaseOrderId = purchaseOrderId;
@@ -29,6 +32,7 @@ public class OfferInfoDTO {
 		this.drugs = drugs;
 		this.pharmacyName = pharmacyName;
 		this.changable = changable;
+		this.status = status;
 	}
 
 	public Long getOfferId() {
@@ -93,6 +97,14 @@ public class OfferInfoDTO {
 
 	public void setChangable(boolean changable) {
 		this.changable = changable;
+	}
+
+	public OfferStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OfferStatus status) {
+		this.status = status;
 	}
     
     
