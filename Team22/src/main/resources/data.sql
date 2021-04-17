@@ -44,8 +44,8 @@ INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (8);
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (9);
 
-INSERT INTO PHARMACY(id, all_grades, counseling_price, description, examination_price, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 50, 2000, 'First Pharmacy', 3000, 'Tilia', 10, 301, 8);
-INSERT INTO PHARMACY(id, all_grades, counseling_price, description, examination_price, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 50, 2000, 'Second Pharmacy', 5000, 'Tilia 2', 10, 300, 9);
+INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 50, 'First Pharmacy', 'Tilia', 10, 301, 8);
+INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 50, 'Second Pharmacy', 'Tilia 2', 10, 300, 9);
 
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (400, 50, 100, 40);
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (401, 50, 100, 41);
@@ -54,8 +54,10 @@ INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (404, 51, 100, 44);
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (405, 50, 100, 45);
 
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 0, '2021-05-10', '08:30', 100, 103, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (501, '', 30, 0, '2021-05-10', '10:30', 100, 105, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 0, '2021-05-14', '16:30', 100, 105, 51);
+INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 51);
+
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 5000, 0, '2021-05-10', '08:30', 100, 103, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-05-10', '10:30', 100, 105, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 4000, 0, '2021-05-14', '16:30', 100, 105, 51);
 
 

@@ -14,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
@@ -40,19 +43,14 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@Column(name = "examination_price")
-	private Double examinationPrice;
-	
-	@Column(name = "counseling_price")
-	private Double counselingPrice;
-	
 	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
 	private List<Patient> subscribedUsersIDs;
 	
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pharmacist> pharmacist;
 	
-	@ManyToMany(mappedBy = "pharmacies")
+	@ManyToMany(mappedBy = "pharmacies", fetch = FetchType.LAZY)
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Dermatologist> dermatologist;
 	
 	@OneToOne(cascade = CascadeType.ALL)

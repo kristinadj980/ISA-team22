@@ -40,6 +40,9 @@ public class Examination {
 	@Column(name = "duration",  nullable = false)
 	private Integer duration;
 	
+	@Column(name = "examination_price")
+	private Double examinationPrice;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private ExaminationStatus examinationStatus;
 	
@@ -63,7 +66,7 @@ public class Examination {
 		super();
 	}
 
-	public Examination(Long id, LocalDate startDate, LocalTime startTime, Integer duration,
+	public Examination(Long id, LocalDate startDate, LocalTime startTime, Integer duration, Double examinationPrice,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
@@ -71,6 +74,7 @@ public class Examination {
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.duration = duration;
+		this.examinationPrice = examinationPrice;
 		this.examinationStatus = examinationStatus;
 		this.diagnosis = diagnosis;
 		this.dermatologist = dermatologist;
@@ -120,6 +124,14 @@ public class Examination {
 
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+	public Double getExaminationPrice() {
+		return examinationPrice;
+	}
+
+	public void setExaminationPrice(Double examinationPrice) {
+		this.examinationPrice = examinationPrice;
 	}
 
 	public ExaminationStatus getExaminationStatus() {
