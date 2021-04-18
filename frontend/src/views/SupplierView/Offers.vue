@@ -1,5 +1,5 @@
 <template>
-    <div id="supplierProfile">
+    <div id="offers">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -8,10 +8,10 @@
                     
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
+                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
             </span>
         </div>
-
+        <!-- *******************************************************-->
         <div class="row">
             <div class="form-group col">
                 <h5 style="color: #0D184F">Filter offers by status: </h5>
@@ -43,8 +43,8 @@
               </div> 
              </template>
         </div>
-         <!--TABELA-->
-           <vue-table ref="vuetable" class="table mt-5" id="table">
+        <!-- TABLE -->
+         <table class="table mt-5">
       <thead  >
         <tr class="text-center bg-info text-light">
           <th scope="col">Pharmacy</th>
@@ -54,26 +54,29 @@
           <th scope="col">Status</th>
         </tr>
       </thead>
-      <tbody>
-        <tr class="text-center" v-for="offer in myOffers"   v-bind:key="offer.offerId" >
+      <tbody >
+        <tr   class="text-center" v-for="offer in myOffers" v-bind:key="offer.offerId" >
           <td> {{offer.pharmacyName}}</td>
-          <td>{{offer.drugs.name}}</td>
-          <td>{{offer.amount}}</td>
+          <td v-for="drug in offer.drugs" v-bind:key ="drug.id">{{drug.name}}</td>
+          <td v-for="drug in offer.drugs" v-bind:key ="drug.id">{{drug.amount}}</td>
           <td>{{offer.totalPrice}}</td>
           <td>{{offer.status}}</td>
         </tr>
       </tbody>
-           </vue-table>
+    </table>
+         
     </div>
-        
-    </template>
+    
+</template>
+
+
 
 <script>
 export default {
-
-  data() {
+    name: 'Offers',
+     data() {
     return {
-      myOffers :[''],
+       myOffers :[''],
       choosenOffer : {},
       choosenOfferDate : null,
       choosenOfferPrice : 0,
@@ -83,15 +86,28 @@ export default {
       choosenOfferNotChangable : false,
     }
   },
-
-  methods:{
-      showProfile: function(){
+  mounted() {
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.axios.get('/offer/myOffers',{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    this.myOffers=response.data;
+                    console.log(response.data)
+                }).catch(res => {
+                 
+                    console.log(res);
+                }); 
+    },
+ 
+    methods:{
+        showProfile: function(){
            window.location.href = "/profileDataSupplier";
         },
         showOffers: function(){
            window.location.href = "/offers";
         },
-      updateFiler : function(event, filter) {
+         updateFiler : function(event, filter) {
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         if(filter==="all") {
             this.axios.get('/offer/myOffers',{ 
@@ -99,8 +115,8 @@ export default {
                                                   'Authorization': 'Bearer ' + token,
                                   }}).then(response => {
                                       this.myOffers=response.data;
-                                      this.showTable = true;
                                       alert(this.myOffers.length)
+                                      console.log(response.data)
                                   }).catch(res => {
                                         alert("Please try later.");
                                           console.log(res);
@@ -113,32 +129,15 @@ export default {
                                             'Authorization': 'Bearer ' + token,
                             }}).then(response => {
                                 this.myOffers=response.data;
-                                
+                                console.log(response.data)
                                 alert(this.myOffers.length)
-                                this.$refs.vuetable.refresh()
                             }).catch(res => {
                                   alert("Please try later.");
                                     console.log(res);
                             }); 
         }
       },
-     
-      
-},
- mounted() {
-        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/offer/myOffers',{ 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                }}).then(response => {
-                    this.myOffers=response.data;
-                    
-                    console.log(response.data)
-                }).catch(res => {
-                 
-                    console.log(res);
-                }); 
-    }
+    },
 }
 </script>
 
@@ -185,11 +184,5 @@ export default {
         left:10px;
         bottom:-50%;
     }
-
-    .row{
-        padding: 15px;
-        
-    }
-
 
 </style>

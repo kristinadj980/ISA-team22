@@ -54,5 +54,16 @@ VALUES (600,7,700);
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (401,600);
 
+INSERT INTO DRUG (id,code,name,producer)
+VALUES (701,'M35','aspirin','galenika');
+
+INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
+VALUES (601,65,701);
+
+INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
+VALUES (400,601);
+
+
+
 
 
