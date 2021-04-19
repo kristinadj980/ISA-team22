@@ -30,6 +30,7 @@ import PharmacistWorkCalendar from '../views/pharmacistView/PharmacistWorkCalend
 import AddingDrug from '../views/SystemAdmin/AddingDrug.vue'
 import ProfileDataSupplier from '../views/SupplierView/ProfileDataSupplier.vue'
 import Offers from '../views/SupplierView/Offers.vue'
+import Drugs from '../views/SupplierView/Drugs.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -189,6 +190,11 @@ const routes = [
     path: '/offers',
     name: 'Offers',
     component: Offers
+  },
+  {
+    path: '/drugs',
+    name: 'Drugs',
+    component: Drugs
   }
 ]
 

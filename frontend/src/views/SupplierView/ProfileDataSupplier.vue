@@ -4,8 +4,9 @@
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showOffers">Offers</button>
-                    
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
             </span>
             <span  style="float:right;margin:15px">
                 <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
@@ -170,8 +171,11 @@ export default {
          showProfile: function(){
            window.location.href = "/profileDataSupplier";
         },
-        showOffers: function(){
+        showMyOffers: function(){
            window.location.href = "/offers";
+        },
+        showMyDrugs:  function(){
+           window.location.href = "/drugs";
         },
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

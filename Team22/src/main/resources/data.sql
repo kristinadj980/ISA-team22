@@ -63,7 +63,14 @@ VALUES (601,65,701);
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (400,601);
 
-
+INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
+VALUES (800,67,'brufen',56,19,103);
+INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
+VALUES (801,68,'aspirin',130,50,103);
+INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
+VALUES (802,69,'andol',167,87,103);
+INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
+VALUES (803,70,'panadol',145,24,103);
 
 
 
