@@ -9,9 +9,11 @@ public class ExaminationDTO {
 
 	private String pharmacy;
 	
-	private LocalDate startDate;
+	private String startDate;
 	
-	private LocalTime startTime;
+	private String startTime;
+	
+	private String endTime;
 	
 	private Integer duration;
 	
@@ -24,7 +26,7 @@ public class ExaminationDTO {
 	public ExaminationDTO() {}
 	
 	
-	public ExaminationDTO( String pharmacy, LocalDate startDate, LocalTime startTime, Integer duration,
+	public ExaminationDTO( String pharmacy, String startDate, String startTime, Integer duration,
 			ExaminationStatus examinationStatus, DermatologistDTO dermatologist, Patient patient) {
 		super();
 		this.pharmacy = pharmacy;
@@ -36,27 +38,39 @@ public class ExaminationDTO {
 		this.patient = patient;
 	}
 	
-	public ExaminationDTO(LocalDate startDate, LocalTime startTime) {
+	public ExaminationDTO(String startDate, String startTime, String endTime) {
 		super();
 		this.startDate = startDate;
 		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
-	public LocalDate getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalTime getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(LocalTime startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
+
+	
+	public String getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
 
 	public Integer getDuration() {
 		return duration;

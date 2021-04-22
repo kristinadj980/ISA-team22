@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
@@ -26,6 +28,7 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
 @DiscriminatorValue("Dermatologist")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Dermatologist extends Person {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,7 +43,7 @@ public class Dermatologist extends Person {
 	private List<BusinessDayDermatologist> businessDays;
 	
 	@ManyToMany
-	@JoinTable(name = "pharmacyDermatologists", 
+	@JoinTable(name = "pharmacy_dermatologists", 
 	joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"),
 	inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> pharmacies;

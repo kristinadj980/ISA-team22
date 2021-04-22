@@ -66,6 +66,7 @@ public class Examination {
 		super();
 	}
 
+	
 	public Examination(Long id, LocalDate startDate, LocalTime startTime, Integer duration, Double examinationPrice,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
@@ -83,14 +84,21 @@ public class Examination {
 		this.drugs = drugs;
 	}
 
-	public Examination(LocalDate startDate, LocalTime startTime, Integer duration,
-			ExaminationStatus examinationStatus, Dermatologist dermatologist) {
+
+	public Examination( LocalDate startDate, LocalTime startTime, Integer duration, Double examinationPrice,
+			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
+			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.duration = duration;
+		this.examinationPrice = examinationPrice;
 		this.examinationStatus = examinationStatus;
+		this.diagnosis = diagnosis;
 		this.dermatologist = dermatologist;
+		this.patient = patient;
+		this.pharmacy = pharmacy;
+		this.drugs = drugs;
 	}
 
 	public Long getId() {

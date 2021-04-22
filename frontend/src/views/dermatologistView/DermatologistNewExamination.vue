@@ -1,5 +1,5 @@
 <template>
-    <div id="dermatologistNewExamination" style="max-width:100%">
+    <div id="dermatologistNewExamination" style="max-width:100%" >
         <div class="homepage_style ">
            <span style="float: left; margin: 15px; max-width: 100%;">
                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -15,7 +15,7 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
-        <div style="height:80px;
+        <div style="
         position: fixed;
         top: 10%;
         left: 0;
@@ -79,10 +79,27 @@
                     height: 500px;
                     width: 45%;
                     max-width: 100%;">
-                    <label for="example-datepicker">Choose a date</label>
-                    <b-form-input v-model="examination.startDate" label="Start Date" filled placeholder="Enter date of examination"></b-form-input>
-                    <b-form-input v-model="examination.startTime" label="Start Date" filled placeholder="Enter date of examination"></b-form-input>
-                    <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "scheduleExamination">Schedule</b-button>
+                    <h6 class="ml-n mt-6 strong text-left"><b>Search and chooese patient</b></h6>
+                    <b-form-input class="object_space" v-model="startDate" filled placeholder="Enter patient"></b-form-input>
+                    <h6 class="ml-n mt-6 strong text-left"><b>Select pharmacy</b></h6>
+                    <b-dropdown text="Error Reports" class="m-md-2">
+                        <component 
+                            :is="`b-dropdown-${pharmacy.name}`" 
+                            v-for="(pharmacy, index) in pharmacys"
+                            :key="index" 
+                            
+                            >
+                            {{ pharmacy.value }}
+                        </component>
+                    </b-dropdown>
+                    <h6 class="ml-n mt-6 strong text-left"><b>Select date of examination</b></h6>
+                    <b-form-input class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
+                    <h6 class="ml-n mt-6 strong text-left"><b>Select start time of examination</b></h6>
+                    <b-form-input class="object_space" v-model="startTime" filled placeholder="Start time of examination"></b-form-input>
+                    <h6 class="ml-n mt-6 strong text-left"><b>Select end time of examination</b></h6>
+                    <b-form-input class="object_space" v-model="endTime" filled placeholder="End time of examination"></b-form-input>
+                    
+                    <b-button class="btn btn-info btn-lg space_style object_space" style="background-color:#003d66; width:18cm;" v-on:click = "scheduleExamination">Schedule</b-button>
             </b-card>
         </div>
     </div>
@@ -94,22 +111,36 @@ export default {
     data() {
     return {
         examination : "",
-        startDate: "",
-        startTime: "",
+        startDate: null,
+        startTime: null,
+        endTime: null,
+        pharmacys: [],
+        pharmacy: ""
         }
     },
     mounted(){
      let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/examination/getAll',{ 
-             headers: {
-                 'Authorization': 'Bearer ' + token,
-             }
-         }).then(response => {
-               this.examination = response.data;
-         }).catch(res => {
-                       alert("Error");
-                        console.log(res);
-                 });
+        this.axios.get('/examination/getFreeScheduled',{ 
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            }
+        }).then(response => {
+            this.examination = response.data;
+        }).catch(res => {
+            alert("Error");
+            console.log(res);
+        });
+
+        this.axios.get('/pharmacy/pharmacystaff/dermatologist',{ 
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            }
+        }).then(response => {
+            this.pharmacys = response.data;
+        }).catch(res => {
+            alert("Error");
+            console.log(res);
+        });
     
     },
     methods:{
@@ -141,24 +172,23 @@ export default {
         },
         scheduleExamination : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            
-            const newExamination = {
-                startDate: this.examination.startDate,
-                startTime : this.examination.startTime
-           };
-            this.axios.post('/examination/dermatologistSchedule',newExamination, { 
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                }})
-                .then(response => {
-                    alert("Successfully scheduled new examination.")
+                const newExamination = {
+                    startDate: this.startDate,
+                    startTime : this.startTime,
+                    endTime: this.endTime
+                };
+                this.axios.post('/examination/dermatologistSchedule',newExamination, { 
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    }})
+                    .then(response => {
+                        alert("Successfully scheduled new examination.")
+                            console.log(response);
+                    })
+                    .catch(response => {
+                        alert("Please, try later.")
                         console.log(response);
-                })
-                .catch(response => {
-                    alert("Please, try later.")
-                    console.log(response);
-                })
-            
+                    })
         }
     }
 }
@@ -184,7 +214,7 @@ export default {
 
     .space_style{
         margin-right:5px;
-         max-width: 100%;
+        max-width: 100%;
     }
 
     .vl {
@@ -195,5 +225,10 @@ export default {
         left: 780px;
         z-index: 999;
         max-width: 100%;
+    }
+
+    .object_space {
+        margin-top: 1% !important;
+        margin-bottom: 1% !important;
     }
 </style>

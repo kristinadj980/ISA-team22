@@ -1,8 +1,7 @@
 package ISA.Team22.Controller;
 
-import java.io.Console;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
-import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 
 @RestController
@@ -32,24 +30,34 @@ public class ExaminationController {
 
 	
 	private final ExaminationService examinationService;
-	private final DermatologistService dermatologistService;
+	
 	@Autowired
-	public ExaminationController(ExaminationService examinationService, DermatologistService dermatologistService) {
+	public ExaminationController(ExaminationService examinationService) {
 		this.examinationService = examinationService;
-		this.dermatologistService = dermatologistService;
 	}
 	
 	@PostMapping("/dermatologistSchedule")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<String> scheduleNewExamination(@RequestBody ExaminationDTO examinationDTO) {
-		System.out.println("Pogodjen kontroler");
 		try {
 			examinationService.scheduleNewExamination(examinationDTO);
 			return new ResponseEntity<>("Examination successfully scheduled!", HttpStatus.OK);
 		} catch (Exception e) {
+			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-
+	@GetMapping("/getFreeScheduled")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public List<Examination> getFreeScheduledExaminations(){
+		System.out.println("Pogodjen kontroler za dobavljanje zakazanih pregleda");
+		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(dermatologist.getId());
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		List<Examination> examinations = new ArrayList<Examination>();
+		Person person = (Person) currentUser.getPrincipal();
+		
+		return examinations;
+	}
 }

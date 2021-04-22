@@ -31,10 +31,10 @@ public class Pharmacy {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name",  nullable = false)
+	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description",  nullable = false)
+	@Column(name = "description")
 	private String description;
 	
 	@Column(name = "allGrades")
@@ -53,11 +53,11 @@ public class Pharmacy {
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Dermatologist> dermatologist;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 	
-	@OneToOne(cascade = CascadeType.ALL, optional = false )
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
 	
@@ -85,7 +85,11 @@ public class Pharmacy {
 		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
 
-
+	public Pharmacy(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 	public Long getId() {
 		return id;
 	}
