@@ -37,13 +37,13 @@ INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administr
 VALUES (400,'2021-12-12', 0,104);
 
 INSERT INTO OFFER (id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
-VALUES (500,3,0,1400,400,103);
+VALUES (500,'2021-04-29',0,1400,400,103);
 
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
 VALUES (401,'2021-11-12', 1,104);
 
 INSERT INTO OFFER (id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
-VALUES (501,6,1,1900,401,103);
+VALUES (501,'2021-11-12',1,1900,401,103);
 
 INSERT INTO DRUG (id,code,name,producer)
 VALUES (700,'M65','brufen','zegin');
@@ -66,7 +66,7 @@ VALUES (400,601);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (800,67,'brufen',56,19,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
-VALUES (801,68,'aspirin',130,50,103);
+VALUES (801,68,'probiotik',130,50,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (802,69,'andol',167,87,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)

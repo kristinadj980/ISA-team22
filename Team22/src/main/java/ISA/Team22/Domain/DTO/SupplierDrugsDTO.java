@@ -5,13 +5,13 @@ public class SupplierDrugsDTO {
     private int quantity;
     private int reservedQuantity;
     private String name;
-    private long code;
+    private String code;
     
 	public SupplierDrugsDTO() {
 		super();
 	}
 
-	public SupplierDrugsDTO(Long id, int quantity, int reservedQuantity, String name, long code) {
+	public SupplierDrugsDTO(Long id, int quantity, int reservedQuantity, String name, String code) {
 		super();
 		this.id = id;
 		this.quantity = quantity;
@@ -52,11 +52,11 @@ public class SupplierDrugsDTO {
 		this.name = name;
 	}
 
-	public long getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(long code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
     

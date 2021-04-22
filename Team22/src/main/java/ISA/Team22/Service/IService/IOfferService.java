@@ -1,5 +1,8 @@
 package ISA.Team22.Service.IService;
 
-public interface IOfferService {
+import ISA.Team22.Domain.DTO.OfferDTO;
+import ISA.Team22.Domain.Pharmacy.Offer;
 
+public interface IOfferService {
+	Offer save(OfferDTO offerDTO);
 }

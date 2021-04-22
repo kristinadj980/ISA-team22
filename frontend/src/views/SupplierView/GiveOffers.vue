@@ -1,11 +1,11 @@
 <template>
-<div id="drugs">
+<div id="giveOffers">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
+                    <button class = "btn btn-info btn-lg space_style">Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
                     
             </span>
@@ -16,17 +16,20 @@
     <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
                <div class="row">
                     <div class=" form-group col">
-                        <label >Name</label>
+                        <label >Pharmacy</label>
                     </div>
                     <div class=" form-group col">
-                        <label >Code</label>
+                        <label >Drug</label>
                     </div>
                    
                     <div class=" form-group col">          
-                        <label >Reserved quantity for offers</label>
+                        <label > Drug amount</label>
                     </div>
                     <div class=" form-group col">          
-                        <label >Available quantity</label>
+                        <label >Offered price</label>
+                    </div>
+                    <div class=" form-group col">          
+                        <label >Delivery date</label>
                     </div>
                     <div class=" form-group col">
                         <label ></label>
@@ -50,7 +53,7 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button style="background-color:#17a2b8" v-on:click = "showDrugQuantity($event,drug)" class="btn btn-primary">Add more quantity</button>
+                                <button style="background-color:#17a2b8" v-on:click = "showDrugQuantity($event,drug)" class="btn btn-primary">Make an offer</button>
                             </div>
                     </div>
                </div>
@@ -77,86 +80,6 @@
        </div>
 </div>
 </template>
-
-<script>
-export default{
-    name:'Drugs',
-    data() {
-    return {
-        myDrugs : [],
-        choosenDrug : {},
-        choosenDrugQuantity : 0,
-        choosenDrugId : null,
-        
-    
-    }
-    },
-     methods:{
-     showProfile: function(){
-           window.location.href = "/profileDataSupplier";
-        },
-        showMyOffers: function(){
-           window.location.href = "/offers";
-        },
-        showMyDrugs:  function(){
-           window.location.href = "/drugs";
-        },
-        showGiveOffers:  function(){
-           window.location.href = "/giveOffers";
-        },
-      changeQuantity : function() {
-            const quantityDrugInfo ={
-                drugId : this.choosenDrugId,
-                newQuantity : this.choosenDrugQuantity,
-            } 
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            this.axios.post('/supplierDrugs/updateDrug',quantityDrugInfo,{ 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                }}).then(response => {
-                    console.log(response);
-                    this.getMyDrugs();
-
-                   alert("Quantity is successfully updated!"); 
-                }).catch(res => {
-                       alert("Please try later.");
-                        console.log(res);
-                });
-            this.$refs['quantity-modal'].hide();
-            
-
-      },
-     
-      showDrugQuantity : function(event, drug) {
-          this.choosenDrug = drug;
-          this.choosenDrugQuantity = drug.quantity;
-          this.choosenDrugId = drug.id;
-           this.$refs['quantity-modal'].show();
-      },
-      getMyDrugs : function() {
-          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-          this.myDrugs = []
-          this.axios.get('/supplierDrugs',{ 
-             headers: {
-                 'Authorization': 'Bearer ' + token,
-             }
-         }).then(response => {
-             
-             this.myDrugs=response.data;
-         }).catch(res => {
-                console.log(res);
-            });
-      }
-      
-      
-},
- mounted() {
-        this.getMyDrugs();
-    }
-}
-
-
-</script>
 
 <style scoped>
     .card {

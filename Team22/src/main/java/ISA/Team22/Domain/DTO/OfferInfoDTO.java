@@ -9,7 +9,7 @@ import ISA.Team22.Domain.Pharmacy.OfferStatus;
 public class OfferInfoDTO {
 	private Long offerId;
     private Long purchaseOrderId;
-    private Integer deliveryTime;
+    private LocalDate deliveryTime;
     private Double totalPrice;
     private LocalDate date;
     private List<DrugOrderDTO> drugs;
@@ -21,7 +21,7 @@ public class OfferInfoDTO {
 		super();
 	}
 
-	public OfferInfoDTO(Long offerId, Long purchaseOrderId, Integer deliveryTime, Double totalPrice,
+	public OfferInfoDTO(Long offerId, Long purchaseOrderId, LocalDate deliveryTime, Double totalPrice,
 			LocalDate date, List<DrugOrderDTO> drugs, String pharmacyName, boolean changable,OfferStatus status) {
 		super();
 		this.offerId = offerId;
@@ -51,11 +51,11 @@ public class OfferInfoDTO {
 		this.purchaseOrderId = purchaseOrderId;
 	}
 
-	public Integer getDeliveryTime() {
+	public LocalDate getDeliveryTime() {
 		return deliveryTime;
 	}
 
-	public void setDeliveryTime(Integer deliveryTime) {
+	public void setDeliveryTime(LocalDate deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 

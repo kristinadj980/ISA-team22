@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.Pharmacy;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +26,7 @@ public class Offer {
 	private Double totalPrice;
 	
 	@Column(name = "deliveryTime",  nullable = false)
-	private Integer deliveryTime;
+	private LocalDate deliveryTime;
 	
 	@Enumerated(EnumType.ORDINAL)
     private OfferStatus offerStatus;
@@ -41,7 +43,7 @@ public class Offer {
 	}
 
 
-	public Offer(Long id, Double totalPrice, Integer deliveryTime, OfferStatus offerStatus, PurchaseOrder purchaseOrder,
+	public Offer(Long id, Double totalPrice, LocalDate deliveryTime, OfferStatus offerStatus, PurchaseOrder purchaseOrder,
 			Supplier supplier) {
 		super();
 		this.id = id;
@@ -70,12 +72,12 @@ public class Offer {
 	}
 
 
-	public Integer getDeliveryTime() {
+	public LocalDate getDeliveryTime() {
 		return deliveryTime;
 	}
 
 
-	public void setDeliveryTime(Integer deliveryTime) {
+	public void setDeliveryTime(LocalDate deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 
