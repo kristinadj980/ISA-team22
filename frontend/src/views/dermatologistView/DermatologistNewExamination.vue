@@ -61,7 +61,7 @@
                         <td>{{examinationSchedule.startTime}}</td>
                         <td>{{examinationSchedule.duration}}</td>
                         <td>{{examinationSchedule.price}}</td>
-                        <td><button class="btn btn-primary btn-lg" v-on:click="Add ($event, examinationSchedule)">Reserve examination</button></td>
+                        <!--<td><button class="btn btn-primary btn-lg" v-on:click="Add ($event, examinationSchedule)">Reserve examination</button></td>-->
                     </tr>
                 </tbody>
             </table>
@@ -80,19 +80,15 @@
                     width: 45%;
                     max-width: 100%;">
                     <h6 class="ml-n mt-6 strong text-left"><b>Search and chooese patient</b></h6>
-                    <b-form-input class="object_space" v-model="startDate" filled placeholder="Enter patient"></b-form-input>
-                    <h6 class="ml-n mt-6 strong text-left"><b>Select pharmacy</b></h6>
-                    <b-dropdown text="Error Reports" class="m-md-2">
-                        <component 
-                            :is="`b-dropdown-${pharmacy.name}`" 
-                            v-for="(pharmacy, index) in pharmacys"
-                            :key="index" 
-                            
-                            >
-                            {{ pharmacy.value }}
-                        </component>
+                    <b-form-input  style="margin-bottom:2%" v-model="startDate" filled placeholder="Enter patient"></b-form-input>
+                    <b-dropdown text="Select pharmacy" variant="outline-info" class="dropdown_style" id="dropdown-divider">
+                            <b-dropdown-item  v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
+                            @click="selectedPharmacyID = pharm.id, selectedPharmacyName = pharm.name">
+                                {{ pharm.name}}
+                             </b-dropdown-item>
                     </b-dropdown>
-                    <h6 class="ml-n mt-6 strong text-left"><b>Select date of examination</b></h6>
+                    <p class="ml-n mt-6 strong "> <b>Selected pharmacy: {{ selectedPharmacyName }}</b></p>
+                    <h6 class="ml-n mt-6 strong text-left" style="margin-top:4%"><b>Select date of examination</b></h6>
                     <b-form-input class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
                     <h6 class="ml-n mt-6 strong text-left"><b>Select start time of examination</b></h6>
                     <b-form-input class="object_space" v-model="startTime" filled placeholder="Start time of examination"></b-form-input>
@@ -114,8 +110,9 @@ export default {
         startDate: null,
         startTime: null,
         endTime: null,
-        pharmacys: [],
-        pharmacy: ""
+        pharmacies: [''],
+        selectedPharmacyID: null,
+        selectedPharmacyName: "",
         }
     },
     mounted(){
@@ -136,7 +133,7 @@ export default {
                 'Authorization': 'Bearer ' + token,
             }
         }).then(response => {
-            this.pharmacys = response.data;
+            this.pharmacies = response.data;
         }).catch(res => {
             alert("Error");
             console.log(res);
@@ -159,7 +156,7 @@ export default {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExamination: function(){
+        showExaminations: function(){
             window.location.href = "/dermatologistExamination";
         },
         showNewExamination: function(){
@@ -175,7 +172,8 @@ export default {
                 const newExamination = {
                     startDate: this.startDate,
                     startTime : this.startTime,
-                    endTime: this.endTime
+                    endTime: this.endTime,
+                    pharmacyID: this.selectedPharmacyID
                 };
                 this.axios.post('/examination/dermatologistSchedule',newExamination, { 
                     headers: {
@@ -230,5 +228,11 @@ export default {
     .object_space {
         margin-top: 1% !important;
         margin-bottom: 1% !important;
+    }
+    .dropdown_style{
+        width: 5cm;
+        position: fixed;
+        left: 54%;
+        
     }
 </style>

@@ -21,6 +21,7 @@ import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 
 @RestController
@@ -30,10 +31,12 @@ public class ExaminationController {
 
 	
 	private final ExaminationService examinationService;
+	private final DermatologistService dermatologistService;
 	
 	@Autowired
-	public ExaminationController(ExaminationService examinationService) {
+	public ExaminationController(ExaminationService examinationService, DermatologistService dermatologistService) {
 		this.examinationService = examinationService;
+		this.dermatologistService = dermatologistService;
 	}
 	
 	@PostMapping("/dermatologistSchedule")
@@ -52,11 +55,11 @@ public class ExaminationController {
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public List<Examination> getFreeScheduledExaminations(){
 		System.out.println("Pogodjen kontroler za dobavljanje zakazanih pregleda");
-		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(dermatologist.getId());
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		List<Examination> examinations = new ArrayList<Examination>();
 		Person person = (Person) currentUser.getPrincipal();
+		Dermatologist dermatologist = dermatologistService.getById(person.getId());
+		System.out.println(dermatologist.getId());
+		List<Examination> examinations = new ArrayList<Examination>();
 		
 		return examinations;
 	}

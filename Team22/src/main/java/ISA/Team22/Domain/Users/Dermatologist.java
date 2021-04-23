@@ -8,15 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -24,7 +19,6 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
-import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
 @DiscriminatorValue("Dermatologist")
@@ -42,9 +36,8 @@ public class Dermatologist extends Person {
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayDermatologist> businessDays;
 	
-	@ManyToMany
-	@JoinTable(name = "pharmacy_dermatologists", 
-	joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"),
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "pharmacy_dermatologists", joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> pharmacies;
 	
