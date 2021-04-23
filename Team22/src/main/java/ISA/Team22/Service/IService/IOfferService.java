@@ -5,4 +5,5 @@ import ISA.Team22.Domain.Pharmacy.Offer;
 
 public interface IOfferService {
 	Offer save(OfferDTO offerDTO);
+	Offer findById(Long id);
 }

@@ -47,11 +47,13 @@ public class OfferService implements IOfferService {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierRepository.findById(person.getId()).get();
+        offerDTO.setSupplierId(supplier.getId());
        
         if(isOfferPossible(offerDTO, supplier))  {
             Boolean quantitiesUpdated = supplierDrugStockService.updateQuantities(offerDTO);
             Offer offer = save(offerDTO);
             Boolean canMakeOffer = isOfferPossible(offerDTO,supplier);
+            System.out.println("KRAJJJJJJJJJJ");
             if(offer == null || !quantitiesUpdated || !canMakeOffer) {
             	return null;
             	}
@@ -62,20 +64,8 @@ public class OfferService implements IOfferService {
     }
 	
 	private Boolean isOfferPossible(OfferDTO offerDTO, Supplier supplier) {
-		
-		if(offerDTO.getDeliveryDate().isAfter(LocalDate.now()) || offerDTO.getDeliveryDate() == null ) {
+		if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate()) || offerDTO.getDeliveryDate() == null ) {
         	throw new IllegalArgumentException("Delivery date is passed!");
-        }
-        
-        try {
-            supplierRepository.findById(offerDTO.getSupplierId()).get();
-        }
-        catch(Exception e) {
-            throw new IllegalArgumentException("Supplier with that id doesn't exist!");
-        }
-
-        if(supplier.getId ()!= offerDTO.getSupplierId()) {
-        	throw new IllegalArgumentException("You are not logged supplier, so you can't make an offer!");
         }
         
         PurchaseOrder purchaseOrder ;
@@ -93,7 +83,7 @@ public class OfferService implements IOfferService {
         if(!purchaseOrder.getDueDate().isAfter(LocalDate.now()) || purchaseOrder.getPurchaseOrderStatus().equals("closed")) {
             throw new IllegalArgumentException("Creating offer is not possible. Order is closed.");
         }
-        
+       
         return true;
 	}
 
@@ -113,15 +103,25 @@ public class OfferService implements IOfferService {
 
 	@Override
 	public Offer save(OfferDTO offerDTO) {
+		System.out.println("################################3");
 		Offer offer = new Offer();
 		OfferStatus status = null ;
+		System.out.println("ID:" + offerDTO.getSupplierId());
 		offer.setSupplier(supplierRepository.findById(offerDTO.getSupplierId()).get());
+		System.out.println("USPESNOOOO");
 		offer.setDeliveryTime(offerDTO.getDeliveryDate());
 		offer.setPurchaseOrder(purchaseOrderRepository.findById(offerDTO.getOrderId()).get());
         offer.setTotalPrice(offerDTO.getPrice());
         offer.setOfferStatus(status.created);
-        
+        System.out.println("################################3");
         return offerRepository.save(offer);
+        
+	}
+
+	@Override
+	public Offer findById(Long id) {
+		// TODO Auto-generated method stub
+		return  offerRepository.findById(id).get();
 	}
 
 	

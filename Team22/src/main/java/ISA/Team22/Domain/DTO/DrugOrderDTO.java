@@ -11,7 +11,7 @@ public class DrugOrderDTO {
     private String code;
     private DrugForm form;
     private DrugType type;
-    private int amount;
+    private Integer amount;
     private String manufacturer;
     private LocalDate date;
     private Integer purshaceOrderId;
@@ -20,7 +20,7 @@ public class DrugOrderDTO {
 		super();
 	}
 
-	public DrugOrderDTO(Long id, String name, String code, DrugForm form, DrugType type, int amount, String manufacturer,
+	public DrugOrderDTO(Long id, String name, String code, DrugForm form, DrugType type, Integer amount, String manufacturer,
 			LocalDate date, Integer purshaceOrderId) {
 		super();
 		this.id = id;
@@ -34,7 +34,7 @@ public class DrugOrderDTO {
 		this.purshaceOrderId = purshaceOrderId;
 	}
 
-	public DrugOrderDTO(Long id, String name, String code, DrugForm form, DrugType type, int amount) {
+	public DrugOrderDTO(Long id, String name, String code, DrugForm form, DrugType type, Integer amount) {
 		super();
 		this.id = id;
 		this.name = name;

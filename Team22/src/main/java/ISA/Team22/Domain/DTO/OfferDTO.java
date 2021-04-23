@@ -7,17 +7,19 @@ public class OfferDTO {
     private Long orderId;
     private LocalDate deliveryDate;
     private double price;
+    private LocalDate dueDate;
     
 	public OfferDTO() {
 		super();
 	}
 
-	public OfferDTO(Long supplierId, Long orderId, LocalDate deliveryDate, double price) {
+	public OfferDTO(Long supplierId, Long orderId, LocalDate deliveryDate, double price, LocalDate dueDate) {
 		super();
 		this.supplierId = supplierId;
 		this.orderId = orderId;
 		this.deliveryDate = deliveryDate;
 		this.price = price;
+		this.dueDate = dueDate;
 	}
 
 	public Long getSupplierId() {
@@ -51,5 +53,15 @@ public class OfferDTO {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
+	public LocalDate getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(LocalDate dueDate) {
+		this.dueDate = dueDate;
+	}
+	
+	
     
 }

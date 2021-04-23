@@ -36,42 +36,53 @@
                     </div>
                    
                </div>
-               <div v-for="drug in myDrugs"   v-bind:key="drug.code">
+               <div v-for="order in orders"   v-bind:key="order.orderId">
                     <div class="row">
                             <div class=" form-group col">
+                                <label >{{order.pharmacyName}}</label>
+                            </div>
+                            <div v-for="drug in order.drugs" v-bind:key="drug.id" class=" form-group col">          
                                 <label >{{drug.name}}</label>
                             </div>
-                            <div class=" form-group col">          
-                                <label >{{drug.code}}</label>
-                            </div>
                            
-                             <div class=" form-group col">          
-                                <label >{{drug.reservedQuantity}}</label>
+                             <div  v-for="drug in order.drugs" v-bind:key="drug.id" class=" form-group col">          
+                                <label >{{drug.amount}}</label>
                             </div>
                              <div class=" form-group col">          
-                                <label >{{drug.quantity}}</label>
+                                <label >{{order.price}}</label>
+                            </div>
+                            <div class=" form-group col">        
+                                <label >{{format_date(order.date)}}</label>
                             </div>
                            
                             <div class=" form-group col">
-                                <button style="background-color:#17a2b8" v-on:click = "showDrugQuantity($event,drug)" class="btn btn-primary">Make an offer</button>
+                                <button style="background-color:#17a2b8" v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
                             </div>
                     </div>
                </div>
     </div>
     <div> 
-          <b-modal ref="quantity-modal" hide-footer scrollable title="Drug specification" size="lg" modal-class="b-modal">
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Order specification" size="lg" modal-class="b-modal">
                <div modal-class="modal-dialog" role="document">
                     <div class="modal-content" style="background-color:whitesmoke">
                          <div class="modal-body">
                              <div class="row">
                                 <div class=" form-group col">
-                                     <label>Available quantity: </label> 
+                                     <label>Enter price: </label> 
                                 </div>
                                 <div class=" form-group col">  
-                                    <input type="text" class="form-control" v-model="choosenDrugQuantity" placeholder="Quantity..">
+                                    <input type="text" class="form-control" v-model="choosenOfferPrice" placeholder="Delivery date..">
                                 </div>
                              </div>
-                            <button v-on:click = "changeQuantity" class="btn btn-primary">Confirm</button> 
+                             <div class="row">
+                                <div class=" form-group col">
+                                     <label>Enter delivery date: </label> 
+                                </div>
+                                <div class=" form-group col">  
+                                    <input type="text" class="form-control" v-model="choosenDeliveryDate" placeholder="Delivery date...">
+                                </div>
+                             </div>
+                            <button v-on:click = "makeAnOffer" class="btn btn-primary">Confirm</button> 
                                                        
                          </div>                
                     </div>
@@ -80,6 +91,97 @@
        </div>
 </div>
 </template>
+
+<script>
+import moment from 'moment'
+export default{
+    name:'Drugs',
+    data() {
+    return {
+        orders : [],
+        choosenOffer : {},
+        choosenOfferPrice : 0,
+        choosenOfferId : null,
+        choosenDeliveryDate : null,
+        dueDate: null,
+        
+    }
+    },
+     methods:{
+         format_date(value){
+         if (value) {
+           return moment(String(value)).format('YYYY-MM-DD')
+          }
+      },
+     showProfile: function(){
+           window.location.href = "/profileDataSupplier";
+        },
+        showMyOffers: function(){
+           window.location.href = "/offers";
+        },
+        showMyDrugs:  function(){
+           window.location.href = "/drugs";
+        },
+        showGiveOffers:  function(){
+           window.location.href = "/giveOffers";
+        },
+        showOffer : function(event, order) {
+          this.choosenOrder = order;
+          this.choosenOfferPrice = order.price;
+          this.choosenOfferId = order.id;
+          this.choosenDeliveryDate = this.format_date(order.date);
+          this.dueDate = this.format_date(order.date)
+           this.$refs['quantity-modal'].show();
+      },
+      getActiveOrders : function() {
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+          this.orders = []
+          this.axios.get('/purchaseOrder/activeOrders',{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+         }).then(response => {
+             
+             this.orders=response.data;
+         }).catch(res => {
+                console.log(res);
+            });
+      },
+      makeAnOffer : function() {
+            const offerInfo ={
+                orderId : this.choosenOfferId,
+                price : this.choosenOfferPrice,
+                deliveryDate: this.choosenDeliveryDate,
+                dueDate : this.dueDate,
+                
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/offer/addOffer',offerInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    console.log(response);
+                    this.getActiveOrders();
+
+                   alert("Offer is successfully sent!"); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+            this.$refs['quantity-modal'].hide();
+            
+
+      },
+      
+      
+},
+ mounted() {
+        this.getActiveOrders();
+    }
+}
+
+
+</script>
 
 <style scoped>
     .card {

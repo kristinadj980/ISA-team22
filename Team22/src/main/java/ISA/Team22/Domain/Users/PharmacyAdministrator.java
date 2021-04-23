@@ -25,6 +25,7 @@ import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
 @Entity
 @DiscriminatorValue("PharmacyAdministrator")
+
 public class PharmacyAdministrator extends Person{
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Prescription;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -25,6 +27,7 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 
 @Entity
 @DiscriminatorValue("Pharmacist")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pharmacist extends Person{
 
 	@Column(name = "allGrades")

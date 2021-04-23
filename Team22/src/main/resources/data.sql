@@ -33,17 +33,14 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (104, 4);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (105, 6);
 
-INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
-VALUES (400,'2021-12-12', 0,104);
 
-INSERT INTO OFFER (id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
-VALUES (500,'2021-04-29',0,1400,400,103);
+
+
 
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
-VALUES (401,'2021-11-12', 1,104);
+VALUES (401,'2021-05-12', 1,104);
 
-INSERT INTO OFFER (id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
-VALUES (501,'2021-11-12',1,1900,401,103);
+
 
 INSERT INTO DRUG (id,code,name,producer)
 VALUES (700,'M65','brufen','zegin');
@@ -60,8 +57,7 @@ VALUES (701,'M35','aspirin','galenika');
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (601,65,701);
 
-INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
-VALUES (400,601);
+
 
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (800,67,'brufen',56,19,103);

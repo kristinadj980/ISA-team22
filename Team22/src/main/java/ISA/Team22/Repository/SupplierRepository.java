@@ -8,6 +8,5 @@ import ISA.Team22.Domain.Users.Supplier;
 public interface SupplierRepository extends JpaRepository<Supplier, Long>{
 	Supplier findByEmail(String email);
 	
-	@Query("select p from Person p where p.id = :id")
-	 public Supplier findOneById(@Param("id")Long id);
+	
 }
