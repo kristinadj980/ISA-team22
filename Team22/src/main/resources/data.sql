@@ -46,7 +46,7 @@ INSERT INTO DRUG (id,code,name,producer)
 VALUES (700,'M65','brufen','zegin');
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
-VALUES (600,7,700);
+VALUES (600,45,700);
 
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (401,600);

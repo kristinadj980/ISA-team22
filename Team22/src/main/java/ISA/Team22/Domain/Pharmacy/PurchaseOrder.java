@@ -16,11 +16,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PurchaseOrder {
 	
 	@Id
@@ -34,7 +38,8 @@ public class PurchaseOrder {
 	@Column(name = "dueDate",  nullable = false)
 	private LocalDate dueDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference(value = "pharmacyAdministrator-order")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private PharmacyAdministrator pharmacyAdministrator;
 	
 	@OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

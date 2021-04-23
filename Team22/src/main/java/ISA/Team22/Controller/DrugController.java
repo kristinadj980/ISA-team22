@@ -33,12 +33,12 @@ public class DrugController {
 		Drug existingDrug = drugService.findByName(drugDTO.getName());
         if(existingDrug != null)
         {
-            throw new ResourceConflictException("Medication name already exists", "Medication name already exists");
+            throw new ResourceConflictException("Drug name already exists", "Drug name already exists");
         }
         Drug existingDrug2 = drugService.findByCode(drugDTO.getCode());
         if(existingDrug2 != null)
         {
-            throw new ResourceConflictException("Medication code already exists", "Medication code already exists");
+            throw new ResourceConflictException("Drug code already exists", "Drug code already exists");
         }
         Drug drug = drugService.save(drugDTO);
         return (ResponseEntity<Drug>) (drug == null ?

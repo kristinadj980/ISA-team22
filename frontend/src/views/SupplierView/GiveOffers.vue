@@ -26,9 +26,6 @@
                         <label > Drug amount</label>
                     </div>
                     <div class=" form-group col">          
-                        <label >Offered price</label>
-                    </div>
-                    <div class=" form-group col">          
                         <label >Delivery date</label>
                     </div>
                     <div class=" form-group col">
@@ -48,9 +45,7 @@
                              <div  v-for="drug in order.drugs" v-bind:key="drug.id" class=" form-group col">          
                                 <label >{{drug.amount}}</label>
                             </div>
-                             <div class=" form-group col">          
-                                <label >{{order.price}}</label>
-                            </div>
+                             
                             <div class=" form-group col">        
                                 <label >{{format_date(order.date)}}</label>
                             </div>
@@ -71,7 +66,7 @@
                                      <label>Enter price: </label> 
                                 </div>
                                 <div class=" form-group col">  
-                                    <input type="text" class="form-control" v-model="choosenOfferPrice" placeholder="Delivery date..">
+                                    <input type="text" class="form-control" v-model="choosenOfferPrice" placeholder="Offer price...">
                                 </div>
                              </div>
                              <div class="row">

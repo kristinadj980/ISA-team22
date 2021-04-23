@@ -13,9 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.Users.Supplier;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Offer {
 	
 	@Id
@@ -31,10 +35,11 @@ public class Offer {
 	@Enumerated(EnumType.ORDINAL)
     private OfferStatus offerStatus;
     
+	@JsonBackReference(value="offer-offerForOrder")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PurchaseOrder purchaseOrder;
     
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Supplier supplier;
     
    

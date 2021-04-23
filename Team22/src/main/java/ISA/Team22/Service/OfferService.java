@@ -48,12 +48,12 @@ public class OfferService implements IOfferService {
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierRepository.findById(person.getId()).get();
         offerDTO.setSupplierId(supplier.getId());
-       
-        if(isOfferPossible(offerDTO, supplier))  {
+        Boolean canMakeOffer = isOfferPossible(offerDTO,supplier);
+        if(canMakeOffer)  {
             Boolean quantitiesUpdated = supplierDrugStockService.updateQuantities(offerDTO);
             Offer offer = save(offerDTO);
-            Boolean canMakeOffer = isOfferPossible(offerDTO,supplier);
-            System.out.println("KRAJJJJJJJJJJ");
+            
+           
             if(offer == null || !quantitiesUpdated || !canMakeOffer) {
             	return null;
             	}
@@ -75,12 +75,12 @@ public class OfferService implements IOfferService {
 			throw new IllegalArgumentException("There is no order with that id!");
 		}
        
-        List<SupplierDrugStock> supplierDrugStocks = supplier.getDrugStocks();  //lista njegovih lekova
+        List<SupplierDrugStock> supplierDrugStocks = supplier.getDrugStocks();  
         if(!areDrugsAvailable(purchaseOrder, supplierDrugStocks)) {
         	throw new IllegalArgumentException("You don't have enough drugs in stock");
         }
         
-        if(!purchaseOrder.getDueDate().isAfter(LocalDate.now()) || purchaseOrder.getPurchaseOrderStatus().equals("closed")) {
+        if(!offerDTO.getDeliveryDate().isAfter(LocalDate.now()) || purchaseOrder.getPurchaseOrderStatus().equals("closed")) {
             throw new IllegalArgumentException("Creating offer is not possible. Order is closed.");
         }
        
@@ -93,9 +93,6 @@ public class OfferService implements IOfferService {
 				if(drug.getDrug().getName().equals(supplierDrugStock.getName()) && (drug.getAmount() <= supplierDrugStock.getQuantity())){
 					return true;
 				}
-				 else {
-		                throw new IllegalArgumentException("You cant make offer for this order. You dont have enough drugs.");
-		            }
 			}
 		}
 		 return false;
@@ -103,17 +100,14 @@ public class OfferService implements IOfferService {
 
 	@Override
 	public Offer save(OfferDTO offerDTO) {
-		System.out.println("################################3");
 		Offer offer = new Offer();
 		OfferStatus status = null ;
-		System.out.println("ID:" + offerDTO.getSupplierId());
 		offer.setSupplier(supplierRepository.findById(offerDTO.getSupplierId()).get());
-		System.out.println("USPESNOOOO");
 		offer.setDeliveryTime(offerDTO.getDeliveryDate());
 		offer.setPurchaseOrder(purchaseOrderRepository.findById(offerDTO.getOrderId()).get());
         offer.setTotalPrice(offerDTO.getPrice());
         offer.setOfferStatus(status.created);
-        System.out.println("################################3");
+        
         return offerRepository.save(offer);
         
 	}
