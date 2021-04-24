@@ -49,25 +49,32 @@ public class OfferService implements IOfferService {
         Supplier supplier = supplierRepository.findById(person.getId()).get();
         offerDTO.setSupplierId(supplier.getId());
         Boolean canMakeOffer = isOfferPossible(offerDTO,supplier);
+        
         if(canMakeOffer)  {
-            Boolean quantitiesUpdated = supplierDrugStockService.updateQuantities(offerDTO);
+            Boolean amountUpdated = supplierDrugStockService.updateAmount(offerDTO);
             Offer offer = save(offerDTO);
-            
-           
-            if(offer == null || !quantitiesUpdated || !canMakeOffer) {
+            if(offer == null || !amountUpdated || !canMakeOffer) {
             	return null;
             	}
+            
             return offer;
         }
         return null;
 
     }
 	
-	private Boolean isOfferPossible(OfferDTO offerDTO, Supplier supplier) {
+	public Boolean isOfferPossible(OfferDTO offerDTO, Supplier supplier) {
+		System.out.println("****************************");
+		System.out.println(offerDTO.isOfferGiven());
+		if(offerDTO.isOfferGiven() == true) {
+			System.out.println("****************************");
+			throw new IllegalArgumentException("You have already made an offer for this order!");
+		}
+		
 		if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate()) || offerDTO.getDeliveryDate() == null ) {
         	throw new IllegalArgumentException("Delivery date is passed!");
         }
-        
+		
         PurchaseOrder purchaseOrder ;
         try {
         	purchaseOrder = purchaseOrderRepository.findById(offerDTO.getOrderId()).get();
@@ -87,7 +94,7 @@ public class OfferService implements IOfferService {
         return true;
 	}
 
-	private Boolean areDrugsAvailable(PurchaseOrder purchaseOrder, List<SupplierDrugStock> supplierDrugStocks) {
+	public Boolean areDrugsAvailable(PurchaseOrder purchaseOrder, List<SupplierDrugStock> supplierDrugStocks) {
 		for (PurchaseOrderDrug drug : purchaseOrder.getPurchaseOrderDrugs()) {
 			for (SupplierDrugStock supplierDrugStock : supplierDrugStocks) {
 				if(drug.getDrug().getName().equals(supplierDrugStock.getName()) && (drug.getAmount() <= supplierDrugStock.getQuantity())){
@@ -107,14 +114,29 @@ public class OfferService implements IOfferService {
 		offer.setPurchaseOrder(purchaseOrderRepository.findById(offerDTO.getOrderId()).get());
         offer.setTotalPrice(offerDTO.getPrice());
         offer.setOfferStatus(status.created);
+        offerDTO.setOfferGiven(true);
         
         return offerRepository.save(offer);
         
 	}
+	
+	public Offer changeOffer(OfferDTO offerDTO) {
+		try {
+			Offer offer = findById(offerDTO.getOfferId());
+			offer.setTotalPrice(offerDTO.getPrice());
+			offer.setDeliveryTime(offerDTO.getDeliveryDate());
+			
+			return offerRepository.save(offer);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		
+		return null;	
+	}
 
 	@Override
 	public Offer findById(Long id) {
-		// TODO Auto-generated method stub
 		return  offerRepository.findById(id).get();
 	}
 

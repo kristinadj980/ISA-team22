@@ -46,50 +46,136 @@
              </template>
         </div>
         <!-- TABLE -->
-         <table class="table mt-5">
-      <thead  >
-        <tr class="text-center bg-info text-light">
-          <th scope="col">Pharmacy</th>
-          <th scope="col">Drug</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Offered price</th>
-          <th scope="col">Status</th>
-        </tr>
-      </thead>
-      <tbody >
-        <tr   class="text-center" v-for="offer in myOffers" v-bind:key="offer.offerId" >
-          <td> {{offer.pharmacyName}}</td>
-          <td v-for="drug in offer.drugs" v-bind:key ="drug.id">{{drug.name}}</td>
-          <td v-for="drug in offer.drugs" v-bind:key ="drug.id">{{drug.amount}}</td>
-          <td>{{offer.totalPrice}}</td>
-          <td>{{offer.status}}</td>
-        </tr>
-      </tbody>
-    </table>
-         
+         <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
+               <div class="row">
+                    <div class=" form-group col">
+                        <label >Pharmacy</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Drug</label>
+                    </div>
+                   
+                    <div class=" form-group col">          
+                        <label > Drug amount</label>
+                    </div>
+                    <div class=" form-group col">          
+                        <label >Offered price</label>
+                    </div>
+                    <div class=" form-group col">          
+                        <label >Status</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label ></label>
+                    </div>
+                   
+               </div>
+               <div v-for="offer in myOffers"   v-bind:key="offer.id">
+                    <div class="row">
+                            <div class=" form-group col">
+                                <label >{{offer.pharmacyName}}</label>
+                            </div>
+                            <div v-for="drug in offer.drugs" v-bind:key="drug.id" class=" form-group col">          
+                                <label >{{drug.name}}</label>
+                            </div>
+                           
+                             <div  v-for="drug in offer.drugs" v-bind:key="drug.id" class=" form-group col">          
+                                <label >{{drug.amount}}</label>
+                            </div>
+                             
+                            <div class=" form-group col">        
+                                <label >{{offer.totalPrice}}</label>
+                            </div>
+                            <div class=" form-group col">        
+                                <label >{{offer.status}}</label>
+                            </div>
+                           
+                            <div class=" form-group col">
+                                <button style="background-color:#17a2b8" v-on:click = "showOffer($event,offer)" class="btn btn-primary">Change offer</button>
+                            </div>
+                    </div>
+               </div>
     </div>
-    
+    <div> 
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Order specification" size="lg" modal-class="b-modal">
+               <div modal-class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color:whitesmoke">
+                         <div class="modal-body">
+                             <div class="row">
+                                <div class=" form-group col">
+                                     <label>Enter price: </label> 
+                                </div>
+                                <div class=" form-group col">  
+                                    <input type="text" class="form-control" v-model="choosenOfferPrice" placeholder="Offer price...">
+                                </div>
+                             </div>
+                             <div class="row">
+                                <div class=" form-group col">
+                                     <label>Enter delivery date: </label> 
+                                </div>
+                                <div class=" form-group col">  
+                                    <input type="text" class="form-control" v-model="deliveryTime" placeholder="Delivery date...">
+                                </div>
+                             </div>
+                            <button v-on:click = "changeOffer" class="btn btn-primary">Confirm</button> 
+                                                       
+                         </div>                
+                    </div>
+               </div>
+          </b-modal>
+       </div>
+</div>
 </template>
 
 
-
 <script>
+import moment from 'moment'
 export default {
     name: 'Offers',
      data() {
     return {
-       myOffers :[''],
+       myOffers :[],
       choosenOffer : {},
       choosenOfferDate : null,
       choosenOfferPrice : 0,
-      newDelieveryDate : null,
+      deliveryTime : null,
       choosenOfferId : 0,
       choosenOfferChangable : false,
       choosenOfferNotChangable : false,
+      isOfferGiven : false,
     }
   },
   mounted() {
-        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+       this.getMyOffers()
+    },
+ 
+    methods:{
+         format_date(value){
+         if (value) {
+           return moment(String(value)).format('YYYY-MM-DD')
+          }
+      },
+        showProfile: function(){
+           window.location.href = "/profileDataSupplier";
+        },
+        showMyOffers: function(){
+           window.location.href = "/offers";
+        },
+        showMyDrugs:  function(){
+           window.location.href = "/drugs";
+        },
+        showOffer : function(event, offer) {
+          this.choosenOffer = offer;
+          this.choosenOfferPrice = offer.totalPrice;
+          this.choosenOfferId = offer.purchaseOrderId;
+          alert(this.choosenOfferId)
+          this.deliveryTime = this.format_date(offer.deliveryTime);
+          this.dueDate = this.format_date(offer.date);
+          this.offerId = offer.offerId;
+          this.isOfferGiven = offer.isOfferGiven;
+           this.$refs['quantity-modal'].show();
+      },
+       getMyOffers : function() {
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         this.axios.get('/offer/myOffers',{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
@@ -100,18 +186,33 @@ export default {
                  
                     console.log(res);
                 }); 
-    },
- 
-    methods:{
-        showProfile: function(){
-           window.location.href = "/profileDataSupplier";
-        },
-        showMyOffers: function(){
-           window.location.href = "/offers";
-        },
-        showMyDrugs:  function(){
-           window.location.href = "/drugs";
-        },
+      },
+      changeOffer : function() {
+            const offerInfo ={
+                orderId : this.choosenOfferId,
+                price : this.choosenOfferPrice,
+                deliveryDate: this.deliveryTime,
+                dueDate : this.dueDate,
+                offerId : this.offerId,
+                
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/offer/changeOffer',offerInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    console.log(response);
+                    this.getMyOffers()
+
+                   alert("Offer is successfully changed!"); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+            this.$refs['quantity-modal'].hide();
+            
+
+      },
          updateFiler : function(event, filter) {
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         if(filter==="all") {
@@ -143,6 +244,8 @@ export default {
         }
       },
     },
+     
+      
 }
 </script>
 

@@ -27,6 +27,7 @@ import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Repository.OfferRepository;
+import ISA.Team22.Repository.SupplierRepository;
 import ISA.Team22.Service.OfferService;
 import ISA.Team22.Service.SupplierService;
 
@@ -37,15 +38,15 @@ public class OfferController {
 
 	private final OfferService offerService;
 	
-	private final OfferRepository offerRepository;
-	
 	private final SupplierService supplierService;
 	
+	private final SupplierRepository supplierRepository;
+	
 	@Autowired
-	public OfferController(OfferService offerService, OfferRepository offerRepository,SupplierService supplierService) {
+	public OfferController(OfferService offerService, SupplierService supplierService,SupplierRepository supplierRepository) {
 		this.offerService = offerService;
-		this.offerRepository = offerRepository;
 		this.supplierService = supplierService;
+		this.supplierRepository = supplierRepository;
 	}
 	
 	@GetMapping("/myOffers")
@@ -137,5 +138,24 @@ public class OfferController {
         return offer == null  ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(offer);
+    }
+    
+    @PostMapping("/changeOffer")
+    @PreAuthorize("hasRole('SUPPLIER')")
+    ResponseEntity<Offer> changeOffer(@RequestBody OfferDTO offerDTO)
+    {
+    	Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        Person person = (Person)currentUser.getPrincipal();
+        Supplier supplier = supplierRepository.findById(person.getId()).get();
+        offerDTO.setSupplierId(supplier.getId());
+   
+        if(offerService.isOfferPossible(offerDTO, supplier)) {
+        	Offer offer = offerService.changeOffer(offerDTO);
+            return offer == null  ?
+                    new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                    ResponseEntity.ok(offer);
+        }
+        return null;
+        
     }
 }

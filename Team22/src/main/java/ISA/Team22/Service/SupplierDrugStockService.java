@@ -34,7 +34,7 @@ public class SupplierDrugStockService implements ISupplierDrugStockService {
         return supplierDrugStockRepository.save(supplierDrugs);
     }
 	
-	 public Boolean updateQuantities(OfferDTO offerDTO) {
+	 public Boolean updateAmount(OfferDTO offerDTO) {
 	        List<PurchaseOrderDrug> orderDrugs = purchaseOrderRepository.findById(offerDTO.getOrderId()).get().getPurchaseOrderDrugs();
 	        List<SupplierDrugStock> drugStocks = supplierDrugStockRepository.findAll();
 	        for(PurchaseOrderDrug drug : orderDrugs) {

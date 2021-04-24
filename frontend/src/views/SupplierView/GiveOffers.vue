@@ -99,7 +99,7 @@ export default{
         choosenOfferId : null,
         choosenDeliveryDate : null,
         dueDate: null,
-        
+        isOfferGiven : false,
     }
     },
      methods:{
@@ -125,7 +125,8 @@ export default{
           this.choosenOfferPrice = order.price;
           this.choosenOfferId = order.id;
           this.choosenDeliveryDate = this.format_date(order.date);
-          this.dueDate = this.format_date(order.date)
+          this.dueDate = this.format_date(order.date);
+          this.isOfferGiven = order.isOfferGiven;
            this.$refs['quantity-modal'].show();
       },
       getActiveOrders : function() {
@@ -148,6 +149,7 @@ export default{
                 price : this.choosenOfferPrice,
                 deliveryDate: this.choosenDeliveryDate,
                 dueDate : this.dueDate,
+                isOfferGiven : this.isOfferGiven,
                 
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

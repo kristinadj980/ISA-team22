@@ -14,7 +14,8 @@ public class OfferInfoDTO {
     private LocalDate date;
     private List<DrugOrderDTO> drugs;
     private String pharmacyName;
-    private boolean changable;
+    private boolean isOfferGiven;
+    
     private OfferStatus status;
     
 	public OfferInfoDTO() {
@@ -22,7 +23,7 @@ public class OfferInfoDTO {
 	}
 
 	public OfferInfoDTO(Long offerId, Long purchaseOrderId, LocalDate deliveryTime, Double totalPrice,
-			LocalDate date, List<DrugOrderDTO> drugs, String pharmacyName, boolean changable,OfferStatus status) {
+			LocalDate date, List<DrugOrderDTO> drugs, String pharmacyName, boolean isOfferGiven,OfferStatus status) {
 		super();
 		this.offerId = offerId;
 		this.purchaseOrderId = purchaseOrderId;
@@ -31,7 +32,7 @@ public class OfferInfoDTO {
 		this.date = date;
 		this.drugs = drugs;
 		this.pharmacyName = pharmacyName;
-		this.changable = changable;
+		this.isOfferGiven = isOfferGiven;
 		this.status = status;
 	}
 
@@ -91,12 +92,12 @@ public class OfferInfoDTO {
 		this.pharmacyName = pharmacyName;
 	}
 
-	public boolean isChangable() {
-		return changable;
+	public boolean isOfferGiven() {
+		return isOfferGiven;
 	}
 
-	public void setChangable(boolean changable) {
-		this.changable = changable;
+	public void isOfferGiven(boolean changable) {
+		this.isOfferGiven = changable;
 	}
 
 	public OfferStatus getStatus() {

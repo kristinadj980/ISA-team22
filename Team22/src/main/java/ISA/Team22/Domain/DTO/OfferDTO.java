@@ -8,18 +8,22 @@ public class OfferDTO {
     private LocalDate deliveryDate;
     private double price;
     private LocalDate dueDate;
+    private Long offerId;
+    private boolean isOfferGiven;
     
 	public OfferDTO() {
 		super();
 	}
 
-	public OfferDTO(Long supplierId, Long orderId, LocalDate deliveryDate, double price, LocalDate dueDate) {
+	public OfferDTO(Long supplierId, Long orderId, LocalDate deliveryDate, double price, LocalDate dueDate, Long offerId, boolean isOfferGiven) {
 		super();
 		this.supplierId = supplierId;
 		this.orderId = orderId;
 		this.deliveryDate = deliveryDate;
 		this.price = price;
 		this.dueDate = dueDate;
+		this.offerId = offerId;
+		this.isOfferGiven = isOfferGiven;
 	}
 
 	public Long getSupplierId() {
@@ -60,6 +64,22 @@ public class OfferDTO {
 
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public Long getOfferId() {
+		return offerId;
+	}
+
+	public void setOfferId(Long offerId) {
+		this.offerId = offerId;
+	}
+
+	public boolean isOfferGiven() {
+		return isOfferGiven;
+	}
+
+	public void setOfferGiven(boolean isOfferGiven) {
+		this.isOfferGiven = isOfferGiven;
 	}
 	
 	
