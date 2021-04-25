@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Repository.PharmacyRepository;
 import ISA.Team22.Service.IService.IPharmacyService;
 
@@ -30,6 +31,11 @@ public class PharmacyService implements IPharmacyService {
 			pharmaciesDTO.add(new PharmacyBasicDTO(p.getId(), p.getName()));
 		
 		return pharmaciesDTO;
+	}
+
+	@Override
+	public Pharmacy getById(Long id) {
+		 return pharmacyRepository.findById(id).get();
 	}
 
 }

@@ -90,7 +90,7 @@
                                 {{ pharm.name}}
                              </b-dropdown-item>
                     </b-dropdown>
-                    <p class="ml-n mt-6 strong chosen"> <b>Selected pharmacy: {{ selectedPharmacyName}}</b></p>
+                    <p class="ml-n mt-6 strong chosen"> <b>Selected pharmacy: {{ selectedPharmacyID}}</b></p>
                     <h6 class="ml-n mt-6 strong text-left" style="margin-top:4%"><b>Select date of examination</b></h6>
                     <b-form-input type="date" class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
                     <h6 class="ml-n mt-6 strong text-left"><b>Select start time of examination</b></h6>
@@ -114,7 +114,7 @@ export default {
         startTime: null,
         endTime: null,
         pharmacies: [''],
-        selectedPharmacyID: null,
+        selectedPharmacyID: '',
         selectedPharmacyName: "",
         patients:[''],
         selectedPatient: [''],
@@ -186,11 +186,11 @@ export default {
         scheduleExamination : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
                 const newExamination = {
+                    pharmacyID: this.selectedPharmacyID,
                     startDate: this.startDate,
                     startTime : this.startTime,
                     endTime: this.endTime,
-                    pharmacyID: this.selectedPharmacyID,
-                    patientEmail: this.selectedPatient
+                    patientInfo: this.selectedPatient
                 };
                 this.axios.post('/examination/dermatologistSchedule',newExamination, { 
                     headers: {

@@ -1,39 +1,36 @@
 package ISA.Team22.Domain.DTO;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
-import ISA.Team22.Domain.Examination.ExaminationStatus;
-import ISA.Team22.Domain.Users.Patient;
 
 public class ExaminationDTO {
 
-	private Long pharmacy;
+	private Long pharmacyID;
 	
 	private String startDate;
 	
-	private String startTime;
+	private LocalTime startTime;
 	
-	private String endTime;
+	private LocalTime endTime;
 	
 	private String patientInfo;
 	
 	public ExaminationDTO() {}
 
-	public ExaminationDTO(Long pharmacy, String startDate, String startTime, String endTime, String patientInfo) {
+	public ExaminationDTO(Long pharmacy, String startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
 		super();
-		this.pharmacy = pharmacy;
+		this.pharmacyID = pharmacy;
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.patientInfo = patientInfo;
 	}
 
-	public Long getPharmacy() {
-		return pharmacy;
+	public Long getPharmacyID() {
+		return pharmacyID;
 	}
 
-	public void setPharmacy(Long pharmacy) {
-		this.pharmacy = pharmacy;
+	public void setPharmacyID(Long pharmacy) {
+		this.pharmacyID = pharmacy;
 	}
 
 	public String getStartDate() {
@@ -44,19 +41,19 @@ public class ExaminationDTO {
 		this.startDate = startDate;
 	}
 
-	public String getStartTime() {
+	public LocalTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public String getEndTime() {
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 

@@ -37,8 +37,11 @@ public class Examination {
 	@Column(name = "startTime",  nullable = false)
 	private LocalTime startTime;
 	
+	@Column(name = "endTime",  nullable = false)
+	private LocalTime endTime;
+	
 	@Column(name = "duration",  nullable = false)
-	private Integer duration;
+	private Long duration;
 	
 	@Column(name = "examination_price")
 	private Double examinationPrice;
@@ -67,13 +70,14 @@ public class Examination {
 	}
 
 	
-	public Examination(Long id, LocalDate startDate, LocalTime startTime, Integer duration, Double examinationPrice,
+	public Examination(Long id, LocalDate startDate, LocalTime startTime, LocalTime endTime, Long duration, Double examinationPrice,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
 		this.startTime = startTime;
+		this.endTime = endTime;
 		this.duration = duration;
 		this.examinationPrice = examinationPrice;
 		this.examinationStatus = examinationStatus;
@@ -85,12 +89,13 @@ public class Examination {
 	}
 
 
-	public Examination( LocalDate startDate, LocalTime startTime, Integer duration, Double examinationPrice,
+	public Examination( LocalDate startDate, LocalTime startTime, LocalTime endTime, Long duration, Double examinationPrice,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
 		this.startDate = startDate;
 		this.startTime = startTime;
+		this.endTime = endTime;
 		this.duration = duration;
 		this.examinationPrice = examinationPrice;
 		this.examinationStatus = examinationStatus;
@@ -126,11 +131,22 @@ public class Examination {
 		this.startTime = startTime;
 	}
 
-	public Integer getDuration() {
+	
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(LocalTime endTime) {
+		this.endTime = endTime;
+	}
+
+
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Integer duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 
