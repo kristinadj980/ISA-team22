@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
@@ -25,11 +28,13 @@ import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 
 @Entity
 @DiscriminatorValue("PharmacyAdministrator")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PharmacyAdministrator extends Person{
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Pharmacy pharmacy;
 	
+	@JsonManagedReference(value="pharmacyAdministrator-order")
 	@OneToMany(mappedBy = "pharmacyAdministrator", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PurchaseOrder> purchaseOrders;
 	

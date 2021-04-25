@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.Pharmacy;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.Users.Supplier;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Offer {
 	
 	@Id
@@ -24,15 +30,16 @@ public class Offer {
 	private Double totalPrice;
 	
 	@Column(name = "deliveryTime",  nullable = false)
-	private Integer deliveryTime;
+	private LocalDate deliveryTime;
 	
 	@Enumerated(EnumType.ORDINAL)
     private OfferStatus offerStatus;
     
+	@JsonBackReference(value="offer-offerForOrder")
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private PurchaseOrder purchaseOrder;
     
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Supplier supplier;
     
    
@@ -41,7 +48,7 @@ public class Offer {
 	}
 
 
-	public Offer(Long id, Double totalPrice, Integer deliveryTime, OfferStatus offerStatus, PurchaseOrder purchaseOrder,
+	public Offer(Long id, Double totalPrice, LocalDate deliveryTime, OfferStatus offerStatus, PurchaseOrder purchaseOrder,
 			Supplier supplier) {
 		super();
 		this.id = id;
@@ -70,12 +77,12 @@ public class Offer {
 	}
 
 
-	public Integer getDeliveryTime() {
+	public LocalDate getDeliveryTime() {
 		return deliveryTime;
 	}
 
 
-	public void setDeliveryTime(Integer deliveryTime) {
+	public void setDeliveryTime(LocalDate deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 

@@ -24,7 +24,7 @@ public class Drug {
 	private String name;
 	
 	@Column(name = "code", unique = true, nullable = false)
-	private Long code;
+	private String code;
 	
 	@Column(name = "producer", nullable = false)
 	private String producer;
@@ -38,13 +38,13 @@ public class Drug {
 	@Enumerated(EnumType.ORDINAL)
 	private IssuanceRegime issuance;
 	
-	@Column(name = "note", nullable = false)
+	@Column(name = "note")
 	private String note;
 	
-	@Column(name = "numberOfGrades", nullable = false)
+	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@Column(name = "allGrades", nullable = false)
+	@Column(name = "allGrades")
 	private Integer allGrades;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -53,7 +53,7 @@ public class Drug {
 	public Drug() {
 		super();
 	}
-	public Drug(Long id, String name, Long code, String producer, DrugType drugType, DrugForm drugForm, IssuanceRegime issuance,
+	public Drug(Long id, String name, String code, String producer, DrugType drugType, DrugForm drugForm, IssuanceRegime issuance,
 			String note, Integer numberOfGrades, Integer allGrades, DrugSpecification drugSpecification) {
 		super();
 		this.id = id;
@@ -82,10 +82,10 @@ public class Drug {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(Long code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	public String getProducer() {

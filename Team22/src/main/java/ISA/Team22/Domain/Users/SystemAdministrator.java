@@ -14,11 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 
 @Entity
 @DiscriminatorValue("SystemAdministrator")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class SystemAdministrator extends Person{
 	
 	@ManyToMany(targetEntity = Complaint.class,  cascade = CascadeType.ALL)

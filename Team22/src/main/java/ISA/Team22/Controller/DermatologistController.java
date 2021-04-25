@@ -48,7 +48,7 @@ public class DermatologistController {
 				dermatologist.getAddress().getCity().getCountry().getName());
 		DermatologistDTO dermatologistDTO = new DermatologistDTO(dermatologist.getName(), dermatologist.getLastName(),
 				dermatologist.getEmail(), addressDto);
-		return dermatologist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(dermatologistDTO);
+		return (ResponseEntity<DermatologistDTO>) (dermatologist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(dermatologistDTO));
 	}
 
 	@PostMapping("/update")

@@ -27,7 +27,7 @@ public class SupplierDrugStock {
     private String name;
 	
 	@Column(name = "code", unique = true,  nullable = false)
-    private Long code;
+    private String code;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Supplier supplier;
@@ -36,7 +36,7 @@ public class SupplierDrugStock {
 		super();
 	}
 
-	public SupplierDrugStock(Long id, Integer quantity, Integer reservedQuantity, String name, Long code, Supplier supplier) {
+	public SupplierDrugStock(Long id, Integer quantity, Integer reservedQuantity, String name, String code, Supplier supplier) {
 		super();
 		this.quantity = quantity;
 		this.reservedQuantity = reservedQuantity;
@@ -77,11 +77,11 @@ public class SupplierDrugStock {
 		this.name = name;
 	}
 
-	public Long getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Long code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

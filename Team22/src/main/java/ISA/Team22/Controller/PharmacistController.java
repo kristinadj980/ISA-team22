@@ -43,7 +43,7 @@ public class PharmacistController {
 				pharmacist.getAddress().getCity().getCountry().getName());
 		PharmacistDTO pharmacistDTO = new PharmacistDTO(pharmacist.getName(), pharmacist.getLastName(),
 				pharmacist.getEmail(), addressDto);
-		return pharmacist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(pharmacistDTO);
+		return (ResponseEntity<PharmacistDTO>) (pharmacist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(pharmacistDTO));
 	}
 
 	@PostMapping("/update")

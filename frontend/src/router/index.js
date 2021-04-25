@@ -14,6 +14,7 @@ import DermatologistHomepage from '../views/dermatologistView/DermatologistHomep
 import DermatologistProfile from '../views/dermatologistView/DermatologistProfile.vue'
 import SystemAdminRegistration from '../views/SystemAdmin/SystemAdminRegistration.vue'
 import Registration from '../views/SystemAdmin/Registration.vue'
+import PharmacyAdminRegistration from '../views/SystemAdmin/PharmacyAdminRegistration.vue'
 import DermatologistAbsenceRequest from '../views/dermatologistView/DermatologistAbsenceRequest.vue'
 import DermatologistExamination from '../views/dermatologistView/DermatologistExamination.vue'
 import DermatologistNewExamination from '../views/dermatologistView/DermatologistNewExamination.vue'
@@ -26,6 +27,11 @@ import PharmacistNewConsalting from '../views/pharmacistView/PharmacistNewConsal
 import PharmacistPatients from '../views/pharmacistView/PharmacistPatients.vue'
 import PharmacistProfile from '../views/pharmacistView/PharmacistProfile.vue'
 import PharmacistWorkCalendar from '../views/pharmacistView/PharmacistWorkCalendar.vue'
+import AddingDrug from '../views/SystemAdmin/AddingDrug.vue'
+import ProfileDataSupplier from '../views/SupplierView/ProfileDataSupplier.vue'
+import Offers from '../views/SupplierView/Offers.vue'
+import Drugs from '../views/SupplierView/Drugs.vue'
+import GiveOffers from '../views/SupplierView/GiveOffers.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -75,6 +81,11 @@ const routes = [
     path: '/systemAdminRegistration',
     name: 'SystemAdminRegistration',
     component: SystemAdminRegistration
+  },
+  {
+    path: '/pharmacyAdminRegistration',
+    name: 'PharmacyAdminRegistration',
+    component: PharmacyAdminRegistration
   },
   {
     path: '/dermatologyRegistration',
@@ -165,6 +176,31 @@ const routes = [
     path: '/pharmacistWorkCalendar',
     name: 'PharmacistWorkCalendar',
     component: PharmacistWorkCalendar
+  },
+  {
+    path: '/addingDrug',
+    name: 'AddingDrug',
+    component: AddingDrug
+  },
+  {
+    path: '/profileDataSupplier',
+    name: 'ProfileDataSupplier',
+    component: ProfileDataSupplier
+  },
+  {
+    path: '/offers',
+    name: 'Offers',
+    component: Offers
+  },
+  {
+    path: '/drugs',
+    name: 'Drugs',
+    component: Drugs
+  },
+  {
+    path: '/giveOffers',
+    name: 'GiveOffers',
+    component: GiveOffers
   }
 ]
 

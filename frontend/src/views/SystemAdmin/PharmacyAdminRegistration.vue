@@ -1,5 +1,5 @@
 <template>
-<div id="systemAdminRegistration">
+<div id="pharmacyAdminRegistration">
    <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -79,7 +79,7 @@
 
 <script>
 export default {
-    name: 'SystemAdminRegistration',
+    name: 'PharmacyAdminRegistration',
     data(){
         return{
             email:'',
@@ -132,13 +132,12 @@ export default {
                 address : addressInfo
             }
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-
-            this.axios.post('/systemAdmin/register',userInfo,{ 
+            this.axios.post('/pharmacyAdmin/register',userInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                         }})
                 .then(response => {
-                       alert("System administrator is successfully registred!");
+                       alert("Pharmacy administrator is successfully registred!");
                         console.log(response.data);
                 })
                 .catch(response => {
