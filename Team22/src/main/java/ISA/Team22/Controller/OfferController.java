@@ -135,6 +135,9 @@ public class OfferController {
     ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO)
     {
         Offer offer = offerService.sendOffer(offerDTO);
+        System.out.println("**************************");
+        System.out.println(offerDTO.isOfferGiven());
+        System.out.println("*********************");
         return offer == null  ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(offer);

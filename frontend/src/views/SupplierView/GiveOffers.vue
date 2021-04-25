@@ -5,7 +5,7 @@
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style">Offers</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
                     
             </span>
@@ -51,7 +51,7 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button style="background-color:#17a2b8" v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
+                                <button v-bind:disabled="isOfferGiven" style="background-color:#17a2b8"  v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
                             </div>
                     </div>
                </div>
@@ -103,6 +103,7 @@ export default{
     }
     },
      methods:{
+         
          format_date(value){
          if (value) {
            return moment(String(value)).format('YYYY-MM-DD')
@@ -114,19 +115,21 @@ export default{
         showMyOffers: function(){
            window.location.href = "/offers";
         },
+        
         showMyDrugs:  function(){
            window.location.href = "/drugs";
         },
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
         },
+        
         showOffer : function(event, order) {
           this.choosenOrder = order;
           this.choosenOfferPrice = order.price;
           this.choosenOfferId = order.id;
           this.choosenDeliveryDate = this.format_date(order.date);
           this.dueDate = this.format_date(order.date);
-          this.isOfferGiven = order.isOfferGiven;
+         
            this.$refs['quantity-modal'].show();
       },
       getActiveOrders : function() {
@@ -158,6 +161,7 @@ export default{
                                 'Authorization': 'Bearer ' + token,
                 }}).then(response => {
                     console.log(response);
+                    this.isOfferGiven = true
                     this.getActiveOrders();
 
                    alert("Offer is successfully sent!"); 

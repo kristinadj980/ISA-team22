@@ -5,7 +5,7 @@
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" >Offers</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
                     
             </span>
@@ -162,6 +162,9 @@ export default {
         },
         showMyDrugs:  function(){
            window.location.href = "/drugs";
+        },
+        showGiveOffers:  function(){
+           window.location.href = "/giveOffers";
         },
         showOffer : function(event, offer) {
           this.choosenOffer = offer;

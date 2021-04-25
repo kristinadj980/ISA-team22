@@ -9,19 +9,30 @@ public class OrdersReviewDTO {
 	    private String status;
 	    private List<DrugOrderDTO> drugs;
 	    private String pharmacyName;
+	    private boolean isOfferGiven;
 	    
 		public OrdersReviewDTO() {
 			super();
 		}
 
-		public OrdersReviewDTO(Long id, LocalDate date, String status, List<DrugOrderDTO> drugs,
-				String pharmacyName) {
+		public OrdersReviewDTO(Long id, LocalDate date, String status, List<DrugOrderDTO> drugs, String pharmacyName) {
 			super();
 			this.id = id;
 			this.date = date;
 			this.status = status;
 			this.drugs = drugs;
 			this.pharmacyName = pharmacyName;
+		}
+
+		public OrdersReviewDTO(Long id, LocalDate date, String status, List<DrugOrderDTO> drugs,
+				String pharmacyName,boolean isOfferGiven) {
+			super();
+			this.id = id;
+			this.date = date;
+			this.status = status;
+			this.drugs = drugs;
+			this.pharmacyName = pharmacyName;
+			this.isOfferGiven = isOfferGiven;
 		}
 
 		public Long getId() {
@@ -63,5 +74,14 @@ public class OrdersReviewDTO {
 		public void setPharmacyName(String pharmacyName) {
 			this.pharmacyName = pharmacyName;
 		}
+
+		public boolean isOfferGiven() {
+			return isOfferGiven;
+		}
+
+		public void setOfferGiven(boolean isOfferGiven) {
+			this.isOfferGiven = isOfferGiven;
+		}
+		
 	    
 }

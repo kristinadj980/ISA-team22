@@ -60,7 +60,7 @@ VALUES (601,65,701);
 
 
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
-VALUES (800,67,'brufen',56,19,103);
+VALUES (800,67,'brufen',150,19,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (801,68,'probiotik',130,50,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
