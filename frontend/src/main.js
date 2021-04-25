@@ -11,6 +11,7 @@ Vue.use(BootstrapVue)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import vuetify from './plugins/vuetify';
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
@@ -27,5 +28,6 @@ if (typeof baseURL2 !== 'undefined') {
 
 new Vue({
   router,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

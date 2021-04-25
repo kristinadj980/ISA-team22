@@ -7,7 +7,7 @@ import ISA.Team22.Domain.Users.Patient;
 
 public class ExaminationDTO {
 
-	private String pharmacy;
+	private Long pharmacy;
 	
 	private String startDate;
 	
@@ -15,34 +15,25 @@ public class ExaminationDTO {
 	
 	private String endTime;
 	
-	private Integer duration;
-	
-	private ExaminationStatus examinationStatus;
-	
-	private DermatologistDTO dermatologist;
-	
-	private Patient patient;
+	private String patientInfo;
 	
 	public ExaminationDTO() {}
-	
-	
-	public ExaminationDTO( String pharmacy, String startDate, String startTime, Integer duration,
-			ExaminationStatus examinationStatus, DermatologistDTO dermatologist, Patient patient) {
+
+	public ExaminationDTO(Long pharmacy, String startDate, String startTime, String endTime, String patientInfo) {
 		super();
 		this.pharmacy = pharmacy;
 		this.startDate = startDate;
 		this.startTime = startTime;
-		this.duration = duration;
-		this.examinationStatus = examinationStatus;
-		this.dermatologist = dermatologist;
-		this.patient = patient;
-	}
-	
-	public ExaminationDTO(String startDate, String startTime, String endTime) {
-		super();
-		this.startDate = startDate;
-		this.startTime = startTime;
 		this.endTime = endTime;
+		this.patientInfo = patientInfo;
+	}
+
+	public Long getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Long pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 
 	public String getStartDate() {
@@ -61,56 +52,20 @@ public class ExaminationDTO {
 		this.startTime = startTime;
 	}
 
-	
 	public String getEndTime() {
 		return endTime;
 	}
-
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
-
-	public Integer getDuration() {
-		return duration;
+	public String getPatientInfo() {
+		return patientInfo;
 	}
 
-	public void setDuration(Integer duration) {
-		this.duration = duration;
+	public void setPatientInfo(String patientInfo) {
+		this.patientInfo = patientInfo;
 	}
-
-	public ExaminationStatus getExaminationStatus() {
-		return examinationStatus;
-	}
-
-	public void setExaminationStatus(ExaminationStatus examinationStatus) {
-		this.examinationStatus = examinationStatus;
-	}
-
-	public DermatologistDTO getDermatologist() {
-		return dermatologist;
-	}
-
-	public void setDermatologist(DermatologistDTO dermatologist) {
-		this.dermatologist = dermatologist;
-	}
-
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-
-	public String getPharmacy() {
-		return pharmacy;
-	}
-
-	public void setPharmacy(String pharmacy) {
-		this.pharmacy = pharmacy;
-	}
-	
 	
 }

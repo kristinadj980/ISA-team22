@@ -38,12 +38,7 @@
                 max-width: 100%;
                 left: 0;
                 z-index: 999;">
-                <table  class="table table-striped table-dark " style="height:45px;
-                width:700px;
-                position: fixed;
-                top: 25%;
-                left: 50px;
-                z-index: 999;">
+                <table  class="table table-striped table-dark table_style ">
                 <thead class="bg-info">
                     <tr>
                         <th scope="col">Pharmacy Name</th>
@@ -79,23 +74,31 @@
                     height: 500px;
                     width: 45%;
                     max-width: 100%;">
-                    <h6 class="ml-n mt-6 strong text-left"><b>Search and chooese patient</b></h6>
-                    <b-form-input  style="margin-bottom:2%" v-model="startDate" filled placeholder="Enter patient"></b-form-input>
+                    <h6 class="ml-n mt-6 strong text-left" style="margin-bottom:8%"><b>Search and chooese patient</b></h6>
+                    <i class="fa fa-user icon"></i>
+                    <input list="my-list-id" v-model="selectedPatient" class="input_style" placeholder="      Enter patient">
+                    <datalist id="my-list-id">
+                        <option v-for="patient in patients" v-bind:key="patient.id">
+                            {{ patient.name }} {{patient.surname}} | {{patient.email}} 
+                        </option>
+                    </datalist>
+                    <!--https://www.youtube.com/watch?v=G34_yNV8FMY------v-model="selectedPatient"-->
                     <b-dropdown text="Select pharmacy" variant="outline-info" class="dropdown_style" id="dropdown-divider">
-                            <b-dropdown-item  v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
+                            <b-dropdown-item  
+                            v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
                             @click="selectedPharmacyID = pharm.id, selectedPharmacyName = pharm.name">
                                 {{ pharm.name}}
                              </b-dropdown-item>
                     </b-dropdown>
-                    <p class="ml-n mt-6 strong "> <b>Selected pharmacy: {{ selectedPharmacyName }}</b></p>
+                    <p class="ml-n mt-6 strong chosen"> <b>Selected pharmacy: {{ selectedPharmacyName}}</b></p>
                     <h6 class="ml-n mt-6 strong text-left" style="margin-top:4%"><b>Select date of examination</b></h6>
-                    <b-form-input class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
+                    <b-form-input type="date" class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
                     <h6 class="ml-n mt-6 strong text-left"><b>Select start time of examination</b></h6>
-                    <b-form-input class="object_space" v-model="startTime" filled placeholder="Start time of examination"></b-form-input>
+                    <b-form-input type="time" class="object_space" v-model="startTime" filled placeholder="Start time of examination"></b-form-input>
                     <h6 class="ml-n mt-6 strong text-left"><b>Select end time of examination</b></h6>
-                    <b-form-input class="object_space" v-model="endTime" filled placeholder="End time of examination"></b-form-input>
+                    <b-form-input type="time" class="object_space" v-model="endTime" filled placeholder="End time of examination"></b-form-input>
                     
-                    <b-button class="btn btn-info btn-lg space_style object_space" style="background-color:#003d66; width:18cm;" v-on:click = "scheduleExamination">Schedule</b-button>
+                    <b-button class="btn btn-info btn-lg space_style object_space" style="background-color:#17a2b8; width:18cm;" v-on:click = "scheduleExamination">Schedule</b-button>
             </b-card>
         </div>
     </div>
@@ -113,6 +116,8 @@ export default {
         pharmacies: [''],
         selectedPharmacyID: null,
         selectedPharmacyName: "",
+        patients:[''],
+        selectedPatient: [''],
         }
     },
     mounted(){
@@ -134,6 +139,17 @@ export default {
             }
         }).then(response => {
             this.pharmacies = response.data;
+        }).catch(res => {
+            alert("Error");
+            console.log(res);
+        });
+
+        this.axios.get('/patient/allPatients',{ 
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            }
+        }).then(response => {
+            this.patients = response.data;
         }).catch(res => {
             alert("Error");
             console.log(res);
@@ -173,7 +189,8 @@ export default {
                     startDate: this.startDate,
                     startTime : this.startTime,
                     endTime: this.endTime,
-                    pharmacyID: this.selectedPharmacyID
+                    pharmacyID: this.selectedPharmacyID,
+                    patientEmail: this.selectedPatient
                 };
                 this.axios.post('/examination/dermatologistSchedule',newExamination, { 
                     headers: {
@@ -185,9 +202,13 @@ export default {
                     })
                     .catch(response => {
                         alert("Please, try later.")
-                        console.log(response);
+                        alert(response);
                     })
+        },
+        pokusaj: function(e){
+           console.log(e.target.value)
         }
+       
     }
 }
 </script>
@@ -230,9 +251,30 @@ export default {
         margin-bottom: 1% !important;
     }
     .dropdown_style{
-        width: 5cm;
+        width: 14%;
         position: fixed;
-        left: 54%;
-        
+        left: 54.8%;
     }
+    .table_style{
+        height:45px;
+        width:700px;
+        position: fixed;
+        top: 25%;
+        left: 50px;
+        z-index: 999;
+    }
+    .input_style{
+        width: 14%;
+        border-bottom: 3px solid #17a2b8;
+        border: 1px solid #17a2b8;
+        position: fixed;
+        left: 49.8%;
+        top: 36%;
+        margin-left: 5%;
+        margin-top: 1% !important;
+        margin-bottom: 1% !important;
+        height: 5%;
+        border-radius: 7%;
+    }
+    
 </style>
