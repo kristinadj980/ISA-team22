@@ -68,7 +68,6 @@ public class OfferController {
         List<Offer> offers =  supplier.getOffers();
         for (Offer o: offers) {
             PurchaseOrder order = o.getPurchaseOrder();
-            System.out.println("Admin:" + order.getPharmacyAdministrator());
             if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("processed") && order.getDueDate().isAfter(LocalDate.now()))
             {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
@@ -135,9 +134,7 @@ public class OfferController {
     ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO)
     {
         Offer offer = offerService.sendOffer(offerDTO);
-        System.out.println("**************************");
-        System.out.println(offerDTO.isOfferGiven());
-        System.out.println("*********************");
+       
         return offer == null  ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(offer);

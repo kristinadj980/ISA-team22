@@ -1,5 +1,7 @@
 package ISA.Team22.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,28 +24,6 @@ public class PharmacyService implements IPharmacyService {
     public PharmacyService(PharmacyRepository pharmacyRepository) {
 		this.pharmacyRepository = pharmacyRepository;
 	}
-
-	/*@Override
-	public Pharmacy save(PharmacyDTO pharmacy) {
-		System.out.println("****************************");
-		System.out.println(pharmacy.getName());
-		System.out.println(pharmacy.getDescription());
-		System.out.println(pharmacy.getAddressDTO());
-		System.out.println("*************************");
-		Pharmacy p = new Pharmacy();
-		p.setName(pharmacy.getName());
-		AddressDTO dto = pharmacy.getAddressDTO();
-        City city = new City();
-        city.setName(dto.getTown());
-        Country country = new Country();
-        country.setName(dto.getCountry());
-        city.setCountry(country);
-        Address address = new Address(dto.getStreet(),dto.getNumber(),city);
-        p.setAddress(address);
-        p.setDescription(pharmacy.getDescription());
-        
-        return pharmacyRepository.save(p);
-	}*/
 	
 	@Override
     public Pharmacy save(PharmacyDTO pharmacy) {
@@ -62,4 +42,9 @@ public class PharmacyService implements IPharmacyService {
 
         return pharmacyRepository.save(pharmacy1);
     }
+
+	@Override
+	public List<Pharmacy> findAll() {
+		return pharmacyRepository.findAll();
+	}
 }

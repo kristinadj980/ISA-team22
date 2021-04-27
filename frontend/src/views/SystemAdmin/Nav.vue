@@ -9,6 +9,9 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+           <a class="button is-dark"  href="/promotions">
+            <strong>Actions and promotions</strong>
+          </a>
           <a class="button is-dark"  href="/login">
             <strong>LogIn</strong>
           </a>

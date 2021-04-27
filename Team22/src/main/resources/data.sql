@@ -25,6 +25,7 @@ INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, 
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 103,'0657552525', 'mina@mina.com', true, true, 'Maric', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('PharmacyAdministrator', 104,'0657552525', 'marko@marko.com', true, true, 'Maric', 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 105,'0657552525', 'ana@ana.com', true, true, 'Maric', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 106,'06125478958', 'ana@ana', true, true, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (100, 3);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (101, 5);
@@ -32,6 +33,7 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (102, 2);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (104, 4);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (105, 6);
+INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (106, 1);
 
 
 
@@ -67,6 +69,12 @@ INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplie
 VALUES (802,69,'andol',167,87,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (803,70,'panadol',145,24,103);
+
+INSERT INTO PERIOD (id,start_date,end_date)
+VALUES (900,'2021-04-20', '2021-05-15');
+
+INSERT INTO PROMOTION (id,description,period_id,pharmacy_id)
+VALUES (950,'snizenje lekova 20%', 900,50);
 
 
 

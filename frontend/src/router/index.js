@@ -32,6 +32,7 @@ import ProfileDataSupplier from '../views/SupplierView/ProfileDataSupplier.vue'
 import Offers from '../views/SupplierView/Offers.vue'
 import Drugs from '../views/SupplierView/Drugs.vue'
 import GiveOffers from '../views/SupplierView/GiveOffers.vue'
+import Promotions from '../views/PharmacyView/Promotions.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -201,6 +202,11 @@ const routes = [
     path: '/giveOffers',
     name: 'GiveOffers',
     component: GiveOffers
+  },
+  {
+    path: '/promotions',
+    name: 'Promotions',
+    component: Promotions
   }
 ]
 

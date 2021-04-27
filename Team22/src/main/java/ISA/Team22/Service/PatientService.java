@@ -72,4 +72,9 @@ private final PatientRepository patientRepository;
         patient.setEnabled(false);
         return patientRepository.save(patient);
 	}
+
+	@Override
+	public Patient findById(Long id) {
+		return patientRepository.findById(id).get();
+	}
 }

@@ -22,10 +22,10 @@ public class Period {
 	@Column(name = "endDate",  nullable = false)
 	private LocalDate endDate;
 	
-	@Column(name = "startTime",  nullable = false)
+	@Column(name = "startTime")
 	private LocalTime startTime;
 	
-	@Column(name = "endTime",  nullable = false)
+	@Column(name = "endTime")
 	private LocalTime endTime;
 	
 	public Period() {
