@@ -81,7 +81,6 @@ public class DermatologistController {
 	        if (existingUser != null) {
 	            throw new ResourceConflictException("Entered email already exists", "Email already exists");
 	        }
-	        Person user = dermatologistService.save(userRequest);
 	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
 	    }
 	

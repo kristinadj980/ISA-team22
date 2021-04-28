@@ -2,6 +2,9 @@ package ISA.Team22.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.time.temporal.ChronoUnit.MINUTES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,7 +45,7 @@ public class ExaminationService implements IExaminationService {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		Dermatologist dermatologist = dermatologistService.getById(person.getId());
-		LocalDate startDate = LocalDate.parse(examinationDTO.getStartDate()); 
+		LocalDate startDate = examinationDTO.getStartDate(); 
 		LocalTime startTime = examinationDTO.getStartTime();
 		LocalTime endTime = examinationDTO.getEndTime();
 		Pharmacy pharmacy = pharmacyService.getById(examinationDTO.getPharmacyID());
@@ -54,5 +57,18 @@ public class ExaminationService implements IExaminationService {
 		Examination examination = new Examination( startDate, startTime, endTime, duration, 2500.50, ExaminationStatus.scheduled,"no diagnos", dermatologist, patient, pharmacy, null);
 
 		examinationRepository.save(examination);
+	}
+
+	@Override
+	public List<ExaminationDTO> getFreeScheduledExaminations() {
+		List<Examination> examinations = examinationRepository.findAll();
+		List<ExaminationDTO> examinationsDTO = new ArrayList<ExaminationDTO>();
+		
+		for(Examination e:examinations) {
+			if(e.getPatient() == null) {
+				examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getDuration(), e.getId(), e.getPharmacy().getName()));
+			}
+		}
+		return examinationsDTO;
 	}
 }

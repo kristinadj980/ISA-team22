@@ -53,14 +53,10 @@ public class ExaminationController {
 	
 	@GetMapping("/getFreeScheduled")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
-	public List<Examination> getFreeScheduledExaminations(){
-		System.out.println("Pogodjen kontroler za dobavljanje zakazanih pregleda");
-		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		Person person = (Person) currentUser.getPrincipal();
-		Dermatologist dermatologist = dermatologistService.getById(person.getId());
-		System.out.println(dermatologist.getId());
-		List<Examination> examinations = new ArrayList<Examination>();
+	public ResponseEntity<List<ExaminationDTO>> getFreeScheduledExaminations(){
+		List<ExaminationDTO> examinationsDTO = examinationService.getFreeScheduledExaminations();
 		
-		return examinations;
+		return examinationsDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(examinationsDTO);
 	}
+
 }
