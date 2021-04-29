@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PromotionDTO;
 import ISA.Team22.Domain.DTO.PromotionPeriodDTO;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.Period;
 import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
+import ISA.Team22.Domain.Users.Patient;
+import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Repository.PatientRepository;
 import ISA.Team22.Repository.PromotionRepository;
 import ISA.Team22.Service.IService.IPromotionService;
 
@@ -18,9 +24,11 @@ import ISA.Team22.Service.IService.IPromotionService;
 public class PromotionService implements IPromotionService {
 
 	private final PromotionRepository promotionRepository;
+	private final PatientRepository patientRepository;
 	
-    public PromotionService(PromotionRepository promotionRepository) {
+    public PromotionService(PromotionRepository promotionRepository,PatientRepository patientRepository) {
 		this.promotionRepository = promotionRepository;
+		this.patientRepository = patientRepository;
 	}
 
 	@Override
@@ -46,4 +54,22 @@ public class PromotionService implements IPromotionService {
 		}
 		return promotionDtos;
 	}
+	
+	 public boolean subsribeToPharmacy(Pharmacy pharmacy) {
+		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+	     Person person = (Person)currentUser.getPrincipal();
+         Patient patient = patientRepository.findById(person.getId()).get();
+         List<Pharmacy> pharmacies = patient.getSubscribedToPharmacies();
+         for (Pharmacy p : pharmacies) {
+			if(p.getId().equals(pharmacy.getId())) {
+				System.out.println("You are already subsrcibed to this pharmacy!");
+				 return false;
+			}
+		}
+         pharmacies.add(pharmacy);
+         patientRepository.save(patient); 
+         return true;
+	     
+	 }
+
 }

@@ -47,4 +47,9 @@ public class PharmacyService implements IPharmacyService {
 	public List<Pharmacy> findAll() {
 		return pharmacyRepository.findAll();
 	}
+
+	@Override
+	public Pharmacy findById(Long pharmacyId) {
+		return pharmacyRepository.findById(pharmacyId).get();
+	}
 }

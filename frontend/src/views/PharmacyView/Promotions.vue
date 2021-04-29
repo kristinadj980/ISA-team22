@@ -10,18 +10,7 @@
                 <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
             </span>
         </div>
-         <!-- PHARMACIES 
-                <div>
-                             <label style="color:white">Pharmacy:
-                             <select v-model="selectedValue">
-                                 <option disabled value="">Please select one</option>
-                                 <option v-for="pharmacy in pharmacies"   v-bind:key="pharmacy.id"   v-on:click = "showPharmacy($event,pharmacy)">{{pharmacy.name}}</option>
-                             </select>
-                             
-                    </label>
-                    @click="selectedPharmacyID = pharm.id, selectedPharmacyName = pharm.name"
-                </div>
-               <label> {{selectedValue}}</label>-->
+         <!-- PHARMACIES -->
                 <b-dropdown text="Select pharmacy" variant="outline-info" class="dropdown_style" id="dropdown-divider">
                             <b-dropdown-item  
                             v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
@@ -60,7 +49,7 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary">Subscribe</button>
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "subscribe($event,promotion)">Subscribe</button>
                             </div>
                     </div>
                </div>
@@ -77,7 +66,8 @@ export default {
        promotions :[],
        pharmacies:[''],
        selectedPharmacyID: '',
-        selectedPharmacyName: "",
+       selectedPharmacyName: "",
+       selectedPromotionID:'',
     }
   },
   mounted() {
@@ -131,6 +121,25 @@ export default {
           this.selectedPharmacyName = pharm.name;
           this.getPromotions();
 
+      },
+      subscribe : function(event, promotion) {
+          this.selectedPromotionID = promotion.pharmacyId;
+          const promotionInfo ={
+                pharmacyId : promotion.pharmacyId,
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/promotion/subscribe',promotionInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    alert("You have successfully subscribed!");
+                    console.log(response); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+          
+          
       },
     
   }

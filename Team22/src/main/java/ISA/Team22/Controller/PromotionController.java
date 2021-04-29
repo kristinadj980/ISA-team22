@@ -20,14 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 import ISA.Team22.Domain.DTO.OfferDTO;
 import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
+import ISA.Team22.Domain.DTO.PharmacyPromotionDTO;
 import ISA.Team22.Domain.DTO.PromotionDTO;
 import ISA.Team22.Domain.DTO.PromotionPeriodDTO;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.Period;
 import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Service.PatientService;
+import ISA.Team22.Service.PharmacyService;
 import ISA.Team22.Service.PromotionService;
 
 @RestController
@@ -37,11 +40,13 @@ public class PromotionController {
 
 	private final PromotionService promotionService;
 	private final PatientService patientService;
+	private final PharmacyService pharmacyService;
 	
 	@Autowired
-	public PromotionController(PromotionService promotionService,PatientService patientService) {
+	public PromotionController(PromotionService promotionService,PatientService patientService,PharmacyService pharmacyService) {
 		this.promotionService = promotionService;
 		this.patientService = patientService;
+		this.pharmacyService = pharmacyService;
 	}
 	
 	
@@ -55,4 +60,22 @@ public class PromotionController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(promotionDtos);
     }
+	
+	 @PostMapping("/subscribe")
+	    @PreAuthorize("hasRole('PATIENT')")
+	    public ResponseEntity<String> subsribe(@RequestBody PharmacyPromotionDTO pharmacyPromotionDTO)
+	    {
+	        Pharmacy pharmacy;
+	       
+	        try {
+	            pharmacy= pharmacyService.findById(pharmacyPromotionDTO.getPharmacyId());
+	        }
+	        catch(Exception e) {
+	            throw new IllegalArgumentException("This pharmacy doesn't exist!");
+	        }
+	        
+	        return promotionService.subsribeToPharmacy(pharmacy) == false ?
+	                    new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+	                    ResponseEntity.ok("Patient is now subscribed");
+	    }
 }

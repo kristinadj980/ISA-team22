@@ -45,7 +45,7 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "subscribedToPharmacies")
 	private List<Patient> subscribedUsersIDs;
 	
 	 @JsonManagedReference
