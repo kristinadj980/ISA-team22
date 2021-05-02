@@ -68,6 +68,7 @@ public class PromotionService implements IPromotionService {
 		}
          pharmacies.add(pharmacy);
          patientRepository.save(patient); 
+         
          return true;
 	     
 	 }

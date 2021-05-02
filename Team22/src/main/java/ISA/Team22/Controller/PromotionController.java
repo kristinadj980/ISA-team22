@@ -1,7 +1,9 @@
 package ISA.Team22.Controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.query.criteria.internal.expression.function.LengthFunction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import ISA.Team22.Domain.DTO.OfferDTO;
 import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyPromotionDTO;
+import ISA.Team22.Domain.DTO.PharmacySubsribedDTO;
 import ISA.Team22.Domain.DTO.PromotionDTO;
 import ISA.Team22.Domain.DTO.PromotionPeriodDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -62,20 +65,40 @@ public class PromotionController {
     }
 	
 	 @PostMapping("/subscribe")
-	    @PreAuthorize("hasRole('PATIENT')")
-	    public ResponseEntity<String> subsribe(@RequestBody PharmacyPromotionDTO pharmacyPromotionDTO)
-	    {
-	        Pharmacy pharmacy;
+	 @PreAuthorize("hasRole('PATIENT')")
+	 public ResponseEntity<String> subsribe(@RequestBody PharmacyPromotionDTO pharmacyPromotionDTO)
+	 {
+	     Pharmacy pharmacy;
 	       
-	        try {
-	            pharmacy= pharmacyService.findById(pharmacyPromotionDTO.getPharmacyId());
-	        }
-	        catch(Exception e) {
-	            throw new IllegalArgumentException("This pharmacy doesn't exist!");
-	        }
+	     try {
+	        pharmacy= pharmacyService.findById(pharmacyPromotionDTO.getPharmacyId());
+	     }
+	     catch(Exception e) {
+	        throw new IllegalArgumentException("This pharmacy doesn't exist!");
+	     }
 	        
-	        return promotionService.subsribeToPharmacy(pharmacy) == false ?
+	     return promotionService.subsribeToPharmacy(pharmacy) == false ?
 	                    new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                    ResponseEntity.ok("Patient is now subscribed");
-	    }
+	  }
+	 
+	 @GetMapping("/subscriptions")
+	 @PreAuthorize("hasRole('PATIENT')")
+	 public ResponseEntity<List<PharmacySubsribedDTO>> getMySubscriptions()
+	 {
+		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		 Person person = (Person)currentUser.getPrincipal();
+		 Patient patient = patientService.findById(person.getId());
+		 List<Pharmacy> pharmacies = patient.getSubscribedToPharmacies();
+		 List<PharmacySubsribedDTO> pharmacySubsribedDTOs = new ArrayList<PharmacySubsribedDTO>();
+		 PharmacySubsribedDTO dto;
+		 for (Pharmacy p : pharmacies) {
+			 dto = new PharmacySubsribedDTO(p.getId(), p.getName());
+			 pharmacySubsribedDTOs.add(dto);
+			}
+
+	     return pharmacySubsribedDTOs == null ?
+	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+	                ResponseEntity.ok(pharmacySubsribedDTOs);
+	  }
 }

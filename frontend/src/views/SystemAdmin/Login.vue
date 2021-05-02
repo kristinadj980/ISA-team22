@@ -143,7 +143,7 @@ export default {
 
                     }).catch(res => {
                                 alert("NOT OK");
-                                 window.location.href = '/profileDataSupplier';
+                                 window.location.href = '/patientProfile';
                                     console.log(res);
                             });
 

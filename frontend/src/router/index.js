@@ -33,6 +33,7 @@ import Offers from '../views/SupplierView/Offers.vue'
 import Drugs from '../views/SupplierView/Drugs.vue'
 import GiveOffers from '../views/SupplierView/GiveOffers.vue'
 import Promotions from '../views/PharmacyView/Promotions.vue'
+import Profile from '../views/PatientView/Profile.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -207,6 +208,11 @@ const routes = [
     path: '/promotions',
     name: 'Promotions',
     component: Promotions
+  },
+  {
+    path: '/patientProfile',
+    name: 'Profile',
+    component: Profile
   }
 ]
 
