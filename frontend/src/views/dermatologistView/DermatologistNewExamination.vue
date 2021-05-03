@@ -79,9 +79,9 @@
                 id="dropdown-divider"
                 style="margin-top: 6% !important;">
                     <b-dropdown-item  
-                    v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
-                    @click="selectedPharmacyID = pharm.id, selectedPharmacyName = pharm.name">
-                        {{ pharm.name}}
+                    v-for="examination in examinations" v-bind:key="examination.id" :value="examination.id"
+                    @click="selectedExamination = examination">
+                        {{ format_date(examination.startDate)}} {{ format_time(examination.startTime)}} - {{ examination.endTime}}
                     </b-dropdown-item>
                 </b-dropdown>
                 <p class="ml-n mt-6 strong chosen"
@@ -91,13 +91,13 @@
                 top: 51%; 
                 margin-left: 2%;">
                      <b>
-                         Selected date: {{ selectedPharmacyName }}
+                         Selected date: {{ selectedExamination.startDate }} {{ selectedExamination.startTime}} - {{ selectedExamination.endTime}}
                     </b>
                 </p>
                 <b-button 
                     class="btn btn-info btn-lg space_style object_space" 
                     style="background-color:#17a2b8; width:16.3cm; margin-top: 10% !important;" 
-                    v-on:click = "scheduleExamination">
+                    v-on:click = "scheduleSelectedExamination">
                     Schedule
                 </b-button>
             </div>  
@@ -164,7 +164,7 @@ export default {
     name: 'DermatologistNewExamination',
     data() {
     return {
-        selectedExamination: null,
+        selectedExamination: "",
         examinations : [''],
         startDate: null,
         startTime: null,
@@ -256,6 +256,28 @@ export default {
                     startDate: this.startDate,
                     startTime : this.startTime,
                     endTime: this.endTime,
+                    patientInfo: this.selectedPatient
+                };
+                this.axios.post('/examination/dermatologistSchedule',newExamination, { 
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    }})
+                    .then(response => {
+                        alert("Successfully scheduled new examination.")
+                            console.log(response);
+                    })
+                    .catch(response => {
+                        alert("Please, try later.")
+                        alert(response);
+                    })
+        },
+        scheduleSelectedExamination : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+                const newExamination = {
+                    pharmacyID: this.selectedExamination.pharmacyID,
+                    startDate: this.selectedExamination.startDate,
+                    startTime : this.selectedExamination.startTime,
+                    endTime: this.selectedExamination.endTime,
                     patientInfo: this.selectedPatient
                 };
                 this.axios.post('/examination/dermatologistSchedule',newExamination, { 

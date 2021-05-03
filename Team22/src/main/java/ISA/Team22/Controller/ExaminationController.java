@@ -54,7 +54,9 @@ public class ExaminationController {
 	@GetMapping("/getFreeScheduled")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<ExaminationDTO>> getFreeScheduledExaminations(){
-		List<ExaminationDTO> examinationsDTO = examinationService.getFreeScheduledExaminations();
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		List<ExaminationDTO> examinationsDTO = examinationService.getFreeScheduledExaminations(person.getId());
 		
 		return examinationsDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(examinationsDTO);
 	}

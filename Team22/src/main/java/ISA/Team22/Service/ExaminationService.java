@@ -52,23 +52,72 @@ public class ExaminationService implements IExaminationService {
 		String[] tokens = examinationDTO.getPatientInfo().split("\\s");
 		Patient patient = patientService.findByEmail(tokens[3]);
 		Long duration = startTime.until(endTime, MINUTES);
-		System.out.println(duration);
-		
-		Examination examination = new Examination( startDate, startTime, endTime, duration, 2500.50, ExaminationStatus.scheduled,"no diagnos", dermatologist, patient, pharmacy, null);
 
-		examinationRepository.save(examination);
+		Examination examination = new Examination( startDate, startTime, endTime, duration, 2500.50, ExaminationStatus.scheduled,"no diagnos", dermatologist, patient, pharmacy, null);
+		if(checkPatientSchedule(examination) == true)
+			if(checkDermatologistSchedule(examination))
+				examinationRepository.save(examination);
+		
+		
 	}
 
 	@Override
-	public List<ExaminationDTO> getFreeScheduledExaminations() {
+	public List<ExaminationDTO> getFreeScheduledExaminations(Long id) {
 		List<Examination> examinations = examinationRepository.findAll();
 		List<ExaminationDTO> examinationsDTO = new ArrayList<ExaminationDTO>();
 		
 		for(Examination e:examinations) {
-			if(e.getPatient() == null) {
+			if(e.getPatient() == null && e.getDermatologist().getId() == id) {
 				examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getDuration(), e.getId(), e.getPharmacy().getName()));
 			}
 		}
 		return examinationsDTO;
+	}
+
+	@Override
+	public List<Examination> getAllPatientExaminations(Long id) {
+		List<Examination> allExaminations = examinationRepository.findAll();
+		List<Examination> examinations = new ArrayList<Examination>();
+		for(Examination e:allExaminations)
+			if(e.getPatient().getId() == id)
+				examinations.add(e);
+			
+		return examinations;
+	}
+
+	@Override
+	public List<Examination> getAllDermatologistExamination(Long id) {
+		List<Examination> allExaminations = examinationRepository.findAll();
+		List<Examination> examinations = new ArrayList<Examination>();
+		for(Examination e:allExaminations)
+			if(e.getDermatologist().getId() == id)
+				examinations.add(e);
+		
+		return examinations;
+	}
+
+	@Override
+	public Boolean checkPatientSchedule(Examination examination) {
+		List<Examination> examinations = getAllPatientExaminations(examination.getPatient().getId());
+		if (examinations == null)
+			return true;
+		
+		for(Examination e:examinations)
+			if(examination.getStartDate() == e.getStartDate())
+				if(examination.getStartTime().isAfter(e.getEndTime()) || examination.getEndTime().isBefore(e.getStartTime()))
+					return true;
+				
+		return false;
+	}
+
+	@Override
+	public Boolean checkDermatologistSchedule(Examination examination) {
+		List<Examination> examinations = getAllDermatologistExamination(examination.getDermatologist().getId());
+		for(Examination e:examinations)
+			if(examination.getStartDate() == e.getStartDate())
+				if(examination.getStartTime().isAfter(e.getEndTime()) || examination.getEndTime().isBefore(e.getStartTime()))
+					return true;
+		
+		return false;
 	}
 }
