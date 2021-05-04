@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ISA.Team22.Domain.DTO.OfferDTO;
 import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
@@ -101,4 +100,22 @@ public class PromotionController {
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                ResponseEntity.ok(pharmacySubsribedDTOs);
 	  }
+	 
+	 @PostMapping("/canclePromotion")
+	 @PreAuthorize("hasRole('PATIENT')")
+	 public ResponseEntity<String> cancleSubscription(@RequestBody PharmacySubsribedDTO pharmacySubsribedDTO){
+		 Pharmacy pharmacy;
+	       
+	     try {
+	        pharmacy= pharmacyService.findById(pharmacySubsribedDTO.getPharmacyId());
+	     }
+	     catch(Exception e) {
+	        throw new IllegalArgumentException("This pharmacy doesn't exist!");
+	     }
+	     
+	     return promotionService.unsubsribeToPharmacy(pharmacy) == false ?
+                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                 ResponseEntity.ok("Patient is now unsubscribed");
+		 
+	 }
 }

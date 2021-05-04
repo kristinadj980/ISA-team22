@@ -1,7 +1,9 @@
 package ISA.Team22.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.PatientRepository;
 import ISA.Team22.Repository.PromotionRepository;
 import ISA.Team22.Service.IService.IPromotionService;
+
 
 @Service
 public class PromotionService implements IPromotionService {
@@ -71,6 +74,25 @@ public class PromotionService implements IPromotionService {
          
          return true;
 	     
+	 }
+	 
+	 public boolean unsubsribeToPharmacy(Pharmacy pharmacy) {
+		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+	     Person person = (Person)currentUser.getPrincipal();
+         Patient patient = patientRepository.findById(person.getId()).get();
+         List<Pharmacy> pharmacies = new ArrayList<>(patient.getSubscribedToPharmacies());
+         boolean deleted = false;
+        
+         for (Iterator<Pharmacy> itr = patient.getSubscribedToPharmacies().iterator(); itr.hasNext();) {
+        	 Pharmacy p =  (Pharmacy) itr.next();
+			if(p.getId().equals(pharmacy.getId())) {
+				itr.remove();
+				deleted = true;  
+			}
+         }
+         
+         patientRepository.save(patient); 
+         return true;
 	 }
 
 }

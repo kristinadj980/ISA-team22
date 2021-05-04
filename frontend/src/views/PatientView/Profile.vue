@@ -28,7 +28,7 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" >Cancel promotion</button>
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "canclePromotion($event,pharmacy)" >Cancel promotion</button>
                             </div>
                     </div>
                </div>
@@ -74,6 +74,25 @@ export default {
                 console.log(res);
             });
         },
+         canclePromotion : function(event, pharmacy) {
+            const pharmacyInfo ={
+                pharmacyId : pharmacy.pharmacyId,
+                pharmacyName: pharmacy.pharmacyName,
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/promotion/canclePromotion',pharmacyInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    console.log(response);
+                    this.pharmacies = response.data;
+                    this.getMyPromotions()
+                   alert("Promotion is successfully cancled!"); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+      },
        
     }
 }
