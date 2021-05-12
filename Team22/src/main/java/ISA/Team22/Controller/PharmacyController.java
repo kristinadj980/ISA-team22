@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
+import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Service.PharmacyService;
 
 @RestController
@@ -58,7 +60,6 @@ public class PharmacyController {
 		
 		return ResponseEntity.ok(pharmaciesDTOs);
 	}
-
 	
 	
 }

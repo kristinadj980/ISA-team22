@@ -1,5 +1,8 @@
 package ISA.Team22.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PharmacistDTO;
+import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Service.PharmacistService;
@@ -67,5 +72,25 @@ public class PharmacistController {
 		} catch (Exception e) {
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/pharmacistInfo")
+	@PreAuthorize("hasRole('PATIENT')")  
+	public ResponseEntity<List<UserInfoComplaintDTO>> getPharmacistInfo() {
+	  
+		List<UserInfoComplaintDTO> infoComplaintDTOs = new ArrayList<UserInfoComplaintDTO>();
+        List<Pharmacist> pharmacists = pharmacistService.findAll();
+        for (Pharmacist pharmacist: pharmacists) {
+        	UserInfoComplaintDTO userInfoComplaintDTO = new UserInfoComplaintDTO();
+        	userInfoComplaintDTO.setFullName(pharmacist.getName() + " " + pharmacist.getLastName());
+        	userInfoComplaintDTO.setEmail(pharmacist.getEmail());
+        	userInfoComplaintDTO.setUserId(pharmacist.getId());
+        	infoComplaintDTOs.add(userInfoComplaintDTO);
+        }
+        
+        return infoComplaintDTOs == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(infoComplaintDTOs);
+		
 	}
 }

@@ -104,4 +104,8 @@ public class PharmacistService implements IPharmacistService {
 		pharmacistRepository.save(pharmacist);
 		
 	}
+	@Override
+	public List<Pharmacist> findAll() {
+		return pharmacistRepository.findAll();
+	}
 }

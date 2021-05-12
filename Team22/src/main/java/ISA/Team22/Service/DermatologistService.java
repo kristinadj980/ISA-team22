@@ -104,5 +104,10 @@ public class DermatologistService implements IDermatologistService {
 		dermatologistRepository.save(dermatologist);
 	}
 
+	@Override
+	public List<Dermatologist> findAll() {
+		return dermatologistRepository.findAll();
+	}
+
 	
 }

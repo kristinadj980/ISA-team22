@@ -12,5 +12,6 @@ public interface IDermatologistService {
 	Dermatologist save(DermatologistDTO userRequest);
 	void update(DermatologistDTO dto);
 	void updatePassword(DermatologistDTO dto);
+	List<Dermatologist> findAll();
 	
 }

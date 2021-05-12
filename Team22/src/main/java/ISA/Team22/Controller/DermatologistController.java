@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DermatologistDTO;
+import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
+
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
@@ -87,5 +90,25 @@ public class DermatologistController {
 	        Person user = dermatologistService.save(userRequest);
 	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
 	    }
+	  
+	  @GetMapping("/dermaInfo")
+		@PreAuthorize("hasRole('PATIENT')")  
+		public ResponseEntity<List<UserInfoComplaintDTO>> getDermatologyInfo() {
+		  
+			List<UserInfoComplaintDTO> infoComplaintDTOs = new ArrayList<UserInfoComplaintDTO>();
+	        List<Dermatologist> dermatologists = dermatologistService.findAll();
+	        for (Dermatologist dermatologist: dermatologists) {
+	        	UserInfoComplaintDTO userInfoComplaintDTO = new UserInfoComplaintDTO();
+	        	userInfoComplaintDTO.setFullName(dermatologist.getName() + " " + dermatologist.getLastName());
+	        	userInfoComplaintDTO.setEmail(dermatologist.getEmail());
+	        	userInfoComplaintDTO.setUserId(dermatologist.getId());
+	        	infoComplaintDTOs.add(userInfoComplaintDTO);
+	        }
+	        
+	        return infoComplaintDTOs == null ?
+	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+	                ResponseEntity.ok(infoComplaintDTOs);
+			
+		}
 	
 }

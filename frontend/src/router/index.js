@@ -34,6 +34,7 @@ import Drugs from '../views/SupplierView/Drugs.vue'
 import GiveOffers from '../views/SupplierView/GiveOffers.vue'
 import Promotions from '../views/PharmacyView/Promotions.vue'
 import Profile from '../views/PatientView/Profile.vue'
+import Complaint from '../views/PatientView/Complaint.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -213,6 +214,11 @@ const routes = [
     path: '/patientProfile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/complaint',
+    name: 'Complaint',
+    component: Complaint
   }
 ]
 
