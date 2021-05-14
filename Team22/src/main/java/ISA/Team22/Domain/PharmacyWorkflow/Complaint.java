@@ -26,7 +26,7 @@ public class Complaint {
 	@Column(name = "answer")
 	private String answer;
 	
-	@Column(name = "complaintDate",  nullable = false)
+	@Column(name = "complaintDate")
 	private LocalDate complaintDate;
 	
 	@Column(name = "roleId",  nullable = false)

@@ -43,7 +43,7 @@
                     <div class="row">
                         <div class="col d-flex justify-content-center">
                             <b-dropdown id="ddCommodity" name="ddCommodity" text="Choose dermatologists" class = "btn btn-link btn-lg" style="float:left;margin-left:20px;">
-                                <b-dropdown-item v-for="derm in this.dermatologists"  v-on:click ="dermatologisttIsSelected($event, derm)" v-bind:key="derm.email"> {{derm.fullName }}</b-dropdown-item>
+                                <b-dropdown-item v-for="derm in this.dermatologists"  v-on:click ="dermatologistIsSelected($event, derm)" v-bind:key="derm.email"> {{derm.fullName }}</b-dropdown-item>
                             </b-dropdown> 
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         <input type="textarea" style="height:300px; width: 90%;background-color:white;" v-model="complaintText" class="form-control">
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                         <button class="btn btn-primary" >Send complaint</button>
+                         <button class="btn btn-primary" @click="sendComplaintToDermatologist">Send complaint</button>
                     </div>
                 </div>
                  <!-- PHARMACIST -->
@@ -87,7 +87,7 @@
                     <div class="row">
                         <div class="col d-flex justify-content-center">
                             <b-dropdown id="ddCommodity" name="ddCommodity" text="Choose pharmacy" class = "btn btn-link btn-lg" style="float:left;margin-left:20px;">
-                                <b-dropdown-item v-for="pharmacy in this.pharmacies"  v-on:click ="dermatologistIsSelected($event, pharmacy)" v-bind:key="pharmacy.id"> {{pharmacy.name }}</b-dropdown-item>
+                                <b-dropdown-item v-for="pharmacy in this.pharmacies"  v-on:click ="pharmacyIsSelected($event, pharmacy)" v-bind:key="pharmacy.id"> {{pharmacy.name }}</b-dropdown-item>
                             </b-dropdown> 
                         </div>
                     </div>
@@ -195,6 +195,33 @@ export default {
       pharmacistIsSelected: function(event, pharm) {
           this.complaintText ="";
           this.pharmacists = pharm;
+      },
+      pharmacyIsSelected: function(event, pharmacy) {
+          this.complaintText ="";
+          this.pharmacies = pharmacy;
+      },
+       sendComplaintToDermatologist : function() {
+     
+          const complaintInfo= {
+            isAnswered : false,
+            description : this.complaintText,
+            answer : "",
+            roleId: this.dermatologist.userId,
+            
+          }
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+          this.axios.post('/complaint/addComplaint',complaintInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    alert("Complaint is successfully sent!");
+
+                    console.log(response);                
+                }).catch(res => {
+                    alert(res.response.data.message);
+
+                });
       },
       },
        
