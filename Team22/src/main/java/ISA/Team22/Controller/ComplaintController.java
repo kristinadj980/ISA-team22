@@ -17,8 +17,10 @@ import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Repository.PatientRepository;
 import ISA.Team22.Service.ComplaintService;
+import ISA.Team22.Service.CounselingService;
 import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 import ISA.Team22.Service.PersonService;
@@ -31,23 +33,20 @@ public class ComplaintController {
 	private final ComplaintService complaintService;
 	private final PersonService personService;
 	private final ExaminationService examinationService;
-	private final PatientRepository patientRepository;
+	private final CounselingService counselingService;
 	
 	@Autowired
-	public ComplaintController(ComplaintService complaintService,PersonService personService,ExaminationService examinationService,PatientRepository patientRepository) {
+	public ComplaintController(ComplaintService complaintService,PersonService personService,ExaminationService examinationService,CounselingService counselingService) {
 		this.complaintService = complaintService;
 		this.personService = personService;
 		this.examinationService = examinationService;
-		this.patientRepository = patientRepository;
+		this.counselingService = counselingService;
 	}
 	
-	@PostMapping("/addComplaint")
+	@PostMapping("/addComplaintDermatologist")
     @PreAuthorize("hasRole('PATIENT')")
-    public ResponseEntity<Complaint> addComplaint(@RequestBody ComplaintDTO complaintDTO)
+    public ResponseEntity<Complaint> addComplaintDermatologist(@RequestBody ComplaintDTO complaintDTO)
     {
-		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        Person person = (Person)currentUser.getPrincipal();
-        Patient patient = patientRepository.findById(person.getId()).get();
         try {
         	Dermatologist dermatologist =(Dermatologist) personService.findById(complaintDTO.getRoleId());
             System.out.println(dermatologist.getName());
@@ -58,8 +57,31 @@ public class ComplaintController {
         if(!examinationService.canDermatologistMakeComplaint(complaintDTO.getRoleId())) {
             throw new IllegalArgumentException("You aren't able to write complaint to this dermatologist!");
         }
-        complaintDTO.setPatientId(patient.getId());
-        System.out.println("ID" +complaintDTO.getPatientId());
+        
+        
+        Complaint complaint = complaintService.save(complaintDTO);
+        
+            return complaint == null ?
+                    new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                    ResponseEntity.ok(complaint);
+    }
+	
+	@PostMapping("/addComplaintPharmacist")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Complaint> addComplaintPharmacist(@RequestBody ComplaintDTO complaintDTO)
+    {
+        try {
+        	Pharmacist pharmacist =(Pharmacist) personService.findById(complaintDTO.getRoleId());
+            System.out.println(pharmacist.getName());
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("error");
+		}
+        if(!counselingService.canPharmacistMakeComplaint(complaintDTO.getRoleId())) {
+            throw new IllegalArgumentException("You aren't able to write complaint to this pharmacist!");
+        }
+        
+        
         Complaint complaint = complaintService.save(complaintDTO);
         
             return complaint == null ?

@@ -83,6 +83,8 @@ VALUES (951,'snizenje lekova 30%', 900,51);
 INSERT INTO EXAMINATION (id,diagnosis,duration,examination_status,price,start_date,start_time,dermatologist_id,patient_id,pharmacy_id)
 VALUES (850,'grip',30,2,1500,'2021-05-10','11:30',100,106,50);
 
+INSERT INTO COUNSELING (id,counseling_status,diagnosis,start_date,start_time,patient_id,pharmacist_id)
+VALUES (860,2,'osip','2021-05-10','11:30',106,102);
 
 
 

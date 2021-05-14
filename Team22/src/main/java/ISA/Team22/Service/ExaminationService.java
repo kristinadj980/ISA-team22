@@ -38,7 +38,7 @@ public class ExaminationService implements IExaminationService {
 					isAble = true;
 			}
 		}
-        System.out.println("EBLE" + isAble);
+       
         return isAble;
 	}
 
@@ -46,4 +46,5 @@ public class ExaminationService implements IExaminationService {
 	public List<Examination> findAll() {
 		return examinationRepository.findAll();
 	}
+	
 }

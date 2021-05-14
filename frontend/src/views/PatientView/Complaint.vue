@@ -79,7 +79,7 @@
                         <input type="textarea" style="height:300px; width: 90%;background-color:white;" v-model="complaintText" class="form-control">
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                         <button class="btn btn-primary" >Send complaint</button>
+                         <button class="btn btn-primary" @click="sendComplaintToPharmacist">Send complaint</button>
                     </div>
                 </div>
                 <!-- PHARMACY -->
@@ -211,7 +211,30 @@ export default {
           }
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
-          this.axios.post('/complaint/addComplaint',complaintInfo,{ 
+          this.axios.post('/complaint/addComplaintDermatologist',complaintInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    alert("Complaint is successfully sent!");
+
+                    console.log(response);                
+                }).catch(res => {
+                    alert(res.response.data.message);
+
+                });
+      },
+      sendComplaintToPharmacist : function() {
+     
+          const complaintInfo= {
+            isAnswered : false,
+            description : this.complaintText,
+            answer : "",
+            roleId: this.pharmacists.userId,
+            
+          }
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+          this.axios.post('/complaint/addComplaintPharmacist',complaintInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                 }}).then(response => {
