@@ -64,14 +64,14 @@ public class ExaminationService implements IExaminationService {
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), startDate, startTime, endTime);
 		Boolean checkPatient = checkPatientExaminationSchedule(term);
 		Boolean checkCounseling =counselingService.checkPatientCounselingSchedule(term);
-		System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + checkCounseling + checkPatient);
 		if(checkPatient) {
-			System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + checkCounseling + checkPatient);
-			if(checkDermatologistSchedule(examination)) {
-				examinationRepository.save(examination);
-				return("Examination is scheduled!");
-			}else return("Dermatologist is not free, please change time!");
-		}else return("Patient is not free, please change time!");
+			if(checkCounseling)
+				if(checkDermatologistSchedule(examination)) {
+					examinationRepository.save(examination);
+					return("Examination is scheduled!");
+				}else return("Dermatologist is not free, please choose another date or time!");
+			else return("Patient is not free, please choose another date or time!");
+		}else return("Patient is not free, please choose another date or time!");
 	
 	}
 
@@ -94,9 +94,8 @@ public class ExaminationService implements IExaminationService {
 		for(Examination e:allExaminations) {	
 			if(e.getPatient().getId().equals(id))
 				examinations.add(e);
-			else if(e.getPatient().getId() == null) {
+			else if(e.getPatient().getId() == null)
 				continue;
-			}
 		}
 			
 		return examinations;
@@ -104,7 +103,6 @@ public class ExaminationService implements IExaminationService {
 
 	@Override
 	public List<Examination> getAllDermatologistExamination(Long id) {
-		
 		List<Examination> allExaminations = examinationRepository.findAll();
 		List<Examination> examinations = new ArrayList<Examination>();
 		for(Examination e:allExaminations)
@@ -119,10 +117,7 @@ public class ExaminationService implements IExaminationService {
 		if (examinations == null)
 			return true;
 		for(Examination e:examinations) {
-			System.out.println("Datum pregleda koji treba da zakazem" + term.getStartDate()+"Datum zakazanog" + e.getStartDate());
 			if(term.getStartDate().equals(e.getStartDate())) {
-				System.out.println("Datum pregleda koji treba da zakazem" + term.getStartDate()+"Datum zakazanog" + e.getStartDate());
-				System.out.println(term.getStartTime().isAfter(e.getStartTime()) +"" +term.getStartTime().isBefore(e.getEndTime()));
 				if(term.getStartTime().isAfter(e.getStartTime())  && term.getStartTime().isBefore(e.getEndTime()))
 					return false;
 				else if(term.getEndTime().isAfter(e.getStartTime())  && term.getEndTime().isBefore(e.getEndTime())) 

@@ -43,17 +43,20 @@ public class CounselingService implements ICounselingService {
 	@Override
 	public Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term) {
 		List<Counseling> counselings = getAllPatientCounseling(term.getPatientID());
-		if (counselings == null)
+		if (counselings.isEmpty())
 			return true;
 		
 		for(Counseling c:counselings)
-			if(term.getStartDate() == c.getStartDate())
-				if(term.getStartTime().isAfter(c.getEndTime()) || term.getEndTime().isBefore(c.getStartTime()))
-					return true;
-				else return false;
-			else return true;
-				
-		return false;
+			if(term.getStartDate().equals(c.getStartDate())) {
+				if(term.getStartTime().isAfter(c.getStartTime())  && term.getStartTime().isBefore(c.getEndTime()))
+					return false;
+				else if(term.getEndTime().isAfter(c.getStartTime())  && term.getEndTime().isBefore(c.getEndTime())) 
+					return false;
+				else if(c.getStartTime().isAfter(term.getStartTime())  && c.getEndTime().isBefore(term.getEndTime()))
+					return false;
+				else return true;
+			}else continue;
+		return true;
 	}
 	
 }
