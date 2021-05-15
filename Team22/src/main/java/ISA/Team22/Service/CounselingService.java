@@ -54,6 +54,8 @@ public class CounselingService implements ICounselingService {
 					return false;
 				else if(c.getStartTime().isAfter(term.getStartTime())  && c.getEndTime().isBefore(term.getEndTime()))
 					return false;
+				else if(term.getStartTime().equals(c.getStartTime()))
+					return false;
 				else return true;
 			}else continue;
 		return true;

@@ -8,5 +8,6 @@ import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 
 public interface IBusinessDayDermatologistService {
 	
-	 List<BusinessDayDermatologist> getDermatolgistBusinessDay(Long dermatologistID, LocalDate date);
+	//List<BusinessDayDermatologist> getDermatolgistBusinessDay(Long dermatologistID, LocalDate date);
+	BusinessDayDermatologist getDermatolgistBusinessDay(Long dermatologist_id, LocalDate date, Long pharmacyID);
 }

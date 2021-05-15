@@ -70,8 +70,8 @@ public class ExaminationService implements IExaminationService {
 					examinationRepository.save(examination);
 					return("Examination is scheduled!");
 				}else return("Dermatologist is not free, please choose another date or time!");
-			else return("Patient is not free, please choose another date or time!");
-		}else return("Patient is not free, please choose another date or time!");
+			else return("Patient has counceling in that time, please choose another date or time!");
+		}else return("Patient has another examination in that time, please choose another date or time!");
 	
 	}
 
@@ -124,6 +124,8 @@ public class ExaminationService implements IExaminationService {
 					return false;
 				else if(e.getStartTime().isAfter(term.getStartTime())  && e.getEndTime().isBefore(term.getEndTime()))
 					return false;
+				else if(term.getStartTime().equals(e.getStartTime()))
+						return false;
 				else return true;
 			}else continue;
 		}
@@ -133,23 +135,25 @@ public class ExaminationService implements IExaminationService {
 	@Override
 	public Boolean checkDermatologistSchedule(Examination examination) {
 		//first we found does dermatologist work that day we need
+		BusinessDayDermatologist businessDayDermatologist = businessDayDermatologistService.getDermatolgistBusinessDay(examination.getDermatologist().getId(), examination.getStartDate(), examination.getPharmacy().getId());
+		if(businessDayDermatologist.getId() == null)
+			return false;
+		
+		//second we found does dermatologist have any other scheduled examination that day we need
 		List<Examination> examinations = getAllDermatologistExamination(examination.getDermatologist().getId());
-		//List<BusinessDayDermatologist> businessDayDermatologist = businessDayDermatologistService.getDermatolgistBusinessDay(examination.getDermatologist().getId(), examination.getStartDate());
-		//System.out.println("Da li imamo biznis dej, ako imamo koji je"+ businessDayDermatologist.toString());
-		//if(businessDayDermatologist.isEmpty())
-			//return false;	
-		//else
-			//second we found does dermatologist have any other scheduled examination that day we need
-			for(Examination e:examinations)
-				if(examination.getStartDate() == e.getStartDate()) {
-					System.out.println("Datum pregleda koji treba da zakazem" + examination.getStartDate()+"Datum zakazanog" + e.getStartDate());
-					if(examination.getStartTime().isAfter(e.getEndTime()) || examination.getEndTime().isBefore(e.getStartTime()))
-					{
-						System.out.println("Vreme pregleda koji treba da zakazem" + examination.getStartTime()+"Vreme zakazanog" + e.getEndTime());
-						return true;
-					}else return false;
-				}
+		for(Examination e:examinations)
+			if(examination.getStartDate().equals(e.getStartDate())) {
+			System.out.println("Datum pregleda koji treba da zakazem" + examination.getStartDate()+"Datum zakazanog" + e.getStartDate());
+				if(examination.getStartTime().isAfter(e.getStartTime())  && examination.getStartTime().isBefore(e.getEndTime()))
+					return false;
+				else if(examination.getEndTime().isAfter(e.getStartTime())  && examination.getEndTime().isBefore(e.getEndTime())) 
+					return false;
+				else if(e.getStartTime().isAfter(examination.getStartTime())  && e.getEndTime().isBefore(examination.getEndTime()))
+					return false;
+				else if(examination.getStartTime().equals(e.getStartTime()))
+					return false;
 				else return true;
-		return false;
+			}else continue;
+		return true;
 	}
 }
