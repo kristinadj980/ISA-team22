@@ -30,6 +30,9 @@ public class Counseling {
 	@Column(name = "startTime",  nullable = false)
 	private LocalTime startTime;
 	
+	@Column(name = "endTime",  nullable = false)
+	private LocalTime endTime;
+	
 	@Column(name = "counseling_price")
 	private Double counselingPrice;
 	
@@ -50,12 +53,13 @@ public class Counseling {
 	}
 	
 
-	public Counseling(Long id, LocalDate startDate, LocalTime startTime, Double counselingPrice, String diagnosis,
+	public Counseling(Long id, LocalDate startDate, LocalTime startTime,LocalTime endTime, Double counselingPrice, String diagnosis,
 			Pharmacist pharmacist, Patient patient, ExaminationStatus counselingStatus) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
 		this.startTime = startTime;
+		this.endTime = endTime;
 		this.counselingPrice = counselingPrice;
 		this.diagnosis = diagnosis;
 		this.pharmacist = pharmacist;
@@ -83,6 +87,16 @@ public class Counseling {
 		this.startTime = startTime;
 	}
 	
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(LocalTime endTime) {
+		this.endTime = endTime;
+	}
+
+
 	public Double getCounselingPrice() {
 		return counselingPrice;
 	}

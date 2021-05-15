@@ -88,6 +88,12 @@ public class BusinessDayDermatologist {
 	public void setPharmacyId(Long pharmacyId) {
 		this.pharmacyId = pharmacyId;
 	}
+
+	@Override
+	public String toString() {
+		return "BusinessDayDermatologist [id=" + id + ", shift=" + shift + ", scheduledPeriods=" + scheduledPeriods
+				+ ", dermatologist=" + dermatologist + ", pharmacyId=" + pharmacyId + "]";
+	}
 	
 	
 	

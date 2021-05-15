@@ -263,7 +263,7 @@ export default {
                         'Authorization': 'Bearer ' + token,
                     }})
                     .then(response => {
-                        alert("Successfully scheduled new examination.")
+                        alert(response.data)
                             console.log(response);
                     })
                     .catch(response => {

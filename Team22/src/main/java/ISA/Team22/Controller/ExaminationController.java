@@ -43,8 +43,9 @@ public class ExaminationController {
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<String> scheduleNewExamination(@RequestBody ExaminationDTO examinationDTO) {
 		try {
-			examinationService.scheduleNewExamination(examinationDTO);
-			return new ResponseEntity<>("Examination successfully scheduled!", HttpStatus.OK);
+			String response = examinationService.scheduleNewExamination(examinationDTO);
+			System.out.println(response);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
