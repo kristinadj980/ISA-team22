@@ -22,10 +22,8 @@ public class CounselingService implements ICounselingService {
 	}
 	
 	public boolean canPharmacistMakeComplaint(Long pharmacistId) {
-
         Boolean isAble = false; 
         List<Counseling> counselings = findAll();
-        
         for (Counseling counseling : counselings) {
 			if(counseling.getPharmacist().getId().equals(pharmacistId) && counseling.getCounselingStatus() == ExaminationStatus.held) {
 					isAble = true;

@@ -29,7 +29,7 @@ public class Complaint {
 	@Column(name = "complaintDate")
 	private LocalDate complaintDate;
 	
-	@Column(name = "roleId",  nullable = false)
+	@Column(name = "roleId")
 	private Long roleId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -38,11 +38,17 @@ public class Complaint {
 	@Column(name = "isAnswered",  nullable = false)
 	private Boolean isAnswered;
 	
+	@Column(name = "pharmacyId")
+	private Long pharmacyId;
+	
 	public Complaint() {
 		super();
 	}
 
-	public Complaint(Long id, String description, String answer, LocalDate complaintDate, Long roleId, Patient patient, Boolean isAnswerd) {
+	
+
+	public Complaint(Long id, String description, String answer, LocalDate complaintDate, Long roleId, Patient patient,
+			Boolean isAnswered, Long pharmacyId) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -50,8 +56,11 @@ public class Complaint {
 		this.complaintDate = complaintDate;
 		this.roleId = roleId;
 		this.patient = patient;
-		this.isAnswered = isAnswerd;
+		this.isAnswered = isAnswered;
+		this.pharmacyId = pharmacyId;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -107,6 +116,31 @@ public class Complaint {
 		this.isAnswered = isAnswered;
 	}
 
+
+
+	public Boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+
+
+	public void setIsAnswered(Boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
+
+
+
+	public Long getPharmacyId() {
+		return pharmacyId;
+	}
+
+
+
+	public void setPharmacyId(Long pharmacyId) {
+		this.pharmacyId = pharmacyId;
+	}
+
+	
 	
 	   
 }

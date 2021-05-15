@@ -101,7 +101,7 @@
                         <input type="textarea" style="height:300px; width: 90%;background-color:white;" v-model="complaintText" class="form-control">
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                         <button class="btn btn-primary" >Send complaint</button>
+                         <button class="btn btn-primary"  @click="sendComplaintToPharmacy" >Send complaint</button>
                     </div>
                 </div>
             
@@ -198,7 +198,7 @@ export default {
       },
       pharmacyIsSelected: function(event, pharmacy) {
           this.complaintText ="";
-          this.pharmacies = pharmacy;
+          this.pharmacy = pharmacy;
       },
        sendComplaintToDermatologist : function() {
      
@@ -235,6 +235,30 @@ export default {
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
           this.axios.post('/complaint/addComplaintPharmacist',complaintInfo,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    alert("Complaint is successfully sent!");
+
+                    console.log(response);                
+                }).catch(res => {
+                    alert(res.response.data.message);
+
+                });
+      },
+       sendComplaintToPharmacy : function() {
+     
+          const complaintInfo= {
+            isAnswered : false,
+            description : this.complaintText,
+            answer : "",
+            pharmacyId : this.pharmacy.id,
+            
+            
+          }
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+          this.axios.post('/complaint/addComplaintPharmacy',complaintInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                 }}).then(response => {

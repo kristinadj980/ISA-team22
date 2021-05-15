@@ -40,6 +40,7 @@ public class ComplaintService implements IComplaintService {
         complaint.setAnswer(complaintDTO.getAnswer());
         complaint.setAnswered(complaintDTO.getIsAnswered());
         complaint.setPatient(patient);
+        complaint.setPharmacyId(complaintDTO.getPharmacyId());
         
         return complaintRepository.save(complaint);
 	}

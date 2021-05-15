@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.ComplaintDTO;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -24,6 +25,7 @@ import ISA.Team22.Service.CounselingService;
 import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 import ISA.Team22.Service.PersonService;
+import ISA.Team22.Service.PharmacyService;
 
 @RestController
 @RequestMapping("/api/complaint")
@@ -34,13 +36,15 @@ public class ComplaintController {
 	private final PersonService personService;
 	private final ExaminationService examinationService;
 	private final CounselingService counselingService;
+	private final PharmacyService pharmacyService;
 	
 	@Autowired
-	public ComplaintController(ComplaintService complaintService,PersonService personService,ExaminationService examinationService,CounselingService counselingService) {
+	public ComplaintController(ComplaintService complaintService,PersonService personService,ExaminationService examinationService,CounselingService counselingService,PharmacyService pharmacyService) {
 		this.complaintService = complaintService;
 		this.personService = personService;
 		this.examinationService = examinationService;
 		this.counselingService = counselingService;
+		this.pharmacyService = pharmacyService;
 	}
 	
 	@PostMapping("/addComplaintDermatologist")
@@ -79,6 +83,28 @@ public class ComplaintController {
 		}
         if(!counselingService.canPharmacistMakeComplaint(complaintDTO.getRoleId())) {
             throw new IllegalArgumentException("You aren't able to write complaint to this pharmacist!");
+        }
+        
+        Complaint complaint = complaintService.save(complaintDTO);
+        
+            return complaint == null ?
+                    new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                    ResponseEntity.ok(complaint);
+    }
+	
+	@PostMapping("/addComplaintPharmacy")
+    @PreAuthorize("hasRole('PATIENT')")
+    public ResponseEntity<Complaint> addComplaintPharmacy(@RequestBody ComplaintDTO complaintDTO)
+    {
+        try {
+        	Pharmacy pharmacy =(Pharmacy) pharmacyService.findById(complaintDTO.getPharmacyId());
+            System.out.println(pharmacy.getName());
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("error");
+		}
+        if(!pharmacyService.canMakeComplaintPharmacy(complaintDTO.getPharmacyId())) {
+            throw new IllegalArgumentException("You aren't able to write complaint to this pharmacy!");
         }
         
         

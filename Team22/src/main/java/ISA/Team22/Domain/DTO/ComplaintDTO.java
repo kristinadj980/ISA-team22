@@ -7,20 +7,22 @@ public class ComplaintDTO {
 	private Long roleId;
 	private Boolean isAnswered;
 	private Long patientId;
+	private Long pharmacyId;
 	
 	public ComplaintDTO() {
 		super();
 	}
 
-	public ComplaintDTO(String description, String answer, Long roleId, Boolean isAnswered, Long patientId) {
+	public ComplaintDTO(String description, String answer, Long roleId, Boolean isAnswered, Long patientId,
+			Long pharmacyId) {
 		super();
 		this.description = description;
 		this.answer = answer;
 		this.roleId = roleId;
 		this.isAnswered = isAnswered;
 		this.patientId = patientId;
+		this.pharmacyId = pharmacyId;
 	}
-
 
 	public String getDescription() {
 		return description;
@@ -61,8 +63,13 @@ public class ComplaintDTO {
 	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
 	}
-	
-	
 
+	public Long getPharmacyId() {
+		return pharmacyId;
+	}
+
+	public void setPharmacyId(Long pharmacyId) {
+		this.pharmacyId = pharmacyId;
+	}
 	
 }
