@@ -26,17 +26,26 @@
         >
         <h4 class="ml-n mt-6 strong text-left" style="color: #17a2b8;"><b>Choose existing examination</b></h4>
             <div style="width:44%; 
-            height:55%;
+            height:63%;
             border:2px 
             solid #17a2b8; 
             background-color: #ffffff;
             border:2px solid #17a2b8; ">
-                <h5 class="ml-n mt-6 strong text-left" style="margin-bottom:8%; margin-left: 2% !important; margin-top: 1% !important;">
+                <h5 
+                class="ml-n mt-6 strong text-left" 
+                style="margin-bottom:8%; 
+                margin-left: 2% !important; 
+                margin-top: 1% !important;">
                     <b> 
                         Search or chooese patient from list:
                     </b>
                 </h5>
-                <input list="my-list-id" v-model="selectedPatient" class="input_style" placeholder="Enter patient">
+                <input 
+                list="my-list-id" 
+                v-model="selectedPatientE1" 
+                class="input_style" 
+                placeholder="Enter patient"
+                style="margin-top: 1% !important;">
                     <datalist id="my-list-id">
                         <option v-for="patient in patients" v-bind:key="patient.id">
                             {{ patient.name }} {{patient.surname}} | {{patient.email}} 
@@ -49,16 +58,21 @@
                 </h5>
                 <div
                 style="position:fixed;
-                margin-left: 16% !important; "
+                margin-left: 16% !important;
+                margin-top: 0.5% !important;"
                 >
                     <b-button size="sm" pill variant="outline-info" @click="makeToast('warning')" class="mb-2">
                         <b>?</b>
                     </b-button>
                 </div>
-                <b-dropdown text="Select pharmacy" variant="outline-info" class="dropdown_style" id="dropdown-divider">
+                <b-dropdown 
+                text="Select pharmacy" 
+                variant="outline-info" 
+                class="dropdown_style" 
+                id="dropdown-divider">
                     <b-dropdown-item  
                     v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
-                    @click="selectedPharmacyID = pharm.id, selectedPharmacyName = pharm.name">
+                    @click="selectedPharmacyIDE1 = pharm.id, selectedPharmacyNameE1 = pharm.name">
                         {{ pharm.name}}
                     </b-dropdown-item>
                 </b-dropdown>
@@ -69,41 +83,33 @@
                 top: 38%; 
                 margin-left: 2%;">
                      <b>
-                         Selected pharmacy: {{ selectedPharmacyName }}
+                         Selected pharmacy: {{ selectedPharmacyNameE1 }}
                     </b>
-                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 10% !important;"><b> Select some date from the list:</b></h5>
-                <b-dropdown 
+                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 12% !important;"><b> Select one date from the list:</b></h5>
+                <select
+                multiple = "true" 
                 text="Select date" 
                 variant="outline-info" 
                 class="dropdown_style" 
                 id="dropdown-divider"
-                style="margin-top: 6% !important;">
-                    <b-dropdown-item  
+                style="margin-top: 8% !important;">
+                    <option
                     v-for="examination in examinations" v-bind:key="examination.id" :value="examination.id"
                     @click="selectedExamination = examination">
-                        {{ format_date(examination.startDate)}} {{ format_time(examination.startTime)}} - {{ examination.endTime}}
-                    </b-dropdown-item>
-                </b-dropdown>
-                <p class="ml-n mt-6 strong chosen"
-                style="width: 14%;
-                position: fixed;
-                left: 16.5%;
-                top: 51%; 
-                margin-left: 2%;">
-                     <b>
-                         Selected date: {{ selectedExamination.startDate }} {{ selectedExamination.startTime}} - {{ selectedExamination.endTime}}
-                    </b>
-                </p>
+                        {{ format_date(examination.startDate)}} | {{ examination.startTimeText}} - {{ examination.endTimeText}}
+                    </option>
+                </select>
+                
                 <b-button 
                     class="btn btn-info btn-lg space_style object_space" 
-                    style="background-color:#17a2b8; width:16.3cm; margin-top: 10% !important;" 
+                    style="background-color:#17a2b8; width:16.3cm; margin-top: 18% !important;" 
                     v-on:click = "scheduleSelectedExamination">
                     Schedule
                 </b-button>
             </div>  
             <div style="position: fixed;
             width:44%;
-            height:73%; 
+            height:75%; 
             border:2px solid #17a2b8; 
             background-color: #ffffff; 
             left:52%;
@@ -169,11 +175,16 @@ export default {
         startDate: null,
         startTime: null,
         endTime: null,
+        startTimeText: "",
+        endTimeText: "",
         pharmacies: [''],
         selectedPharmacyID: '',
+        selectedPharmacyIDE1: '',
         selectedPharmacyName: "",
+        selectedPharmacyNameE1: "",
         patients:[''],
         selectedPatient: [''],
+        selectedPatientE1: [''],
         }
     },
     mounted(){
@@ -251,47 +262,73 @@ export default {
         },
         scheduleExamination : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-                const newExamination = {
-                    pharmacyID: this.selectedPharmacyID,
-                    startDate: this.startDate,
-                    startTime : this.startTime,
-                    endTime: this.endTime,
-                    patientInfo: this.selectedPatient
-                };
-                this.axios.post('/examination/dermatologistSchedule',newExamination, { 
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    }})
-                    .then(response => {
-                        alert(response.data)
-                            console.log(response);
-                    })
-                    .catch(response => {
-                        alert("Please, try later.")
-                        alert(response);
-                    })
+            if(this.selectedPatient == ""){
+                alert("Please choose patient for examination.")
+                return;
+            }
+            if(this.selectedPharmacyID == ""){
+                alert("Please choose pharmacy for examination.")
+                return;
+            }
+            if(this.startDate == null){
+                alert("Please choose date for examination.")
+                return;
+            }
+            if(this.startTime == null){
+                alert("Please choose start time for examination.")
+                return;
+            }
+            if(this.endTime == null){
+                alert("Please choose end time for examination.")
+                return;
+            }
+            
+            const newExamination = {
+                pharmacyID: this.selectedPharmacyID,
+                startDate: this.startDate,
+                startTime : this.startTime,
+                endTime: this.endTime,
+                patientInfo: this.selectedPatient
+            };
+            this.axios.post('/examination/dermatologistSchedule',newExamination, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert(response.data)
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
         },
         scheduleSelectedExamination : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-                const newExamination = {
-                    pharmacyID: this.selectedExamination.pharmacyID,
-                    startDate: this.selectedExamination.startDate,
-                    startTime : this.selectedExamination.startTime,
-                    endTime: this.selectedExamination.endTime,
-                    patientInfo: this.selectedPatient
-                };
-                this.axios.post('/examination/dermatologistSchedule',newExamination, { 
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    }})
-                    .then(response => {
-                        alert("Successfully scheduled new examination.")
-                            console.log(response);
-                    })
-                    .catch(response => {
-                        alert("Please, try later.")
-                        alert(response);
-                    })
+            if(this.selectedExamination.examinationID == null){
+                alert("Please choose one of examinations.")
+                return;
+            }
+            if(this.selectedPatientE1 == ""){
+                alert("Please choose patient for examination.")
+                return;
+            }
+            const newExamination = {
+                examinationID: this.selectedExamination.examinationID,
+                patientInfo: this.selectedPatientE1
+            };
+            this.axios.post('/examination/updateScheduledExamination',newExamination, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert("Successfully scheduled new examination.")
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
         },
         makeToast(variant = null) {
             this.$bvToast.toast('If you choose pharmacy, the list of free dates will be only in the selected pharmacy.'+

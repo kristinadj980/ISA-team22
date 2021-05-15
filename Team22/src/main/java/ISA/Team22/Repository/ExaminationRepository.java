@@ -16,5 +16,10 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             "from examination e left join person p on e.patient_id = p.id" +
             "where p.id = :patient_id ", nativeQuery = true)
     List<Examination> getAllPatientExaminations(@Param("patient_id") Long patient_id);
+	
+	@Query(value = "select e" +
+            "from examination e" +
+            "where e.id = :examination_id ", nativeQuery = true)
+    Examination findSpecifiedexamination(@Param("examination_id") Long examination_id);
 
 }

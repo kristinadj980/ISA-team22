@@ -61,5 +61,18 @@ public class ExaminationController {
 		
 		return examinationsDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(examinationsDTO);
 	}
+	
+	@PostMapping("/updateScheduledExamination")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<String> updateScheduledExamination(@RequestBody ExaminationDTO examinationDTO) {
+		try {
+			String response = examinationService.updateScheduledExamination(examinationDTO);
+			System.out.println(response);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

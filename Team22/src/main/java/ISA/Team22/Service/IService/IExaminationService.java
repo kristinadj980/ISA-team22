@@ -14,5 +14,5 @@ public interface IExaminationService {
 	List<Examination> getAllDermatologistExamination(Long id);
 	Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term);
 	Boolean checkDermatologistSchedule(Examination examination);
-	
+	String updateScheduledExamination(ExaminationDTO examinationDTO);
 }

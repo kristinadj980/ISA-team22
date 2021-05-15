@@ -2,10 +2,15 @@ package ISA.Team22.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
+
+import java.sql.Time;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,14 +79,31 @@ public class ExaminationService implements IExaminationService {
 		}else return("Patient has another examination in that time, please choose another date or time!");
 	
 	}
-
+	@Override
+	public String updateScheduledExamination(ExaminationDTO examinationDTO) {
+		Examination examination = examinationRepository.findById(examinationDTO.getExaminationID()).get();
+		String[] tokens = examinationDTO.getPatientInfo().split("\\s");
+		Patient patient = patientService.findByEmail(tokens[3]);
+		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), examinationDTO.getStartDate(), examinationDTO.getStartTime(), examination.getEndTime());
+		Boolean checkPatient = checkPatientExaminationSchedule(term);
+		Boolean checkCounseling =counselingService.checkPatientCounselingSchedule(term);
+		if(checkPatient) {
+			if(checkCounseling) {
+				examination.setPatient(patient);
+				examinationRepository.save(examination);
+				return("Examination is scheduled!");
+			}else return("Patient has counceling in that time, please choose another date or time!");
+		}else return("Patient has another examination in that time, please choose another date or time!");
+		
+	}
 	@Override
 	public List<ExaminationDTO> getFreeScheduledExaminations(Long id) {
 		List<Examination> examinations = examinationRepository.findAll();
 		List<ExaminationDTO> examinationsDTO = new ArrayList<ExaminationDTO>();
 		for(Examination e:examinations) {
 			if(e.getPatient() == null && e.getDermatologist().getId() == id) {
-				examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getDuration(), e.getId(), e.getPharmacy().getName()));
+				System.out.println(e.getStartTime().toString());
+				examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getStartTime().toString(), e.getEndTime().toString(), e.getDuration(), e.getId(), e.getPharmacy().getName()));
 			}
 		}
 		return examinationsDTO;
