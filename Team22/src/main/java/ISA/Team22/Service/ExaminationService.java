@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
+import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -38,20 +39,18 @@ public class ExaminationService implements IExaminationService {
 	private final DermatologistService dermatologistService;
 	private final PharmacyService pharmacyService;
 	private final PatientService patientService;
-	private final CounselingService counselingService;
 	private final BusinessDayDermatologistService businessDayDermatologistService;
 	private final EmailService emailServices;
 	
 	@Autowired
 	public ExaminationService(ExaminationRepository examinationRepository, DermatologistService dermatologistService,
-			PharmacyService pharmacyService, PatientService patientService,  CounselingService counselingService,
+			PharmacyService pharmacyService, PatientService patientService, 
 			BusinessDayDermatologistService businessDayDermatologistService, EmailService emailServices) {
 		super();
 		this.examinationRepository = examinationRepository;
 		this.dermatologistService = dermatologistService;
 		this.pharmacyService = pharmacyService;
 		this.patientService = patientService;
-		this.counselingService = counselingService;
 		this.businessDayDermatologistService = businessDayDermatologistService;
 		this.emailServices = emailServices;
 	}
@@ -72,7 +71,7 @@ public class ExaminationService implements IExaminationService {
 		Examination examination = new Examination( startDate, startTime, endTime, duration, 2500.50, ExaminationStatus.scheduled,"no diagnos", dermatologist, patient, pharmacy, null);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), startDate, startTime, endTime);
 		Boolean checkPatient = checkPatientExaminationSchedule(term);
-		Boolean checkCounseling =counselingService.checkPatientCounselingSchedule(term);
+		Boolean checkCounseling = checkPatientCounselingSchedule(term);
 		if(checkPatient) {
 			if(checkCounseling)
 				if(checkDermatologistSchedule(examination)) {
@@ -92,7 +91,7 @@ public class ExaminationService implements IExaminationService {
 		Patient patient = patientService.findByEmail(tokens[3]);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), examinationDTO.getStartDate(), examinationDTO.getStartTime(), examination.getEndTime());
 		Boolean checkPatient = checkPatientExaminationSchedule(term);
-		Boolean checkCounseling =counselingService.checkPatientCounselingSchedule(term);
+		Boolean checkCounseling = checkPatientCounselingSchedule(term);
 		if(checkPatient) {
 			if(checkCounseling) {
 				examination.setPatient(patient);
@@ -159,6 +158,27 @@ public class ExaminationService implements IExaminationService {
 				else return true;
 			}else continue;
 		}
+		return true;
+	}
+	
+	@Override
+	public Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term) {
+		List<Counseling> counselings = patientService.getAllMyCounselings(term.getPatientID());
+		if (counselings.isEmpty())
+			return true;
+		
+		for(Counseling c:counselings)
+			if(term.getStartDate().equals(c.getStartDate())) {
+				if(term.getStartTime().isAfter(c.getStartTime())  && term.getStartTime().isBefore(c.getEndTime()))
+					return false;
+				else if(term.getEndTime().isAfter(c.getStartTime())  && term.getEndTime().isBefore(c.getEndTime())) 
+					return false;
+				else if(c.getStartTime().isAfter(term.getStartTime())  && c.getEndTime().isBefore(term.getEndTime()))
+					return false;
+				else if(term.getStartTime().equals(c.getStartTime()))
+					return false;
+				else return true;
+			}else continue;
 		return true;
 	}
 

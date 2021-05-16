@@ -15,4 +15,5 @@ public interface IExaminationService {
 	Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term);
 	Boolean checkDermatologistSchedule(Examination examination);
 	String updateScheduledExamination(ExaminationDTO examinationDTO);
+	Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term);
 }
