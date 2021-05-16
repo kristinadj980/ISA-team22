@@ -112,9 +112,14 @@ public class Dermatologist extends Person {
 		return this.getEmail();
 	}
 
-	
+
+	public List<Examination> getExaminations() {
+		return examinations;
+	}
 
 
-	
-	   
+	public void setExaminations(List<Examination> examinations) {
+		this.examinations = examinations;
+	}
+
 }

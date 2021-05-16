@@ -7,7 +7,7 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showVacation">Create a vacation</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Consaltings</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new consalting</button>
             </span>
@@ -15,12 +15,78 @@
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
         </div>
+        <h4 class="text-left"
+        style="margin-left:2%;
+        margin-top:1%;">
+        <b>Patient search:</b>
+        </h4>
+        <div
+        style="margin-top: 2%;
+        margin-left: 2%;">
+            <b-form inline>
+                <b-form-input
+                v-model="nameForSerch"
+                class="mb-2 mr-sm-2 mb-sm-0"
+                placeholder="Patient name"
+                ></b-form-input>
+                <b-form-input 
+                v-model="surnameForSearch"
+                placeholder="Patient last name">
+                </b-form-input>
+                <b-button style="margin-left:2%;" v-on:click = "searchPatient" variant="info">Search</b-button>
+                <b-button style="margin-left:2%;" v-on:click = "init" variant="info">Refresh</b-button>
+            </b-form>
+        </div>  
+        <div style="height:25px"></div>
+            <h3>Patients</h3>
+                <b-table :items="patients" :fields="fields"
+                :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc"
+                responsive="sm" class="table table-striped table-bordered table-info">
+                </b-table>
+        <div> 
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     name: 'PharmacistPatients',
+    data() {
+      return {
+        sortBy: 'age',
+        sortDesc: false,
+        fields: [
+          { key: 'name', sortable: true },
+          { key: 'surname', sortable: true },
+          { key: 'email', sortable: true },
+          { key: 'startDate', sortable: true },
+          { key: 'startTime', sortable: true },
+        ],
+        patients: [],
+        name: "",
+        surname: "",
+        email: "",
+        nameForSerch: "",
+        surnameForSearch: ""
+      }
+    },
+    mounted(){
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.axios.get('/pharmacist/myPatients',{ 
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            }
+        }).then(response => {
+            this.patients = response.data;
+            
+        }).catch(res => {
+            alert("Error");
+            console.log(res);
+        });
+
+    
+    },
     methods:{
        showHomepage: function(){
            window.location.href = "/pharmacistHomepage";
@@ -37,7 +103,7 @@ export default {
         showAbsenceRequest: function(){
             window.location.href = "/pharmacistAbsenceRequest";
         },
-        showExamination: function(){
+        showExaminations: function(){
             window.location.href = "/pharmacistConsalting";
         },
         showNewExamination: function(){
@@ -46,6 +112,40 @@ export default {
         logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
+        }, 
+        searchPatient : function(){
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            if(this.nameForSerch == "" || this.surnameForSearch == ""){
+                alert("Please enter name and last name!")
+                return;
+            }
+            const patientForSearch = {
+                name: this.nameForSerch,
+                surname: this.surnameForSearch
+            };
+            this.axios.post('/pharmacist/searchMyPatient',patientForSearch, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.patients = response.data;
+                    this.fields = [
+                    { key: 'name', sortable: true },
+                    { key: 'surname', sortable: true },
+                    ];
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
+        }, 
+        init : function() {
+            this.fields = [
+                    { key: 'name', sortable: true },
+                    { key: 'surname', sortable: true },
+                    { key: 'email', sortable: true },
+                    { key: 'startDate', sortable: true },
+                    { key: 'startTime', sortable: true }]
         }
     }
 }
