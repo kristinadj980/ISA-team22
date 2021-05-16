@@ -2,27 +2,33 @@ package ISA.Team22.Domain.DTO;
 
 public class ComplaintDTO {
 	
+	private Long id;
 	private String description;
 	private String answer;
-	private Long roleId;
+	private Long pharmacistId;
 	private Boolean isAnswered;
 	private Long patientId;
 	private Long pharmacyId;
+	private Long dermatologyId;
 	
 	public ComplaintDTO() {
 		super();
 	}
 
-	public ComplaintDTO(String description, String answer, Long roleId, Boolean isAnswered, Long patientId,
-			Long pharmacyId) {
+	
+	public ComplaintDTO(Long id, String description, String answer, Long pharmacistId, Boolean isAnswered,
+			Long patientId, Long pharmacyId, Long dermatologyId) {
 		super();
+		this.id = id;
 		this.description = description;
 		this.answer = answer;
-		this.roleId = roleId;
+		this.pharmacistId = pharmacistId;
 		this.isAnswered = isAnswered;
 		this.patientId = patientId;
 		this.pharmacyId = pharmacyId;
+		this.dermatologyId = dermatologyId;
 	}
+
 
 	public String getDescription() {
 		return description;
@@ -40,13 +46,6 @@ public class ComplaintDTO {
 		this.answer = answer;
 	}
 
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
 
 	public Boolean getIsAnswered() {
 		return isAnswered;
@@ -71,5 +70,34 @@ public class ComplaintDTO {
 	public void setPharmacyId(Long pharmacyId) {
 		this.pharmacyId = pharmacyId;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public Long getPharmacistId() {
+		return pharmacistId;
+	}
+
+
+	public void setPharmacistId(Long pharmacistId) {
+		this.pharmacistId = pharmacistId;
+	}
+
+
+	public Long getDermatologyId() {
+		return dermatologyId;
+	}
+
+
+	public void setDermatologyId(Long dermatologyId) {
+		this.dermatologyId = dermatologyId;
+	}
+	
 	
 }

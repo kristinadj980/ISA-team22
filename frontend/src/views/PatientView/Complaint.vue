@@ -206,7 +206,7 @@ export default {
             isAnswered : false,
             description : this.complaintText,
             answer : "",
-            roleId: this.dermatologist.userId,
+            dermatologyId: this.dermatologist.userId,
             
           }
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
@@ -229,7 +229,7 @@ export default {
             isAnswered : false,
             description : this.complaintText,
             answer : "",
-            roleId: this.pharmacists.userId,
+            pharmacistId: this.pharmacists.userId,
             
           }
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

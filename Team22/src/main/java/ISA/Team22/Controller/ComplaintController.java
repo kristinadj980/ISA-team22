@@ -1,5 +1,8 @@
 package ISA.Team22.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,12 +10,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.ComplaintDTO;
+import ISA.Team22.Domain.DTO.ComplaintReviewDTO;
+import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.Users.Dermatologist;
@@ -52,13 +58,13 @@ public class ComplaintController {
     public ResponseEntity<Complaint> addComplaintDermatologist(@RequestBody ComplaintDTO complaintDTO)
     {
         try {
-        	Dermatologist dermatologist =(Dermatologist) personService.findById(complaintDTO.getRoleId());
+        	Dermatologist dermatologist =(Dermatologist) personService.findById(complaintDTO.getDermatologyId());
             System.out.println(dermatologist.getName());
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("error");
 		}
-        if(!examinationService.canDermatologistMakeComplaint(complaintDTO.getRoleId())) {
+        if(!examinationService.canDermatologistMakeComplaint(complaintDTO.getDermatologyId())) {
             throw new IllegalArgumentException("You aren't able to write complaint to this dermatologist!");
         }
         
@@ -75,13 +81,13 @@ public class ComplaintController {
     public ResponseEntity<Complaint> addComplaintPharmacist(@RequestBody ComplaintDTO complaintDTO)
     {
         try {
-        	Pharmacist pharmacist =(Pharmacist) personService.findById(complaintDTO.getRoleId());
+        	Pharmacist pharmacist =(Pharmacist) personService.findById(complaintDTO.getPharmacistId());
             System.out.println(pharmacist.getName());
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("error");
 		}
-        if(!counselingService.canPharmacistMakeComplaint(complaintDTO.getRoleId())) {
+        if(!counselingService.canPharmacistMakeComplaint(complaintDTO.getPharmacistId())) {
             throw new IllegalArgumentException("You aren't able to write complaint to this pharmacist!");
         }
         
@@ -114,5 +120,20 @@ public class ComplaintController {
                     new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                     ResponseEntity.ok(complaint);
     }
+	
+	@GetMapping("/complaints")
+	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")  
+	public ResponseEntity<List<ComplaintReviewDTO>> getAllComplaints() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		List<Complaint> complaints = complaintService.findAll();
+		List<ComplaintReviewDTO> complaintDTOs = new ArrayList<ComplaintReviewDTO>();
+		
+		complaintService.findComplaints(complaints, complaintDTOs);
+		
+		 return complaintDTOs == null ?
+	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+	                ResponseEntity.ok(complaintDTOs);
+	}
 
 }
