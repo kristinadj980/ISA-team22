@@ -135,5 +135,23 @@ public class ComplaintController {
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                ResponseEntity.ok(complaintDTOs);
 	}
+	
+	@PostMapping("/sendAnswer")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+    public ResponseEntity<Complaint> sendAnswerOnComplaint(@RequestBody ComplaintReviewDTO complaintReviewDTO)
+    {
+		Complaint complaintUpdated = new Complaint();
+        try {
+        	complaintUpdated = complaintService.updateComplaint(complaintReviewDTO);
+        }catch (Exception e) {
+			// TODO: handle exception
+        	System.out.println("error");
+		}
+        
+        return complaintUpdated == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(complaintUpdated);
+    }
+   
 
 }

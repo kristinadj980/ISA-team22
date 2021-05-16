@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import ISA.Team22.Controller.ComplaintController;
 import ISA.Team22.Domain.DTO.ComplaintDTO;
 import ISA.Team22.Domain.DTO.ComplaintReviewDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -51,6 +52,7 @@ public class ComplaintService implements IComplaintService {
         Patient patient = patientRepository.findById(person.getId()).get();
         
 		Complaint complaint = new Complaint();
+		complaint.setId(complaintDTO.getId());
 		complaint.setDescription(complaintDTO.getDescription());
         complaint.setAnswer(complaintDTO.getAnswer());
         complaint.setAnswered(complaintDTO.getIsAnswered());
@@ -96,6 +98,7 @@ public class ComplaintService implements IComplaintService {
 			System.out.println("usao");
 			if(!c.isAnswered()) {
 			ComplaintReviewDTO complaintDTO = new ComplaintReviewDTO();
+			complaintDTO.setId(c.getId());
 			complaintDTO.setNameFrom(c.getPatient().getName());
 			complaintDTO.setDescription(c.getDescription());
 			System.out.println(complaintDTO.getDescription());
@@ -109,5 +112,13 @@ public class ComplaintService implements IComplaintService {
 			complaintDTOs.add(complaintDTO);
 			}
 		}
+	}
+	
+	public Complaint updateComplaint(ComplaintReviewDTO complaintReviewDTO) {
+		Complaint complaint = complaintRepository.findById(complaintReviewDTO.getId()).get();
+		complaint.setAnswered(true);
+		complaint.setAnswer(complaintReviewDTO.getAnswer());
+		
+		return complaintRepository.save(complaint);
 	}
 }

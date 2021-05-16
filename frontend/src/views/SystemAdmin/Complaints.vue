@@ -45,12 +45,32 @@
                                 <label >{{complaint.description}}</label>
                             </div>
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "answerOnComplaint($event,complaint)">Answer</button>
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showComplaint($event,complaint)">Answer</button>
                             </div>
                     </div>
                </div>
          </div>
-
+      <div> 
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Complaint answer" size="lg" modal-class="b-modal">
+               <div modal-class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color:whitesmoke">
+                         <div class="modal-body">
+                             <div class="row">
+                                <div class=" form-group col">
+                                     <label>Write answer: </label> 
+                                </div>
+                                <div class=" form-group col">  
+                                    <input type="text" class="form-control" v-model="answer" placeholder="Answer...">
+                                </div>
+                             </div>
+                             
+                            <button v-on:click = "answerOnComplaint" class="btn btn-primary">Confirm</button> 
+                                                       
+                         </div>                
+                    </div>
+               </div>
+          </b-modal>
+       </div>
        
     </div>
 </template>
@@ -64,7 +84,9 @@ export default {
     return {
        complaints : [],
        selectedComplaintID:'',
-       
+       answer:'',
+       choosenComplaint:{},
+       choosenComplaintId:null,
     }
   },
    mounted() {
@@ -112,17 +134,25 @@ export default {
                 console.log(res);
             });
       },
-        answerOnComplaint : function(event, complaint) {
-          this.selectedComplaintID = complaint.complaintId;
+      showComplaint : function(event, complaint) {
+          this.choosenComplaint = complaint,
+          this.choosenComplaintId = complaint.id,
+          this.answer = complaint.answer;
+          this.$refs['quantity-modal'].show();
+      },
+      answerOnComplaint : function() {
           const complaintInfo ={
-                complaintId : complaint.complaintId,
+                id : this.choosenComplaintId,
+                answer :this.answer,
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            this.axios.post('/promotion/subscribe',complaintInfo,{ 
+            this.axios.post('/complaint/sendAnswer',complaintInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
                 }}).then(response => {
-                    alert("You have successfully subscribed!");
+                    alert("You have successfully sent yur answer on complaint!");
+                    this.$refs['quantity-modal'].hide();
+                    this.getComplaints()
                     console.log(response); 
                 }).catch(res => {
                        alert("Please try later.");
