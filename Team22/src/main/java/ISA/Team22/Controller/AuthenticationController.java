@@ -68,7 +68,7 @@ public class AuthenticationController {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 						authenticationRequest.getPassword()));  //pokusavamo autentifikaciju
-
+       
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -144,10 +144,13 @@ public class AuthenticationController {
     }
 	
 	@GetMapping("/authority")
-    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
+    @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST')")
     ResponseEntity<Person> getMyAccount()
     {
+		System.out.println("************************");
+		System.out.println("Usao");
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Trenutni:" + currentUser.getPrincipal());
         
         Person user = (Person)currentUser.getPrincipal();
         Person userWithId = personService.findById(user.getId());

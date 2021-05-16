@@ -15,11 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.DrugManipulation.SupplierDrugStock;
 import ISA.Team22.Domain.Pharmacy.Offer;
 
 @Entity
 @DiscriminatorValue("Supplier")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Supplier extends Person{
 	
 	@OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

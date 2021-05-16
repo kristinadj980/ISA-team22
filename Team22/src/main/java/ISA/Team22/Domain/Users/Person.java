@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.Users;
 
+import static javax.persistence.DiscriminatorType.STRING;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;

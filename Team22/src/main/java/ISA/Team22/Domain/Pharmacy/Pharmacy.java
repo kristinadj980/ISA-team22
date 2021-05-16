@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -21,6 +23,7 @@ import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pharmacy {
 	
 	@Id
@@ -42,6 +45,7 @@ public class Pharmacy {
 	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
 	private List<Patient> subscribedUsersIDs;
 	
+	 @JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pharmacist> pharmacist;
 	
@@ -56,6 +60,7 @@ public class Pharmacy {
 	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
 	
+	 @JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
 	

@@ -10,10 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
+import ISA.Team22.Domain.DTO.PharmacyDTO;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Service.DermatologistService;
@@ -46,5 +50,14 @@ public class PharmacyController {
 		
 		return new ResponseEntity<>(pharmacies, HttpStatus.OK);
 	}
+
+	
+	@PostMapping("/registerPharmacy")
+    @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+    public ResponseEntity<String> addUser(@RequestBody PharmacyDTO pharmacyDTO) {
+
+        Pharmacy pharmacy = pharmacyService.save(pharmacyDTO);
+        return new ResponseEntity<>("Pharmacy is successfully registred!", HttpStatus.CREATED);
+    }
 	
 }

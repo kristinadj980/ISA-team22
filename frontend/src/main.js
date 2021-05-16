@@ -22,10 +22,16 @@ if (typeof baseURL !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL;
 }
 
-const baseURL2 = 'http://localhost:8080/api';
+Vue.filter('formatDate', function(value) {
+  if (value) {
+      return moment(String(value)).format('MM/DD/YYYY hh:mm')
+  }
+});
+
+/*const baseURL2 = 'http://localhost:8080/api';
 if (typeof baseURL2 !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL2;
-}
+}*/
 
 Vue.filter('formatDate', function(value) {
   if (value) {

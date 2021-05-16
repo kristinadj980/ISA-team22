@@ -1,5 +1,9 @@
 package ISA.Team22.Service.IService;
 
-public interface IPurchaseOrderService {
+import java.util.List;
 
+import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
+
+public interface IPurchaseOrderService {
+	List<PurchaseOrder> findAllOrders();
 }

@@ -86,9 +86,9 @@ export default {
                                 'Authorization': 'Bearer ' + token,
                         }
                     }).then(response => {
-                        alert("OK?");
+                        
                             this.authority = response.data.authorities[0].authority;
-                            
+                            alert("OK?")
                             if(this.authority==="ROLE_PATIENT") 
                              if(response.data.firstLogged) {
                                     this.$refs['my-modal'].show();
@@ -108,21 +108,23 @@ export default {
                             else if(this.authority==="ROLE_SUPPLIER")
                                 if(response.data.firstLogged) {
                                     this.$refs['my-modal'].show();
+                                    alert("Please change password during first LogIn!"); 
                                 }
                                 else {
-                                    window.location.href = '/supplierProfile';
+                                    window.location.href = '/profileDataSupplier';
+                                    alert("Success!"); 
                                 }
                             else if(this.authority==="ROLE_SYSTEM_ADMINISTRATOR")
                                 if(response.data.firstLogged) {
                                      this.$refs['my-modal'].show();
-                                     alert("uspeloo"); 
+                                     alert("Please change password during first LogIn!"); 
                                 }
                                 else {
                                      window.location.href = '/profileData';
-                                     alert("uspelo."); 
+                                     alert("Success!"); 
 
                                 }
-                            else if(this.authority==="ROLE_PHARMACY_ADMIN")
+                            else if(this.authority==="ROLE_PHARMACY_ADMINISTRATOR")
                                 if(response.data.firstLogged) {
                                        this.$refs['my-modal'].show();
                                 }
@@ -141,7 +143,9 @@ export default {
 
                     }).catch(res => {
                                 alert("NOT OK");
-                                window.location.href = '/dermatologistHomepage';
+
+                                //window.location.href = '/dermatologistHomepage';-->
+                                window.location.href = '/profileDataSupplier';
                                     console.log(res);
                             });
 
@@ -176,7 +180,7 @@ export default {
                     else if(this.authority==="ROLE_DERMATOLOGIST")
                        window.location.href = '/dermatologistHomepage';
                     else if(this.authority==="ROLE_SUPPLIER")
-                        window.location.href = '/supplierProfile';
+                        window.location.href = '/profileDataSupplier';
                     else if(this.authority==="ROLE_PHARMACY_ADMIN")
                         window.location.href = '/pharmacyAdminProfile';   
                     else if(this.authority==="ROLE_PHARMACIST")

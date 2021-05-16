@@ -4,11 +4,12 @@
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Admin register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drug manipulation</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
             <span  style="float:right;margin:15px">
@@ -23,30 +24,43 @@
                     <img class="img-circle img-responsive rounded-circle"  src="@/images/dermatologist.png" style="width:120px; height:120px;"  />
                 </div>
                 <div class=" d-inline-block " style=" height:100%; background-color: #ced2d3;">
-                    <div class="p-3 py-5 align-items-center">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right" style="color: #ced2d3; height: 18px"> <b>{{admin.name}} {{admin.surname}}</b></h4>
+                    <h4 style = "position:left; left:60px; top:2px; background-color:#ebf0fa;"><b>System Admin: {{admin.name}}  {{admin.surname}} </b></h4>
+                    <div class="p-3 py-5 ">
+                    <div class="col-md-8 ">
+                    <div class="card mb-3 " style = "position:right; left:90px; top:2px; background-color:#ebf0fa;">
+                    <div class="card-body" style="background-color: #ebf0fa;">
+                        <h4 class ="text-justify top-buffer"> Name:   {{admin.name}} </h4>
+                        <hr>
+                        <h4 class ="text-justify top-buffer"> Surname:   {{admin.surname}} </h4>
+                        <hr>
+                        <h4 class ="text-justify top-buffer"> Email:   {{admin.email}} </h4>
+                        <hr>
+                        <h4 class ="text-justify top-buffer"> Password:   {{admin.password}}</h4>
+                        <hr>
+                        <h4 class ="text-justify top-buffer"> Address:   {{admin.address.street}}, {{admin.address.number}}  </h4>
+                        <hr>
+                        <h4 class ="text-justify top-buffer"> City:   {{admin.address.town}}, {{admin.address.country}} </h4>
+                        
+                </div>
+              </div>
+            </div>
+                        
+                         <!-- <div class="mt-5 text-center top-buffer"><button class="btn btn-info btn-lg space_style" style="background-color:#003d66;"  v-on:click = "editProfile">Edit profile</button></div>-->  
+                        <!-- Modal --> 
+                        <div class="mt-5 text-center top-buffer">
+                            <b-button  class="btn btn-info btn-lg space_style" style="background-color:#003d66;" v-b-modal.modal-2>Edit password</b-button>
+                            <b-button  class="btn btn-info btn-lg space_style"  style="background-color:#003d66;" v-b-modal.modal-1>Edit profile info</b-button>
+                            
+                            
                         </div>
-                        <div class="row mt-2">
-                            <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"> {{admin.name}}</div>
-                            <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control">{{admin.surname}}</div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" >{{admin.email}}</div>
-                            <div class="col-md-12"><label class="labels">PhoneNumber</label><input type="text" class="form-control">{{admin.contact}}</div>
-                            <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control">{{admin.address}}</div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-6"><label class="labels">City</label><input type="text" class="form-control">{{admin.address}}</div>
-                            <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control">{{admin.address}}</div>
-                        </div>
-                        <div class="mt-5 text-center"><button class="btn btn-info btn-lg space_style" type="button">Save Changes</button></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </template>
+
 
 
 <script>
@@ -59,18 +73,24 @@ export default {
         surname: "",
         email: "",
         contact: "",
-        address : {
-            streetName: "",
-            streetNumber: "",
-            city: {
-                name: "",
-                country : {
-                    name: "",
-                }
-            },
-        } 
+        address : "",
+        password:"",
     }
   },
+  mounted(){
+     let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.axios.get('/systemAdmin/profile',{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+         }).then(response => {
+               this.admin=response.data;
+         }).catch(res => {
+                       alert("Error");
+                        console.log(res);
+                 });
+    
+   },
     methods:{
          showProfile: function(){
            window.location.href = "/profileData";
@@ -86,6 +106,12 @@ export default {
         },
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
+        },
+        showPharmacyAdminRegistration: function(){
+           window.location.href = "/pharmacyAdminRegistration";
+        },
+        showDrugManipulation: function(){
+           window.location.href = "/addingDrug";
         }
     }
 }

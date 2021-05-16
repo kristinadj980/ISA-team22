@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.DermatologistDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.DTO.SystemAdminDTO;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.SystemAdministrator;
 import ISA.Team22.Exception.ResourceConflictException;
@@ -62,6 +67,21 @@ public class SystemAdministratorController {
         return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
     }
     
+    @GetMapping("/profile")
+	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+	public ResponseEntity<SystemAdminDTO> getMyAccount() {
+    	
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		SystemAdministrator admin = systemAdministratorService.findById(person.getId());
+		AddressDTO addressDto = new AddressDTO(admin.getAddress().getCity().getName(),
+				admin.getAddress().getStreetName(), admin.getAddress().getStreetNumber(),
+				admin.getAddress().getCity().getCountry().getName());
+		SystemAdminDTO adminDTO = new SystemAdminDTO(admin.getName(), admin.getLastName(),
+				admin.getEmail(), addressDto, admin.getPassword());
+		
+		return (ResponseEntity<SystemAdminDTO>) (admin == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(adminDTO));
+	}
     
 }
 
