@@ -13,6 +13,11 @@ public class PatientDTO {
 	 private String password;
 	 
 	 private String confirmPassword;
+	 
+
+	public PatientDTO() {
+		super();
+	}
 
 	public PatientDTO(String name, String surname, String email, AddressDTO address, String password,
 			String confirmPassword) {
@@ -32,6 +37,14 @@ public class PatientDTO {
 	}
 	
 	
+	
+	public PatientDTO(String name, String surname, String email) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+	}
+
 	public String getName() {
 		return name;
 	}

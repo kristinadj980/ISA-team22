@@ -1,9 +1,12 @@
 package ISA.Team22.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,11 +14,16 @@ import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DermatologistDTO;
+import ISA.Team22.Domain.DTO.PatientDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
+import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
 import ISA.Team22.Domain.Users.Dermatologist;
+import ISA.Team22.Domain.Users.Patient;
+import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.AuthorityRepository;
 import ISA.Team22.Repository.DermatologistRepository;
 import ISA.Team22.Service.IService.IDermatologistService;
@@ -27,15 +35,17 @@ public class DermatologistService implements IDermatologistService {
     private final AuthorityService authService;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PatientService patientService;
 	
 	@Autowired
 	public DermatologistService(DermatologistRepository dermatologistRepository, AuthorityService authService, AuthorityRepository authorityRepository,
-			PasswordEncoder passwordEncoder) {
+			PasswordEncoder passwordEncoder, PatientService patientService) {
 		
 		this.dermatologistRepository = dermatologistRepository;
 		this.authService = authService;
 		this.authorityRepository = authorityRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.patientService = patientService;
 	}
 
 	@Override
@@ -102,6 +112,35 @@ public class DermatologistService implements IDermatologistService {
 		dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
 		
 		dermatologistRepository.save(dermatologist);
+	}
+
+	@Override
+	public List<PatientSearchDTO> getMyPatients() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		Dermatologist dermatologist = getById(person.getId());
+		List<Examination> examinations = dermatologist.getExaminations();
+		List<PatientSearchDTO> myPatients = new ArrayList<>();
+		PatientSearchDTO patientSearchDTO = new PatientSearchDTO();
+		
+		for(Examination e:examinations) {
+			patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
+					e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
+			myPatients.add(patientSearchDTO);
+		}
+		
+		return myPatients;
+	}
+
+	@Override
+	public List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO) {
+		List<PatientSearchDTO> myPatients = getMyPatients();
+		List<PatientSearchDTO> searchResult = new ArrayList<>(); 
+		for(PatientSearchDTO p:myPatients) 
+			if(p.getName().equals(patientSearchDTO.getName()) && p.getSurname().equals(patientSearchDTO.getSurname())) 
+				searchResult.add(p);
+				
+		return searchResult;
 	}
 
 	
