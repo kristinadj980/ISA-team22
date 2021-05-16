@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 export default {
     name: 'DermatologistPatients',
     data() {
@@ -115,14 +114,9 @@ export default {
             localStorage.removeItem('token');
             window.location.href = "/login";
         }, 
-        format_date(value){
-         if (value) {
-           return moment(String(value)).format('YYYY-MM-DD')
-          }
-        },
         searchPatient : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            if(this.nameForSerch == null || this.surnameForSearch == null){
+            if(this.nameForSerch == "" || this.surnameForSearch == ""){
                 alert("Please enter name and last name!")
                 return;
             }
@@ -146,8 +140,13 @@ export default {
                     alert(response);
                 })
         },
-        init() {
-         window.location.reload();   
+        init : function() {
+            this.fields = [
+                    { key: 'name', sortable: true },
+                    { key: 'surname', sortable: true },
+                    { key: 'email', sortable: true },
+                    { key: 'startDate', sortable: true },
+                    { key: 'startTime', sortable: true }]
         }
     }
 }

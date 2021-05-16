@@ -1,5 +1,7 @@
 package ISA.Team22.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacistDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Pharmacist;
@@ -67,4 +70,27 @@ public class PharmacistController {
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	  
+		@GetMapping("/myPatients")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> getMyPatients() {
+			List<PatientSearchDTO> patients = pharmacistService.getMyPatients();
+			if(patients.isEmpty())
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			else
+				return	ResponseEntity.ok(patients);
+		}
+		
+		@PostMapping("/searchMyPatient")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> searchMyPatient(@RequestBody PatientSearchDTO patientSearchDTO) {
+			try {
+				List<PatientSearchDTO> searchResult = pharmacistService.searchMyPatient(patientSearchDTO);
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		  
+		}
 }

@@ -4,16 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacistDTO;
+import ISA.Team22.Domain.Examination.Counseling;
+import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
+import ISA.Team22.Domain.Users.Dermatologist;
+import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Repository.AuthorityRepository;
 import ISA.Team22.Repository.PharmacistRepository;
@@ -103,5 +109,34 @@ public class PharmacistService implements IPharmacistService {
 		
 		pharmacistRepository.save(pharmacist);
 		
+	}
+	
+	@Override
+	public List<PatientSearchDTO> getMyPatients() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		Pharmacist pharmacist = getById(person.getId());
+		List<Counseling> counselings = pharmacist.getCounselings();
+		List<PatientSearchDTO> myPatients = new ArrayList<>();
+		PatientSearchDTO patientSearchDTO = new PatientSearchDTO();
+		
+		for(Counseling e:counselings) {
+			patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
+					e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
+			myPatients.add(patientSearchDTO);
+		}
+		
+		return myPatients;
+	}
+
+	@Override
+	public List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO) {
+		List<PatientSearchDTO> myPatients = getMyPatients();
+		List<PatientSearchDTO> searchResult = new ArrayList<>(); 
+		for(PatientSearchDTO p:myPatients) 
+			if(p.getName().equals(patientSearchDTO.getName()) && p.getSurname().equals(patientSearchDTO.getSurname())) 
+				searchResult.add(p);
+				
+		return searchResult;
 	}
 }
