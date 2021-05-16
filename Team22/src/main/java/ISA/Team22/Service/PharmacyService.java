@@ -1,11 +1,16 @@
 package ISA.Team22.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
-import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
@@ -15,35 +20,28 @@ import ISA.Team22.Service.IService.IPharmacyService;
 @Service
 public class PharmacyService implements IPharmacyService {
 
-	
 	private final PharmacyRepository pharmacyRepository;
 	
 	@Autowired
-    public PharmacyService(PharmacyRepository pharmacyRepository) {
+	public PharmacyService(PharmacyRepository pharmacyRepository) {
+		super();
 		this.pharmacyRepository = pharmacyRepository;
 	}
 
-	/*@Override
-	public Pharmacy save(PharmacyDTO pharmacy) {
-		System.out.println("****************************");
-		System.out.println(pharmacy.getName());
-		System.out.println(pharmacy.getDescription());
-		System.out.println(pharmacy.getAddressDTO());
-		System.out.println("*************************");
-		Pharmacy p = new Pharmacy();
-		p.setName(pharmacy.getName());
-		AddressDTO dto = pharmacy.getAddressDTO();
-        City city = new City();
-        city.setName(dto.getTown());
-        Country country = new Country();
-        country.setName(dto.getCountry());
-        city.setCountry(country);
-        Address address = new Address(dto.getStreet(),dto.getNumber(),city);
-        p.setAddress(address);
-        p.setDescription(pharmacy.getDescription());
-        
-        return pharmacyRepository.save(p);
-	}*/
+	@Override
+	public List<PharmacyBasicDTO> getAllPharmacyDermatolgist(Long id) {
+		List<Pharmacy> pharmacies = pharmacyRepository.getAllPharmacyDermatolgist(id);
+		List<PharmacyBasicDTO> pharmaciesDTO = new ArrayList<PharmacyBasicDTO>();
+		for(Pharmacy p: pharmacies)
+			pharmaciesDTO.add(new PharmacyBasicDTO(p.getId(), p.getName()));
+		
+		return pharmaciesDTO;
+	}
+
+	@Override
+	public Pharmacy getById(Long id) {
+		 return pharmacyRepository.findById(id).get();
+	}
 	
 	@Override
     public Pharmacy save(PharmacyDTO pharmacy) {

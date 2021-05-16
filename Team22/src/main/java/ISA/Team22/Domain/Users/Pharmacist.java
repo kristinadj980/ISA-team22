@@ -36,9 +36,6 @@ public class Pharmacist extends Person{
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@Column(name = "counselingPrice")
-	private Double counselingPrice;
-	
 	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayPharmacist> businessDays;
 	
@@ -60,13 +57,12 @@ public class Pharmacist extends Person{
 
 	public Pharmacist(Long id, String email, String password, String name, String lastName, String contact,
 			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
-			Boolean firstLogged,Integer allGrades, Integer numberOfGrades, Double counselingPrice,
+			Boolean firstLogged,Integer allGrades, Integer numberOfGrades,
 			List<BusinessDayPharmacist> businessDays, List<Prescription> prescriptions, List<Counseling> counselings,
 			Pharmacy pharmacy, List<AbsenceRequestPharmacist> absenceRequests) {
 		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
-		this.counselingPrice = counselingPrice;
 		this.businessDays = businessDays;
 		this.prescriptions = prescriptions;
 		this.counselings = counselings;
@@ -88,14 +84,6 @@ public class Pharmacist extends Person{
 
 	public void setNumberOfGrades(Integer numberOfGrades) {
 		this.numberOfGrades = numberOfGrades;
-	}
-
-	public Double getCounselingPrice() {
-		return counselingPrice;
-	}
-
-	public void setCounselingPrice(Double counselingPrice) {
-		this.counselingPrice = counselingPrice;
 	}
 
 	public List<BusinessDayPharmacist> getBusinessDays() {

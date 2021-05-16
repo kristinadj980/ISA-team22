@@ -62,6 +62,10 @@ export default {
         },
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         }
     }
 }

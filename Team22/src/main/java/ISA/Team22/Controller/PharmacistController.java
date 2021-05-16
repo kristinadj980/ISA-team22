@@ -49,7 +49,6 @@ public class PharmacistController {
 	@PostMapping("/update")
 	@PreAuthorize("hasRole('PHARMACIST')")
 	public ResponseEntity<String> updatePharmacistInfo(@RequestBody PharmacistDTO pharmacistDTO) {
-		System.out.println("**************************************************************");
 		try {
 			pharmacistService.update(pharmacistDTO);
 			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);

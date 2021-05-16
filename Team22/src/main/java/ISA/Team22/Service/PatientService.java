@@ -8,15 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.PatientFrontDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
-import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Repository.AuthorityRepository;
-import ISA.Team22.Repository.DermatologistRepository;
 import ISA.Team22.Repository.PatientRepository;
 import ISA.Team22.Service.IService.IPatientService;
 
@@ -71,5 +70,15 @@ private final PatientRepository patientRepository;
         patient.setAuthorities(auth);
         patient.setEnabled(false);
         return patientRepository.save(patient);
+	}
+
+	@Override
+	public List<PatientFrontDTO> getAll() {
+		List<Patient> patients = patientRepository.findAll();
+		List<PatientFrontDTO> pdto = new ArrayList<>();
+		for(Patient p:patients) {
+			pdto.add(new PatientFrontDTO(p.getId(),p.getName(), p.getLastName(), p.getEmail()));
+		}
+		return pdto;
 	}
 }

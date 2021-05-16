@@ -16,8 +16,6 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -32,10 +30,10 @@ public class Pharmacy {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name",  nullable = false)
+	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description",  nullable = false)
+	@Column(name = "description")
 	private String description;
 	
 	@Column(name = "allGrades")
@@ -51,11 +49,11 @@ public class Pharmacy {
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pharmacist> pharmacist;
 	
-	@ManyToMany(mappedBy = "pharmacies")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "pharmacies")
 	private List<Dermatologist> dermatologist;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -87,7 +85,11 @@ public class Pharmacy {
 		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
 
-
+	public Pharmacy(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 	public Long getId() {
 		return id;
 	}

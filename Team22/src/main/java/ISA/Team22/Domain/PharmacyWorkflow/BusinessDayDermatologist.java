@@ -24,14 +24,14 @@ public class BusinessDayDermatologist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "shift_id", referencedColumnName = "id", nullable = false)
 	private Period shift;
 	
-	@ManyToMany(targetEntity = Period.class,  cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Period.class,  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Period> scheduledPeriods;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Dermatologist dermatologist;
 	
 	@Column(name = "pharmacyId",  nullable = false)
@@ -87,6 +87,12 @@ public class BusinessDayDermatologist {
 
 	public void setPharmacyId(Long pharmacyId) {
 		this.pharmacyId = pharmacyId;
+	}
+
+	@Override
+	public String toString() {
+		return "BusinessDayDermatologist [id=" + id + ", shift=" + shift + ", scheduledPeriods=" + scheduledPeriods
+				+ ", dermatologist=" + dermatologist + ", pharmacyId=" + pharmacyId + "]";
 	}
 	
 	

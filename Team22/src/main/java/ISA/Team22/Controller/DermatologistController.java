@@ -7,9 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,7 +81,6 @@ public class DermatologistController {
 	        if (existingUser != null) {
 	            throw new ResourceConflictException("Entered email already exists", "Email already exists");
 	        }
-	        Person user = dermatologistService.save(userRequest);
 	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
 	    }
 	
