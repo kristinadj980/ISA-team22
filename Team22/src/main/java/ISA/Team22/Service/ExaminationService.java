@@ -97,6 +97,8 @@ public class ExaminationService implements IExaminationService {
 			if(checkCounseling) {
 				examination.setPatient(patient);
 				examinationRepository.save(examination);
+				this.emailServices.sendNotificationAsync(patient.getEmail(), "Scheduled examination INFO", ""
+						+ "Your examination is scheduled for date " + examination.getStartDate().toString() + " " + examination.getStartTime() +".");
 				return("Examination is scheduled!");
 			}else return("Patient has counceling in that time, please choose another date or time!");
 		}else return("Patient has another examination in that time, please choose another date or time!");

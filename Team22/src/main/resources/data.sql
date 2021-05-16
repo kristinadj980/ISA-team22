@@ -61,6 +61,9 @@ INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (404, 51, 100, 44);
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (405, 50, 100, 45);
 
+INSERT INTO BUSINESS_DAY_PHARMACIST(id, pharmacist_id, shift_id) VALUES (406, 102, 44);
+INSERT INTO BUSINESS_DAY_PHARMACIST(id, pharmacist_id, shift_id) VALUES (407, 102, 45);
+
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 50);
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 51);
 
