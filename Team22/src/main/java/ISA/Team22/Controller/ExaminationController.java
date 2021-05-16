@@ -31,12 +31,10 @@ public class ExaminationController {
 
 	
 	private final ExaminationService examinationService;
-	private final DermatologistService dermatologistService;
 	
 	@Autowired
-	public ExaminationController(ExaminationService examinationService, DermatologistService dermatologistService) {
+	public ExaminationController(ExaminationService examinationService) {
 		this.examinationService = examinationService;
-		this.dermatologistService = dermatologistService;
 	}
 	
 	@PostMapping("/dermatologistSchedule")

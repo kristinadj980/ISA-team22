@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PatientFrontDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.Examination.Counseling;
+import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
@@ -80,5 +82,19 @@ private final PatientRepository patientRepository;
 			pdto.add(new PatientFrontDTO(p.getId(),p.getName(), p.getLastName(), p.getEmail()));
 		}
 		return pdto;
+	}
+	
+	@Override
+	public List<Examination> getAllMyExaminations(Long id) {
+
+		Patient patient = patientRepository.findById(id).get();
+		return patient.getExaminations();
+	}
+	
+	@Override
+	public List<Counseling> getAllMyCounselings(Long id) {
+
+		Patient patient = patientRepository.findById(id).get();
+		return patient.getCounseling();
 	}
 }

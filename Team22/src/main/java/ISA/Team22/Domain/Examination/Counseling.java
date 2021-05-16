@@ -53,10 +53,9 @@ public class Counseling {
 	}
 	
 
-	public Counseling(Long id, LocalDate startDate, LocalTime startTime,LocalTime endTime, Double counselingPrice, String diagnosis,
+	public Counseling(LocalDate startDate, LocalTime startTime,LocalTime endTime, Double counselingPrice, String diagnosis,
 			Pharmacist pharmacist, Patient patient, ExaminationStatus counselingStatus) {
 		super();
-		this.id = id;
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.endTime = endTime;
