@@ -12,6 +12,8 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import java.sql.Time;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -38,11 +40,12 @@ public class ExaminationService implements IExaminationService {
 	private final PatientService patientService;
 	private final CounselingService counselingService;
 	private final BusinessDayDermatologistService businessDayDermatologistService;
+	private final EmailService emailServices;
 	
 	@Autowired
 	public ExaminationService(ExaminationRepository examinationRepository, DermatologistService dermatologistService,
 			PharmacyService pharmacyService, PatientService patientService,  CounselingService counselingService,
-			BusinessDayDermatologistService businessDayDermatologistService) {
+			BusinessDayDermatologistService businessDayDermatologistService, EmailService emailServices) {
 		super();
 		this.examinationRepository = examinationRepository;
 		this.dermatologistService = dermatologistService;
@@ -50,6 +53,7 @@ public class ExaminationService implements IExaminationService {
 		this.patientService = patientService;
 		this.counselingService = counselingService;
 		this.businessDayDermatologistService = businessDayDermatologistService;
+		this.emailServices = emailServices;
 	}
 
 	@Override
@@ -73,6 +77,8 @@ public class ExaminationService implements IExaminationService {
 			if(checkCounseling)
 				if(checkDermatologistSchedule(examination)) {
 					examinationRepository.save(examination);
+					this.emailServices.sendNotificationAsync(patient.getEmail(), "Scheduled examination INFO", ""
+							+ "Your examination is scheduled for date " + examination.getStartDate().toString() + " " + examination.getStartTime() +".");
 					return("Examination is scheduled!");
 				}else return("Dermatologist is not free, please choose another date or time!");
 			else return("Patient has counceling in that time, please choose another date or time!");

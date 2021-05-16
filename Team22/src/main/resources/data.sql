@@ -22,7 +22,7 @@ INSERT INTO ADDRESS (id, street_name, street_number, city_id) VALUES (304, 'Dalm
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'derma@derma', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, main_admin) VALUES('SystemAdministrator', 101,'0655552525', 'pera@pera.com', true, true, 'Peric', 'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300, true);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Pharmacist', 102,'0655552525', 'pharma@pharma', true, false, 'Taric', 'Tara', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 103,'06201023325', 'mina@mina', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 103,'06201023325', 'kristinadjuric65@gmail.com', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 104,'06256306363', 'miki@miki', true, false, 'Mikic', 'Miki', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 303);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 105,'06125478958', 'ana@ana', true, false, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 304);
 
@@ -38,8 +38,8 @@ INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (40, '
 INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (41, '2021-05-11', '15:00', '2021-05-11', '07:00' );
 INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (42, '2021-05-12', '20:00', '2021-05-12', '13:00' );
 INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (43, '2021-05-13', '15:00', '2021-05-13', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-05-14', '20:00', '2021-05-14', '13:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-05-15', '20:00', '2021-05-15', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-05-20', '20:00', '2021-05-20', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-05-30', '20:00', '2021-05-30', '13:00' );
 
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (8);
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (9);
