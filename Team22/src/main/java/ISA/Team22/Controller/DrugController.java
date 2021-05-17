@@ -72,7 +72,7 @@ public class DrugController {
         List<Drug> drugs = drugService.findAllDrugs();
         List<DrugSearchDTO> drugsForFront = new ArrayList<>();
         for (Drug drug: drugs) {
-        	DrugSearchDTO drugSearchDTO = findDrugSpecification(drug);
+        	DrugSearchDTO drugSearchDTO = drugService.findDrugSpecification(drug);
         	drugsForFront.add(drugSearchDTO);
         }
         return drugsForFront == null ?
@@ -84,12 +84,22 @@ public class DrugController {
 	 @PostMapping("/searchDrug")
 	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<DrugSearchDTO> searchDrug(@RequestBody DrugSearchDTO drugSearchDTO) {
-		 System.out.println("********************");
-		 
-		 System.out.println(drugSearchDTO.getName());
 		 Drug drug = drugService.findByName(drugSearchDTO.getName());
 		  
-	        DrugSearchDTO drugSearchDTO1 = findDrugSpecification(drug);
+	        DrugSearchDTO drugSearchDTO1 = drugService.findDrugSpecification(drug);
+	        
+	        return drugSearchDTO1 == null ?
+	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+	                ResponseEntity.ok(drugSearchDTO1);
+		  
+		}
+	 
+	 @PostMapping("/getDrugSpecification")
+	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+		public ResponseEntity<DrugSearchDTO> findDrugSpecification(@RequestBody DrugSearchDTO drugSearchDTO) {
+		    Drug drug = drugService.findById(drugSearchDTO.getId());
+		  
+	        DrugSearchDTO drugSearchDTO1 = drugService.findDrugSpecification(drug);
 	        
 	        return drugSearchDTO1 == null ?
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
@@ -97,24 +107,5 @@ public class DrugController {
 		  
 		}
 
-	private DrugSearchDTO findDrugSpecification(Drug drug) {
-		DrugSpecification drugSpecification = drug.getDrugSpecification();
-		
-		DrugSpecificationDTO  drugSpecificationDTO = new DrugSpecificationDTO();
-		drugSpecificationDTO.setContraIndications(drugSpecification.getContraindications());
-		drugSpecificationDTO.setComposition(drugSpecification.getCompositions());
-		drugSpecificationDTO.setManufacturer(drug.getProducer());
-		drugSpecificationDTO.setTherapyDuration(drugSpecification.getTherapyDuration());
-		
-		DrugSearchDTO drugSearchDTO = new DrugSearchDTO();
-		drugSearchDTO.setId(drug.getId());
-		drugSearchDTO.setCode(drug.getCode());
-		drugSearchDTO.setName(drug.getName());
-		drugSearchDTO.setSpecification(drugSpecificationDTO);
-		drugSearchDTO.setDrugForm(drug.getDrugForm());
-		drugSearchDTO.setIssuance(drug.getIssuance());
-		drugSearchDTO.setType(drug.getDrugType());
-		return drugSearchDTO;
-	}
 
 }

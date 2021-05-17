@@ -179,7 +179,6 @@
                           <div v-if="showMedicationPharmacyAvailabilityListDiv" style = "background-color:lightgray; margin: auto; width: 40%;border: 3px solid #0D184F;padding: 0px;margin-top:0px;">
 
                                 <div v-for="pharmacy in pharmaciesAvailability"   v-bind:key="pharmacy.id">
-
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col">

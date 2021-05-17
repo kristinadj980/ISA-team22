@@ -13,4 +13,5 @@ public interface IDrugService {
 	Drug findByName(String name);
 	Drug findByCode(String code);
     List<Drug> findAllDrugs();
+    Drug findById(Long id);
 }

@@ -13,12 +13,14 @@ public class DrugSearchDTO {
     private DrugType type;
     private DrugForm drugForm;
     private IssuanceRegime issuance;    
+    private Integer numberOfGrades;
     private DrugSpecificationDTO specification;
 	public DrugSearchDTO() {
 		super();
 	}
+	
 	public DrugSearchDTO(Long id, String name, String code, DrugType type, DrugForm drugForm, IssuanceRegime issuance,
-			DrugSpecificationDTO specification) {
+			Integer numberOfGrades, DrugSpecificationDTO specification) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -26,8 +28,10 @@ public class DrugSearchDTO {
 		this.type = type;
 		this.drugForm = drugForm;
 		this.issuance = issuance;
+		this.numberOfGrades = numberOfGrades;
 		this.specification = specification;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +56,15 @@ public class DrugSearchDTO {
 	public void setType(DrugType type) {
 		this.type = type;
 	}
+	
+	public Integer getNumberOfGrades() {
+		return numberOfGrades;
+	}
+
+	public void setNumberOfGrades(Integer numberOfGrades) {
+		this.numberOfGrades = numberOfGrades;
+	}
+
 	public DrugForm getDrugForm() {
 		return drugForm;
 	}

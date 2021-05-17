@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ISA.Team22.Domain.DTO.DrugDTO;
+import ISA.Team22.Domain.DTO.DrugSearchDTO;
+import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
 import ISA.Team22.Repository.DrugRepository;
@@ -54,6 +56,31 @@ public class DrugService implements IDrugService {
 		return drugRepository.findAll();
 	}
 	
-	
+	public DrugSearchDTO findDrugSpecification(Drug drug) {
+		DrugSpecification drugSpecification = drug.getDrugSpecification();
+		
+		DrugSpecificationDTO  drugSpecificationDTO = new DrugSpecificationDTO();
+		drugSpecificationDTO.setContraIndications(drugSpecification.getContraindications());
+		drugSpecificationDTO.setComposition(drugSpecification.getCompositions());
+		drugSpecificationDTO.setManufacturer(drug.getProducer());
+		drugSpecificationDTO.setTherapyDuration(drugSpecification.getTherapyDuration());
+		
+		DrugSearchDTO drugSearchDTO = new DrugSearchDTO();
+		drugSearchDTO.setId(drug.getId());
+		drugSearchDTO.setCode(drug.getCode());
+		drugSearchDTO.setName(drug.getName());
+		drugSearchDTO.setNumberOfGrades(drug.getNumberOfGrades());
+		System.out.println(drugSearchDTO.getNumberOfGrades());
+		drugSearchDTO.setSpecification(drugSpecificationDTO);
+		drugSearchDTO.setDrugForm(drug.getDrugForm());
+		drugSearchDTO.setIssuance(drug.getIssuance());
+		drugSearchDTO.setType(drug.getDrugType());
+		return drugSearchDTO;
+	}
+
+	@Override
+	public Drug findById(Long id) {
+		return drugRepository.findById(id).get();
+	}
 	
 }

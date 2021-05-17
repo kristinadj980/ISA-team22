@@ -25,6 +25,7 @@ INSERT INTO PHARMACY_INVENTORY(id) VALUES (9);
 INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 50,'First Pharmacy', 'Tilia', 10, 300, 8);
 INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 50,'Second Pharmacy', 'Zegin', 10, 300, 9);
 
+
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'derma@derma', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, main_admin) VALUES('SystemAdministrator', 101,'0655552525', 'pera@pera.com', true, true, 'Peric', 'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300, true);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('Pharmacist', 102,'0655552525', 'pharma@pharma', true, false, 'Mikic', 'Ivan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
@@ -84,8 +85,8 @@ VALUES (411,'2021-05-12', 1,104);
 INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
 VALUES (711,'paracetamol','alergy','2 times a day',5);
 
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,producer,drug_specification_id)
-VALUES (700,'M65',0,1,1,'brufen','zegin',711);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (700,'M65',0,1,1,'brufen',8,'zegin',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (600,45,700);
@@ -93,8 +94,8 @@ VALUES (600,45,700);
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (411,600);
 
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,producer,drug_specification_id)
-VALUES (701,'M35',0,1,1,'aspirin','galenika',711);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (701,'M35',0,1,1,'aspirin',10,'galenika',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (601,65,701);
@@ -129,4 +130,8 @@ VALUES (870,3,5,'2021-05-11',1,106,102);
 INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drugs_id)
 VALUES (870,700);
 
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(30,5,2000,700,900);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (8,30);
 

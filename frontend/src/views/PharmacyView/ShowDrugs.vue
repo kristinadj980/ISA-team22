@@ -16,10 +16,123 @@
                 placeholder="Drug name"
                 ></b-form-input>
                 <b-button style="margin-left:2%;" v-on:click = "searchDrug" variant="info">Search</b-button>
-                <b-button style="margin-left:2%;" >Refresh</b-button>
+               
             </b-form>
         </div>  
+        <!-- table -->
+         <div v-if = "showMedicationInfoDiv" style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
+               <div class="row">
+                    <div class=" form-group col">
+                        <label >Name</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Type</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Grade</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label ></label>
+                    </div>
+                     <div class=" form-group col">
+                        <label ></label>
+                    </div>
+                   
+               </div>
+               <div>
+                    <div class="row">
+                            <div class=" form-group col">
+                                <label >{{drugInfo.name}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.type}}</label>
+                            </div>
+                             <div  class=" form-group col">          
+                                <label >{{drugInfo.numberOfGrades}}</label>
+                            </div>
+                           
+                            <div class=" form-group col">
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drugInfo)" >See Specification</button>
+                            </div>
+                             <div class=" form-group col">
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drugInfo)">See Availability</button>
+                            </div>
+                    </div>
+               </div>
+         </div>
         </div>
+        <div> 
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Drug availability" size="lg" modal-class="b-modal">
+               <div modal-class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color:whitesmoke">
+                         <div v-for="pharmacy in pharmacyDrugAvailability" v-bind:key="pharmacy.id" class="modal-body">
+                             
+                             <div class="row">
+                                <div class=" form-group col">
+                                <label > Pharmacy : {{pharmacy.pharmacyName}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >Price : {{pharmacy.price}}</label>
+                            </div>
+                             </div>
+                                                       
+                         </div>                
+                    </div>
+               </div>
+          </b-modal>
+       </div>
+
+       <div> 
+          <b-modal ref="quantity-modal2" hide-footer scrollable title="Drug specification" size="lg" modal-class="b-modal">
+               <div modal-class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color:whitesmoke">
+                         <div  class="modal-body">
+                             <div class="row">
+                    <div class=" form-group col">
+                        <label >Code</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Form</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Composition</label>
+                    </div>
+                    <div class=" form-group col">
+                        <label >Producer</label>
+                    </div>
+                     <div class=" form-group col">
+                        <label >Issuance regime</label>
+                    </div>
+                     <div class=" form-group col">
+                        <label >Contraindications</label>
+                    </div>
+               </div>
+                             <div class="row">
+                                <div class=" form-group col">
+                                <label >{{drugInfo.code}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.drugForm}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.specification.composition}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.specification.manufacturer}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.issuance}}</label>
+                            </div>
+                            <div  class=" form-group col">          
+                                <label >{{drugInfo.specification.contraIndications}}</label>
+                            </div>
+                             </div>
+                                                       
+                         </div>                
+                    </div>
+               </div>
+          </b-modal>
+       </div>
     </div>
 </template>
 
@@ -30,6 +143,26 @@ export default {
     return {
        drugs :[],
        drugName : "",
+       showMedicationInfoDiv : false, 
+       selectedDrugId:0,
+       selectedDrugCode:'',
+       pharmacyDrugAvailability: [],
+       drugInfo : {
+            name : "",
+            form : "",
+            type :"",
+            issuanceRegime :"",
+            numberOfGrades:0,
+            mark : 0,
+            specification: {
+                    contraIndications :"",
+                    structure : "",
+                    recommendedConsumption : "",
+                    manufacturer : ""
+            },
+            medicationId : 0,
+            code : 0
+      },
     }
   },
   mounted() {
@@ -67,7 +200,8 @@ export default {
                 'Authorization': 'Bearer ' + token,
                 }})
                 .then(response => {
-                    this.drugs = response.data;
+                    this.drugInfo = response.data;
+                    this.showMedicationInfoDiv = true;
                     /*this.fields = [
                     { key: 'name', sortable: true },
                     { key: 'surname', sortable: true },
@@ -79,6 +213,50 @@ export default {
                     alert(response);
                 })
         },
+        checkAvailability : function(event, drugInfo) {
+          this.selectedDrugId = drugInfo.id;
+          this.selectedDrugCode = drugInfo.code;
+          const drugInfos ={
+                id : this.selectedDrugId,
+                drugCode : this.selectedDrugCode
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/pharmacy/checkDrugAvailability',drugInfos,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    this.pharmacyDrugAvailability = response.data
+                    alert("successfully");
+                    this.$refs['quantity-modal'].show();
+                    console.log(response); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+      },
+      showDrugSpecification : function(event, drugInfo) {
+          this.selectedDrugId = drugInfo.id;
+          //this.selectedDrugCode = drugInfo.code;
+          const drugInfos1 ={
+                id : this.selectedDrugId,
+               // drugCode : this.selectedDrugCode
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/drug/getDrugSpecification',drugInfos1,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    this.drugInfo = response.data
+                    alert("successfully");
+                    this.$refs['quantity-modal2'].show();
+                    console.log(response); 
+                }).catch(res => {
+                       alert("Please try later.");
+                        console.log(res);
+                });
+          
+          
+      },
      
       },
     

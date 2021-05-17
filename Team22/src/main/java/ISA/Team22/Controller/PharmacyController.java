@@ -16,16 +16,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
+import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
-
+import ISA.Team22.Domain.Pharmacy.PharmacyInventory;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Pharmacist;
@@ -86,5 +89,17 @@ public class PharmacyController {
 		
 		return ResponseEntity.ok(pharmaciesDTOs);
 	}
+	
+	
+	 @PostMapping("/checkDrugAvailability")
+	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+    public ResponseEntity<List<DrugAvailabilityDTO>> getAvailability ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
+		 
+        List<DrugAvailabilityDTO> drugAvailabilityDTOs = pharmacyService.getAvailabilityInPharmacies(drugAvailabilityDTO.getDrugCode());
+
+        return drugAvailabilityDTOs == null ?
+                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                ResponseEntity.ok(drugAvailabilityDTOs);
+    }
 	
 }
