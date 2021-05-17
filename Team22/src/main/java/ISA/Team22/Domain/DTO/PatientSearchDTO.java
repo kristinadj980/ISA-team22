@@ -14,6 +14,8 @@ public class PatientSearchDTO {
 	private String startTime;
 	
 	private Long examinationID;
+	
+	private String sortingKey;
 
 	
 	
@@ -30,6 +32,18 @@ public class PatientSearchDTO {
 		this.startDate = startDate;
 		this.startTime = startTime;
 		this.examinationID = examinationID;
+	}
+	
+	public PatientSearchDTO(String name, String surname, Long examinationID) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.examinationID = examinationID;
+	}
+
+	public PatientSearchDTO(String sortingKey) {
+		super();
+		this.sortingKey = sortingKey;
 	}
 
 	public String getName() {
@@ -78,6 +92,14 @@ public class PatientSearchDTO {
 
 	public void setExaminationID(Long examinationID) {
 		this.examinationID = examinationID;
+	}
+
+	public String getSortingKey() {
+		return sortingKey;
+	}
+
+	public void setSortingKey(String sortingKey) {
+		this.sortingKey = sortingKey;
 	}
 	
 	

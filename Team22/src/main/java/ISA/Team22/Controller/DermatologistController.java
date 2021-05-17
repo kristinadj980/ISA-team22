@@ -109,6 +109,17 @@ public class DermatologistController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	  
+		
+	}
+	
+	@PostMapping("/sortResult")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<List<PatientSearchDTO>> sortMyPatient(@RequestBody PatientSearchDTO sortingKey) {
+		try {
+			List<PatientSearchDTO> searchResult = dermatologistService.sortMyPatient(sortingKey);
+			return	ResponseEntity.ok(searchResult);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

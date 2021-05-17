@@ -17,5 +17,6 @@ public interface IDermatologistService {
 	void updatePassword(DermatologistDTO dto);
 	List<PatientSearchDTO> getMyPatients();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
+	List<PatientSearchDTO> sortMyPatient(PatientSearchDTO sortingKey);
 	
 }

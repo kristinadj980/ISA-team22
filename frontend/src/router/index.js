@@ -123,7 +123,7 @@ const routes = [
     component: DermatologistAbsenceRequest
   },
   {
-    path: '/dermatologistExamination',
+    path: '/dermatologistExamination/:selectedExamination',
     name: 'DermatologistExamination',
     component: DermatologistExamination
   },

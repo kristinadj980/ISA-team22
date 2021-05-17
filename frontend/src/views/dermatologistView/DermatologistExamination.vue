@@ -11,17 +11,31 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Examinations</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new examination</button>
             </span>
-              <span  style="float:right;margin:15px">
+                <span  style="float:right;margin:15px">
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
+                <h1 style="margin-left:1%">
+      Selected Rows:<br>
+      {{ examinationID }}
+    </h1>
         </div>
     </div>
-
 </template>
 
 <script>
 export default {
     name: 'DermatologistExamination',
+     data() {
+      return {
+        selectedRowExamination: '',
+        examinationID: ''
+      }
+    },
+    mounted () {
+        this.examinationID = this.$route.params.selectedExamination;
+        
+
+    },
     methods:{
        showHomepage: function(){
            window.location.href = "/dermatologistHomepage";
@@ -38,8 +52,8 @@ export default {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExamination: function(){
-            window.location.href = "/dermatologistExamination";
+        showExaminations: function(){
+            window.location.href = "/dermatologistExamination/-1";
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
@@ -47,7 +61,29 @@ export default {
         logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
-        }
+        }, 
+        searchPatient : function(){
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            
+            const patientForSearch = {
+                examinationID: this.selected.examinationID
+            };
+            this.axios.post('/dermatologist/searchMyPatient',patientForSearch, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.patients = response.data;
+                    this.fields = [
+                    { key: 'name', sortable: true },
+                    { key: 'surname', sortable: true },
+                    ];
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
+        },
     }
 }
 </script>

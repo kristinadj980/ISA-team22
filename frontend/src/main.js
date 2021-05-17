@@ -9,10 +9,12 @@ import moment from 'moment'
 
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
+Vue.use(VueRouter)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import vuetify from './plugins/vuetify';
+import VueRouter from 'vue-router';
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
