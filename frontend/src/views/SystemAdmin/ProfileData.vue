@@ -112,7 +112,10 @@ export default {
         },
         showDrugManipulation: function(){
            window.location.href = "/addingDrug";
-        }
+        },
+        showComplaints: function(){
+           window.location.href = "/complaints";
+        },
     }
 }
 </script>

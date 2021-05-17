@@ -109,6 +109,10 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
+	public List<Dermatologist> findAll() {
+		return dermatologistRepository.findAll();
+	}
+
 	public List<PatientSearchDTO> getMyPatients() {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();

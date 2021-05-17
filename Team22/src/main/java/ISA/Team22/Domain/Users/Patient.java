@@ -2,6 +2,7 @@ package ISA.Team22.Domain.Users;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.EPrescription;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.Prescription;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.PharmacyWorkflow.Complaint;
 import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
@@ -60,6 +62,9 @@ public class Patient extends Person{
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<EPrescription> ePrescriptions;
 	
+	@ManyToMany(targetEntity = Pharmacy.class,  cascade = CascadeType.ALL)
+	private List<Pharmacy> subscribedToPharmacies;
+	
 	public Patient() {
 		super();
 	}
@@ -79,6 +84,24 @@ public class Patient extends Person{
 		this.examinations = examinations;
 		this.complaints = complaints;
 		this.ePrescriptions = ePrescriptions;
+	}
+	
+	
+
+	public Patient(Integer penalty, LoyaltyProgram loyaltyProgram, List<Drug> drugs, List<Counseling> counseling,
+			List<Prescription> prescription, List<DrugReservation> drugReservations, List<Examination> examinations,
+			List<Complaint> complaints, List<EPrescription> ePrescriptions, List<Pharmacy> subscribedToPharmacies) {
+		super();
+		this.penalty = penalty;
+		this.loyaltyProgram = loyaltyProgram;
+		this.drugs = drugs;
+		this.counseling = counseling;
+		this.prescription = prescription;
+		this.drugReservations = drugReservations;
+		this.examinations = examinations;
+		this.complaints = complaints;
+		this.ePrescriptions = ePrescriptions;
+		this.subscribedToPharmacies = subscribedToPharmacies;
 	}
 
 	public Integer getPenalty() {
@@ -158,6 +181,14 @@ public class Patient extends Person{
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return this.getEmail();
+	}
+
+	public List<Pharmacy> getSubscribedToPharmacies() {
+		return subscribedToPharmacies;
+	}
+
+	public void setSubscribedToPharmacies(List<Pharmacy> subscribedToPharmacies) {
+		this.subscribedToPharmacies = subscribedToPharmacies;
 	}
 	
 	

@@ -16,6 +16,10 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
+import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
+
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -42,7 +46,7 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "subscribedToPharmacies")
 	private List<Patient> subscribedUsersIDs;
 	
 	 @JsonManagedReference
@@ -63,6 +67,9 @@ public class Pharmacy {
 	 @JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
+	
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Promotion> promotions;
 	
 	public Pharmacy() {
 		super();

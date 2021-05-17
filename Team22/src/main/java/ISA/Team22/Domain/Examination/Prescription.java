@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,22 +44,28 @@ public class Prescription {
 	
 	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
 	private List<Drug> drugs;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private PrescriptionStatus prescriptionStatus;
     
 	public Prescription() {
 		super();
 	}
-	public Prescription(Long id, LocalDate prescriptionDate, Integer amountOfDrug, Pharmacist pharmacist, Patient patient,
-			List<Drug> drugs, Double durationOfTherapy) {
+	
+
+	public Prescription(Long id, LocalDate prescriptionDate, Integer amountOfDrug, Double durationOfTherapy,
+			Pharmacist pharmacist, Patient patient, List<Drug> drugs, PrescriptionStatus prescriptionStatus) {
 		super();
 		this.id = id;
 		this.prescriptionDate = prescriptionDate;
 		this.amountOfDrug = amountOfDrug;
+		this.durationOfTherapy = durationOfTherapy;
 		this.pharmacist = pharmacist;
 		this.patient = patient;
 		this.drugs = drugs;
-		this.durationOfTherapy = durationOfTherapy;
+		this.prescriptionStatus = prescriptionStatus;
 	}
-	
+
 
 	public Long getId() {
 		return id;
@@ -101,5 +109,16 @@ public class Prescription {
 	public void setDurationOfTherapy(Double durationOfTherapy) {
 		this.durationOfTherapy = durationOfTherapy;
 	}
+
+
+	public PrescriptionStatus getPrescriptionStatus() {
+		return prescriptionStatus;
+	}
+
+
+	public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {
+		this.prescriptionStatus = prescriptionStatus;
+	}
 	 
+	
 }

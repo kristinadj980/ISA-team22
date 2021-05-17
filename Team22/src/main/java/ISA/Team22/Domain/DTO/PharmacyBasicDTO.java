@@ -1,10 +1,14 @@
 package ISA.Team22.Domain.DTO;
 
 public class PharmacyBasicDTO {
-	
+
 	private Long id;
 
     private String name;
+    
+	public PharmacyBasicDTO() {
+		super();
+	}
 
 	public PharmacyBasicDTO(Long id, String name) {
 		super();
@@ -27,7 +31,5 @@ public class PharmacyBasicDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-    
 
 }

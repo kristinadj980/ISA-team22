@@ -110,7 +110,12 @@ public class PharmacistService implements IPharmacistService {
 		pharmacistRepository.save(pharmacist);
 		
 	}
-	
+
+	@Override
+	public List<Pharmacist> findAll() {
+		return pharmacistRepository.findAll();
+	}
+
 	@Override
 	public List<PatientSearchDTO> getMyPatients() {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();

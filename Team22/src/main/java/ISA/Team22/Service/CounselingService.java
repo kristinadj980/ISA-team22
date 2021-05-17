@@ -1,5 +1,6 @@
 package ISA.Team22.Service;
 
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import ISA.Team22.Domain.Examination.Counseling;
+import ISA.Team22.Domain.Examination.Examination;
+import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.DTO.CounselingDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -45,6 +49,11 @@ public class CounselingService implements ICounselingService {
 
 	@Override
 	public List<Counseling> getAllCounselings() {
+		return counselingRepository.findAll();
+	}
+	
+	@Override
+	public List<Counseling> findAll() {
 		return counselingRepository.findAll();
 	}
 	
@@ -151,6 +160,18 @@ public class CounselingService implements ICounselingService {
 				counselings.add(e);
 		
 		return counselings;
+	}
+	
+	public boolean canPharmacistMakeComplaint(Long pharmacistId) {
+        Boolean isAble = false; 
+        List<Counseling> counselings = findAll();
+        for (Counseling counseling : counselings) {
+			if(counseling.getPharmacist().getId().equals(pharmacistId) && counseling.getCounselingStatus() == ExaminationStatus.held) {
+					isAble = true;
+			}
+		}
+       
+        return isAble;
 	}
 	
 }
