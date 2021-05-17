@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacistDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
 import ISA.Team22.Domain.Users.Dermatologist;
@@ -54,7 +55,6 @@ public class PharmacistController {
 	@PostMapping("/update")
 	@PreAuthorize("hasRole('PHARMACIST')")
 	public ResponseEntity<String> updatePharmacistInfo(@RequestBody PharmacistDTO pharmacistDTO) {
-		System.out.println("**************************************************************");
 		try {
 			pharmacistService.update(pharmacistDTO);
 			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
@@ -93,4 +93,27 @@ public class PharmacistController {
                 ResponseEntity.ok(infoComplaintDTOs);
 		
 	}
+	  
+		@GetMapping("/myPatients")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> getMyPatients() {
+			List<PatientSearchDTO> patients = pharmacistService.getMyPatients();
+			if(patients.isEmpty())
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			else
+				return	ResponseEntity.ok(patients);
+		}
+		
+		@PostMapping("/searchMyPatient")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> searchMyPatient(@RequestBody PatientSearchDTO patientSearchDTO) {
+			try {
+				List<PatientSearchDTO> searchResult = pharmacistService.searchMyPatient(patientSearchDTO);
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		  
+		}
+
 }

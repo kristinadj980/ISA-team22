@@ -1,10 +1,10 @@
 package ISA.Team22.Domain.DTO;
 
 public class PharmacyBasicDTO {
+
 	private Long id;
 
     private String name;
-
     
 	public PharmacyBasicDTO() {
 		super();

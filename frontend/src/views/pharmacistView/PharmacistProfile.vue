@@ -190,6 +190,10 @@ data() {
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";
         },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
         cancel() {
             this.$refs['modal-ref'].hide();
         },

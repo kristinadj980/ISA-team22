@@ -12,11 +12,12 @@ Vue.use(BootstrapVue)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import vuetify from './plugins/vuetify';
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 
-const baseURL = 'http://localhost:8081/api';
+const baseURL = 'http://localhost:8080/api';
 if (typeof baseURL !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL;
 }
@@ -32,7 +33,14 @@ if (typeof baseURL2 !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL2;
 }*/
 
+Vue.filter('formatDate', function(value) {
+  if (value) {
+      return moment(String(value)).format('YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+  }
+});
+
 new Vue({
   router,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

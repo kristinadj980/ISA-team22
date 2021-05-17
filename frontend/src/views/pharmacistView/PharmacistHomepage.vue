@@ -1,5 +1,5 @@
 <template>
-    <div id="pharmacisttHomepage">
+    <div id="pharmacistHomePage">
         <div class="homepage_style ">
            <span style="float: left; margin: 15px;">
                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-    name: 'PharmacistHomepage',
+    name: 'PharmacistHomePage',
     methods:{
        showHomepage: function(){
            window.location.href = "/pharmacistHomepage";
@@ -62,6 +62,10 @@ export default {
         },
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         }
     }
 }

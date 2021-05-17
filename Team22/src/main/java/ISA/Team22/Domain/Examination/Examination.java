@@ -31,17 +31,20 @@ public class Examination {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "price",  nullable = false)
-	private Double price;
-	
 	@Column(name = "startDate",  nullable = false)
 	private LocalDate startDate;
 	
 	@Column(name = "startTime",  nullable = false)
 	private LocalTime startTime;
 	
+	@Column(name = "endTime",  nullable = false)
+	private LocalTime endTime;
+	
 	@Column(name = "duration",  nullable = false)
-	private Integer duration;
+	private Long duration;
+	
+	@Column(name = "examination_price")
+	private Double examinationPrice;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private ExaminationStatus examinationStatus;
@@ -55,7 +58,7 @@ public class Examination {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "pharmacy_id", referencedColumnName = "id", nullable = false)
 	private Pharmacy pharmacy;
 	
@@ -66,15 +69,35 @@ public class Examination {
 		super();
 	}
 
-	public Examination(Long id, Double price, LocalDate startDate, LocalTime startTime, Integer duration,
+	
+	public Examination(Long id, LocalDate startDate, LocalTime startTime, LocalTime endTime, Long duration, Double examinationPrice,
 			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
 			Pharmacy pharmacy, List<Drug> drugs) {
 		super();
 		this.id = id;
-		this.price = price;
 		this.startDate = startDate;
 		this.startTime = startTime;
+		this.endTime = endTime;
 		this.duration = duration;
+		this.examinationPrice = examinationPrice;
+		this.examinationStatus = examinationStatus;
+		this.diagnosis = diagnosis;
+		this.dermatologist = dermatologist;
+		this.patient = patient;
+		this.pharmacy = pharmacy;
+		this.drugs = drugs;
+	}
+
+
+	public Examination( LocalDate startDate, LocalTime startTime, LocalTime endTime, Long duration, Double examinationPrice,
+			ExaminationStatus examinationStatus, String diagnosis, Dermatologist dermatologist, Patient patient,
+			Pharmacy pharmacy, List<Drug> drugs) {
+		super();
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.duration = duration;
+		this.examinationPrice = examinationPrice;
 		this.examinationStatus = examinationStatus;
 		this.diagnosis = diagnosis;
 		this.dermatologist = dermatologist;
@@ -91,13 +114,6 @@ public class Examination {
 		this.id = id;
 	}
 
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -115,12 +131,31 @@ public class Examination {
 		this.startTime = startTime;
 	}
 
-	public Integer getDuration() {
+	
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+
+	public void setEndTime(LocalTime endTime) {
+		this.endTime = endTime;
+	}
+
+
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Integer duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
+	}
+
+	public Double getExaminationPrice() {
+		return examinationPrice;
+	}
+
+	public void setExaminationPrice(Double examinationPrice) {
+		this.examinationPrice = examinationPrice;
 	}
 
 	public ExaminationStatus getExaminationStatus() {

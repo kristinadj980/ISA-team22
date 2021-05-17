@@ -49,8 +49,8 @@
                          <!-- <div class="mt-5 text-center top-buffer"><button class="btn btn-info btn-lg space_style" style="background-color:#003d66;"  v-on:click = "editProfile">Edit profile</button></div>-->  
                         <!-- Modal --> 
                         <div class="mt-5 text-center top-buffer">
-                            <b-button  class="btn btn-info btn-lg space_style" style="background-color:#003d66;" v-b-modal.modal-2>Edit password</b-button>
-                            <b-button  class="btn btn-info btn-lg space_style"  style="background-color:#003d66;" v-b-modal.modal-1>Edit profile info</b-button>
+                            <b-button  class="btn btn-info btn-lg space_style" style="background-color:#17a2b8;" v-b-modal.modal-2>Edit password</b-button>
+                            <b-button  class="btn btn-info btn-lg space_style"  style="background-color:#17a2b8;" v-b-modal.modal-1>Edit profile info</b-button>
                             <b-modal ref="modal-ref" id="modal-1" title="Edit profile info" hide-footer>
                                 <div>
                                     <h5 class ="text-justify top-buffer"> Name:
@@ -158,7 +158,7 @@ data() {
                  'Authorization': 'Bearer ' + token,
              }
          }).then(response => {
-               this.dermatologist=response.data;
+               this.dermatologist = response.data;
          }).catch(res => {
                        alert("Error");
                         console.log(res);
@@ -189,6 +189,11 @@ data() {
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+
         },
         editProfile: function(){
             window.location.href = "/dermatologistNewExamination";
