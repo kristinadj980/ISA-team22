@@ -1,5 +1,6 @@
 package ISA.Team22.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,11 @@ public class DrugService implements IDrugService {
 	@Override
 	public Drug findByCode(String code) {
 		return drugRepository.findByCode(code);
+	}
+
+	@Override
+	public List<Drug> findAllDrugs() {
+		return drugRepository.findAll();
 	}
 	
 	
