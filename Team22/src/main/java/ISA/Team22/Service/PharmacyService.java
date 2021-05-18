@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.Pharmacy.PharmacyInventory;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
@@ -142,4 +145,23 @@ public class PharmacyService implements IPharmacyService {
 		
 		return isAble;
 	}
+	
+	 public List<DrugAvailabilityDTO> getAvailabilityInPharmacies ( String code){
+	        List<DrugAvailabilityDTO> pharmacyList = new ArrayList<>();
+	        List<Pharmacy> pharmacies = findAll();
+	        PharmacyInventory pharmacyInventory = new PharmacyInventory();
+	        List<DrugInfo> drugInfos = new ArrayList<DrugInfo>();
+	        
+	        for (Pharmacy pharmacy : pharmacies) {
+	        	pharmacyInventory = pharmacy.getPharmacyInventory();
+	        	drugInfos = pharmacyInventory.getDrugInfos();
+	        	for (DrugInfo drugInfo : drugInfos) {
+					if(drugInfo.getDrug().getCode().equals(code)) {
+						pharmacyList.add(new DrugAvailabilityDTO(drugInfo.getDrug().getId(), drugInfo.getDrug().getCode(), pharmacy.getId(), pharmacy.getName(), drugInfo.getPrice()));
+					}
+				}
+			}
+	       
+	        return pharmacyList;
+	    }
 }
