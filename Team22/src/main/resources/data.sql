@@ -97,7 +97,7 @@ INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order
 VALUES (411,600);
 
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (701,'M35',0,1,1,'aspirin',10,'galenika',711);
+VALUES (701,'M35',0,1,1,'aspirin',9,'galenika',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (601,65,701);

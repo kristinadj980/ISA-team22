@@ -15,6 +15,8 @@ public class DrugSearchDTO {
     private IssuanceRegime issuance;    
     private Integer numberOfGrades;
     private DrugSpecificationDTO specification;
+    private String sortingKey;
+    
 	public DrugSearchDTO() {
 		super();
 	}
@@ -30,6 +32,22 @@ public class DrugSearchDTO {
 		this.issuance = issuance;
 		this.numberOfGrades = numberOfGrades;
 		this.specification = specification;
+	}
+	
+	
+
+	public DrugSearchDTO(Long id, String name, String code, DrugType type, DrugForm drugForm, IssuanceRegime issuance,
+			Integer numberOfGrades, DrugSpecificationDTO specification, String sortingKey) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.code = code;
+		this.type = type;
+		this.drugForm = drugForm;
+		this.issuance = issuance;
+		this.numberOfGrades = numberOfGrades;
+		this.specification = specification;
+		this.sortingKey = sortingKey;
 	}
 
 	public Long getId() {
@@ -83,4 +101,14 @@ public class DrugSearchDTO {
 	public void setSpecification(DrugSpecificationDTO specification) {
 		this.specification = specification;
 	}
+
+	public String getSortingKey() {
+		return sortingKey;
+	}
+
+	public void setSortingKey(String sortingKey) {
+		this.sortingKey = sortingKey;
+	}
+	
+	
 }

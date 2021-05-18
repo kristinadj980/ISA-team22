@@ -65,7 +65,7 @@ public class DrugController {
     }
 	
 	@GetMapping("getdrugs")
-	@PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 	//@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     ResponseEntity<List<DrugSearchDTO>> getAllDrugs()
     {
@@ -110,6 +110,18 @@ public class DrugController {
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                ResponseEntity.ok(drugSearchDTO1);
 		  
+		}
+	 
+	 @PostMapping("/sortResult")
+	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+		public ResponseEntity<List<DrugSearchDTO>> sortMyPatient(@RequestBody DrugSearchDTO sortingKey) {
+			try {
+				List<DrugSearchDTO> searchResult = drugService.sortDrugs(sortingKey);
+				
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		}
 
 

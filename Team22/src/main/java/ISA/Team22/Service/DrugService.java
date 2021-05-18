@@ -1,5 +1,7 @@
 package ISA.Team22.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +14,7 @@ import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
 import ISA.Team22.Repository.DrugRepository;
 import ISA.Team22.Service.IService.IDrugService;
+import java.util.Collections;
 
 @Service
 public class DrugService implements IDrugService {
@@ -81,6 +84,40 @@ public class DrugService implements IDrugService {
 	@Override
 	public Drug findById(Long id) {
 		return drugRepository.findById(id).get();
+	}
+
+	@Override
+	public List<DrugSearchDTO> sortDrugs(DrugSearchDTO sortingKey) {
+		 List<Drug> drugs = findAllDrugs();
+		 List<DrugSearchDTO> drugSearchDTOs = new ArrayList<DrugSearchDTO>();
+		 for (Drug d : drugs) {
+			 DrugSearchDTO drugSearchDTO1 = findDrugSpecification(d);
+			 drugSearchDTOs.add(drugSearchDTO1);
+		 }
+		
+		if(sortingKey.getSortingKey().equals("name")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("type")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o1.getType().compareTo(o2.getType());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("grade")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o1.getNumberOfGrades().compareTo(o2.getNumberOfGrades());
+				}
+			});
+		}
+		return drugSearchDTOs;
 	}
 	
 }

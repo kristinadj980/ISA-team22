@@ -6,6 +6,7 @@
         margin-top:1%;">
         <b>Drug search:</b>
         </h4>
+        
         <div
         style="margin-top: 2%;
         margin-left: 2%;">
@@ -19,49 +20,37 @@
                
             </b-form>
         </div>  
-        <!-- table -->
-         <div v-if = "showMedicationInfoDiv" style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
-               <div class="row">
-                    <div class=" form-group col">
-                        <label >Name</label>
-                    </div>
-                    <div class=" form-group col">
-                        <label >Type</label>
-                    </div>
-                    <div class=" form-group col">
-                        <label >Grade</label>
-                    </div>
-                    <div class=" form-group col">
-                        <label ></label>
-                    </div>
-                     <div class=" form-group col">
-                        <label ></label>
-                    </div>
-                   
-               </div>
-               <div>
-                    <div v-for="drug in drugs" v-bind:key="drug.id" class="row">
-                            <div class=" form-group col">
-                                <label >{{drug.name}}</label>
-                            </div>
-                            <div  class=" form-group col">          
-                                <label >{{drug.type}}</label>
-                            </div>
-                             <div  class=" form-group col">          
-                                <label >{{drug.numberOfGrades}}</label>
-                            </div>
-                           
-                            <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drug)" >See Specification</button>
-                            </div>
-                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drug)">See Availability</button>
-                            </div>
-                    </div>
-               </div>
-         </div>
+        <!-- TABLE -->
+       <div style="height:25px"></div>
+            <h3>Drugs</h3>
+            <table class="table table-striped" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                    <th scope="col" 
+                    v-for="f in fields" v-bind:key="f.key" 
+                    @click="fieldForSorting = f.key"
+                    v-on:click="sortColumn">
+                        {{f.label}}
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="drug in drugs" v-bind:key="drug.id"
+                    @click="selectedDrug = drug.id">
+                    <td>{{drug.name}}</td>
+                    <td>{{drug.type}}</td>
+                    <td>{{drug.numberOfGrades}}</td>
+                    <td>
+                    <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drug)" >See Specification</button>
+                    </td>
+                    <td><button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drug)">See Availability</button> </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div> 
         </div>
-        <div> 
+    </div>
+    <div> 
           <b-modal ref="quantity-modal" hide-footer scrollable title="Drug availability" size="lg" modal-class="b-modal">
                <div modal-class="modal-dialog" role="document">
                     <div class="modal-content" style="background-color:whitesmoke">
@@ -147,6 +136,17 @@ export default {
        selectedDrugId:0,
        selectedDrugCode:'',
        pharmacyDrugAvailability: [],
+       sortBy: 'grade',
+       sortDesc: false,
+       fieldForSorting: "grade",
+       fields: [
+          { key: 'name', label: 'Name' },
+          { key: 'type', label: 'Type' },
+          { key: 'grade', label: 'Grade' },
+          { label: 'Availability'},
+          {label: 'Specification'}
+        ],
+        selectMode: 'single',
        drugInfo : {
             name : "",
             form : "",
@@ -202,10 +202,6 @@ export default {
                 .then(response => {
                     this.drugs = response.data;
                     this.showMedicationInfoDiv = true;
-                    /*this.fields = [
-                    { key: 'name', sortable: true },
-                    { key: 'surname', sortable: true },
-                    ];*/
                     alert("Uspesno")
                 })
                 .catch(response => {
@@ -236,10 +232,8 @@ export default {
       },
       showDrugSpecification : function(event, drug) {
           this.selectedDrugId = drug.id;
-          //this.selectedDrugCode = drugInfo.code;
           const drugInfos1 ={
                 id : this.selectedDrugId,
-               // drugCode : this.selectedDrugCode
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             this.axios.post('/drug/getDrugSpecification',drugInfos1,{ 
@@ -257,6 +251,23 @@ export default {
           
           
       },
+      sortColumn : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             const columnForSort = {
+                sortingKey : this.fieldForSorting
+            };
+            this.axios.post('/drug/sortResult',columnForSort, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.drugs = response.data;
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
+        }
      
       },
     
@@ -307,5 +318,12 @@ export default {
         left:10px;
         bottom:-50%;
     }
+
+     .th_header {
+        display: table-cell;
+        -ms-text-combine-horizontal: inherit;
+        font-weight: bold;
+        text-align: center;
+        }
 
 </style>
