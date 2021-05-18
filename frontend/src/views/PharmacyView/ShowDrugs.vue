@@ -143,8 +143,8 @@ export default {
           { key: 'name', label: 'Name' },
           { key: 'type', label: 'Type' },
           { key: 'grade', label: 'Grade' },
-          { label: 'Availability'},
-          {label: 'Specification'}
+          {label: 'Specification'},
+          { label: 'Availability'}
         ],
         selectMode: 'single',
        drugInfo : {
