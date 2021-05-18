@@ -87,6 +87,8 @@ VALUES (711,'paracetamol','alergy','2 times a day',5);
 
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
 VALUES (700,'M65',0,1,1,'brufen',8,'zegin',711);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (702,'M60',0,0,0,'brufen',10,'tilia',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (600,45,700);
@@ -134,4 +136,12 @@ INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(30,5,2000,700,900);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,30);
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(31,10,2900,702,900);
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(32,15,2500,702,900);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (8,31);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (9,32);
 

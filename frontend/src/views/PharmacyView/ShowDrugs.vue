@@ -40,22 +40,22 @@
                    
                </div>
                <div>
-                    <div class="row">
+                    <div v-for="drug in drugs" v-bind:key="drug.id" class="row">
                             <div class=" form-group col">
-                                <label >{{drugInfo.name}}</label>
+                                <label >{{drug.name}}</label>
                             </div>
                             <div  class=" form-group col">          
-                                <label >{{drugInfo.type}}</label>
+                                <label >{{drug.type}}</label>
                             </div>
                              <div  class=" form-group col">          
-                                <label >{{drugInfo.numberOfGrades}}</label>
+                                <label >{{drug.numberOfGrades}}</label>
                             </div>
                            
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drugInfo)" >See Specification</button>
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drug)" >See Specification</button>
                             </div>
                              <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drugInfo)">See Availability</button>
+                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drug)">See Availability</button>
                             </div>
                     </div>
                </div>
@@ -200,7 +200,7 @@ export default {
                 'Authorization': 'Bearer ' + token,
                 }})
                 .then(response => {
-                    this.drugInfo = response.data;
+                    this.drugs = response.data;
                     this.showMedicationInfoDiv = true;
                     /*this.fields = [
                     { key: 'name', sortable: true },
@@ -213,9 +213,9 @@ export default {
                     alert(response);
                 })
         },
-        checkAvailability : function(event, drugInfo) {
-          this.selectedDrugId = drugInfo.id;
-          this.selectedDrugCode = drugInfo.code;
+        checkAvailability : function(event, drug) {
+          this.selectedDrugId = drug.id;
+          this.selectedDrugCode = drug.code;
           const drugInfos ={
                 id : this.selectedDrugId,
                 drugCode : this.selectedDrugCode
@@ -234,8 +234,8 @@ export default {
                         console.log(res);
                 });
       },
-      showDrugSpecification : function(event, drugInfo) {
-          this.selectedDrugId = drugInfo.id;
+      showDrugSpecification : function(event, drug) {
+          this.selectedDrugId = drug.id;
           //this.selectedDrugCode = drugInfo.code;
           const drugInfos1 ={
                 id : this.selectedDrugId,
