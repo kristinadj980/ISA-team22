@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 
 
@@ -28,6 +30,7 @@ public class Promotion {
 	@Column(name = "description",  nullable = false)
 	private String description;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Pharmacy pharmacy;
 	

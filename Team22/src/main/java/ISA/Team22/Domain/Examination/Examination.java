@@ -14,9 +14,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -25,6 +32,7 @@ import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Examination {
 	
 	@Id
@@ -52,17 +60,25 @@ public class Examination {
 	@Column(name = "diagnosis",  nullable = false)
 	private String diagnosis;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="dermatologist_id", nullable=false)
 	private Dermatologist dermatologist;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Patient patient;
 	
+	 @JsonBackReference
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "pharmacy_id", referencedColumnName = "id", nullable = false)
 	private Pharmacy pharmacy;
 	
-	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "examination_drug",
+    joinColumns = @JoinColumn(name = "examination_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"))
 	private List<Drug> drugs;
 	
 	public Examination() {

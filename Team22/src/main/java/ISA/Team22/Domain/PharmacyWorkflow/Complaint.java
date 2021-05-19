@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -42,11 +44,14 @@ public class Complaint {
     @JoinColumn(name = "pharmacist_id", referencedColumnName = "id", nullable = true, unique = false)
     private Pharmacist pharmacist;
 	
+	@JsonBackReference
 	@OneToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "pharmacy_id", referencedColumnName = "id", nullable = true, unique = false)
     private Pharmacy pharmacy;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false, unique = false)
 	private Patient patient;
 	
 	@Column(name = "isAnswered",  nullable = false)

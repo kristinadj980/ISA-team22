@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.Users;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,12 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-public class Address {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Address implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@SequenceGenerator(name = "order_sequence_generator", sequenceName = "order_sequence", initialValue = 100)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sequence_generator")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "streetName",  nullable = false)
