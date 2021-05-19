@@ -17,7 +17,7 @@ import vuetify from './plugins/vuetify';
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 
-const baseURL = 'http://localhost:8080/api';
+const baseURL = 'http://localhost:8081/api';
 if (typeof baseURL !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL;
 }

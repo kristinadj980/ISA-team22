@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import ISA.Team22.Domain.Users.Dermatologist;
 
 @Entity
@@ -31,6 +33,7 @@ public class BusinessDayDermatologist {
 	@ManyToMany(targetEntity = Period.class,  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Period> scheduledPeriods;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Dermatologist dermatologist;
 	

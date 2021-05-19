@@ -49,10 +49,11 @@ public class Pharmacy {
 	@ManyToMany(mappedBy = "subscribedToPharmacies")
 	private List<Patient> subscribedUsersIDs;
 	
-	 @JsonManagedReference
-	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY)
 	private List<Pharmacist> pharmacist;
 	
+	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "pharmacies")
 	private List<Dermatologist> dermatologist;
 	

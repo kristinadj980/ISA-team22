@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugReservation;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -32,8 +35,14 @@ import ISA.Team22.Domain.PharmacyWorkflow.LoyaltyProgram;
 
 @Entity
 @DiscriminatorValue("Patient")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Patient extends Person{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "penalty")
 	private Integer penalty;
 	
@@ -53,9 +62,11 @@ public class Patient extends Person{
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DrugReservation> drugReservations;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Examination> examinations;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
 	

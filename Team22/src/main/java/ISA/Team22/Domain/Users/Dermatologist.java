@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -33,6 +34,7 @@ public class Dermatologist extends Person {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayDermatologist> businessDays;
 	
