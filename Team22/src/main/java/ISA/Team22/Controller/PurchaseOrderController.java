@@ -38,6 +38,10 @@ public class PurchaseOrderController {
 		List<PurchaseOrder> purchaseOrders = purchaseOrderService.findAllOrders();
 		List<OrdersReviewDTO> ordersReviewDTOs = new ArrayList<OrdersReviewDTO>();
 		for (PurchaseOrder purchaseOrder : purchaseOrders) {
+			System.out.println("*************************");
+			System.out.println(purchaseOrder.getPurchaseOrderStatus());
+			System.out.println(purchaseOrder.getDueDate());
+			System.out.println(purchaseOrder.getDueDate().isAfter(LocalDate.now()));
 			if(purchaseOrder.getDueDate().isAfter(LocalDate.now()) && !purchaseOrder.getPurchaseOrderStatus().equals(PurchaseOrderStatus.closed)){
 				OrdersReviewDTO dto = new OrdersReviewDTO(purchaseOrder.getId(), purchaseOrder.getDueDate(), purchaseOrder.getPurchaseOrderStatus().toString(), findDrugs(purchaseOrder.getPurchaseOrderDrugs()),
 						purchaseOrder.getPharmacyAdministrator().getPharmacy().getName());

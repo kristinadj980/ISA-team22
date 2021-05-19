@@ -31,15 +31,17 @@ public class ComplaintService implements IComplaintService {
 	private final DermatologistRepository dermatologistRepository;
 	private final PharmacistRepository pharmacistRepository;
 	private final PharmacyRepository pharmacyRepository;
+	private final EmailService emailServices;
 	
 	@Autowired
 	public ComplaintService(ComplaintRepository complaintRepository,PatientRepository patientRepository,
-			DermatologistRepository dermatologistRepository,PharmacistRepository pharmacistRepository,PharmacyRepository pharmacyRepository) {
+			DermatologistRepository dermatologistRepository,PharmacistRepository pharmacistRepository,PharmacyRepository pharmacyRepository,EmailService emailServices) {
 		this.complaintRepository = complaintRepository;
 		this.patientRepository = patientRepository;
 		this.dermatologistRepository = dermatologistRepository;
 		this.pharmacistRepository = pharmacistRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.emailServices = emailServices;
 	}
 	
 
@@ -118,6 +120,9 @@ public class ComplaintService implements IComplaintService {
 		Complaint complaint = complaintRepository.findById(complaintReviewDTO.getId()).get();
 		complaint.setAnswered(true);
 		complaint.setAnswer(complaintReviewDTO.getAnswer());
+		Patient patient = complaint.getPatient();
+		this.emailServices.sendNotificationAsync(patient.getEmail(), "Complaint  INFO", ""
+				 + complaint.getAnswer().toString());
 		
 		return complaintRepository.save(complaint);
 	}

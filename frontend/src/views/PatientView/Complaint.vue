@@ -135,7 +135,7 @@ export default {
     methods:{
         
          showSubsribedPharmacies: function(){
-          this.getMyPromotions();
+          window.location.href = '/patientProfile';
         },
         showPharmacyPage: function(){
            window.location.href = '/';
@@ -270,6 +270,20 @@ export default {
 
                 });
       },
+      getMyPromotions: function(){
+          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+          this.pharmacies = []
+          this.axios.get('/promotion/subscriptions',{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+         }).then(response => {
+             
+             this.pharmacies=response.data;
+         }).catch(res => {
+                console.log(res);
+            });
+        },
       },
        
     

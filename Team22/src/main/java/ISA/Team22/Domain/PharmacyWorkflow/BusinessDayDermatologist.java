@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ISA.Team22.Domain.Users.Dermatologist;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BusinessDayDermatologist {
 	
 	@Id
@@ -33,7 +32,7 @@ public class BusinessDayDermatologist {
 	@JoinColumn(name = "shift_id", referencedColumnName = "id", nullable = false)
 	private Period shift;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "business_day_period",
     joinColumns = @JoinColumn(name = "business_day_dermatologist_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "period_id", referencedColumnName = "id"))
