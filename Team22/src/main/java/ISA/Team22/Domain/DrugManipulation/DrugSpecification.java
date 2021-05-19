@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -30,7 +33,9 @@ public class DrugSpecification {
 	@Column(name = "compositions", nullable = false)
 	private String compositions;
 	
-	@OneToMany(mappedBy = "drugSpecification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	 @ManyToMany
+	 @JoinTable(name = "medications_alternatives", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "drug_alternative_id", referencedColumnName = "id"))
+	//@OneToMany(mappedBy = "drugSpecification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Drug> alternativeDrugCodes;
 	
 	public DrugSpecification() {
