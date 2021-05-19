@@ -1,5 +1,6 @@
 package ISA.Team22.Domain.Pharmacy;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,9 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
@@ -28,10 +32,17 @@ import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Pharmacy {
+public class Pharmacy  implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "mySeqGenV2", sequenceName = "mySeqV2", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV2")
+    @Column(name="id", unique=true, nullable=false)
 	private Long id;
 	
 	@Column(name = "name")
@@ -47,14 +58,15 @@ public class Pharmacy {
 	private Integer numberOfGrades;
 	
 	@ManyToMany(mappedBy = "subscribedToPharmacies")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Patient> subscribedUsersIDs;
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY)
 	private List<Pharmacist> pharmacist;
 	
-	@JsonManagedReference
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "pharmacies")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Dermatologist> dermatologist;
 	
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -65,10 +77,11 @@ public class Pharmacy {
 	@JoinColumn(name = "pharmacyInventory_id")
 	private PharmacyInventory pharmacyInventory;
 	
-	 @JsonManagedReference
+	@JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Promotion> promotions;
 	

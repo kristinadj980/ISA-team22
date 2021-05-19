@@ -15,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -39,7 +42,8 @@ public class Prescription {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacist pharmacist;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Patient patient;
 	
 	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)

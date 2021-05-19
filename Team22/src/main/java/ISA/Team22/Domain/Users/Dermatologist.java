@@ -13,8 +13,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -38,14 +40,18 @@ public class Dermatologist extends Person {
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayDermatologist> businessDays;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	
+	@ManyToMany
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@JoinTable(name = "pharmacy_dermatologists", joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> pharmacies;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Examination> examinations;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AbsenceRequestDermatologist> absenceRequests;
 	

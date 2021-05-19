@@ -13,14 +13,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugReservation;
@@ -50,15 +54,18 @@ public class Patient extends Person{
 	@JoinColumn(name = "loyaltyProgram_id", referencedColumnName = "id")
 	private LoyaltyProgram loyaltyProgram;
 	
-	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Drug> drugs;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Counseling> counseling;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Prescription> prescription;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DrugReservation> drugReservations;
 	
@@ -70,10 +77,15 @@ public class Patient extends Person{
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<EPrescription> ePrescriptions;
 	
-	@ManyToMany(targetEntity = Pharmacy.class,  cascade = CascadeType.ALL)
+	@ManyToMany
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JoinTable(name = "patients_subscriptions", joinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> subscribedToPharmacies;
 	
 	public Patient() {
