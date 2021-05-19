@@ -65,11 +65,22 @@ public class ExaminationController {
 	public ResponseEntity<String> updateScheduledExamination(@RequestBody ExaminationDTO examinationDTO) {
 		try {
 			String response = examinationService.updateScheduledExamination(examinationDTO);
-			System.out.println(response);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/getExaminationById")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<ExaminationDTO> getExaminationById(@RequestBody ExaminationDTO examinationDTO){
+		try {
+			//ExaminationDTO response = examinationService.getExaminationById(examinationDTO);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
 	}
 

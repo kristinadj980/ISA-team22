@@ -14,10 +14,20 @@
                 <span  style="float:right;margin:15px">
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
                 </span>
-                <h1 style="margin-left:1%">
-      Selected Rows:<br>
-      {{ examinationID }}
-    </h1>
+        </div>
+        <div>
+            <div style="left:0">
+                <h4 class="text-left text_postion">Please choose one of the options to continue:</h4>
+                <b-radio-group v-model="selected"  class="text-left text_postion">
+                    <b-radio value="1" >Start examination</b-radio>
+                    <b-radio value="2" >Patient didn't come to examination!</b-radio>
+                </b-radio-group>
+            </div>
+            <b-tabs  v-model="tabIndex" card>
+                <b-tab title="Enter examination data" v-if="selected == 1">I'm the first fading tab</b-tab>
+                <b-tab title="Unsustainable examination" v-else-if="selected == 2" >I'm the first ddddddddddddddddddddddddddddddddddfading tab</b-tab>
+                <b-tab title="Please choose one of the options!" v-else disabled></b-tab>
+            </b-tabs>
         </div>
     </div>
 </template>
@@ -28,7 +38,8 @@ export default {
      data() {
       return {
         selectedRowExamination: '',
-        examinationID: ''
+        examinationID: '',
+        selected: 0,
       }
     },
     mounted () {
@@ -106,5 +117,11 @@ export default {
 
     .space_style{
         margin-right:5px
+    }
+
+    .text_postion{
+        margin-left:2%;
+        margin-top:1%;
+        margin-bottom:1%;
     }
 </style>
