@@ -8,7 +8,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Write complaint</button>
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
+                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut" >Log Out</button>
             </span>
         </div>    
         <!-- *******************************************************-->
@@ -142,6 +142,10 @@ export default {
         },
           writeComplaint: function(){
            window.location.href = '/complaint';
+        },
+         logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         },
         updateFiler : function(event, filter) {
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

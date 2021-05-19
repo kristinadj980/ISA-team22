@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DermatologistDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.DTO.SupplierDTO;
 import ISA.Team22.Domain.DTO.SystemAdminDTO;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
@@ -83,5 +84,26 @@ public class SystemAdministratorController {
 		return (ResponseEntity<SystemAdminDTO>) (admin == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(adminDTO));
 	}
     
+    @PostMapping("/update")
+	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+	public ResponseEntity<String> updateInfo(@RequestBody SystemAdminDTO systemAdminDTO) {
+		try {
+			systemAdministratorService.update(systemAdminDTO);
+			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/updatePassword")
+	@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
+	public ResponseEntity<String> updatePassword(@RequestBody SystemAdminDTO systemAdminDTO) {
+		try {
+			systemAdministratorService.updatePassword(systemAdminDTO);
+			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
 

@@ -10,7 +10,7 @@
                     
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
+                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut" >Log Out</button>
             </span>
         </div>
     <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
@@ -122,7 +122,10 @@ export default{
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
         },
-        
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
         showOffer : function(event, order) {
           this.choosenOrder = order;
           this.choosenOfferPrice = order.price;

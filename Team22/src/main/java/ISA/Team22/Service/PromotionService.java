@@ -28,10 +28,12 @@ public class PromotionService implements IPromotionService {
 
 	private final PromotionRepository promotionRepository;
 	private final PatientRepository patientRepository;
+	private final EmailService emailServices;
 	
-    public PromotionService(PromotionRepository promotionRepository,PatientRepository patientRepository) {
+    public PromotionService(PromotionRepository promotionRepository,PatientRepository patientRepository,EmailService emailServices) {
 		this.promotionRepository = promotionRepository;
 		this.patientRepository = patientRepository;
+		this.emailServices = emailServices;
 	}
 
 	@Override
@@ -71,6 +73,8 @@ public class PromotionService implements IPromotionService {
 		}
          pharmacies.add(pharmacy);
          patientRepository.save(patient); 
+         this.emailServices.sendNotificationAsync(patient.getEmail(), "Promotion INFO", ""
+					+ "You are now subsribed to " + pharmacy.getName().toString() +  ".");
          
          return true;
 	     
@@ -92,6 +96,9 @@ public class PromotionService implements IPromotionService {
          }
          
          patientRepository.save(patient); 
+         this.emailServices.sendNotificationAsync(patient.getEmail(), "Promotion INFO", ""
+					+ "You will no longer receive promotions from pharmacy  " + pharmacy.getName().toString() +  ".");
+         
          return true;
 	 }
 

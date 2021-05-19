@@ -73,7 +73,7 @@
                                         <b-form-input v-model="supplier.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancel">Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
                                         <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "update">Update</b-button>
                                     </b-row>
                                 </div>
@@ -114,7 +114,7 @@
                                         </div>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancelPassword">Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
                                         <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "updatePassword">Update</b-button>
                                     </b-row>
                                 </div>
@@ -181,6 +181,10 @@ export default {
         showPharmacyPage: function(){
            window.location.href = '/';
         },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
         },
@@ -205,7 +209,7 @@ export default {
                 }})
                 .then(response => {
                     alert("Successfully edited profile.")
-                    
+                    this.$refs['modal-ref'].hide();
                         console.log(response);
                 })
                 .catch(response => {
@@ -230,6 +234,7 @@ export default {
                 }})
                 .then(response => {
                     alert("Successfully edited password.")
+                    this.$refs['modal-ref2'].hide();
                         console.log(response);
                 })
                 .catch(response => {

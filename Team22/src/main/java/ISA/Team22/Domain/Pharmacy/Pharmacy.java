@@ -196,6 +196,14 @@ public class Pharmacy  implements Serializable{
 	public void setPharmacyAdministrator(List<PharmacyAdministrator> pharmacyAdministrator) {
 		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
+	}
 	
 	
 	

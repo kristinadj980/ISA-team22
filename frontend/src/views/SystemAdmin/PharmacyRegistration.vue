@@ -67,6 +67,10 @@ export default {
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
         },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
         registerPharmacy : function(){
           const addressInfo ={
               town: this.city,

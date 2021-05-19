@@ -10,7 +10,7 @@
                     
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
+                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut" >Log Out</button>
             </span>
         </div>
         <!-- *******************************************************-->
@@ -165,6 +165,10 @@ export default {
         },
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         },
         showOffer : function(event, offer) {
           this.choosenOffer = offer;
