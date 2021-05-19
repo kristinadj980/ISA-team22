@@ -41,6 +41,7 @@ public class PromotionService implements IPromotionService {
 		return promotionRepository.findAll();
 	}
 	
+	@Override
 	public List<PromotionDTO> findPromotions(PharmacyBasicDTO pharmacyBasicDTO) {
 		List<Promotion> promotions = findAllPromotions();
         List<PromotionDTO> promotionDtos = new ArrayList<PromotionDTO>();
@@ -60,6 +61,7 @@ public class PromotionService implements IPromotionService {
 		return promotionDtos;
 	}
 	
+	@Override
 	 public boolean subsribeToPharmacy(Pharmacy pharmacy) {
 		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 	     Person person = (Person)currentUser.getPrincipal();
@@ -80,6 +82,7 @@ public class PromotionService implements IPromotionService {
 	     
 	 }
 	 
+	 @Override
 	 public boolean unsubsribeToPharmacy(Pharmacy pharmacy) {
 		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 	     Person person = (Person)currentUser.getPrincipal();

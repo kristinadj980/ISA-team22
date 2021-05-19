@@ -87,6 +87,7 @@ public class PharmacyService implements IPharmacyService {
 		return pharmacyRepository.findById(pharmacyId).get();
 	}
 	
+	@Override
 	public boolean canMakeComplaintPharmacy(Long pharmacyId) {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
@@ -108,7 +109,8 @@ public class PharmacyService implements IPharmacyService {
         return isAble;
 	}
 
-	private Boolean checkExaminations(Long pharmacyId, Patient patient, Boolean isAble) {
+	@Override
+	public Boolean checkExaminations(Long pharmacyId, Patient patient, Boolean isAble) {
 		List<Examination> examinations = patient.getExaminations();
 		ExaminationStatus status = ExaminationStatus.held;
 		
@@ -121,7 +123,8 @@ public class PharmacyService implements IPharmacyService {
 		return isAble;
 	}
 	
-	private Boolean checkCounselings(Long pharmacyId, Patient patient, Boolean isAble) {
+	@Override
+	public Boolean checkCounselings(Long pharmacyId, Patient patient, Boolean isAble) {
 		List<Counseling> counselings = patient.getCounseling();  
 		ExaminationStatus status = ExaminationStatus.held;
 		
@@ -134,7 +137,8 @@ public class PharmacyService implements IPharmacyService {
 		return isAble;
 	}
 	
-	private Boolean checkDrugs(Long pharmacyId, Patient patient, Boolean isAble) {
+	@Override
+	public Boolean checkDrugs(Long pharmacyId, Patient patient, Boolean isAble) {
 		List<Prescription> prescriptions = patient.getPrescription();
 		
 		for (Prescription prescription : prescriptions) {
@@ -146,6 +150,7 @@ public class PharmacyService implements IPharmacyService {
 		return isAble;
 	}
 	
+	@Override
 	 public List<DrugAvailabilityDTO> getAvailabilityInPharmacies ( String code){
 	        List<DrugAvailabilityDTO> pharmacyList = new ArrayList<>();
 	        List<Pharmacy> pharmacies = findAll();

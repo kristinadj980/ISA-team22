@@ -17,4 +17,5 @@ public interface ICounselingService {
 	List<Counseling> getAllPharmacistCounselings(Long id);
 	Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term);
 	List<Counseling> findAll();
+	boolean canPharmacistMakeComplaint(Long pharmacistId);
 }

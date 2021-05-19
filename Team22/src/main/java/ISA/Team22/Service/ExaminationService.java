@@ -194,6 +194,7 @@ public class ExaminationService implements IExaminationService {
 		return true;
 	}
 	
+	@Override
 	public boolean canDermatologistMakeComplaint(Long dermatologistId) {
 
         Boolean isAble = false; 

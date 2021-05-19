@@ -59,6 +59,7 @@ public class DrugService implements IDrugService {
 		return drugRepository.findAll();
 	}
 	
+	@Override
 	public DrugSearchDTO findDrugSpecification(Drug drug) {
 		DrugSpecification drugSpecification = drug.getDrugSpecification();
 		
@@ -73,11 +74,11 @@ public class DrugService implements IDrugService {
 		drugSearchDTO.setCode(drug.getCode());
 		drugSearchDTO.setName(drug.getName());
 		drugSearchDTO.setNumberOfGrades(drug.getNumberOfGrades());
-		System.out.println(drugSearchDTO.getNumberOfGrades());
 		drugSearchDTO.setSpecification(drugSpecificationDTO);
 		drugSearchDTO.setDrugForm(drug.getDrugForm());
 		drugSearchDTO.setIssuance(drug.getIssuance());
 		drugSearchDTO.setType(drug.getDrugType());
+		
 		return drugSearchDTO;
 	}
 
@@ -117,6 +118,7 @@ public class DrugService implements IDrugService {
 				}
 			});
 		}
+		
 		return drugSearchDTOs;
 	}
 	

@@ -44,8 +44,6 @@ public class ComplaintService implements IComplaintService {
 		this.emailServices = emailServices;
 	}
 	
-
-
 	@Override
 	public Complaint save(ComplaintDTO complaintDTO) {
 		
@@ -95,6 +93,7 @@ public class ComplaintService implements IComplaintService {
 		return complaintRepository.findAll();
 	}
 	
+	@Override
 	public void findComplaints(List<Complaint> complaints, List<ComplaintReviewDTO> complaintDTOs) {
 		for(Complaint c:complaints) {
 			System.out.println("usao");
@@ -116,6 +115,7 @@ public class ComplaintService implements IComplaintService {
 		}
 	}
 	
+	@Override
 	public Complaint updateComplaint(ComplaintReviewDTO complaintReviewDTO) {
 		Complaint complaint = complaintRepository.findById(complaintReviewDTO.getId()).get();
 		complaint.setAnswered(true);
