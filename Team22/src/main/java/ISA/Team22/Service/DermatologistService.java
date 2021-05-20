@@ -79,7 +79,7 @@ public class DermatologistService implements IDermatologistService {
 
 	@Override
 	public Dermatologist getById(Long id) {
-		 return dermatologistRepository.findById(id).get();
+		return dermatologistRepository.findById(id).get();
 	}
 
 	@Override

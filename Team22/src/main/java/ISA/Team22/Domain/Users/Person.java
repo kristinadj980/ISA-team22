@@ -1,6 +1,5 @@
 package ISA.Team22.Domain.Users;
 
-import static javax.persistence.DiscriminatorType.STRING;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -10,8 +9,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,10 +28,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

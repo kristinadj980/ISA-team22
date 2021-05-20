@@ -11,17 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
 
 import ISA.Team22.Domain.Users.Address;
@@ -40,8 +39,7 @@ public class Pharmacy  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @SequenceGenerator(name = "mySeqGenV2", sequenceName = "mySeqV2", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV2")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", unique=true, nullable=false)
 	private Long id;
 	
@@ -65,8 +63,10 @@ public class Pharmacy  implements Serializable{
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY)
 	private List<Pharmacist> pharmacist;
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "pharmacies")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "pharmacy_dermatologists",
+    joinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"))
 	private List<Dermatologist> dermatologist;
 	
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -74,7 +74,7 @@ public class Pharmacy  implements Serializable{
 	private Address address;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pharmacyInventory_id")
+	@JoinColumn(name = "pharmacyInventory_id",  referencedColumnName = "id")
 	private PharmacyInventory pharmacyInventory;
 	
 	@JsonManagedReference

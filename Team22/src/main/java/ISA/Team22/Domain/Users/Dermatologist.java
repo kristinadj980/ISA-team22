@@ -40,10 +40,9 @@ public class Dermatologist extends Person {
 	@OneToMany(mappedBy = "dermatologist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BusinessDayDermatologist> businessDays;
 	
-	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JoinTable(name = "pharmacy_dermatologists", joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"), 
+	@JoinTable(name = "dermatologist_pharmacies", joinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"), 
 	inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
 	private List<Pharmacy> pharmacies;
 	

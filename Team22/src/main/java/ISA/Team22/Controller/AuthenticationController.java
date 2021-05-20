@@ -147,14 +147,11 @@ public class AuthenticationController {
     @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST')")
     ResponseEntity<Person> getMyAccount()
     {
-		System.out.println("************************");
-		System.out.println("Usao");
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Trenutni:" + currentUser.getPrincipal());
         
         Person user = (Person)currentUser.getPrincipal();
         Person userWithId = personService.findById(user.getId());
-        System.out.println("RADIIII");
+
         return (ResponseEntity<Person>) (userWithId == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(userWithId));

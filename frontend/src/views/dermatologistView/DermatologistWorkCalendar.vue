@@ -38,7 +38,7 @@ export default {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExamination: function(){
+        showExaminations: function(){
             window.location.href = "/dermatologistExamination";
         },
         showNewExamination: function(){
