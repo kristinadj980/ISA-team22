@@ -17,9 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ISA.Team22.Domain.Users.Patient;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DrugReservation {
 	
 	@Id
@@ -32,6 +36,7 @@ public class DrugReservation {
 	@Column(name = "dueDate",  nullable = false)
 	private LocalDate dueDate;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Patient patient;
 	

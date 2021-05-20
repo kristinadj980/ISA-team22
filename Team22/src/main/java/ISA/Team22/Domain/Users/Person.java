@@ -1,6 +1,5 @@
 package ISA.Team22.Domain.Users;
 
-import static javax.persistence.DiscriminatorType.STRING;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -10,8 +9,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,10 +28,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -65,16 +60,17 @@ public abstract class Person implements UserDetails, Serializable{
 	@Column(name = "contact")
 	private String contact;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
 	private Address address;
 	
     @Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
+    
 	@Column(name = "enabled")
 	private boolean enabled;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))

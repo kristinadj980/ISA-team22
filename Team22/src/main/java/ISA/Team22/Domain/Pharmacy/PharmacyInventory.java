@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -26,7 +28,10 @@ public class PharmacyInventory {
 	@OneToOne(mappedBy = "pharmacyInventory")
 	private Pharmacy pharmacy;
 	
-	@ManyToMany(targetEntity = DrugInfo.class,  cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "pharmacy_inventory_drug_infos",
+    joinColumns = @JoinColumn(name = "pharmacy_inventory_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "drug_infos_id", referencedColumnName = "id"))
 	private List<DrugInfo> drugInfos;
 	
 	public PharmacyInventory() {

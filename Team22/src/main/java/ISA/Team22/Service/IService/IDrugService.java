@@ -16,4 +16,5 @@ public interface IDrugService {
     List<Drug> findAllDrugs();
     Drug findById(Long id);
     List<DrugSearchDTO> sortDrugs(DrugSearchDTO sortingKey);
+    DrugSearchDTO findDrugSpecification(Drug drug);
 }

@@ -44,6 +44,7 @@ public class ComplaintController {
 	private final CounselingService counselingService;
 	private final PharmacyService pharmacyService;
 	
+	
 	@Autowired
 	public ComplaintController(ComplaintService complaintService,PersonService personService,ExaminationService examinationService,CounselingService counselingService,PharmacyService pharmacyService) {
 		this.complaintService = complaintService;

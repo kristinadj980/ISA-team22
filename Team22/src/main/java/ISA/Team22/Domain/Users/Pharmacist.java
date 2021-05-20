@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ISA.Team22.Domain.Examination.Counseling;
@@ -45,6 +46,7 @@ public class Pharmacist extends Person{
 	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Counseling> counselings;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Pharmacy pharmacy;
 	

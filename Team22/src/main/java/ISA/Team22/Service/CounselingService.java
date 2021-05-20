@@ -162,6 +162,7 @@ public class CounselingService implements ICounselingService {
 		return counselings;
 	}
 	
+	@Override
 	public boolean canPharmacistMakeComplaint(Long pharmacistId) {
         Boolean isAble = false; 
         List<Counseling> counselings = findAll();

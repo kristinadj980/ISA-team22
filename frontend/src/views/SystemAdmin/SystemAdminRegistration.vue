@@ -115,6 +115,10 @@ export default {
          showProfile: function(){
            window.location.href = "/profileData";
         },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
          registerUser: function(){
               const addressInfo ={
                street: this.street,

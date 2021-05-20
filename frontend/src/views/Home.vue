@@ -13,7 +13,7 @@
       </div>
     </div>
   </section>
-    <dermatologist-homepage></dermatologist-homepage>
+    
   </div>
 </template>
 

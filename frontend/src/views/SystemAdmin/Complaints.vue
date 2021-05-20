@@ -13,7 +13,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
+                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
             </span>
         </div>
          <!-- table -->
@@ -113,6 +113,10 @@ export default {
         },
         showDrugManipulation: function(){
            window.location.href = "/addingDrug";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
         },
         showComplaints: function(){
            window.location.href = "/complaints";

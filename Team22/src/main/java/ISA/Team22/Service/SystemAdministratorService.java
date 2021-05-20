@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
+import ISA.Team22.Domain.DTO.SystemAdminDTO;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Authority;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
+import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Domain.Users.SystemAdministrator;
 import ISA.Team22.Repository.AuthorityRepository;
 import ISA.Team22.Repository.SystemAdministratorRepository;
@@ -83,6 +86,33 @@ public class SystemAdministratorService implements ISystemAdministratorService {
         systemAdministrator.setEnabled(true);
         systemAdministrator.setMainAdmin(false);
         return systemAdministratorRepository.save(systemAdministrator);
+	}
+
+	@Override
+	public void update(SystemAdminDTO systemAdminDTO) {
+		SystemAdministrator admin = (SystemAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	    AddressDTO addressDTO = systemAdminDTO.getAddress();
+	    City city = new City();
+        city.setName(addressDTO.getTown());
+        Country country = new Country();
+        country.setName(addressDTO.getCountry());
+        city.setCountry(country);
+        Address address = new Address(addressDTO.getStreet(),addressDTO.getNumber(),city);
+        admin.setAddress(address);
+        admin.setName(systemAdminDTO.getName());
+        admin.setLastName(systemAdminDTO.getSurname());
+        
+	    systemAdministratorRepository.save(admin);
+		
+	}
+
+	@Override
+	public void updatePassword(SystemAdminDTO systemAdminDTO) {
+		SystemAdministrator admin = (SystemAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		admin.setPassword(passwordEncoder.encode(systemAdminDTO.getConfirmPassword()));
+		
+		systemAdministratorRepository.save(admin);
+		
 	}
 
 }

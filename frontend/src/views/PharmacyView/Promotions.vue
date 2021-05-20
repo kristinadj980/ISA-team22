@@ -1,15 +1,6 @@
 <template>
      <div id="promotions">
-        <div class="homepage_style ">
-            <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" >Promotions</button>
-                    
-            </span>
-            <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" >Log Out</button>
-            </span>
-        </div>
+        
          <!-- PHARMACIES -->
                 <b-dropdown text="Select pharmacy" variant="outline-info" class="dropdown_style" id="dropdown-divider">
                             <b-dropdown-item  

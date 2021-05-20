@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.Users;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +11,11 @@ import javax.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Authority implements GrantedAuthority{
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Authority implements GrantedAuthority, Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id

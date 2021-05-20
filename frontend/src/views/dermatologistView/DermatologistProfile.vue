@@ -60,10 +60,11 @@
                                         <b-form-input v-model="dermatologist.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Email:
-                                        <b-form-input v-model="dermatologist.email" label="Email" disabled></b-form-input>
+                                        <b-form-input v-model="dermatologist.email" l
+                                        abel="Email" disabled></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street:
-                                        <b-form-input v-model="dermatologist.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
+                                        <b-form-input v-model="dermatologist.address.street" filled placeholder="Enter your street name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street Number:
                                         <b-form-input v-model="dermatologist.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
@@ -144,7 +145,7 @@ data() {
         name: "",
         surname: "",
         email: "",
-        address : "",
+        address :[],
         password : "",
         currentPassword : "",
         newPassword : "",
@@ -184,7 +185,7 @@ data() {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExamination: function(){
+        showExaminations: function(){
             window.location.href = "/dermatologistExamination";
         },
         showNewExamination: function(){

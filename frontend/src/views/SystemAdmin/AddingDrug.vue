@@ -152,6 +152,10 @@ export default {
       confirmSpecification : function() {
         this.$refs['my-modal'].hide()
       },
+      logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
       
       addDrugs : function() {
           const medicationInfo = {
@@ -169,7 +173,7 @@ export default {
              headers: {
                  'Authorization': 'Bearer ' + token,
              }}).then(response => {
-                       alert("Medicine is added!");
+                       alert("Drug is added!");
                         console.log(response.data);
                         
                 })

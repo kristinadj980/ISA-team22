@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import ISA.Team22.Domain.Pharmacy.OfferStatus;
 import ISA.Team22.Domain.Users.Dermatologist;
 
@@ -39,7 +41,8 @@ public class AbsenceRequestDermatologist {
 	@Enumerated(EnumType.ORDINAL)
 	private OfferStatus status;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Dermatologist dermatologist;
 	
 	public AbsenceRequestDermatologist() {

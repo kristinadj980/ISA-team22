@@ -22,4 +22,5 @@ public interface IExaminationService {
 	String updateScheduledExamination(ExaminationDTO examinationDTO);
 	Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term);
 	List<Examination> findAll ();
+	boolean canDermatologistMakeComplaint(Long dermatologistId);
 }
