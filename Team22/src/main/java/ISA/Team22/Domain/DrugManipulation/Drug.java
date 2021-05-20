@@ -9,11 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ISA.Team22.Domain.Examination.IssuanceRegime;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Drug {
 	
 	@Id
@@ -47,7 +52,8 @@ public class Drug {
 	@Column(name = "allGrades")
 	private Integer allGrades;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "drugSpecification_id", referencedColumnName = "id", nullable = true, unique = false)
 	private DrugSpecification drugSpecification;
 	
 	public Drug() {

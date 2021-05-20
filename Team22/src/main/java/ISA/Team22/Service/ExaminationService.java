@@ -1,5 +1,9 @@
 package ISA.Team22.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +21,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import ISA.Team22.Domain.Examination.Examination;
+import ISA.Team22.Domain.Examination.ExaminationStatus;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
@@ -30,17 +35,19 @@ import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.ExaminationRepository;
+import ISA.Team22.Repository.PatientRepository;
+import ISA.Team22.Repository.PersonRepository;
 import ISA.Team22.Service.IService.IExaminationService;
 
 @Service
 public class ExaminationService implements IExaminationService {
-
-	private final ExaminationRepository examinationRepository;
+	
 	private final DermatologistService dermatologistService;
 	private final PharmacyService pharmacyService;
 	private final PatientService patientService;
 	private final BusinessDayDermatologistService businessDayDermatologistService;
 	private final EmailService emailServices;
+	private final ExaminationRepository examinationRepository;
 	
 	@Autowired
 	public ExaminationService(ExaminationRepository examinationRepository, DermatologistService dermatologistService,
@@ -53,6 +60,11 @@ public class ExaminationService implements IExaminationService {
 		this.patientService = patientService;
 		this.businessDayDermatologistService = businessDayDermatologistService;
 		this.emailServices = emailServices;
+	}
+	
+	@Override
+	public List<Examination> findAll() {
+		return examinationRepository.findAll();
 	}
 
 	@Override
@@ -180,6 +192,21 @@ public class ExaminationService implements IExaminationService {
 				else return true;
 			}else continue;
 		return true;
+	}
+	
+	@Override
+	public boolean canDermatologistMakeComplaint(Long dermatologistId) {
+
+        Boolean isAble = false; 
+        List<Examination> examinations = findAll();
+        
+        for (Examination examination : examinations) {
+			if(examination.getDermatologist().getId().equals(dermatologistId) && examination.getExaminationStatus() == ExaminationStatus.held) {
+					isAble = true;
+			}
+		}
+       
+        return isAble;
 	}
 
 	@Override

@@ -3,11 +3,18 @@ package ISA.Team22.Domain.PharmacyWorkflow;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
+
 
 @Entity
 public class Promotion {
@@ -22,6 +29,10 @@ public class Promotion {
 	
 	@Column(name = "description",  nullable = false)
 	private String description;
+	
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Pharmacy pharmacy;
 	
 	public Promotion() {
 		super();
@@ -56,6 +67,14 @@ public class Promotion {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 	
 	

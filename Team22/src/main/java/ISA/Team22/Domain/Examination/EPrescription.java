@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Patient;
@@ -36,7 +39,8 @@ public class EPrescription {
 	@ManyToMany(targetEntity = PurchaseOrderDrug.class,  cascade = CascadeType.ALL)
 	public List<PurchaseOrderDrug> purchaseOrderDrugs;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Patient patient;
 	
 	public EPrescription() {

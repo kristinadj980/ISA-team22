@@ -32,6 +32,11 @@ import ProfileDataSupplier from '../views/SupplierView/ProfileDataSupplier.vue'
 import Offers from '../views/SupplierView/Offers.vue'
 import Drugs from '../views/SupplierView/Drugs.vue'
 import GiveOffers from '../views/SupplierView/GiveOffers.vue'
+import Promotions from '../views/PharmacyView/Promotions.vue'
+import Profile from '../views/PatientView/Profile.vue'
+import Complaint from '../views/PatientView/Complaint.vue'
+import Complaints from '../views/SystemAdmin/Complaints.vue'
+import ShowDrugs from '../views/PharmacyView/ShowDrugs.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -201,6 +206,31 @@ const routes = [
     path: '/giveOffers',
     name: 'GiveOffers',
     component: GiveOffers
+  },
+  {
+    path: '/promotions',
+    name: 'Promotions',
+    component: Promotions
+  },
+  {
+    path: '/patientProfile',
+    name: 'Profile',
+    component: Profile
+  },
+  {
+    path: '/complaint',
+    name: 'Complaint',
+    component: Complaint
+  },
+  {
+    path: '/complaints',
+    name: 'Complaints',
+    component: Complaints
+  },
+  {
+    path: '/showDrugs',
+    name: 'ShowDrugs',
+    component: ShowDrugs
   }
 ]
 

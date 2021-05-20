@@ -13,6 +13,7 @@ public interface IPharmacistService {
 	Pharmacist save(PharmacistDTO userRequest);
 	void update(PharmacistDTO pharmacistDTO);
 	void updatePassword(PharmacistDTO pharmacistDTO);
+	List<Pharmacist> findAll();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
-	 List<PatientSearchDTO> getMyPatients();
+	List<PatientSearchDTO> getMyPatients();
 }

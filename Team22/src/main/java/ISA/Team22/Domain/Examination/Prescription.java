@@ -6,12 +6,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
@@ -37,27 +42,34 @@ public class Prescription {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacist pharmacist;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Patient patient;
 	
 	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
 	private List<Drug> drugs;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private PrescriptionStatus prescriptionStatus;
     
 	public Prescription() {
 		super();
 	}
-	public Prescription(Long id, LocalDate prescriptionDate, Integer amountOfDrug, Pharmacist pharmacist, Patient patient,
-			List<Drug> drugs, Double durationOfTherapy) {
+	
+
+	public Prescription(Long id, LocalDate prescriptionDate, Integer amountOfDrug, Double durationOfTherapy,
+			Pharmacist pharmacist, Patient patient, List<Drug> drugs, PrescriptionStatus prescriptionStatus) {
 		super();
 		this.id = id;
 		this.prescriptionDate = prescriptionDate;
 		this.amountOfDrug = amountOfDrug;
+		this.durationOfTherapy = durationOfTherapy;
 		this.pharmacist = pharmacist;
 		this.patient = patient;
 		this.drugs = drugs;
-		this.durationOfTherapy = durationOfTherapy;
+		this.prescriptionStatus = prescriptionStatus;
 	}
-	
+
 
 	public Long getId() {
 		return id;
@@ -101,5 +113,16 @@ public class Prescription {
 	public void setDurationOfTherapy(Double durationOfTherapy) {
 		this.durationOfTherapy = durationOfTherapy;
 	}
+
+
+	public PrescriptionStatus getPrescriptionStatus() {
+		return prescriptionStatus;
+	}
+
+
+	public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {
+		this.prescriptionStatus = prescriptionStatus;
+	}
 	 
+	
 }

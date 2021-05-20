@@ -27,6 +27,7 @@ public class SupplierDrugStockService implements ISupplierDrugStockService {
 		this.purchaseOrderRepository = purchaseOrderRepository;
 	}
 	
+	@Override
 	public SupplierDrugStock update(SupplierDrugUpdateDTO supplierDrugUpdateDTO) {
 		SupplierDrugStock supplierDrugs = supplierDrugStockRepository.findById(supplierDrugUpdateDTO.getDrugId()).get();
 		supplierDrugs.setQuantity(supplierDrugUpdateDTO.getNewQuantity());
@@ -34,6 +35,7 @@ public class SupplierDrugStockService implements ISupplierDrugStockService {
         return supplierDrugStockRepository.save(supplierDrugs);
     }
 	
+	@Override
 	 public Boolean updateAmount(OfferDTO offerDTO) {
 	        List<PurchaseOrderDrug> orderDrugs = purchaseOrderRepository.findById(offerDTO.getOrderId()).get().getPurchaseOrderDrugs();
 	        List<SupplierDrugStock> drugStocks = supplierDrugStockRepository.findAll();

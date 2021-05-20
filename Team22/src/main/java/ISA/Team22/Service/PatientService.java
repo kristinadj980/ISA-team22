@@ -75,6 +75,10 @@ private final PatientRepository patientRepository;
 	}
 
 	@Override
+	public Patient findById(Long id) {
+		return patientRepository.findById(id).get();
+	}
+	
 	public List<PatientFrontDTO> getAll() {
 		List<Patient> patients = patientRepository.findAll();
 		List<PatientFrontDTO> pdto = new ArrayList<>();

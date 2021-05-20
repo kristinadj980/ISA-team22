@@ -14,6 +14,7 @@ import ISA.Team22.Domain.DrugManipulation.SupplierDrugStock;
 import ISA.Team22.Domain.Pharmacy.Offer;
 import ISA.Team22.Domain.Pharmacy.OfferStatus;
 import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
+import ISA.Team22.Domain.Pharmacy.PurchaseOrderStatus;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
@@ -42,6 +43,7 @@ public class OfferService implements IOfferService {
 		this.purchaseOrderRepository = purchaseOrderRepository;
 	}
 	
+	@Override
 	public Offer sendOffer(OfferDTO offerDTO) {
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -63,11 +65,9 @@ public class OfferService implements IOfferService {
 
     }
 	
+	@Override
 	public Boolean isOfferPossible(OfferDTO offerDTO, Supplier supplier) {
-		System.out.println("****************************");
-		System.out.println(offerDTO.isOfferGiven());
 		if(offerDTO.isOfferGiven() == true) {
-			System.out.println("****************************");
 			throw new IllegalArgumentException("You have already made an offer for this order!");
 		}
 		
@@ -87,13 +87,14 @@ public class OfferService implements IOfferService {
         	throw new IllegalArgumentException("You don't have enough drugs in stock");
         }
         
-        if(!offerDTO.getDeliveryDate().isAfter(LocalDate.now()) || purchaseOrder.getPurchaseOrderStatus().equals("closed")) {
+        if(!offerDTO.getDeliveryDate().isAfter(LocalDate.now()) || purchaseOrder.getPurchaseOrderStatus().equals(PurchaseOrderStatus.closed)) {
             throw new IllegalArgumentException("Creating offer is not possible. Order is closed.");
         }
        
         return true;
 	}
 
+	@Override
 	public Boolean areDrugsAvailable(PurchaseOrder purchaseOrder, List<SupplierDrugStock> supplierDrugStocks) {
 		for (PurchaseOrderDrug drug : purchaseOrder.getPurchaseOrderDrugs()) {
 			for (SupplierDrugStock supplierDrugStock : supplierDrugStocks) {
@@ -120,6 +121,8 @@ public class OfferService implements IOfferService {
         
 	}
 	
+	
+	@Override
 	public Offer changeOffer(OfferDTO offerDTO) {
 		try {
 			Offer offer = findById(offerDTO.getOfferId());

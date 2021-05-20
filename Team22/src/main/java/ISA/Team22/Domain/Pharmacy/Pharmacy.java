@@ -1,5 +1,6 @@
 package ISA.Team22.Domain.Pharmacy;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,12 +11,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import ISA.Team22.Domain.PharmacyWorkflow.Promotion;
+
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
@@ -24,10 +31,16 @@ import ISA.Team22.Domain.Users.PharmacyAdministrator;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Pharmacy {
+public class Pharmacy  implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique=true, nullable=false)
 	private Long id;
 	
 	@Column(name = "name")
@@ -42,14 +55,18 @@ public class Pharmacy {
 	@Column(name = "numberOfGrades")
 	private Integer numberOfGrades;
 	
-	@ManyToMany(targetEntity = Patient.class,  cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "subscribedToPharmacies")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	private List<Patient> subscribedUsersIDs;
 	
-	 @JsonManagedReference
-	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY)
 	private List<Pharmacist> pharmacist;
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "pharmacies")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "pharmacy_dermatologists",
+    joinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "dermatologist_id", referencedColumnName = "id"))
 	private List<Dermatologist> dermatologist;
 	
 	@OneToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -57,12 +74,16 @@ public class Pharmacy {
 	private Address address;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pharmacyInventory_id")
+	@JoinColumn(name = "pharmacyInventory_id",  referencedColumnName = "id")
 	private PharmacyInventory pharmacyInventory;
 	
-	 @JsonManagedReference
+	@JsonManagedReference
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PharmacyAdministrator> pharmacyAdministrator;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Promotion> promotions;
 	
 	public Pharmacy() {
 		super();
@@ -174,6 +195,14 @@ public class Pharmacy {
 
 	public void setPharmacyAdministrator(List<PharmacyAdministrator> pharmacyAdministrator) {
 		this.pharmacyAdministrator = pharmacyAdministrator;
+	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
 	}
 	
 	

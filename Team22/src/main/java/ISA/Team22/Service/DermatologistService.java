@@ -81,7 +81,7 @@ public class DermatologistService implements IDermatologistService {
 
 	@Override
 	public Dermatologist getById(Long id) {
-		 return dermatologistRepository.findById(id).get();
+		return dermatologistRepository.findById(id).get();
 	}
 
 	@Override
@@ -111,6 +111,10 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
+	public List<Dermatologist> findAll() {
+		return dermatologistRepository.findAll();
+	}
+
 	public List<PatientSearchDTO> getMyPatients() {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();

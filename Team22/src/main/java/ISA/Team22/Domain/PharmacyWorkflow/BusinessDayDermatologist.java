@@ -11,9 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ISA.Team22.Domain.Users.Dermatologist;
 
@@ -28,9 +32,13 @@ public class BusinessDayDermatologist {
 	@JoinColumn(name = "shift_id", referencedColumnName = "id", nullable = false)
 	private Period shift;
 	
-	@ManyToMany(targetEntity = Period.class,  cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "business_day_period",
+    joinColumns = @JoinColumn(name = "business_day_dermatologist_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "period_id", referencedColumnName = "id"))
 	private List<Period> scheduledPeriods;
 	
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Dermatologist dermatologist;
 	

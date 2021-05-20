@@ -9,7 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Period {
 
 	@Id
@@ -22,10 +25,10 @@ public class Period {
 	@Column(name = "endDate",  nullable = false)
 	private LocalDate endDate;
 	
-	@Column(name = "startTime",  nullable = false)
+	@Column(name = "startTime")
 	private LocalTime startTime;
 	
-	@Column(name = "endTime",  nullable = false)
+	@Column(name = "endTime")
 	private LocalTime endTime;
 	
 	public Period() {

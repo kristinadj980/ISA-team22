@@ -3,6 +3,7 @@
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
+                  <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
@@ -72,7 +73,7 @@
                                         <b-form-input v-model="supplier.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancel">Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
                                         <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "update">Update</b-button>
                                     </b-row>
                                 </div>
@@ -113,7 +114,7 @@
                                         </div>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancelPassword">Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
                                         <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "updatePassword">Update</b-button>
                                     </b-row>
                                 </div>
@@ -177,6 +178,13 @@ export default {
         showMyDrugs:  function(){
            window.location.href = "/drugs";
         },
+        showPharmacyPage: function(){
+           window.location.href = '/';
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
         },
@@ -201,7 +209,7 @@ export default {
                 }})
                 .then(response => {
                     alert("Successfully edited profile.")
-                    
+                    this.$refs['modal-ref'].hide();
                         console.log(response);
                 })
                 .catch(response => {
@@ -226,6 +234,7 @@ export default {
                 }})
                 .then(response => {
                     alert("Successfully edited password.")
+                    this.$refs['modal-ref2'].hide();
                         console.log(response);
                 })
                 .catch(response => {

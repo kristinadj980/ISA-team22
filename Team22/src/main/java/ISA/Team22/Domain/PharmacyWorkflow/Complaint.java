@@ -9,9 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
+import ISA.Team22.Domain.Users.Pharmacist;
 
 @Entity
 public class Complaint {
@@ -26,32 +33,58 @@ public class Complaint {
 	@Column(name = "answer")
 	private String answer;
 	
-	@Column(name = "complaintDate",  nullable = false)
+	@Column(name = "complaintDate")
 	private LocalDate complaintDate;
 	
-	@Column(name = "roleId",  nullable = false)
-	private Long roleId;
+	@OneToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "dermatologist_id", referencedColumnName = "id", nullable = true, unique = false)
+    private Dermatologist dermatologist;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "pharmacist_id", referencedColumnName = "id", nullable = true, unique = false)
+    private Pharmacist pharmacist;
+	
+	@JsonBackReference
+	@OneToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "id", nullable = true, unique = false)
+    private Pharmacy pharmacy;
+	
+	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false, unique = false)
 	private Patient patient;
 	
 	@Column(name = "isAnswered",  nullable = false)
 	private Boolean isAnswered;
 	
+	@Column(name = "role",  nullable = false)
+	private String role;
+	
+	
 	public Complaint() {
 		super();
 	}
 
-	public Complaint(Long id, String description, String answer, LocalDate complaintDate, Long roleId, Patient patient, Boolean isAnswerd) {
+	
+	
+
+	public Complaint(Long id, String description, String answer, LocalDate complaintDate, Dermatologist dermatologist,
+			Pharmacist pharmacist, Pharmacy pharmacy, Patient patient, Boolean isAnswered, String role) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.answer = answer;
 		this.complaintDate = complaintDate;
-		this.roleId = roleId;
+		this.dermatologist = dermatologist;
+		this.pharmacist = pharmacist;
+		this.pharmacy = pharmacy;
 		this.patient = patient;
-		this.isAnswered = isAnswerd;
+		this.isAnswered = isAnswered;
+		this.role = role;
 	}
+
+
+
 
 	public Long getId() {
 		return id;
@@ -83,13 +116,37 @@ public class Complaint {
 		this.complaintDate = complaintDate;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	
+
+	public Dermatologist getDermatologist() {
+		return dermatologist;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+
+	public void setDermatologist(Dermatologist dermatologist) {
+		this.dermatologist = dermatologist;
 	}
+
+
+	public Pharmacist getPharmacist() {
+		return pharmacist;
+	}
+
+
+	public void setPharmacist(Pharmacist pharmacist) {
+		this.pharmacist = pharmacist;
+	}
+
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
 
 	public Patient getPatient() {
 		return patient;
@@ -107,6 +164,33 @@ public class Complaint {
 		this.isAnswered = isAnswered;
 	}
 
+
+
+	public Boolean getIsAnswered() {
+		return isAnswered;
+	}
+
+
+
+	public void setIsAnswered(Boolean isAnswered) {
+		this.isAnswered = isAnswered;
+	}
+
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	
 	
 	   
 }

@@ -45,13 +45,81 @@
               </div>
             </div>
                         
-                         <!-- <div class="mt-5 text-center top-buffer"><button class="btn btn-info btn-lg space_style" style="background-color:#003d66;"  v-on:click = "editProfile">Edit profile</button></div>-->  
+                   <!-- <div class="mt-5 text-center top-buffer"><button class="btn btn-info btn-lg space_style" style="background-color:#003d66;"  v-on:click = "editProfile">Edit profile</button></div>-->  
                         <!-- Modal --> 
                         <div class="mt-5 text-center top-buffer">
                             <b-button  class="btn btn-info btn-lg space_style" style="background-color:#003d66;" v-b-modal.modal-2>Edit password</b-button>
                             <b-button  class="btn btn-info btn-lg space_style"  style="background-color:#003d66;" v-b-modal.modal-1>Edit profile info</b-button>
-                            
-                            
+                            <b-modal ref="modal-ref" id="modal-1" title="Edit profile info" hide-footer>
+                                <div>
+                                    <h5 class ="text-justify top-buffer"> Name:
+                                        <b-form-input v-model="admin.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Last Name:
+                                        <b-form-input v-model="admin.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Email:
+                                        <b-form-input v-model="admin.email" label="Email" disabled></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Street:
+                                        <b-form-input v-model="admin.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Street Number:
+                                        <b-form-input v-model="admin.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> City:
+                                        <b-form-input v-model="admin.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Country:
+                                        <b-form-input v-model="admin.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
+                                    </h5>
+                                    <b-row style="float: left; margin: 30px;">
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "update">Update</b-button>
+                                    </b-row>
+                                </div>
+                            </b-modal>
+                            <b-modal ref="modal-ref2" id="modal-2" title="Edit profile info" hide-footer>
+                                <div>
+                                    <h5 class ="text-justify top-buffer">
+                                        <div class="mb-4">
+                                        <label for="password">Current Password</label>
+                                        <VuePassword
+                                            v-model="admin.currentPassword"
+                                            id="password1"
+                                            placeholder="Enter your current password"
+                                            :badge="false" 
+                                            :toggle="true"
+                                        />
+                                        </div>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer">
+                                        <div class="mb-4">
+                                        <label for="password">New Password:</label>
+                                        <VuePassword
+                                            v-model="admin.newPassword"
+                                            id="password1"
+                                            placeholder="Enter your current password"
+                                           
+                                        />
+                                        </div>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer">
+                                        <div class="mb-4">
+                                        <label for="password">Repeat New Password:</label>
+                                        <VuePassword
+                                            v-model="admin.repeatNewPassword"
+                                            id="password1"
+                                            placeholder="Enter your current password"
+                                        />
+                                        </div>
+                                    </h5>
+                                    <b-row style="float: left; margin: 30px;">
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "updatePassword">Update</b-button>
+                                    </b-row>
+                                </div>
+                            </b-modal>
                         </div>
                     </div>
                 </div>
@@ -64,8 +132,12 @@
 
 
 <script>
+import VuePassword from 'vue-password'
 export default {
     name: 'ProfileData',
+    components: {
+    VuePassword,
+  },
      data() {
     return {
         admin : "",
@@ -75,6 +147,9 @@ export default {
         contact: "",
         address : "",
         password:"",
+        currentPassword : "",
+        newPassword : "",
+        repeatNewPassword : ""
     }
   },
   mounted(){
@@ -92,6 +167,9 @@ export default {
     
    },
     methods:{
+        toggle () {
+        this.show = !this.show
+        },
          showProfile: function(){
            window.location.href = "/profileData";
         },
@@ -112,6 +190,67 @@ export default {
         },
         showDrugManipulation: function(){
            window.location.href = "/addingDrug";
+        },
+        logOut : function(){
+            localStorage.removeItem('token');
+            window.location.href = "/login";
+        },
+        showComplaints: function(){
+           window.location.href = "/complaints";
+        },
+        update : function(){
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            const addressInfo = {
+                town: this.admin.address.town,
+                street: this.admin.address.street,
+                number:this.admin.address.number,
+                country: this.admin.address.country
+            };
+            const adminInfo = {
+                name: this.admin.name,
+                surname : this.admin.surname,
+                email:this.admin.email,
+                address: addressInfo
+           };
+       
+            this.axios.post('/systemAdmin/update',adminInfo, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert("Successfully edited profile.")
+                    this.$refs['modal-ref'].hide();
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Error, please try later.")
+                    console.log(response);
+                })
+            
+        },
+         updatePassword : function () {
+            if(this.admin.newPassword != this.admin.repeatNewPassword) {
+            alert("New passwords are not equals!")
+            return;
+            }
+            const changePassword ={
+                password : this.admin.currentPassword,
+                confirmPassword : this.admin.newPassword
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/systemAdmin/updatePassword',changePassword, { 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    alert("Successfully edited password.")
+                    this.$refs['modal-ref2'].hide();
+                        console.log(response);
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    console.log(response);
+                })
         }
     }
 }
