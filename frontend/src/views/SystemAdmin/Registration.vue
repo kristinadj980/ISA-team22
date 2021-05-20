@@ -10,51 +10,51 @@
                  <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Name</label>
-                        <input type="text" class="form-control" v-model="name" placeholder="Enter name">
+                        <input type="text" class="form-control" v-model="name" placeholder="Enter name" required>
                         </div>
                         <div class="form-group col-md-6">
                         <label style="color:white">Surname</label>
-                        <input type="text" class="form-control" v-model = "surname" placeholder="Enter surname">
+                        <input type="text" class="form-control" v-model = "surname" placeholder="Enter surname" required >
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Email</label>
-                        <input type="email" class="form-control" v-model="email" placeholder="Enter email">
+                        <input type="email" class="form-control" v-model="email" placeholder="Enter email" required>
                         </div>
                         <div class="form-group col-md-6">
                         <label style="color:white">Phone number</label>
-                        <input type="text" class="form-control" v-model="phone" placeholder="Enter phone number">
+                        <input type="text" class="form-control" v-model="phone" placeholder="Enter phone number" required>
                         </div>
                     </div>
                       <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Country</label>
-                        <input type="text" class="form-control" v-model="country" placeholder="Enter country">
+                        <input type="text" class="form-control" v-model="country" placeholder="Enter country" required>
                         </div>
                         <div class="form-group col-md-6">
                         <label style="color:white">City</label>
-                        <input type="text" class="form-control" v-model="city" placeholder="Enter city">
+                        <input type="text" class="form-control" v-model="city" placeholder="Enter city" required>
                         </div>
                     </div>
                      <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Street</label>
-                        <input type="text" class="form-control" v-model="street" placeholder="Enter street">
+                        <input type="text" class="form-control" v-model="street" placeholder="Enter street" required>
                         </div>
                         <div class="form-group col-md-6">
                         <label style="color:white">Street Number</label>
-                        <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number">
+                        <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Password</label>
-                        <input type="password" class="form-control" v-model="password" placeholder="Enter password">
+                        <input type="password" class="form-control" v-model="password" placeholder="Enter password" required>
                         </div>
                         <div class="form-group col-md-6">
                         <label style="color:white">Confirm password</label>
-                        <input type="password" class="form-control" v-model="passwordConf" placeholder="Repeat password">
+                        <input type="password" class="form-control" v-model="passwordConf" placeholder="Repeat password" required>
                         </div>
                     </div>
             </div>
@@ -88,8 +88,35 @@ export default {
 
     },
     methods:{
-       
-         showHomePage: function(){
+       validEmail: function (email) {
+       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+       return re.test(email);
+       },
+       validPhone: function (phone) {
+        var res = /^\d{10}$/;
+        return res.test(phone);
+       },
+       validLettersName: function (name) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(name);
+       },
+       validLettersSurname: function (surname) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(surname);
+       },
+       validLettersCountry: function (country) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(country);
+       },
+       validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(city);
+       },
+       validLettersStreet: function (street) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(street);
+       },
+        showHomePage: function(){
            window.location.href = "/homePage";
         },
         showSystemAdminRegistration: function(){
@@ -124,6 +151,54 @@ export default {
                 address : addressInfo
             }
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            if(!this.validLettersName(this.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+            if(!this.validLettersSurname(this.surname)){
+                alert("Please enter valid surname!")
+                return;
+            }
+            if (this.email == "") {
+             alert("Please enter email!")
+             return;
+            }
+            if (!this.validEmail(this.email)) {
+             alert("Please enter valid email!")
+             return;
+            }
+             if(!this.validPhone(this.phone)){
+                alert("Please enter valid phone number (10 digits)!")
+                return;
+            }
+             if(!this.validLettersCountry(this.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
+             if(!this.validLettersCity(this.city)){
+                alert("Please enter valid city!")
+                return;
+            }
+            if(!this.validLettersStreet(this.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.streetNumber == ""){
+                alert("Please enter streetNumber!")
+                return;
+            }
+            if(this.streetNumber < 0){
+                alert("Please enter valid streetNumber!")
+                return;
+            }
+             if(this.password != this.passwordConf) {
+            alert("Passwords must be equal!")
+            return;
+            }
+            if(this.password == ""){
+                alert("Please enter password!")
+                return;
+            }
             alert("OK?");
             this.axios.post('/auth/register',userInfo,{ 
                          headers: {

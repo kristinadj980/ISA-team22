@@ -3,7 +3,7 @@
          <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
+                  <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>

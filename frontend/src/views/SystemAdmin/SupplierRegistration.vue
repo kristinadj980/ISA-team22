@@ -3,12 +3,13 @@
     <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Admin register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drug manipulation</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
               <span  style="float:right;margin:15px">
@@ -102,7 +103,34 @@ export default {
 
     },
     methods:{
-       
+       validEmail: function (email) {
+       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+       return re.test(email);
+       },
+       validPhone: function (phone) {
+        var res = /^\d{10}$/;
+        return res.test(phone);
+       },
+       validLettersName: function (name) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(name);
+       },
+       validLettersSurname: function (surname) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(surname);
+       },
+       validLettersCountry: function (country) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(country);
+       },
+       validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(city);
+       },
+       validLettersStreet: function (street) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(street);
+       },
          showHomePage: function(){
            window.location.href = "/homePage";
         },
@@ -111,6 +139,15 @@ export default {
         },
         showDermatologyRegistration: function(){
            window.location.href = "/dermatologyRegistration";
+        },
+         showPharmacyAdminRegistration: function(){
+           window.location.href = "/pharmacyAdminRegistration";
+        },
+        showDrugManipulation: function(){
+           window.location.href = "/addingDrug";
+        },
+        showComplaints: function(){
+           window.location.href = "/complaints";
         },
         showPharmacyRegistration: function(){
            window.location.href = "/pharmacyRegistration";
@@ -142,6 +179,54 @@ export default {
                 address : addressInfo
             }
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            if(!this.validLettersName(this.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+            if(!this.validLettersSurname(this.surname)){
+                alert("Please enter valid surname!")
+                return;
+            }
+            if (this.email == "") {
+             alert("Please enter email!")
+             return;
+            }
+            if (!this.validEmail(this.email)) {
+             alert("Please enter valid email!")
+             return;
+            }
+             if(!this.validPhone(this.phone)){
+                alert("Please enter valid phone number (10 digits)!")
+                return;
+            }
+             if(!this.validLettersCountry(this.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
+             if(!this.validLettersCity(this.city)){
+                alert("Please enter valid city!")
+                return;
+            }
+            if(!this.validLettersStreet(this.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.streetNumber == ""){
+                alert("Please enter streetNumber!")
+                return;
+            }
+            if(this.streetNumber < 0){
+                alert("Please enter valid streetNumber!")
+                return;
+            }
+             if(this.password != this.passwordConf) {
+            alert("Passwords must be equal!")
+            return;
+            }
+            if(this.password == ""){
+                alert("Please enter password!")
+                return;
+            }
 
             this.axios.post('/supplier/register',userInfo,{ 
                          headers: {

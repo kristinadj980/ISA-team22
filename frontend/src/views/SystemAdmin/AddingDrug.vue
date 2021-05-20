@@ -149,6 +149,18 @@ export default {
         showSpecificationModal:function(){
             this.$refs['my-modal'].show();
         },
+        showComplaints: function(){
+           window.location.href = "/complaints";
+        },
+        showPharmacyAdminRegistration: function(){
+           window.location.href = "/pharmacyAdminRegistration";
+        },
+        showSystemAdminRegistration: function(){
+           window.location.href = "/systemAdminRegistration";
+        },
+         showDrugManipulation: function(){
+           window.location.href = "/addingDrug";
+        },
       confirmSpecification : function() {
         this.$refs['my-modal'].hide()
       },
