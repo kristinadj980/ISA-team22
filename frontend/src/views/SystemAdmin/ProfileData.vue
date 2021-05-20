@@ -65,7 +65,7 @@
                                         <b-form-input v-model="admin.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street Number:
-                                        <b-form-input v-model="admin.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
+                                        <b-form-input type="number" v-model="admin.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> City:
                                         <b-form-input v-model="admin.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
@@ -170,6 +170,26 @@ export default {
         toggle () {
         this.show = !this.show
         },
+       validLettersName: function (name) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(name);
+       },
+       validLettersSurname: function (surname) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(surname);
+       },
+       validLettersCountry: function (country) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(country);
+       },
+       validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(city);
+       },
+       validLettersStreet: function (street) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(street);
+       },
          showProfile: function(){
            window.location.href = "/profileData";
         },
@@ -199,7 +219,6 @@ export default {
            window.location.href = "/complaints";
         },
         update : function(){
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const addressInfo = {
                 town: this.admin.address.town,
                 street: this.admin.address.street,
@@ -212,6 +231,36 @@ export default {
                 email:this.admin.email,
                 address: addressInfo
            };
+           alert(this.admin.address.number);
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             if(!this.validLettersName(this.admin.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+            if(!this.validLettersSurname(this.admin.surname)){
+                alert("Please enter valid surname!")
+                return;
+            }
+            if(!this.validLettersStreet(this.admin.address.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.admin.address.number == ""){
+                alert("Please enter streetNumber!")
+                return;
+            }
+            if(this.admin.address.numberr < 0){
+                alert("Please enter valid streetNumber!")
+                return;
+            }
+            if(!this.validLettersCity(this.admin.address.town)){
+                alert("Please enter valid city!")
+                return;
+            }
+             if(!this.validLettersCountry(this.admin.address.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
        
             this.axios.post('/systemAdmin/update',adminInfo, { 
                 headers: {

@@ -103,6 +103,10 @@ export default{
     }
     },
      methods:{
+          validOfferPrice: function (choosenOfferPrice) {
+        var res = /^[0-9]*$/;
+        return res.test(choosenOfferPrice);
+       },
          
          format_date(value){
          if (value) {
@@ -159,6 +163,10 @@ export default{
                 
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             if(!this.validOfferPrice(this.choosenOfferPrice)){
+                alert("Please enter only numbers for price!")
+                return;
+            }
             this.axios.post('/offer/addOffer',offerInfo,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,

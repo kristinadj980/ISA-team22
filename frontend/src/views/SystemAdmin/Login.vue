@@ -144,7 +144,7 @@ export default {
                     }).catch(res => {
                                 alert("NOT OK");
                                 // window.location.href = '/patientProfile';
-                                window.location.href = '/dermatologistHomepage';
+                                //window.location.href = '/dermatologistHomepage';
                                 //window.location.href = '/profileDataSupplier';
                                  
                                     console.log(res);

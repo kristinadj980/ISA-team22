@@ -57,9 +57,6 @@ public class SystemAdministratorController {
         if (existingUser != null) {
             throw new ResourceConflictException("Entered email already exists", "Email already exists");
         }
-        if(userRequest.getPassword().isEmpty() || userRequest.getConfirmPassword().isEmpty()) {
-            throw new IllegalArgumentException("Please fill all the required fields!");
-        }
         if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
             throw new IllegalArgumentException("Please make sure your password and rewrite password match!");
         }

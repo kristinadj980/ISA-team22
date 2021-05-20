@@ -159,6 +159,7 @@ public class PharmacyService implements IPharmacyService {
 	        
 	        for (Pharmacy pharmacy : pharmacies) {
 	        	pharmacyInventory = pharmacy.getPharmacyInventory();
+	        	System.out.println(pharmacy.getPharmacyInventory());
 	        	drugInfos = pharmacyInventory.getDrugInfos();
 	        	for (DrugInfo drugInfo : drugInfos) {
 					if(drugInfo.getDrug().getCode().equals(code)) {

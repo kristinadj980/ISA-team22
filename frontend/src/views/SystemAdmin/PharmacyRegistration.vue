@@ -4,11 +4,12 @@
             <span style="float: left; margin: 15px;">
                     <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Admin register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Pharmacy register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Dermatology register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Supplier register</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drug manipulation</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
               <span  style="float:right;margin:15px">
@@ -44,7 +45,7 @@ export default {
         return{
             city:'',
             street:'',
-            streerNumber:'',
+            streetNumber:'',
             country:'',
             name:'',
             description:'',
@@ -52,6 +53,26 @@ export default {
 
     },
      methods:{
+        validLettersName: function (name) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(name);
+       },
+       validLettersDescription: function (description) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(description);
+       },
+       validLettersCountry: function (country) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(country);
+       },
+       validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(city);
+       },
+       validLettersStreet: function (street) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(street);
+       },
         showHomePage: function(){
            window.location.href = "/homePage";
         },
@@ -66,6 +87,18 @@ export default {
         },
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
+        },
+         showSystemAdminRegistration: function(){
+           window.location.href = "/systemAdminRegistration";
+        },
+         showPharmacyAdminRegistration: function(){
+           window.location.href = "/pharmacyAdminRegistration";
+        },
+        showDrugManipulation: function(){
+           window.location.href = "/addingDrug";
+        },
+        showComplaints: function(){
+           window.location.href = "/complaints";
         },
         logOut : function(){
             localStorage.removeItem('token');
@@ -85,6 +118,34 @@ export default {
             }
             
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             if(!this.validLettersName(this.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+             if(!this.validLettersCountry(this.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
+             if(!this.validLettersCity(this.city)){
+                alert("Please enter valid city!")
+                return;
+            }
+            if(!this.validLettersStreet(this.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.streetNumber ==""){
+                alert("Please enter streetNumber!")
+                return;
+            }
+            if(this.streetNumber < 0){
+                alert("Please enter valid streetNumber!")
+                return;
+            }
+             if(!this.validLettersDescription(this.description)){
+                alert("Please enter valid description!")
+                return;
+            }
             
             this.axios.post('/pharmacy/registerPharmacy',pharmacyInfo,{ 
                          headers: {

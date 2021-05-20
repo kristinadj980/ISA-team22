@@ -114,7 +114,7 @@ public class DrugController {
 	 
 	 @PostMapping("/sortResult")
 	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
-		public ResponseEntity<List<DrugSearchDTO>> sortMyPatient(@RequestBody DrugSearchDTO sortingKey) {
+		public ResponseEntity<List<DrugSearchDTO>> sortDrugs(@RequestBody DrugSearchDTO sortingKey) {
 			try {
 				List<DrugSearchDTO> searchResult = drugService.sortDrugs(sortingKey);
 				

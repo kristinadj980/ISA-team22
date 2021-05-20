@@ -169,6 +169,26 @@ export default {
         toggle () {
         this.show = !this.show
         },
+         validLettersName: function (name) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(name);
+       },
+       validLettersSurname: function (surname) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(surname);
+       },
+       validLettersCountry: function (country) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(country);
+       },
+       validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(city);
+       },
+       validLettersStreet: function (street) {
+        var res = /^[a-zA-Z]+$/;
+        return res.test(street);
+       },
          showProfile: function(){
            window.location.href = "/profileDataSupplier";
         },
@@ -202,6 +222,35 @@ export default {
                 email:this.supplier.email,
                 address: addressInfo
            };
+
+            if(!this.validLettersName(this.supplier.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+            if(!this.validLettersSurname(this.supplier.surname)){
+                alert("Please enter valid surname!")
+                return;
+            }
+            if(!this.validLettersStreet(this.supplier.address.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.supplier.address.number == ""){
+                alert("Please enter streetNumber!")
+                return;
+            }
+            if(this.supplier.address.numberr < 0){
+                alert("Please enter valid streetNumber!")
+                return;
+            }
+            if(!this.validLettersCity(this.supplier.address.town)){
+                alert("Please enter valid city!")
+                return;
+            }
+             if(!this.validLettersCountry(this.supplier.address.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
        
             this.axios.post('/supplier/update',supplierInfo, { 
                 headers: {
