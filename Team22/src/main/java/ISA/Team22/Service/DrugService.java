@@ -34,6 +34,7 @@ public class DrugService implements IDrugService {
 		drug.setDrugType(drugDTO.getType());
 		drug.setDrugForm(drugDTO.getDrugForm());
 		drug.setProducer(drugDTO.getSpecification().getManufacturer());
+		drug.setIssuance(drugDTO.getIssuance());
         DrugSpecification specification =  new DrugSpecification();
         specification.setContraindications(drugDTO.getSpecification().getContraIndications());
         specification.setCompositions(drugDTO.getSpecification().getComposition());
