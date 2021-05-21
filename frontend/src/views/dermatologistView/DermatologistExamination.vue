@@ -68,6 +68,7 @@
                             <h4>Possible contra indication : <u>{{drugSpecification.contraIndications}}</u></h4>
                             <h4>Composition : <u>{{drugSpecification.composition}}</u></h4>
                             <h4>Manufacturer : <u>{{drugSpecification.manufacturer}}</u></h4>
+                            <h4>Recommended terapy duration : <u>{{drugSpecification.therapyDuration}} days</u></h4>
                         </div>
                         <h4 style="margin-top:20px;">Specify the length of therapy (in days): </h4>
                         <b-form-input 
@@ -78,11 +79,27 @@
                         placeholder="terapy duration"
                         style="margin-top:10px; font-size:16px;">
                         </b-form-input>
-                        <b-row style="float: left; margin: 30px;">
-                            <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "checkDrugAvailability">Check drug availability</b-button>
-                            <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "cancel">Cancel</b-button>
-                            <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "updatePassword">Update</b-button>
+                        <b-row style="float: left; margin: 5px;">
+                            <b-button
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; margin-right:5px; width:125px; height:50px;" 
+                            v-on:click = "cancel">
+                                Cancel
+                            </b-button>
+                            <b-button
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; margin-bottom:10px;width:320px;height:50px;" 
+                            v-on:click = "checkDrugAvailability">
+                                Check drug availability
+                            </b-button>
                         </b-row>
+                            <b-button 
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; width:460px;height:50px;"
+                            v-if="isDrugChecked == 1"
+                            v-on:click = "prescribe">
+                                Prescribe drug
+                            </b-button>
                         </b-modal>
                 </b-tab>
                 <b-tab title="Unsustainable examination" v-else-if="selected == 2" >
@@ -138,6 +155,7 @@ export default {
         drugSpecification: [],
         terapyDuration: '',
         selectedDrug: [],
+        isDrugChecked: 0,
 
       }
     },
@@ -145,7 +163,7 @@ export default {
         this.examinationID = this.$route.params.selectedExamination;
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         
-        this.axios.get('/examination/getExaminationById',this.$route.params.selectedExamination,{ 
+        this.axios.get('/examination/getExaminationById/'+this.$route.params.selectedExamination,{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }
@@ -182,6 +200,9 @@ export default {
         logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
+        },
+        cancel() {
+            this.$refs['modal-ref'].hide();
         },
         patientDidntShow : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
@@ -238,9 +259,27 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        }, checkDrugAvailability: function() {
+        },prescribe :function(){
 
-        }
+        },checkDrugAvailability: function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+            const checkDrug = {
+                id: this.selectedDrug.id,
+                examinationID: this.$route.params.selectedExamination
+
+            };
+            this.axios.post('/pharmacy/isDrugAvailable',checkDrug ,{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+            }).then(response => {
+                this.drugSpecification = response.data;
+            }).catch(res => {
+                        alert("Error");
+                            console.log(res);
+                    });
+        },
     }
 }
 </script>

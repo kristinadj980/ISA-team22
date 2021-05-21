@@ -91,8 +91,8 @@ public class PharmacyController {
 	}
 	
 	
-	 @PostMapping("/checkDrugAvailability")
-	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	@PostMapping("/checkDrugAvailability")
+	@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
     public ResponseEntity<List<DrugAvailabilityDTO>> getAvailability ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
 		 
         List<DrugAvailabilityDTO> drugAvailabilityDTOs = pharmacyService.getAvailabilityInPharmacies(drugAvailabilityDTO.getDrugCode());
@@ -101,5 +101,13 @@ public class PharmacyController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(drugAvailabilityDTOs);
     }
-	
+    
+    @PostMapping("/isDrugAvailable")
+    @PreAuthorize("hasRole('DERMATOLOGIST')")
+    public ResponseEntity<Boolean> checkDrugAvailabilityForExamination ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
+		 
+        Boolean isAvailable = pharmacyService.checkDrugAvailabilityForExamination(drugAvailabilityDTO);
+
+        return isAvailable == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(isAvailable);
+    }
 }

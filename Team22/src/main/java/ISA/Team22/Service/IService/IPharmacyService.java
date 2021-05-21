@@ -20,4 +20,5 @@ public interface IPharmacyService {
     Boolean checkCounselings(Long pharmacyId, Patient patient, Boolean isAble);
     Boolean checkDrugs(Long pharmacyId, Patient patient, Boolean isAble);
     List<DrugAvailabilityDTO> getAvailabilityInPharmacies ( String code);
+    Boolean checkDrugAvailabilityForExamination (DrugAvailabilityDTO drugAvailabilityDTO);
 }

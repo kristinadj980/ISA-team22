@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Examination.Examination;
-import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
-import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 
 @RestController
@@ -72,12 +71,13 @@ public class ExaminationController {
 		}
 	}
 	
-	@GetMapping("/getExaminationById")
+	@GetMapping("/getExaminationById/{id}")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
-	public ResponseEntity<Examination> getExaminationByID(@RequestBody ExaminationDTO examinationDTO){
+	public ResponseEntity<ExaminationDTO> getExaminationByID(@PathVariable Integer id){
 		try {
-			Examination response = examinationService.getExaminationByID(examinationDTO.getExaminationID());
-			return new ResponseEntity<>(HttpStatus.OK);
+			Long idr = (long) id;
+			ExaminationDTO response = examinationService.getExaminationByID(idr);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);

@@ -37,11 +37,13 @@ public class PharmacyService implements IPharmacyService {
 
 	private final PharmacyRepository pharmacyRepository;
 	private final PatientRepository patientRepository;
+	private final PatientService patientService;
 	
 	@Autowired
-    public PharmacyService(PharmacyRepository pharmacyRepository,PatientRepository patientRepository) {
+    public PharmacyService(PharmacyRepository pharmacyRepository,PatientRepository patientRepository, PatientService patientService) {
 		this.pharmacyRepository = pharmacyRepository;
 		this.patientRepository = patientRepository;
+		this.patientService = patientService;
 	}
 
 	@Override
@@ -169,4 +171,10 @@ public class PharmacyService implements IPharmacyService {
 	       
 	        return pharmacyList;
 	    }
+
+	@Override
+	public Boolean checkDrugAvailabilityForExamination(DrugAvailabilityDTO drugAvailabilityDTO) {
+		
+		return null;
+	}
 }
