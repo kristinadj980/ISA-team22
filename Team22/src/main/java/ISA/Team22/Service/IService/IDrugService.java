@@ -5,7 +5,9 @@ import java.util.List;
 
 import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
+import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
 
 
 public interface IDrugService {
@@ -17,4 +19,6 @@ public interface IDrugService {
     Drug findById(Long id);
     List<DrugSearchDTO> sortDrugs(DrugSearchDTO sortingKey);
     DrugSearchDTO findDrugSpecification(Drug drug);
+    List<DrugSearchDTO> getdrugsForPatient(Long id);
+    DrugSpecificationDTO getOnlyDrugSpecification(Long id);
 }

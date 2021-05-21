@@ -12,6 +12,7 @@ import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
+import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Repository.DrugRepository;
 import ISA.Team22.Service.IService.IDrugService;
 import java.util.Collections;
@@ -20,10 +21,12 @@ import java.util.Collections;
 public class DrugService implements IDrugService {
 	
 	private final DrugRepository drugRepository;
+	private final ExaminationService examinationService;
 
 	@Autowired
-	public DrugService(DrugRepository drugRepository){
+	public DrugService(DrugRepository drugRepository, ExaminationService examinationService){
 		this.drugRepository = drugRepository;
+		this.examinationService = examinationService;
 	}
 
 	@Override
@@ -120,6 +123,31 @@ public class DrugService implements IDrugService {
 		}
 		
 		return drugSearchDTOs;
+	}
+
+	@Override
+	public List<DrugSearchDTO> getdrugsForPatient(Long id) {
+		Examination examination = examinationService.getExaminationByID(id);
+		List<Drug> allergie = examination.getPatient().getDrugs();
+		List<Drug> drugs = drugRepository.findAll();
+		List<DrugSearchDTO> drugsForPatient = new ArrayList<>();
+		
+		for(Drug a:allergie)
+			for(Drug d:drugs)
+				if(!a.getId().equals(d.getId()))
+					drugsForPatient.add( findDrugSpecification(d));
+		
+		return drugsForPatient;
+	}
+
+	@Override
+	public DrugSpecificationDTO getOnlyDrugSpecification(Long id) {
+		Drug drug = drugRepository.findById(id).get();
+		DrugSpecification drugSpecification = drug.getDrugSpecification();
+		
+		DrugSpecificationDTO  drugSpecificationDTO = new DrugSpecificationDTO(drugSpecification.getContraindications(),
+				drugSpecification.getCompositions(), drugSpecification.getTherapyDuration(), drug.getProducer());
+		return drugSpecificationDTO;
 	}
 	
 }

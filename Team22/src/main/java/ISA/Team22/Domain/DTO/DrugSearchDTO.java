@@ -34,7 +34,13 @@ public class DrugSearchDTO {
 		this.specification = specification;
 	}
 	
-	
+	public DrugSearchDTO(Long id, String name,  DrugType type, DrugForm drugForm) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.drugForm = drugForm;
+	}
 
 	public DrugSearchDTO(Long id, String name, String code, DrugType type, DrugForm drugForm, IssuanceRegime issuance,
 			Integer numberOfGrades, DrugSpecificationDTO specification, String sortingKey) {
@@ -48,6 +54,11 @@ public class DrugSearchDTO {
 		this.numberOfGrades = numberOfGrades;
 		this.specification = specification;
 		this.sortingKey = sortingKey;
+	}
+	
+	public DrugSearchDTO(Long id) {
+		super();
+		this.id = id;
 	}
 
 	public Long getId() {

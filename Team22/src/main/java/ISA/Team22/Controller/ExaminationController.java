@@ -74,9 +74,9 @@ public class ExaminationController {
 	
 	@GetMapping("/getExaminationById")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
-	public ResponseEntity<ExaminationDTO> getExaminationById(@RequestBody ExaminationDTO examinationDTO){
+	public ResponseEntity<Examination> getExaminationByID(@RequestBody ExaminationDTO examinationDTO){
 		try {
-			//ExaminationDTO response = examinationService.getExaminationById(examinationDTO);
+			Examination response = examinationService.getExaminationByID(examinationDTO.getExaminationID());
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -84,4 +84,15 @@ public class ExaminationController {
 		}
 	}
 
+	@PostMapping("/absenceRegister")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<String> registerAbsence(@RequestBody ExaminationDTO examinationDTO) {
+		try {
+			examinationService.registerAbsence(examinationDTO.getExaminationID());
+			return new ResponseEntity<>("Examination absence registered.", HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 }

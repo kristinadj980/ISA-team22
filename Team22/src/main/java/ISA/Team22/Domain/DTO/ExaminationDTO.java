@@ -40,7 +40,10 @@ public class ExaminationDTO {
 		this.examinationID = examinationID;
 		this.patientInfo = patientInfo;
 	}
-	
+	public ExaminationDTO(Long examinationID) {
+		super();
+		this.examinationID = examinationID;
+	}
 	public ExaminationDTO(Long pharmacy, LocalDate startDate,LocalTime startTime, LocalTime endTime, String startTimeText, String endTimeText,
 			Long duration, Long examinationID, String pharmacyName) {
 		super();

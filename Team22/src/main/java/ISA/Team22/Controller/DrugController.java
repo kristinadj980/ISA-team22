@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -124,5 +125,20 @@ public class DrugController {
 			}
 		}
 
-
+	@PostMapping("/getdrugsForPatient")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<List<DrugSearchDTO>> getdrugsForPatient(@RequestBody DrugSearchDTO id)
+	{
+		List<DrugSearchDTO> searchResult = drugService.getdrugsForPatient(id.getId());
+	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
+	}
+	
+	@PostMapping("/getOnlyDrugSpecification")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<DrugSpecificationDTO> getOnlyDrugSpecification(@RequestBody DrugSearchDTO id)
+	{
+		DrugSpecificationDTO searchResult = drugService.getOnlyDrugSpecification(id.getId());
+	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
+	 }
+	 
 }
