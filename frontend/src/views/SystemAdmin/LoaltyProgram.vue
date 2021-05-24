@@ -86,6 +86,18 @@ export default {
   },
 
     methods:{
+        validDiscount: function (regularDiscount) {
+        var res = /^\d{1,2}%$/;
+        return res.test(regularDiscount);
+       },
+       validDiscountSilver: function (silverDiscount) {
+        var res = /^\d{1,2}%$/;
+        return res.test(silverDiscount);
+       },
+       validDiscountGold: function (goldDiscount) {
+        var res = /^\d{1,2}%$/;
+        return res.test(goldDiscount);
+       },
          showProfile: function(){
            window.location.href = "/profileData";
         },
@@ -128,6 +140,35 @@ export default {
                minimumGoldPoints:this.minimumGoldPoints,
           }
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            if(this.examinationPoints <= 0){
+                alert("Please enter positive number for points!")
+                return;
+            }
+            if(this.consultingPoints <= 0){
+                alert("Please enter positive number for points!")
+                return;
+            }
+            if(!this.validDiscount(this.regularDiscount)){
+                alert("Please enter valid discount (example 15%)!")
+                return;
+            }
+            if(!this.validDiscountSilver(this.silverDiscount)){
+                alert("Please enter valid discount (example 15%)!")
+                return;
+            }
+            if(!this.validDiscountGold(this.goldDiscount)){
+                alert("Please enter valid discount (example 15%)!")
+                return;
+            }
+            if(this.minimumSilverPoints <= 0){
+                alert("Please enter positive number for points!")
+                return;
+            }
+            if(this.minimumGoldPoints <= 0){
+                alert("Please enter positive number for points!")
+                return;
+            }
+            
            this.axios.post('/loyaltyProgram/defineLoaltyProgram',loyaltyProgram,{ 
                          headers: {
                                 'Authorization': 'Bearer ' + token,
