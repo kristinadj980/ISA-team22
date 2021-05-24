@@ -56,6 +56,9 @@ public class Drug {
     @JoinColumn(name = "drugSpecification_id", referencedColumnName = "id", nullable = true, unique = false)
 	private DrugSpecification drugSpecification;
 	
+	@Column(name = "points")
+	private Integer points;
+	
 	public Drug() {
 		super();
 	}
@@ -141,6 +144,12 @@ public class Drug {
 	}
 	public void setDrugSpecification(DrugSpecification drugSpecification) {
 		this.drugSpecification = drugSpecification;
+	}
+	public Integer getPoints() {
+		return points;
+	}
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 	
 }

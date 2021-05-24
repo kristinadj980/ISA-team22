@@ -10,6 +10,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
+                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
             <span  style="float:right;margin:15px">
@@ -21,39 +22,46 @@
             <h3>Drug</h3>
             <div class="form-group">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-5">
                      <label style="color:white">Name
                      <input type="text" class="form-control" v-model="name" placeholder="Enter name">
                      </label>
                     </div>
-                
-                        <div class="form-group col-md-6">
+                <div class="form-row">
+                <div class="form-group col-md-6">
                 <label style="color:white">Code
                 <input type="text" class="form-control" v-model="code" placeholder="Enter drug code">
                 </label>
+                </div>
+                 <div class="form-group col-md-6">
+                     <label style="color:white">Loalty points
+                     <input type="text" class="form-control" v-model="points" placeholder="Enter points">
+                     </label>
+                    </div>
                         </div>
                         <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                     <label style="color:white" >Define contra indications:
                               <input type="text" class="form-control" v-model="specification.contraIndications" placeholder="Enter contra indications">
                               </label>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                               <label style="color:white">Define composition:
                               <input type="text" class="form-control" v-model="specification.composition" placeholder="Enter composition">
                               </label>
                         </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                     <label style="color:white">Define recommended consumption on day:
                               <input type="number" class="form-control" v-model="specification.therapyDuration" placeholder="Enter recommended consumption">
                               </label>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-5">
                               <label style="color:white">Manufacturer:
                               <input type="text" class="form-control" v-model="specification.manufacturer" placeholder="Enter manufacturer">
                               </label>
                         </div>
+                        
                  <!-- DRUG TYPE -->
                 
                              <label style="color:white">Drug type:
@@ -118,7 +126,7 @@ export default {
       
       name : "",
       code : "",
-      
+      points:"",
       specification : {
            contraIndications : "",
            composition : "",
@@ -164,6 +172,9 @@ export default {
       confirmSpecification : function() {
         this.$refs['my-modal'].hide()
       },
+       showLoalty: function(){
+           window.location.href = "/loaltyProgram";
+        },
       logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
@@ -175,6 +186,7 @@ export default {
                code : this.code,
                drugForm : this.form,
                type : this.type,
+               points :this.points,
                wayOfSelling : this.wayOfSelling,
                specification : this.specification,
                medicationsAlternatives : this.alternativeMedications

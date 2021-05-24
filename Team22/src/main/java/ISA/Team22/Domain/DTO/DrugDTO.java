@@ -20,6 +20,8 @@ public class DrugDTO {
     private IssuanceRegime issuance;
     
     private List<Drug> alternativeDrugCodes;
+    
+    private Integer points;
 	
     
     private DrugSpecificationDTO specification;
@@ -28,9 +30,8 @@ public class DrugDTO {
 		super();
 	}
 
-
 	public DrugDTO(String name, String code, DrugType type, DrugForm drugForm, IssuanceRegime issuance,
-			List<Drug> alternativeDrugCodes, DrugSpecificationDTO specification) {
+			List<Drug> alternativeDrugCodes, Integer points, DrugSpecificationDTO specification) {
 		super();
 		this.name = name;
 		this.code = code;
@@ -38,9 +39,18 @@ public class DrugDTO {
 		this.drugForm = drugForm;
 		this.issuance = issuance;
 		this.alternativeDrugCodes = alternativeDrugCodes;
+		this.points = points;
 		this.specification = specification;
 	}
 
+	
+	public Integer getPoints() {
+		return points;
+	}
+
+	public void setPoints(Integer points) {
+		this.points = points;
+	}
 
 	public String getName() {
 		return name;
