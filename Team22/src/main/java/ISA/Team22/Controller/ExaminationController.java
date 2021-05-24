@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Examination.Examination;
-import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
-import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.ExaminationService;
 
 @RestController
@@ -65,12 +64,35 @@ public class ExaminationController {
 	public ResponseEntity<String> updateScheduledExamination(@RequestBody ExaminationDTO examinationDTO) {
 		try {
 			String response = examinationService.updateScheduledExamination(examinationDTO);
-			System.out.println(response);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/getExaminationById/{id}")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<ExaminationDTO> getExaminationByID(@PathVariable Integer id){
+		try {
+			Long idr = (long) id;
+			ExaminationDTO response = examinationService.getExaminationByID(idr);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+		}
+	}
 
+	@PostMapping("/absenceRegister")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<String> registerAbsence(@RequestBody ExaminationDTO examinationDTO) {
+		try {
+			examinationService.registerAbsence(examinationDTO.getExaminationID());
+			return new ResponseEntity<>("Examination absence registered.", HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 }

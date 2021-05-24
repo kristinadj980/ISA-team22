@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Pharmacy.PharmacyInventory;
-import ISA.Team22.Domain.Users.Dermatologist;
+import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
@@ -22,7 +22,6 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.Examination.Prescription;
 import ISA.Team22.Domain.Examination.PrescriptionStatus;
-import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Address;
 import ISA.Team22.Domain.Users.City;
 import ISA.Team22.Domain.Users.Country;
@@ -37,11 +36,16 @@ public class PharmacyService implements IPharmacyService {
 
 	private final PharmacyRepository pharmacyRepository;
 	private final PatientRepository patientRepository;
+	private final DrugService drugService;
+	private final NotificationService notificationService;
 	
 	@Autowired
-    public PharmacyService(PharmacyRepository pharmacyRepository,PatientRepository patientRepository) {
+    public PharmacyService(PharmacyRepository pharmacyRepository,PatientRepository patientRepository,
+    		DrugService drugService,NotificationService notificationService) {
 		this.pharmacyRepository = pharmacyRepository;
 		this.patientRepository = patientRepository;
+		this.drugService = drugService;
+		this.notificationService = notificationService;
 	}
 
 	@Override
@@ -170,4 +174,23 @@ public class PharmacyService implements IPharmacyService {
 	       
 	        return pharmacyList;
 	    }
+
+	@Override
+	public Boolean checkDrugAvailabilityForExamination(DrugAvailabilityDTO drugAvailabilityDTO) {
+		Pharmacy pharmacy = pharmacyRepository.findById(drugAvailabilityDTO.getPharmacyId()).get();
+		Drug drug = drugService.findById(drugAvailabilityDTO.getDrugId());
+		List<DrugInfo> pharmacyDrugs = pharmacy.getPharmacyInventory().getDrugInfos();
+		
+		for(DrugInfo d:pharmacyDrugs)
+			if(d.getDrug().getId().equals(drugAvailabilityDTO.getDrugId()))
+				 return true;
+		
+		Notification notification = new Notification(drug, pharmacy);
+		notificationService.saveNotification(notification);
+		
+		return false;
+	}
+	
+	
+	
 }

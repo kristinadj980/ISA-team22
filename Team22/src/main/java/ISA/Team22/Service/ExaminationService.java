@@ -233,4 +233,25 @@ public class ExaminationService implements IExaminationService {
 			}else continue;
 		return true;
 	}
+
+	@Override
+	public ExaminationDTO getExaminationByID(Long id) {
+		Examination e = examinationRepository.findById(id).get();
+		ExaminationDTO examinationDTO = new ExaminationDTO(e.getPharmacy().getId(), e.getId(), e.getPatient().getId().toString());
+		
+		return examinationDTO;
+	}
+
+	@Override
+	public void registerAbsence(Long id) {
+		Examination examination  = examinationRepository.findById(id).get();
+		examination.setExaminationStatus(ExaminationStatus.didNotCome);
+		Patient patient = patientService.findByEmail(examination.getPatient().getEmail());
+		Integer penals = patient.getPenalty() + 1;
+		patient.setPenalty(penals);
+		examinationRepository.save(examination);
+		
+	}
+	
+	
 }

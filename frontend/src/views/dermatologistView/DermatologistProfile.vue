@@ -185,8 +185,8 @@ data() {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExaminations: function(){
-            window.location.href = "/dermatologistExamination";
+        showExamination: function(){
+            window.location.href = "/dermatologistExamination/-1";
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";

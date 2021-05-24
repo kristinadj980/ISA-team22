@@ -25,6 +25,8 @@ public class ExaminationDTO {
 	
 	private String endTimeText;
 	
+	private Long patientID;
+	
 	public ExaminationDTO() {}
 
 	public ExaminationDTO(Long pharmacy, LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
@@ -40,7 +42,10 @@ public class ExaminationDTO {
 		this.examinationID = examinationID;
 		this.patientInfo = patientInfo;
 	}
-	
+	public ExaminationDTO(Long examinationID) {
+		super();
+		this.examinationID = examinationID;
+	}
 	public ExaminationDTO(Long pharmacy, LocalDate startDate,LocalTime startTime, LocalTime endTime, String startTimeText, String endTimeText,
 			Long duration, Long examinationID, String pharmacyName) {
 		super();
@@ -53,6 +58,14 @@ public class ExaminationDTO {
 		this.duration = duration;
 		this.examinationID = examinationID;
 		this.pharmacyName = pharmacyName;
+	}
+
+	
+	public ExaminationDTO(Long pharmacyID, Long examinationID, String patientInfo) {
+		super();
+		this.pharmacyID = pharmacyID;
+		this.examinationID = examinationID;
+		this.patientInfo = patientInfo;
 	}
 
 	public Long getPharmacyID() {

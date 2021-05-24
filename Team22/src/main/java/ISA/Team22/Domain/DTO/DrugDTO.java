@@ -9,6 +9,8 @@ import ISA.Team22.Domain.Examination.IssuanceRegime;
 
 public class DrugDTO {
 	
+	private Long drugId;
+	
 	private String name;
 
     private String code;
@@ -23,9 +25,10 @@ public class DrugDTO {
     
     private Integer points;
 	
-    
     private DrugSpecificationDTO specification;
 
+    private Boolean drugAvailibility;
+    
 	public DrugDTO() {
 		super();
 	}
@@ -42,7 +45,6 @@ public class DrugDTO {
 		this.points = points;
 		this.specification = specification;
 	}
-
 	
 	public Integer getPoints() {
 		return points;
@@ -50,6 +52,35 @@ public class DrugDTO {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	public DrugDTO(String name, String code, DrugType type, DrugForm drugForm, IssuanceRegime issuance,
+			List<Drug> alternativeDrugCodes, DrugSpecificationDTO specification, Boolean drugAvailibility) {
+		super();
+		this.name = name;
+		this.code = code;
+		this.type = type;
+		this.drugForm = drugForm;
+		this.issuance = issuance;
+		this.alternativeDrugCodes = alternativeDrugCodes;
+		this.specification = specification;
+		this.drugAvailibility = drugAvailibility;
+	}
+	
+	public DrugDTO(Long drugId, String name, DrugType type, DrugForm drugForm, Boolean drugAvailibility) {
+		super();
+		this.drugId = drugId;
+		this.name = name;
+		this.type = type;
+		this.drugForm = drugForm;
+		this.drugAvailibility = drugAvailibility;
+	}
+
+	
+	
+	public DrugDTO(Boolean drugAvailibility) {
+		super();
+		this.drugAvailibility = drugAvailibility;
 	}
 
 	public String getName() {

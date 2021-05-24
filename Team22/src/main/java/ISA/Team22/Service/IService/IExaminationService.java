@@ -23,4 +23,6 @@ public interface IExaminationService {
 	Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term);
 	List<Examination> findAll ();
 	boolean canDermatologistMakeComplaint(Long dermatologistId);
+	ExaminationDTO getExaminationByID(Long id);
+	void registerAbsence(Long id);
 }
