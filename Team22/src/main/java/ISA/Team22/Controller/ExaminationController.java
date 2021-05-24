@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Users.Person;
@@ -41,7 +43,6 @@ public class ExaminationController {
 	public ResponseEntity<String> scheduleNewExamination(@RequestBody ExaminationDTO examinationDTO) {
 		try {
 			String response = examinationService.scheduleNewExamination(examinationDTO);
-			System.out.println(response);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -55,6 +56,16 @@ public class ExaminationController {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		List<ExaminationDTO> examinationsDTO = examinationService.getFreeScheduledExaminations(person.getId());
+		
+		return examinationsDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(examinationsDTO);
+	}
+	
+	@GetMapping("/getMyScheduledExaminations")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<List<ExaminationDTO>> getMyScheduledExaminations(){
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		List<ExaminationDTO> examinationsDTO = examinationService.getMyScheduledExaminations(person.getId());
 		
 		return examinationsDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(examinationsDTO);
 	}
@@ -90,6 +101,18 @@ public class ExaminationController {
 		try {
 			examinationService.registerAbsence(examinationDTO.getExaminationID());
 			return new ResponseEntity<>("Examination absence registered.", HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/updateExamination")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<String> updateExamination(@RequestBody ExaminationUpdateDTO examinationUpdateDTO) {
+		try {
+			examinationService.updateExamination(examinationUpdateDTO);
+			return new ResponseEntity<>("Examination saved.", HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);

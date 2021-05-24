@@ -1,14 +1,12 @@
 package ISA.Team22.Service.IService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ISA.Team22.Domain.Examination.Examination;
-import java.util.List;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
+import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
-import ISA.Team22.Domain.Examination.Examination;
 
 
 public interface IExaminationService {
@@ -25,4 +23,6 @@ public interface IExaminationService {
 	boolean canDermatologistMakeComplaint(Long dermatologistId);
 	ExaminationDTO getExaminationByID(Long id);
 	void registerAbsence(Long id);
+	void updateExamination(ExaminationUpdateDTO examinationUpdateDTO);
+	List<ExaminationDTO> getMyScheduledExaminations(Long id);
 }

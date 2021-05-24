@@ -112,7 +112,6 @@ INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id)
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (713, 705);
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 704);
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 703);
-
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 702);
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 700);
 INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (711, 701);
@@ -150,8 +149,8 @@ VALUES (850,'grip',30,2,1500,'2021-05-10','11:30','12:30',100,106,50);
 INSERT INTO COUNSELING (id,counseling_status,diagnosis,start_date,start_time,end_time,patient_id,pharmacist_id)
 VALUES (860,2,'osip','2021-05-10','11:30','12:30',106,102);
 
-INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id,pharmacist_id)
-VALUES (870,3,5,'2021-05-11',1,106,102);
+INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id,pharmacist_id, pharmacy)
+VALUES (870,3,5,'2021-05-11',1,106,102, 51);
 INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drugs_id)
 VALUES (870,700);
 

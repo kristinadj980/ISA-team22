@@ -12,13 +12,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestDermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Pharmacist;
@@ -41,6 +44,10 @@ public class Prescription {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Pharmacist pharmacist;
+	
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "pharmacy", referencedColumnName = "id", nullable = false)
+	private Pharmacy pharmacy;
 	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -122,6 +129,16 @@ public class Prescription {
 
 	public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {
 		this.prescriptionStatus = prescriptionStatus;
+	}
+
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 	 
 	
