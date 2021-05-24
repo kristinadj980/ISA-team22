@@ -6,13 +6,26 @@ public class DrugAvailabilityDTO {
 	private Long pharmacyId;
 	private String pharmacyName;
 	private Double price;
-	private Long examiantionID;
+	private Long examinationID;
+	private Long patientId;
 	
 	public DrugAvailabilityDTO() {
 		super();
 	}
     
 
+	public DrugAvailabilityDTO(Long drugId, String drugCode, Long pharmacyId, String pharmacyName, Double price,
+			Long examinationID, Long patientId) {
+		super();
+		this.drugId = drugId;
+		this.drugCode = drugCode;
+		this.pharmacyId = pharmacyId;
+		this.pharmacyName = pharmacyName;
+		this.price = price;
+		this.examinationID = examinationID;
+		this.patientId = patientId;
+	}
+	
 	public DrugAvailabilityDTO(Long drugId, String drugCode, Long pharmacyId, String pharmacyName, Double price) {
 		super();
 		this.drugId = drugId;
@@ -20,13 +33,6 @@ public class DrugAvailabilityDTO {
 		this.pharmacyId = pharmacyId;
 		this.pharmacyName = pharmacyName;
 		this.price = price;
-	}
-
-	
-	public DrugAvailabilityDTO(Long drugId, Long examiantionID) {
-		super();
-		this.drugId = drugId;
-		this.examiantionID = examiantionID;
 	}
 
 
@@ -78,12 +84,22 @@ public class DrugAvailabilityDTO {
 
 
 	public Long getExamiantionID() {
-		return examiantionID;
+		return examinationID;
 	}
 
 
 	public void setExamiantionID(Long examiantionID) {
-		this.examiantionID = examiantionID;
+		this.examinationID = examiantionID;
+	}
+
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
 	}
 	
 

@@ -7,13 +7,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ISA.Team22.Domain.DTO.DrugAlternativeDTO;
+import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
 import ISA.Team22.Domain.Examination.Examination;
+import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.PharmacyWorkflow.Notification;
+import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Repository.DrugRepository;
+import ISA.Team22.Repository.ExaminationRepository;
 import ISA.Team22.Service.IService.IDrugService;
 import java.util.Collections;
 
@@ -21,12 +29,12 @@ import java.util.Collections;
 public class DrugService implements IDrugService {
 	
 	private final DrugRepository drugRepository;
-	private final ExaminationService examinationService;
+	private final ExaminationRepository examinationRepository;
 
 	@Autowired
-	public DrugService(DrugRepository drugRepository, ExaminationService examinationService){
+	public DrugService(DrugRepository drugRepository, ExaminationRepository examinationRepository){
 		this.drugRepository = drugRepository;
-		this.examinationService = examinationService;
+		this.examinationRepository = examinationRepository;
 	}
 
 	@Override
@@ -127,15 +135,20 @@ public class DrugService implements IDrugService {
 
 	@Override
 	public List<DrugSearchDTO> getdrugsForPatient(Long id) {
-		Examination examination = examinationService.getExaminationByID(id);
-		List<Drug> allergie = examination.getPatient().getDrugs();
+		Examination examination = examinationRepository.findById(id).get();
+		List<Drug> allergies = examination.getPatient().getDrugs();
 		List<Drug> drugs = drugRepository.findAll();
 		List<DrugSearchDTO> drugsForPatient = new ArrayList<>();
 		
-		for(Drug a:allergie)
+		for(Drug a:allergies)
 			for(Drug d:drugs)
 				if(!a.getId().equals(d.getId()))
-					drugsForPatient.add( findDrugSpecification(d));
+					drugsForPatient.add(findDrugSpecification(d));
+		
+		if(allergies.isEmpty()) 
+			for(Drug d:drugs)
+				drugsForPatient.add(findDrugSpecification(d));
+		
 		
 		return drugsForPatient;
 	}
@@ -148,6 +161,28 @@ public class DrugService implements IDrugService {
 		DrugSpecificationDTO  drugSpecificationDTO = new DrugSpecificationDTO(drugSpecification.getContraindications(),
 				drugSpecification.getCompositions(), drugSpecification.getTherapyDuration(), drug.getProducer());
 		return drugSpecificationDTO;
+	}
+	
+	@Override
+	public List<DrugSearchDTO> findAlternativeDrugs(DrugAlternativeDTO drugAlternativeDTO) {
+
+		Drug drug = drugRepository.findById(drugAlternativeDTO.getDrugId()).get();
+		List<Drug> drugsAlternative = drug.getDrugSpecification().getAlternativeDrugCodes();
+		Examination examination = examinationRepository.findById(drugAlternativeDTO.getExaminationId()).get();
+		List<Drug> allergies = examination.getPatient().getDrugs();
+		List<DrugSearchDTO> checkedAlternative = new ArrayList<DrugSearchDTO>();
+		
+		for(Drug a:allergies)
+			for(Drug d:drugsAlternative)
+				if(!a.getId().equals(d.getId())) 
+					checkedAlternative.add(new DrugSearchDTO(d.getId(), d.getName(), d.getDrugType(), d.getDrugForm(), true));
+		
+		if(allergies.isEmpty()) 
+			for(Drug d:drugsAlternative)
+				checkedAlternative.add(new DrugSearchDTO(d.getId(), d.getName(), d.getDrugType(), d.getDrugForm(), true));
+		
+		
+		return checkedAlternative;
 	}
 	
 }

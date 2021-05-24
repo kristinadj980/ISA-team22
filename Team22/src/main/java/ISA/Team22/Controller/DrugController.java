@@ -9,13 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import ISA.Team22.Domain.DTO.DrugAlternativeDTO;
+import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.DrugDTO;
+import ISA.Team22.Domain.DTO.DrugOrderDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
@@ -122,12 +125,25 @@ public class DrugController {
 	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
 	}
 	
-	@PostMapping("/getOnlyDrugSpecification")
+	@GetMapping("/getOnlyDrugSpecification/{drugID}")
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
-	public ResponseEntity<DrugSpecificationDTO> getOnlyDrugSpecification(@RequestBody DrugSearchDTO id)
+	public ResponseEntity<DrugSpecificationDTO> getOnlyDrugSpecification(@PathVariable Integer drugID)
 	{
-		DrugSpecificationDTO searchResult = drugService.getOnlyDrugSpecification(id.getId());
+		Long id = (long) drugID;
+		DrugSpecificationDTO searchResult = drugService.getOnlyDrugSpecification(id);
 	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
 	 }
 	 
+	@PostMapping("/getAlternativeDrugs")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<List<DrugSearchDTO>> findAlternativeDrugs(@RequestBody DrugAlternativeDTO drugAlternativeDTO)
+	{
+		try {
+			System.out.println(drugAlternativeDTO.getExaminationId());
+			List<DrugSearchDTO> searchResult = drugService.findAlternativeDrugs(drugAlternativeDTO);
+			return ResponseEntity.ok(searchResult);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

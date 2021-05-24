@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
@@ -106,7 +107,7 @@ public class PharmacyController {
     @PreAuthorize("hasRole('DERMATOLOGIST')")
     public ResponseEntity<Boolean> checkDrugAvailabilityForExamination ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
 		 
-        Boolean isAvailable = pharmacyService.checkDrugAvailabilityForExamination(drugAvailabilityDTO);
+    	Boolean isAvailable = pharmacyService.checkDrugAvailabilityForExamination(drugAvailabilityDTO);
 
         return isAvailable == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(isAvailable);
     }

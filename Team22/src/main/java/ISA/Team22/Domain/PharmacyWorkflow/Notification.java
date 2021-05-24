@@ -32,9 +32,8 @@ public class Notification {
 		super();
 	}
 
-	public Notification(Long id, Drug drug, Pharmacy pharmacy) {
+	public Notification(Drug drug, Pharmacy pharmacy) {
 		super();
-		this.id = id;
 		this.drug = drug;
 		this.pharmacy = pharmacy;
 	}

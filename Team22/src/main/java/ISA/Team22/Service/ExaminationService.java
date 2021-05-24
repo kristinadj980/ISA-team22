@@ -237,7 +237,7 @@ public class ExaminationService implements IExaminationService {
 	@Override
 	public ExaminationDTO getExaminationByID(Long id) {
 		Examination e = examinationRepository.findById(id).get();
-		ExaminationDTO examinationDTO = new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getStartTime().toString(), e.getEndTime().toString(), e.getDuration(), e.getId(), e.getPharmacy().getName());
+		ExaminationDTO examinationDTO = new ExaminationDTO(e.getPharmacy().getId(), e.getId(), e.getPatient().getId().toString());
 		
 		return examinationDTO;
 	}

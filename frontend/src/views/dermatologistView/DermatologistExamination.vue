@@ -39,7 +39,7 @@
                         ></b-form-textarea>
                         </b-col>
                     </b-row>
-                    <table class="table table-striped" style="width:100%; border-bottom:solid;">
+                    <table v-if="isDrugAvailable==true" class="table table-striped" style="width:100%; border-bottom:solid;">
                             <thead class="thead-light">
                                 <tr>
                                 <th scope="col" 
@@ -57,7 +57,35 @@
                                 variant="info" 
                                 style="margin-top:1%;" 
                                 v-on:click="getDrugSpecification(drug.id)" 
-                                @click="selectedDrug = drug"
+                                @click="selectedDrug = drug, isDrugChecked= false"
+                                v-b-modal.modal-1>drug specification</b-button>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table v-else class="table table-striped" style="width:100%; border-bottom:solid;">
+                            <thead class="thead-light">
+                                <tr>
+                                <h3>Alternative drugs for {{selectedDrug.name}}</h3>
+                                </tr>
+                            </thead>
+                            <thead class="thead-light">
+                                <tr>
+                                <th scope="col" 
+                                v-for="f in fields" v-bind:key="f.key" >
+                                    {{f.label}}
+                                </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="drug in alternativeDrugs" v-bind:key="drug.id">
+                                <td>{{drug.name}}</td>
+                                <td>{{drug.type}}</td>
+                                <td>{{drug.drugForm}}</td>
+                                <b-button 
+                                variant="info" 
+                                style="margin-top:1%;" 
+                                v-on:click="getDrugSpecification(drug.id)" 
+                                @click="selectedDrug = drug, isDrugChecked= false"
                                 v-b-modal.modal-1>drug specification</b-button>
                                 </tr>
                             </tbody>
@@ -89,14 +117,14 @@
                             <b-button
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; margin-bottom:10px;width:320px;height:50px;" 
-                            v-on:click = "checkDrugAvailability">
+                            @click="getAlternativeDrugs(); checkDrugAvailability()">
                                 Check drug availability
                             </b-button>
                         </b-row>
                             <b-button 
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; width:460px;height:50px;"
-                            v-if="isDrugChecked == 1"
+                            v-if="isDrugChecked == true"
                             v-on:click = "prescribe">
                                 Prescribe drug
                             </b-button>
@@ -155,7 +183,9 @@ export default {
         drugSpecification: [],
         terapyDuration: '',
         selectedDrug: [],
-        isDrugChecked: 0,
+        isDrugChecked: false,
+        alternativeDrugs: [],
+        isDrugAvailable: true,
 
       }
     },
@@ -246,10 +276,7 @@ export default {
         },getDrugSpecification: function(drugID) {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
-            const drugSpec = {
-                id: drugID,
-            };
-            this.axios.post('/drug/getOnlyDrugSpecification',drugSpec ,{ 
+            this.axios.get('/drug/getOnlyDrugSpecification/'+drugID ,{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }
@@ -260,13 +287,12 @@ export default {
                             console.log(res);
                     });
         },prescribe :function(){
-
-        },checkDrugAvailability: function() {
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
             const checkDrug = {
-                id: this.selectedDrug.id,
-                examinationID: this.$route.params.selectedExamination
+                drugId: this.selectedDrug.id,
+                pharmacyId: this.examination.pharmacyID,
+                patientId: this.examination.patientID
 
             };
             this.axios.post('/pharmacy/isDrugAvailable',checkDrug ,{ 
@@ -274,7 +300,54 @@ export default {
                  'Authorization': 'Bearer ' + token,
              }
             }).then(response => {
-                this.drugSpecification = response.data;
+                this.isDrugChecked = response.data;
+                this.$bvToast.toast('The checked drug availibility is '+response.data+' .', {
+                    variant: 'info',
+                    title: 'Check drug availability',
+                    solid: true
+                    })
+            }).catch(res => {
+                        alert("Error");
+                            console.log(res);
+                    });
+        },checkDrugAvailability: function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+
+            const checkDrug = {
+                drugId: this.selectedDrug.id,
+                pharmacyId: this.examination.pharmacyID,
+                patientId: this.examination.patientInfo,
+
+            };
+            this.axios.post('/pharmacy/isDrugAvailable',checkDrug ,{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+            }).then(response => {
+                this.isDrugChecked = response.data;
+                this.$bvToast.toast('The checked drug availibility is '+response.data+' .', {
+                    variant: 'info',
+                    title: 'Check drug availability',
+                    solid: true
+                    })
+            }).catch(res => {
+                        alert("Error");
+                            console.log(res);
+                    });
+        },getAlternativeDrugs: function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            const alternativeForDrug = {
+                drugId: this.selectedDrug.id,
+                examinationId: this.$route.params.selectedExamination,
+
+            };
+            this.axios.post('/drug/getAlternativeDrugs',alternativeForDrug ,{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+            }).then(response => {
+                this.alternativeDrugs = response.data;
+                this.isDrugAvailable = this.alternativeDrugs.isDrugAvailable;
             }).catch(res => {
                         alert("Error");
                             console.log(res);
