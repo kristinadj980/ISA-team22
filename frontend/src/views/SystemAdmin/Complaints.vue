@@ -10,6 +10,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
             <span  style="float:right;margin:15px">
@@ -120,6 +121,9 @@ export default {
         },
         showComplaints: function(){
            window.location.href = "/complaints";
+        },
+         showLoalty: function(){
+           window.location.href = "/loaltyProgram";
         },
         getComplaints : function() {
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

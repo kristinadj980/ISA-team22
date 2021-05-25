@@ -10,6 +10,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
             </span>
               <span  style="float:right;margin:15px">
@@ -84,6 +85,9 @@ export default {
         },
         showPharmacyRegistration: function(){
            window.location.href = "/pharmacyRegistration";
+        },
+         showLoalty: function(){
+           window.location.href = "/loaltyProgram";
         },
           showSupplierRegistration: function(){
            window.location.href = "/supplierRegistration";
