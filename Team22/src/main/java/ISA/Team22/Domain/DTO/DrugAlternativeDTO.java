@@ -2,8 +2,8 @@ package ISA.Team22.Domain.DTO;
 
 public class DrugAlternativeDTO {
 
-	Long drugId;
-	Long examinationId;
+	private Long drugId;
+	private Long examinationId;
 
 	public DrugAlternativeDTO() {
 		super();

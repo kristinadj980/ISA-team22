@@ -34,17 +34,37 @@
                 placeholder="Patient last name">
                 </b-form-input>
                 <b-button style="margin-left:2%;" v-on:click = "searchPatient" variant="info">Search</b-button>
-                <b-button style="margin-left:2%;" v-on:click = "init" variant="info">Refresh</b-button>
+                <b-button style="margin-left:2%;" v-on:click = "showPatients" variant="info">Refresh</b-button>
             </b-form>
-        </div>  
+        </div>
         <div style="height:25px"></div>
             <h3>Patients</h3>
-                <b-table :items="patients" :fields="fields"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                responsive="sm" class="table table-striped table-bordered table-info">
-                </b-table>
-        <div> 
+            <table class="table table-striped" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                    <th scope="col" 
+                    v-for="f in fields" v-bind:key="f.key" 
+                    @click="fieldForSorting = f.key"
+                    v-on:click="sortColumn">
+                        {{f.label}}
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="patient in patients" v-bind:key="patient.email"
+                    @click="selectedCounseling = patient.counselingId">
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.surname}}</td>
+                    <td>{{patient.email}}</td>
+                    <td>{{patient.startDate}}</td>
+                    <td>{{patient.startTime}}</td>
+                    <router-link :to="{ name: 'PharmacistConsalting', params: {selectedCounseling: patient.examinationID}}" class="search-btn">
+                        <b-button variant="info" style="margin-top:1%;">start examination</b-button>
+                    </router-link>
+                    </tr>
+                </tbody>
+            </table>
+            <div> 
         </div>
     </div>
 </template>
@@ -54,21 +74,22 @@ export default {
     name: 'PharmacistPatients',
     data() {
       return {
-        sortBy: 'age',
-        sortDesc: false,
         fields: [
-          { key: 'name', sortable: true },
-          { key: 'surname', sortable: true },
-          { key: 'email', sortable: true },
-          { key: 'startDate', sortable: true },
-          { key: 'startTime', sortable: true },
+          { key: 'name', label: 'Name' },
+          { key: 'surname', label: 'Surname' },
+          { key: 'email', label: 'Email' },
+          { key: 'startDate', label: 'Start date'},
+          { key: 'startTime',label: 'Start time'},
+          { key: 'btn', label: 'Chose examination'}
         ],
+        selectedCounseling: '',
         patients: [],
         name: "",
         surname: "",
         email: "",
         nameForSerch: "",
-        surnameForSearch: ""
+        surnameForSearch: "",
+        fieldForSorting: "name",
       }
     },
     mounted(){
@@ -104,7 +125,7 @@ export default {
             window.location.href = "/pharmacistAbsenceRequest";
         },
         showExaminations: function(){
-            window.location.href = "/pharmacistConsalting";
+            window.location.href = "/pharmacistConsalting/-1";
         },
         showNewExamination: function(){
             window.location.href = "/pharmacistNewConsalting";
@@ -130,22 +151,46 @@ export default {
                 .then(response => {
                     this.patients = response.data;
                     this.fields = [
-                    { key: 'name', sortable: true },
-                    { key: 'surname', sortable: true },
-                    ];
+                    { key: 'name', label: 'Name'},
+                    { key: 'surname', label: 'Surname'  },
+                    { label: '' },
+                    { label: '' },
+                    { label: '' },
+                    { key: 'btn', label: 'Chose examination'}]
                 })
                 .catch(response => {
                     alert("Please, try later.")
                     alert(response);
                 })
-        }, 
+        },
         init : function() {
-            this.fields = [
-                    { key: 'name', sortable: true },
-                    { key: 'surname', sortable: true },
-                    { key: 'email', sortable: true },
-                    { key: 'startDate', sortable: true },
-                    { key: 'startTime', sortable: true }]
+                this.fields = [
+                { key: 'name', label: 'Name' },
+                { key: 'surname', label: 'Surname' },
+                { key: 'email', label: 'Email' },
+                { key: 'startDate', label: 'Start date'},
+                { key: 'startTime',label: 'Start time'},
+                { key: 'btn', label: 'Chose examination'}]
+        },
+        sortColumn : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            if(this.fieldForSorting == 'btn'){
+                return;
+            }
+            const columnForSort = {
+                sortingKey : this.fieldForSorting
+            };
+            this.axios.post('/pharmacist/sortResult',columnForSort, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.patients = response.data;
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
         }
     }
 }

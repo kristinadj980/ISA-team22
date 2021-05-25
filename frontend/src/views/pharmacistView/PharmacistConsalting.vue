@@ -11,9 +11,10 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsalting">Consaltings</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewConsalting">Schedule new consalting</button>
             </span>
-              <span  style="float:right;margin:15px">
-                    <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
-                </span>
+            <span  style="float:right;margin:15px">
+                <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
+            </span>
+            <h1>{{counselingID}}</h1>
         </div>
     </div>
 </template>
@@ -21,6 +22,15 @@
 <script>
 export default {
     name: 'PharmacistConsalting',
+    data() {
+      return {
+        counselingID: '',
+
+      }
+    },
+    mounted(){
+        this.counselingID = this.$route.params.selectedCounseling;
+    },
     methods:{
        showHomepage: function(){
            window.location.href = "/pharmacistHomepage";
@@ -38,7 +48,7 @@ export default {
             window.location.href = "/pharmacistAbsenceRequest";
         },
         showConsalting: function(){
-            window.location.href = "/pharmacistConsalting";
+            window.location.href = "/pharmacistConsalting/-1";
         },
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";

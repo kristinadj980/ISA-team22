@@ -158,7 +158,7 @@ const routes = [
     component: PharmacistAbsenceRequest
   },
   {
-    path: '/pharmacistConsalting',
+    path: '/pharmacistConsalting/:selectedCounseling',
     name: 'PharmacistConsalting',
     component: PharmacistConsalting
   },

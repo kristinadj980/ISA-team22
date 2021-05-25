@@ -82,7 +82,7 @@ export default {
           { key: 'email', label: 'Email' },
           { key: 'startDate', label: 'Start date'},
           { key: 'startTime',label: 'Start time'},
-          {label: 'Chose examination'}
+          { key: 'btn', label: 'Chose examination'}
         ],
         selectMode: 'single',
         patients: [],
@@ -161,7 +161,7 @@ export default {
                         { label: '' },
                         { label: '' },
                         { label: '' },
-                        { label: 'Start examination' }
+                        { key: 'btn', label: 'Start examination' }
                     ];
                 })
                 .catch(response => {
@@ -169,17 +169,12 @@ export default {
                     alert(response);
                 })
         },
-        init : function() {
-                this.fields = [
-                { key: 'name', label: 'Name' },
-                { key: 'surname', label: 'Surname' },
-                { key: 'email', label: 'Email' },
-                { key: 'startDate', label: 'Start date'},
-                { key: 'startTime',label: 'Start time'}]
-        },
         sortColumn : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-             const columnForSort = {
+            if(this.fieldForSorting == 'btn'){
+                return;
+            }
+            const columnForSort = {
                 sortingKey : this.fieldForSorting
             };
             this.axios.post('/dermatologist/sortResult',columnForSort, { 

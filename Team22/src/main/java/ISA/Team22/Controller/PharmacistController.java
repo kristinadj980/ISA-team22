@@ -115,5 +115,15 @@ public class PharmacistController {
 			}
 		  
 		}
-
+		
+		@PostMapping("/sortResult")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> sortMyPatient(@RequestBody PatientSearchDTO sortingKey) {
+			try {
+				List<PatientSearchDTO> searchResult = pharmacistService.sortMyPatient(sortingKey);
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
 }

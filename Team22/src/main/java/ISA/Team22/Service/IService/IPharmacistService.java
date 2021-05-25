@@ -16,4 +16,5 @@ public interface IPharmacistService {
 	List<Pharmacist> findAll();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
 	List<PatientSearchDTO> getMyPatients();
+	List<PatientSearchDTO> sortMyPatient(PatientSearchDTO sortingKey);
 }

@@ -58,7 +58,7 @@ export default {
             window.location.href = "/pharmacistAbsenceRequest";
         },
         showConsalting: function(){
-            window.location.href = "/pharmacistConsalting";
+            window.location.href = "/pharmacistConsalting/-1";
         },
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";

@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class CounselingDTO {
 	
+	private Long counselingId;
+	
 	private LocalDate startDate;
 	
 	private LocalTime startTime;
@@ -18,6 +20,18 @@ public class CounselingDTO {
 		super();
 	}
 
+	
+	public CounselingDTO(Long counselingId, LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
+		super();
+		this.counselingId = counselingId;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.patientInfo = patientInfo;
+	}
+
+
+
 	public CounselingDTO(LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
 		super();
 		this.startDate = startDate;
@@ -25,6 +39,16 @@ public class CounselingDTO {
 		this.endTime = endTime;
 		this.patientInfo = patientInfo;
 	}
+
+	public Long getCounselingId() {
+		return counselingId;
+	}
+
+
+	public void setCounselingId(Long counselingId) {
+		this.counselingId = counselingId;
+	}
+
 
 	public LocalDate getStartDate() {
 		return startDate;
