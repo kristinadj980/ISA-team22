@@ -25,7 +25,6 @@ public class ExaminationDTO {
 	
 	private String endTimeText;
 	
-	private Long patientID;
 	
 	public ExaminationDTO() {}
 
@@ -81,6 +80,8 @@ public class ExaminationDTO {
 		this.examinationID = examinationID;
 		this.patientInfo = patientInfo;
 	}
+	
+	
 	
 	public Long getPharmacyID() {
 		return pharmacyID;

@@ -113,7 +113,7 @@ public class DrugController {
 		}
 
 	@PostMapping("/getdrugsForPatient")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<DrugSearchDTO>> getdrugsForPatient(@RequestBody DrugSearchDTO id)
 	{
 		List<DrugSearchDTO> searchResult = drugService.getdrugsForPatient(id.getId());
@@ -121,7 +121,7 @@ public class DrugController {
 	}
 	
 	@GetMapping("/getOnlyDrugSpecification/{drugID}")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<DrugSpecificationDTO> getOnlyDrugSpecification(@PathVariable Integer drugID)
 	{
 		Long id = (long) drugID;
@@ -130,11 +130,12 @@ public class DrugController {
 	 }
 	 
 	@PostMapping("/getAlternativeDrugs")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<DrugSearchDTO>> findAlternativeDrugs(@RequestBody DrugAlternativeDTO drugAlternativeDTO)
 	{
 		try {
-			System.out.println(drugAlternativeDTO.getExaminationId());
+			System.out.println(drugAlternativeDTO.getPatientId());
+			System.out.println(drugAlternativeDTO.getDrugId());
 			List<DrugSearchDTO> searchResult = drugService.findAlternativeDrugs(drugAlternativeDTO);
 			return ResponseEntity.ok(searchResult);
 		} catch(Exception e) {

@@ -3,25 +3,17 @@ package ISA.Team22.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.DrugAlternativeDTO;
-import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
-import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
-import ISA.Team22.Domain.Examination.Examination;
-import ISA.Team22.Domain.Pharmacy.Pharmacy;
-import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Repository.DrugRepository;
-import ISA.Team22.Repository.ExaminationRepository;
 import ISA.Team22.Service.IService.IDrugService;
 import java.util.Collections;
 
@@ -29,12 +21,12 @@ import java.util.Collections;
 public class DrugService implements IDrugService {
 	
 	private final DrugRepository drugRepository;
-	private final ExaminationRepository examinationRepository;
+	private final PatientService patientService;
 
 	@Autowired
-	public DrugService(DrugRepository drugRepository, ExaminationRepository examinationRepository){
+	public DrugService(DrugRepository drugRepository, PatientService patientService){
 		this.drugRepository = drugRepository;
-		this.examinationRepository = examinationRepository;
+		this.patientService = patientService;
 	}
 
 	@Override
@@ -137,8 +129,8 @@ public class DrugService implements IDrugService {
 
 	@Override
 	public List<DrugSearchDTO> getdrugsForPatient(Long id) {
-		Examination examination = examinationRepository.findById(id).get();
-		List<Drug> allergies = examination.getPatient().getDrugs();
+		Patient patient = patientService.findById(id);
+		List<Drug> allergies = patient.getDrugs();
 		List<Drug> drugs = drugRepository.findAll();
 		List<DrugSearchDTO> drugsForPatient = new ArrayList<>();
 		
@@ -170,8 +162,8 @@ public class DrugService implements IDrugService {
 
 		Drug drug = drugRepository.findById(drugAlternativeDTO.getDrugId()).get();
 		List<Drug> drugsAlternative = drug.getDrugSpecification().getAlternativeDrugCodes();
-		Examination examination = examinationRepository.findById(drugAlternativeDTO.getExaminationId()).get();
-		List<Drug> allergies = examination.getPatient().getDrugs();
+		Patient patient = patientService.findById(drugAlternativeDTO.getPatientId());
+		List<Drug> allergies = patient.getDrugs();
 		List<DrugSearchDTO> checkedAlternative = new ArrayList<DrugSearchDTO>();
 		
 		for(Drug a:allergies)

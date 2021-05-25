@@ -4,12 +4,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class CounselingDTO {
+	private Long pharmacyID;
+	
+	private Long counselingId;
 	
 	private LocalDate startDate;
 	
 	private LocalTime startTime;
 	
 	private LocalTime endTime;
+	
+	private String startTimeText;
+	
+	private String endTimeText;
 	
 	private String patientInfo;
 
@@ -18,6 +25,28 @@ public class CounselingDTO {
 		super();
 	}
 
+	
+	public CounselingDTO(Long pharmacyID, Long counselingId, LocalDate startDate,String startTimeText, String patientInfo) {
+		super();
+		this.pharmacyID = pharmacyID;
+		this.counselingId = counselingId;
+		this.startDate = startDate;
+		this.startTimeText = startTimeText;
+		this.patientInfo = patientInfo;
+	}
+
+
+	public CounselingDTO(Long counselingId, LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
+		super();
+		this.counselingId = counselingId;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.patientInfo = patientInfo;
+	}
+
+
+
 	public CounselingDTO(LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
 		super();
 		this.startDate = startDate;
@@ -25,6 +54,34 @@ public class CounselingDTO {
 		this.endTime = endTime;
 		this.patientInfo = patientInfo;
 	}
+
+	public Long getCounselingId() {
+		return counselingId;
+	}
+
+
+	public CounselingDTO(Long pharmacyID, Long counselingId, String patientInfo) {
+		super();
+		this.pharmacyID = pharmacyID;
+		this.counselingId = counselingId;
+		this.patientInfo = patientInfo;
+	}
+
+
+	public Long getPharmacyID() {
+		return pharmacyID;
+	}
+
+
+	public void setPharmacyID(Long pharmacyID) {
+		this.pharmacyID = pharmacyID;
+	}
+
+
+	public void setCounselingId(Long counselingId) {
+		this.counselingId = counselingId;
+	}
+
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -56,6 +113,26 @@ public class CounselingDTO {
 
 	public void setPatientInfo(String patientInfo) {
 		this.patientInfo = patientInfo;
+	}
+
+
+	public String getStartTimeText() {
+		return startTimeText;
+	}
+
+
+	public void setStartTimeText(String startTimeText) {
+		this.startTimeText = startTimeText;
+	}
+
+
+	public String getEndTimeText() {
+		return endTimeText;
+	}
+
+
+	public void setEndTimeText(String endTimeText) {
+		this.endTimeText = endTimeText;
 	}
 	
 	

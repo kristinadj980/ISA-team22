@@ -27,7 +27,7 @@ public class PrescriptionController {
 	
 	
 	@PostMapping("/prescribe")
-    @PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
     public ResponseEntity<String> prescribeDrug( @RequestBody PrescriptionDTO prescriptionDTO){
 		 
 		try {

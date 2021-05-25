@@ -344,7 +344,7 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
             const patientForSearch = {
-                id: this.$route.params.selectedExamination
+                id: Number(this.examination.patientInfo)
             };
             this.axios.post('/drug/getdrugsForPatient',patientForSearch ,{ 
              headers: {
@@ -425,7 +425,7 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const alternativeForDrug = {
                 drugId: this.selectedDrug.id,
-                examinationId: this.$route.params.selectedExamination,
+                patientId: Number(this.examination.patientInfo),
 
             };
             this.axios.post('/drug/getAlternativeDrugs',alternativeForDrug ,{ 
@@ -487,44 +487,44 @@ export default {
         margin-top:1%;
         margin-bottom:1%;
     }
-.button {
-  display: inline-block;
-  padding: 15px 25px;
-  font-size: 24px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #17a2b8;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0 9px #999;
-}
+    .button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #17a2b8;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    }
 
-.button:hover {background-color: #74b6c0}
+    .button:hover {background-color: #74b6c0}
 
-.button:active {
-  background-color: #17a2b8;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
+    .button:active {
+    background-color: #17a2b8;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+    }
 
-.drug_info {
-    background: #b1ced3; 
-    border-left-style: solid;
-    border-color: #17a2b8;
-    border-width: 8px;
-}
+    .drug_info {
+        background: #b1ced3; 
+        border-left-style: solid;
+        border-color: #17a2b8;
+        border-width: 8px;
+    }
 
-.drug_info {
-    background: #b1ced3; 
-    border-left-style: solid;
-    border-color: #17a2b8;
-    border-width: 8px;
-    padding-top:10px;
-    padding-bottom:10px;
-    padding-left:1px;
-}
+    .drug_info {
+        background: #b1ced3; 
+        border-left-style: solid;
+        border-color: #17a2b8;
+        border-width: 8px;
+        padding-top:10px;
+        padding-bottom:10px;
+        padding-left:1px;
+    }
 
 </style>

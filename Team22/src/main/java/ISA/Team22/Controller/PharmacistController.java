@@ -21,7 +21,6 @@ import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacistDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
-import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Pharmacist;
 import ISA.Team22.Service.PharmacistService;
@@ -115,5 +114,15 @@ public class PharmacistController {
 			}
 		  
 		}
-
+		
+		@PostMapping("/sortResult")
+		@PreAuthorize("hasRole('PHARMACIST')")
+		public ResponseEntity<List<PatientSearchDTO>> sortMyPatient(@RequestBody PatientSearchDTO sortingKey) {
+			try {
+				List<PatientSearchDTO> searchResult = pharmacistService.sortMyPatient(sortingKey);
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
 }

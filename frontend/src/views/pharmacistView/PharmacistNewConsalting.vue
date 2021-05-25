@@ -8,7 +8,7 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsalting">Consaltings</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsaltings">Consaltings</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewConsalting">Schedule new consalting</button>
             </span>
             <span  style="float:right;margin:15px">
@@ -110,8 +110,8 @@ export default {
         showAbsenceRequest: function(){
             window.location.href = "/pharmacistAbsenceRequest";
         },
-        showConsalting: function(){
-            window.location.href = "/pharmacistConsalting";
+        showConsaltings: function(){
+            window.location.href = "/pharmacistConsalting/-1";
         },
         showNewConsalting: function(){
             window.location.href = "/pharmacistNewConsalting";

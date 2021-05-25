@@ -104,7 +104,7 @@ public class PharmacyController {
     }
     
     @PostMapping("/isDrugAvailable")
-    @PreAuthorize("hasRole('DERMATOLOGIST')")
+    @PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
     public ResponseEntity<Boolean> checkDrugAvailabilityForExamination ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
 		 
     	Boolean isAvailable = pharmacyService.checkDrugAvailabilityForExamination(drugAvailabilityDTO);

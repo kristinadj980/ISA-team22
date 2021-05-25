@@ -2,19 +2,20 @@ package ISA.Team22.Domain.DTO;
 
 public class DrugAlternativeDTO {
 
-	Long drugId;
-	Long examinationId;
+	private Long drugId;
+	private Long patientId;
 
 	public DrugAlternativeDTO() {
 		super();
 	}
 	
-	public DrugAlternativeDTO(Long drugId, Long examinationId) {
+
+	public DrugAlternativeDTO(Long drugId, Long patientId) {
 		super();
 		this.drugId = drugId;
-		this.examinationId = examinationId;
+		this.patientId = patientId;
 	}
-	
+
 
 	public Long getDrugId() {
 		return drugId;
@@ -26,13 +27,15 @@ public class DrugAlternativeDTO {
 	}
 
 
-	public Long getExaminationId() {
-		return examinationId;
+	public Long getPatientId() {
+		return patientId;
 	}
 
 
-	public void setExaminationId(Long examinationId) {
-		this.examinationId = examinationId;
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
 	}
+
+
 
 }

@@ -15,12 +15,26 @@ public class PatientSearchDTO {
 	
 	private Long examinationID;
 	
+	private Long counselingID;
+	
 	private String sortingKey;
 
 	
 	
 	public PatientSearchDTO() {
 		super();
+	}
+
+	public PatientSearchDTO(String name, String surname, String email, String startDate, String startTime,
+			Long counselingID, String sortingKey) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.counselingID = counselingID;
+		this.sortingKey = sortingKey;
 	}
 
 	public PatientSearchDTO(String name, String surname, String email, String startDate, String startTime,
