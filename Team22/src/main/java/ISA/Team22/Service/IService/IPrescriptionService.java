@@ -1,5 +1,8 @@
 package ISA.Team22.Service.IService;
 
-public interface IPrescriptionService {
+import ISA.Team22.Domain.DTO.PrescriptionDTO;
 
+public interface IPrescriptionService {
+	
+	void prescribeDrug(PrescriptionDTO prescriptionDTO);
 }

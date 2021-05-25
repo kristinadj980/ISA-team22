@@ -34,19 +34,38 @@
                 placeholder="Patient last name">
                 </b-form-input>
                 <b-button style="margin-left:2%;" v-on:click = "searchPatient" variant="info">Search</b-button>
-                <b-button style="margin-left:2%;" v-on:click = "init" variant="info">Refresh</b-button>
+                <b-button style="margin-left:2%;" v-on:click = "showPatients" variant="info">Refresh</b-button>
             </b-form>
         </div>  
         <div style="height:25px"></div>
             <h3>Patients</h3>
-                <b-table :items="patients" :fields="fields"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                responsive="sm" class="table table-striped table-bordered table-info">
-                </b-table>
-            
+            <table class="table table-striped" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                    <th scope="col" 
+                    v-for="f in fields" v-bind:key="f.key" 
+                    @click="fieldForSorting = f.key"
+                    v-on:click="sortColumn">
+                        {{f.label}}
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="patient in patients" v-bind:key="patient.email"
+                    @click="selectedExamination = patient.examinationID">
+                    <td>{{patient.name}}</td>
+                    <td>{{patient.surname}}</td>
+                    <td>{{patient.email}}</td>
+                    <td>{{patient.startDate}}</td>
+                    <td>{{patient.startTime}}</td>
+                    <router-link :to="{ name: 'DermatologistExamination', params: {selectedExamination: patient.examinationID}}" class="search-btn">
+                        <b-button variant="info" style="margin-top:1%;">start examination</b-button>
+                    </router-link>
+                    </tr>
+                </tbody>
+            </table>
             <div> 
-            </div>
+        </div>
     </div>
 </template>
 
@@ -58,18 +77,24 @@ export default {
         sortBy: 'age',
         sortDesc: false,
         fields: [
-          { key: 'name', sortable: true },
-          { key: 'surname', sortable: true },
-          { key: 'email', sortable: true },
-          { key: 'startDate', sortable: true },
-          { key: 'startTime', sortable: true },
+          { key: 'name', label: 'Name' },
+          { key: 'surname', label: 'Surname' },
+          { key: 'email', label: 'Email' },
+          { key: 'startDate', label: 'Start date'},
+          { key: 'startTime',label: 'Start time'},
+          {label: 'Chose examination'}
         ],
+        selectMode: 'single',
         patients: [],
         name: "",
         surname: "",
         email: "",
         nameForSerch: "",
-        surnameForSearch: ""
+        surnameForSearch: "",
+        selected: [],
+        selectedExamination: '',
+        fieldForSorting: "name",
+        
       }
     },
     mounted(){
@@ -105,7 +130,7 @@ export default {
             window.location.href = "/dermatologistAbsenceRequest";
         },
         showExaminations: function(){
-            window.location.href = "/dermatologistExamination";
+            window.location.href = "/dermatologistExamination/-1";
         },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
@@ -131,8 +156,12 @@ export default {
                 .then(response => {
                     this.patients = response.data;
                     this.fields = [
-                    { key: 'name', sortable: true },
-                    { key: 'surname', sortable: true },
+                        { key: 'name', label: 'Name' },
+                        { key: 'surname', label: 'Surname' },
+                        { label: '' },
+                        { label: '' },
+                        { label: '' },
+                        { label: 'Start examination' }
                     ];
                 })
                 .catch(response => {
@@ -141,12 +170,29 @@ export default {
                 })
         },
         init : function() {
-            this.fields = [
-                    { key: 'name', sortable: true },
-                    { key: 'surname', sortable: true },
-                    { key: 'email', sortable: true },
-                    { key: 'startDate', sortable: true },
-                    { key: 'startTime', sortable: true }]
+                this.fields = [
+                { key: 'name', label: 'Name' },
+                { key: 'surname', label: 'Surname' },
+                { key: 'email', label: 'Email' },
+                { key: 'startDate', label: 'Start date'},
+                { key: 'startTime',label: 'Start time'}]
+        },
+        sortColumn : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             const columnForSort = {
+                sortingKey : this.fieldForSorting
+            };
+            this.axios.post('/dermatologist/sortResult',columnForSort, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.patients = response.data;
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
         }
     }
 }
@@ -171,4 +217,10 @@ export default {
     .space_style{
         margin-right:5px
     }
+    .th_header {
+        display: table-cell;
+        -ms-text-combine-horizontal: inherit;
+        font-weight: bold;
+        text-align: center;
+        }
 </style>

@@ -6,18 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
-import java.sql.Time;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,18 +16,15 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
+import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.Examination.Counseling;
-import ISA.Team22.Domain.Examination.Examination;
-import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Repository.ExaminationRepository;
-import ISA.Team22.Repository.PatientRepository;
-import ISA.Team22.Repository.PersonRepository;
 import ISA.Team22.Service.IService.IExaminationService;
 
 @Service
@@ -119,12 +107,10 @@ public class ExaminationService implements IExaminationService {
 	public List<ExaminationDTO> getFreeScheduledExaminations(Long id) {
 		List<Examination> examinations = examinationRepository.findAll();
 		List<ExaminationDTO> examinationsDTO = new ArrayList<ExaminationDTO>();
-		for(Examination e:examinations) {
-			if(e.getPatient() == null && e.getDermatologist().getId() == id) {
-				System.out.println(e.getStartTime().toString());
+		for(Examination e:examinations) 
+			if(e.getPatient() == null && e.getDermatologist().getId() == id) 
 				examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(), e.getStartTime(), e.getEndTime(), e.getStartTime().toString(), e.getEndTime().toString(), e.getDuration(), e.getId(), e.getPharmacy().getName()));
-			}
-		}
+			
 		return examinationsDTO;
 	}
 
@@ -233,4 +219,45 @@ public class ExaminationService implements IExaminationService {
 			}else continue;
 		return true;
 	}
+
+	@Override
+	public ExaminationDTO getExaminationByID(Long id) {
+		Examination e = examinationRepository.findById(id).get();
+		ExaminationDTO examinationDTO = new ExaminationDTO(e.getPharmacy().getId(), e.getId(), e.getPatient().getId().toString());
+		
+		return examinationDTO;
+	}
+
+	@Override
+	public void registerAbsence(Long id) {
+		Examination examination  = examinationRepository.findById(id).get();
+		examination.setExaminationStatus(ExaminationStatus.didNotCome);
+		Patient patient = patientService.findByEmail(examination.getPatient().getEmail());
+		Integer penals = patient.getPenalty() + 1;
+		patient.setPenalty(penals);
+		examinationRepository.save(examination);
+		
+	}
+
+	@Override
+	public void updateExamination(ExaminationUpdateDTO examinationUpdateDTO) {
+		Examination examination = examinationRepository.findById(examinationUpdateDTO.getExaminationId()).get();
+		examination.setDiagnosis(examinationUpdateDTO.getExaminationInfo());
+		examination.setExaminationStatus(ExaminationStatus.held);
+		examinationRepository.save(examination);
+	}
+
+	@Override
+	public List<ExaminationDTO> getMyScheduledExaminations(Long id) {
+		List<Examination> examinations = getAllDermatologistExamination(id);
+		List<ExaminationDTO> examinationsDTO = new ArrayList<>();
+		
+		for(Examination e:examinations)
+			examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(),e.getStartTime(),
+					e.getEndTime(), e.getStartTime().toString(), e.getEndTime().toString(), e.getDuration(), e.getId(), e.getPharmacy().getName(), e.getPatient().getName()+ " " + e.getPatient().getLastName()));
+		
+		return examinationsDTO;
+	}
+	
+	
 }

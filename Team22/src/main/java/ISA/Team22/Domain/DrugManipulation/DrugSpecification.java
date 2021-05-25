@@ -34,7 +34,9 @@ public class DrugSpecification {
 	private String compositions;
 	
 	 @ManyToMany
-	 @JoinTable(name = "medications_alternatives", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "drug_alternative_id", referencedColumnName = "id"))
+	 @JoinTable(name = "medications_alternatives", 
+	 joinColumns = @JoinColumn(name = "drug_specification_id", referencedColumnName = "id"), 
+	 inverseJoinColumns = @JoinColumn(name = "drug_alternative_id", referencedColumnName = "id"))
 	//@OneToMany(mappedBy = "drugSpecification", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Drug> alternativeDrugCodes;
 	

@@ -1,6 +1,8 @@
 package ISA.Team22.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,12 +135,51 @@ public class DermatologistService implements IDermatologistService {
 	@Override
 	public List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO) {
 		List<PatientSearchDTO> myPatients = getMyPatients();
-		List<PatientSearchDTO> searchResult = new ArrayList<>(); 
+		List<PatientSearchDTO> searchResult = new ArrayList<>();
+		PatientSearchDTO result  = new PatientSearchDTO();
 		for(PatientSearchDTO p:myPatients) 
-			if(p.getName().equals(patientSearchDTO.getName()) && p.getSurname().equals(patientSearchDTO.getSurname())) 
-				searchResult.add(p);
+			if(p.getName().equals(patientSearchDTO.getName()) && p.getSurname().equals(patientSearchDTO.getSurname())) {
+				result = new PatientSearchDTO(p.getName(), p.getSurname(), p.getExaminationID());
+				searchResult.add(result);
+			}
 				
 		return searchResult;
+	}
+
+	@Override
+	public List<PatientSearchDTO> sortMyPatient(PatientSearchDTO sortingKey) {
+		List<PatientSearchDTO> myPatients =  getMyPatients();
+		
+		if(sortingKey.getSortingKey().equals("name")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("surname")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o1.getSurname().compareTo(o2.getSurname());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("startDate")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o1.getStartDate().compareTo(o2.getStartDate());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("startTime")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o1.getStartTime().compareTo(o2.getStartTime());
+				}
+			});
+		}
+		return myPatients;
 	}
 
 	
