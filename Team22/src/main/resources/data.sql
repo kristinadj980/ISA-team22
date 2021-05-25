@@ -28,10 +28,9 @@ INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, addres
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'derma@derma', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, main_admin) VALUES('SystemAdministrator', 101,'0655552525', 'pera@pera.com', true, true, 'Peric', 'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300, true);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('Pharmacist', 102,'0655552525', 'pharma@pharma', true, false, 'Mikic', 'Ivan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,penalty) VALUES('Patient', 113,'06201023325', 'kristinadjuric65@gmail.com', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302,0);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,penalty) VALUES('Patient', 114,'06256306363', 'miki@miki', true, false, 'Mikic', 'Miki', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 303,0);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,penalty) VALUES('Patient', 115,'06125478958', 'ana@ana', true, false, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 304,0);
-
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 113,'06201023325', 'kristinadjuric65@gmail.com', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 114,'06256306363', 'miki@miki', true, false, 'Mikic', 'Miki', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 303);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 115,'06125478958', 'ana@ana', true, false, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 304);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 103,'0657552525', 'mina@mina.com', true, true, 'Maric', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('PharmacyAdministrator', 104,'0657552525', 'marko@marko.com', true, true, 'Maric', 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 105,'0657552525', 'ana@ana.com', true, true, 'Maric', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
@@ -83,45 +82,21 @@ VALUES (411,'2021-06-12', 1,104);
 
 
 INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (711,'celuloza, laktoza','alergy','2 times a day',5);
-INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (712,'antihistaminic','tiredness','1 times a day', 7);
-INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (713,'antihistaminic','sleepiness','2 times a day', 7);
-INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (714,'antihistaminic','sleepiness','3 times a day', 14);
-INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (715,'acetilsalicilna kiselina','alergy','1 times a day',5);
+VALUES (711,'paracetamol','alergy','2 times a day',5);
 
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
 VALUES (700,'M65',0,1,1,'brufen',8,'zegin',711);
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
 VALUES (702,'M60',0,0,0,'brufen',10,'tilia',711);
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (701,'M35',0,1,1,'aspirin',9,'galenika',715);
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (703,'M50',2,2,1,'xyzal',10,'sanofi',712);
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (704,'M55',2,2,1,'aerius',9,'plough',713);
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (705,'M56',3,2,1,'cetirizin',9,'plough',714);
-
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (712, 704);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (712, 705);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (713, 703);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (713, 705);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 704);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 703);
-
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 702);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 700);
-INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (711, 701);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (600,45,700);
 
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (411,600);
+
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (701,'M35',0,1,1,'aspirin',9,'galenika',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (601,65,701);
@@ -167,7 +142,3 @@ INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,31);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,32);
-
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (113, 700);
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (114, 702);
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (115, 705);

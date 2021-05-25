@@ -41,15 +41,10 @@ public class DrugController {
     @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     ResponseEntity<Drug> addDrug(@RequestBody DrugDTO drugDTO)
     {
-		Drug existingDrug = drugService.findByName(drugDTO.getName());
+        Drug existingDrug = drugService.findByCode(drugDTO.getCode());
         if(existingDrug != null)
         {
-            throw new ResourceConflictException("Drug name already exists", "Drug name already exists");
-        }
-        Drug existingDrug2 = drugService.findByCode(drugDTO.getCode());
-        if(existingDrug2 != null)
-        {
-            throw new ResourceConflictException("Drug code already exists", "Drug code already exists");
+            throw new ResourceConflictException("Drug code already exists!");
         }
         Drug drug = drugService.save(drugDTO);
         return (ResponseEntity<Drug>) (drug == null ?
