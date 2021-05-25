@@ -23,7 +23,7 @@
                     <b-radio value="2" >Patient didn't come to examination!</b-radio>
                 </b-radio-group>
             </div>
-            <b-tabs card>
+            <b-tabs v-if="examinationID > 0" card>
                 <b-tab title="Begin with examination" v-if="selected == 1" @click="getPatientValidDrugs">
                     <b-row class="mt-2">
                         <b-col sm="3">
@@ -98,11 +98,20 @@
                             <h4>Manufacturer : <u>{{drugSpecification.manufacturer}}</u></h4>
                             <h4>Recommended terapy duration : <u>{{drugSpecification.therapyDuration}} days</u></h4>
                         </div>
-                        <h4 style="margin-top:20px;">Specify the length of therapy (in days): </h4>
+                        <h4 style="margin-top:20px;">Length of therapy: </h4>
                         <b-form-input 
                         type="number" 
                         class="object_space" 
                         v-model="terapyDuration" 
+                        filled 
+                        placeholder="terapy duration"
+                        style="margin-top:10px; font-size:16px;">
+                        </b-form-input>
+                        <h4 style="margin-top:20px;">Daily amount of therapy: </h4>
+                        <b-form-input 
+                        type="number" 
+                        class="object_space" 
+                        v-model="terapyAmount" 
                         filled 
                         placeholder="terapy duration"
                         style="margin-top:10px; font-size:16px;">
@@ -117,7 +126,7 @@
                             <b-button
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; margin-bottom:10px;width:320px;height:50px;" 
-                            @click="getAlternativeDrugs(); checkDrugAvailability()">
+                            @click="checkDrugAvailability()">
                                 Check drug availability
                             </b-button>
                         </b-row>
@@ -128,7 +137,27 @@
                             v-on:click = "prescribe">
                                 Prescribe drug
                             </b-button>
+                            <b-button 
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; width:460px;height:50px;"
+                            v-if="isDrugChecked == false"
+                            @click="getAlternativeDrugs(); cancel()">
+                                Check for alternative drugs
+                            </b-button>
                         </b-modal>
+                        <b-button 
+                            v-if="updated == false"
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; width:460px;height:50px;"
+                            v-on:click = "updateExamination">
+                                Finish examination
+                        </b-button>
+                        <b-button v-if="updated == true"
+                            class="btn btn-info btn-lg space_style" 
+                            style="background-color:#17a2b8; width:460px;height:50px;"
+                            v-on:click = "showNewExamination">
+                                Schedule new examination
+                        </b-button>
                 </b-tab>
                 <b-tab title="Unsustainable examination" v-else-if="selected == 2" >
                     <h3  class="text-left"
@@ -156,13 +185,37 @@
                     
                 </b-tab>
                 <b-tab title="Please choose one of the options!" v-else disabled></b-tab>
-                
             </b-tabs>
+            <div v-else> 
+                <h3>Scheduled examinations</h3>
+                <table class="table table-striped" style="width:100%;">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" 
+                            v-for="f in fields2" 
+                            v-bind:key="f.key" >
+                                {{f.label}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="e in scheduledExaminations" v-bind:key="e.id"
+                        >
+                        <td>{{e.patientInfo}}</td>
+                        <td>{{format_date(e.startDate)}}</td>
+                        <td>{{e.startTimeText}}</td>
+                        <b-button variant="info" style="margin-top:1%;" v-on:click="startExaminations(e.examinationID)">start examination</b-button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
     name: 'DermatologistExamination',
      data() {
@@ -179,19 +232,30 @@ export default {
           { key: 'form', label: 'Drug form' },
           {label: 'Open specification'}
         ],
+        fields2: [
+          { key: 'patientInfo', label: 'Patient' },
+          { key: 'startDate', label: 'Examination start date' },
+          { key: 'startTime', label: 'Examination start time' },
+          {label: 'Start examination'}
+        ],
         drugs: [],
         drugSpecification: [],
         terapyDuration: '',
+        terapyAmount: '',
         selectedDrug: [],
-        isDrugChecked: false,
+        isDrugChecked: null,
         alternativeDrugs: [],
         isDrugAvailable: true,
+        updated: false,
+        scheduledExaminations: [],
 
       }
     },
     mounted () {
         this.examinationID = this.$route.params.selectedExamination;
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        
+        if(this.examinationID >0){
         
         this.axios.get('/examination/getExaminationById/'+this.$route.params.selectedExamination,{ 
              headers: {
@@ -203,10 +267,21 @@ export default {
                        alert("Error");
                         console.log(res);
                  });
-
+        }else{
+            this.axios.get('/examination/getMyScheduledExaminations' ,{ 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            }).then(response => {
+                this.scheduledExaminations = response.data;
+            }).catch(res => {
+                        alert("Error");
+                            console.log(res);
+                    });
+        }
     },
     methods:{
-       showHomepage: function(){
+        showHomepage: function(){
            window.location.href = "/dermatologistHomepage";
         },
         showProfile: function(){
@@ -224,6 +299,9 @@ export default {
         showExaminations: function(){
             window.location.href = "/dermatologistExamination/-1";
         },
+        startExaminations: function(e){
+            window.location.href = "/dermatologistExamination/"+ e;
+        },
         showNewExamination: function(){
             window.location.href = "/dermatologistNewExamination";
         },
@@ -233,6 +311,11 @@ export default {
         },
         cancel() {
             this.$refs['modal-ref'].hide();
+        }, 
+        format_date(value){
+         if (value) {
+           return moment(String(value)).format('YYYY-MM-DD')
+          }
         },
         patientDidntShow : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
@@ -245,7 +328,7 @@ export default {
                 'Authorization': 'Bearer ' + token,
                 }})
                 .then(response => {
-                    alert(response);
+                    alert(response.data);
                     this.$bvToast.toast('The patients absence was registered.', {
                     variant: 'warning',
                     title: 'INFO',
@@ -288,24 +371,28 @@ export default {
                     });
         },prescribe :function(){
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-
-            const checkDrug = {
-                drugId: this.selectedDrug.id,
+        if(this.terapyDuration == ""){
+                alert("Please enter terapy duration!")
+                return;
+            }
+        if(this.terapyAmount == ""){
+                alert("Please enter terapy amount!")
+                return;
+            }
+            const prescribeDrug = {
+                durationOfTherapy: this.terapyDuration,
+                amountOfDrug: this.terapyAmount,
                 pharmacyId: this.examination.pharmacyID,
-                patientId: this.examination.patientID
+                patientId: this.examination.patientInfo,
+                drugId: this.selectedDrug.id,
 
             };
-            this.axios.post('/pharmacy/isDrugAvailable',checkDrug ,{ 
+            this.axios.post('/prescription/prescribe',prescribeDrug ,{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }
             }).then(response => {
-                this.isDrugChecked = response.data;
-                this.$bvToast.toast('The checked drug availibility is '+response.data+' .', {
-                    variant: 'info',
-                    title: 'Check drug availability',
-                    solid: true
-                    })
+                    alert(response.data);
             }).catch(res => {
                         alert("Error");
                             console.log(res);
@@ -352,7 +439,25 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },
+        },updateExamination: function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            const examinaionInfo = {
+                examinationId: this.examinationID,
+                examinationInfo: this.examinationInfo,
+
+            };
+            this.axios.post('/examination/updateExamination',examinaionInfo ,{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+             }
+            }).then(response => {
+                alert(response.data);
+                this.updated = true;
+            }).catch(res => {
+                        alert("Error");
+                            console.log(res);
+                    });
+        }
     }
 }
 </script>

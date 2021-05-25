@@ -79,15 +79,39 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (106, 1);
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
 VALUES (411,'2021-06-12', 1,104);
 
-
-
 INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
-VALUES (711,'paracetamol','alergy','2 times a day',5);
+VALUES (711,'celuloza, laktoza','alergy','2 times a day',5);
+INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
+VALUES (712,'antihistaminic','tiredness','1 times a day', 7);
+INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
+VALUES (713,'antihistaminic','sleepiness','2 times a day', 7);
+INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
+VALUES (714,'antihistaminic','sleepiness','3 times a day', 14);
+INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
+VALUES (715,'acetilsalicilna kiselina','alergy','1 times a day',5);
 
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
 VALUES (700,'M65',0,1,1,'brufen',8,'zegin',711);
 INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
 VALUES (702,'M60',0,0,0,'brufen',10,'tilia',711);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (701,'M35',0,1,1,'aspirin',9,'galenika',715);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (703,'M50',2,2,1,'xyzal',10,'sanofi',712);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (704,'M55',2,2,1,'aerius',9,'plough',713);
+INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
+VALUES (705,'M56',3,2,1,'cetirizin',9,'plough',714);
+
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (712, 704);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (712, 705);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (713, 703);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (713, 705);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 704);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (714, 703);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 702);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (715, 700);
+INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id) values (711, 701);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (600,45,700);
@@ -95,8 +119,6 @@ VALUES (600,45,700);
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (411,600);
 
-INSERT INTO DRUG (id,code,drug_form,drug_type,issuance,name,number_of_grades,producer,drug_specification_id)
-VALUES (701,'M35',0,1,1,'aspirin',9,'galenika',711);
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (601,65,701);
@@ -125,10 +147,14 @@ VALUES (850,'grip',30,2,1500,'2021-05-10','11:30','12:30',100,106,50);
 INSERT INTO COUNSELING (id,counseling_status,diagnosis,start_date,start_time,end_time,patient_id,pharmacist_id)
 VALUES (860,2,'osip','2021-05-10','11:30','12:30',106,102);
 
-INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id,pharmacist_id)
-VALUES (870,3,5,'2021-05-11',1,106,102);
-INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drugs_id)
+INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id, pharmacy)
+VALUES (870,3,5,'2021-05-11',1,106,51);
+INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id, pharmacy)
+VALUES (871,3,5,'2021-05-11',1,115,51);
+INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drug_id)
 VALUES (870,700);
+INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drug_id)
+VALUES (871,700);
 
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(30,5,2000,700,900);
@@ -142,3 +168,10 @@ INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,31);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,32);
+
+
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (113, 700);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (114, 702);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (115, 705);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (106, 705);
+

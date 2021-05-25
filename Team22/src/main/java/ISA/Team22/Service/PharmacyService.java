@@ -146,7 +146,7 @@ public class PharmacyService implements IPharmacyService {
 		List<Prescription> prescriptions = patient.getPrescription();
 		
 		for (Prescription prescription : prescriptions) {
-			if(prescription.getPharmacist().getPharmacy().getId().equals(pharmacyId) && prescription.getPrescriptionStatus() == PrescriptionStatus.taken) {
+			if(prescription.getPharmacy().getId().equals(pharmacyId) && prescription.getPrescriptionStatus() == PrescriptionStatus.taken) {
 					isAble = true;
 			}
 		}
