@@ -149,10 +149,14 @@ VALUES (850,'grip',30,2,1500,'2021-05-10','11:30','12:30',100,106,50);
 INSERT INTO COUNSELING (id,counseling_status,diagnosis,start_date,start_time,end_time,patient_id,pharmacist_id)
 VALUES (860,2,'osip','2021-05-10','11:30','12:30',106,102);
 
-INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id,pharmacist_id, pharmacy)
-VALUES (870,3,5,'2021-05-11',1,106,102, 51);
-INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drugs_id)
+INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id, pharmacy)
+VALUES (870,3,5,'2021-05-11',1,106,51);
+INSERT INTO PRESCRIPTION (id,amount_of_drug,duration_of_therapy,prescription_date,prescription_status,patient_id, pharmacy)
+VALUES (871,3,5,'2021-05-11',1,115,51);
+INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drug_id)
 VALUES (870,700);
+INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drug_id)
+VALUES (871,700);
 
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(30,5,2000,700,900);
@@ -167,6 +171,7 @@ VALUES (8,31);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,32);
 
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (113, 700);
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (114, 702);
-INSERT INTO PERSON_DRUGS(patient_id, drugs_id) VALUES (115, 705);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (113, 700);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (114, 702);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (115, 705);
+INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (106, 705);

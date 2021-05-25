@@ -54,7 +54,12 @@ public class Patient extends Person{
 	@JoinColumn(name = "loyaltyProgram_id", referencedColumnName = "id")
 	private LoyaltyProgram loyaltyProgram;
 	
-	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JoinTable(name = "patient_allergies",
+            joinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"))
 	private List<Drug> drugs;
 	
 	@JsonManagedReference

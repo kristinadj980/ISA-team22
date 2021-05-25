@@ -41,9 +41,6 @@ public class Pharmacist extends Person{
 	private List<BusinessDayPharmacist> businessDays;
 	
 	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Prescription> prescriptions;
-	
-	@OneToMany(mappedBy = "pharmacist", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Counseling> counselings;
 	
 	@JsonBackReference
@@ -60,13 +57,12 @@ public class Pharmacist extends Person{
 	public Pharmacist(Long id, String email, String password, String name, String lastName, String contact,
 			Address address, Timestamp lastPasswordResetDate, boolean enabled, List<Authority> authorities,
 			Boolean firstLogged,Integer allGrades, Integer numberOfGrades,
-			List<BusinessDayPharmacist> businessDays, List<Prescription> prescriptions, List<Counseling> counselings,
+			List<BusinessDayPharmacist> businessDays, List<Counseling> counselings,
 			Pharmacy pharmacy, List<AbsenceRequestPharmacist> absenceRequests) {
 		super(id, email, password, name, lastName, contact, address, lastPasswordResetDate, enabled, authorities, firstLogged);
 		this.allGrades = allGrades;
 		this.numberOfGrades = numberOfGrades;
 		this.businessDays = businessDays;
-		this.prescriptions = prescriptions;
 		this.counselings = counselings;
 		this.pharmacy = pharmacy;
 		this.absenceRequests = absenceRequests;
@@ -94,14 +90,6 @@ public class Pharmacist extends Person{
 
 	public void setBusinessDays(List<BusinessDayPharmacist> businessDays) {
 		this.businessDays = businessDays;
-	}
-
-	public List<Prescription> getPrescriptions() {
-		return prescriptions;
-	}
-
-	public void setPrescriptions(List<Prescription> prescriptions) {
-		this.prescriptions = prescriptions;
 	}
 
 	public List<Counseling> getCounselings() {

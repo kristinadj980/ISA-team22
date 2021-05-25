@@ -13,12 +13,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -42,10 +46,9 @@ public class Prescription {
 	@Column(name = "durationOfTherapy",  nullable = false)
     private Double durationOfTherapy;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Pharmacist pharmacist;
-	
 	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@JoinColumn(name = "pharmacy", referencedColumnName = "id", nullable = false)
 	private Pharmacy pharmacy;
 	
@@ -53,7 +56,11 @@ public class Prescription {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Patient patient;
 	
-	@ManyToMany(targetEntity = Drug.class,  cascade = CascadeType.ALL)
+	@ManyToMany
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JoinTable(name = "prescription_drugs", joinColumns = @JoinColumn(name = "prescription_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"))
 	private List<Drug> drugs;
 	
 	@Enumerated(EnumType.ORDINAL)
@@ -71,7 +78,6 @@ public class Prescription {
 		this.prescriptionDate = prescriptionDate;
 		this.amountOfDrug = amountOfDrug;
 		this.durationOfTherapy = durationOfTherapy;
-		this.pharmacist = pharmacist;
 		this.patient = patient;
 		this.drugs = drugs;
 		this.prescriptionStatus = prescriptionStatus;
@@ -95,12 +101,6 @@ public class Prescription {
 	}
 	public void setAmountOfDrug(Integer amountOfDrug) {
 		this.amountOfDrug = amountOfDrug;
-	}
-	public Pharmacist getPharmacist() {
-		return pharmacist;
-	}
-	public void setPharmacist(Pharmacist pharmacist) {
-		this.pharmacist = pharmacist;
 	}
 	public Patient getPatient() {
 		return patient;
