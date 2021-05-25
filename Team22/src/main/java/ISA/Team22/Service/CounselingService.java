@@ -16,9 +16,6 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.DTO.CounselingDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
-import ISA.Team22.Domain.Examination.Counseling;
-import ISA.Team22.Domain.Examination.Examination;
-import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
@@ -173,6 +170,26 @@ public class CounselingService implements ICounselingService {
 		}
        
         return isAble;
+	}
+
+	@Override
+	public CounselingDTO getCounsellingById(Long id) {
+		Counseling counseling = counselingRepository.findById(id).get();
+		CounselingDTO counselingDTO = new CounselingDTO(counseling.getPharmacist().getPharmacy().getId(), counseling.getId(), counseling.getPatient().getId().toString());
+		
+		return counselingDTO;
+	}
+
+	@Override
+	public List<CounselingDTO> getMyScheduledCounsellings(Long id) {
+		List<Counseling> counselings = getAllPharmacistCounselings(id);
+		List<CounselingDTO> counselingsDTO = new ArrayList<>();
+		
+		for(Counseling c:counselings)
+			counselingsDTO.add(new CounselingDTO(c.getPharmacist().getPharmacy().getId(), c.getId(), c.getStartDate(), c.getStartTime().toString(),
+					c.getPatient().getName()+ " " + c.getPatient().getLastName()));
+		
+		return counselingsDTO;
 	}
 	
 }

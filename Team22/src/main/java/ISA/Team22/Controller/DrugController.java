@@ -118,9 +118,10 @@ public class DrugController {
 		}
 
 	@PostMapping("/getdrugsForPatient")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<DrugSearchDTO>> getdrugsForPatient(@RequestBody DrugSearchDTO id)
 	{
+		System.out.println("*********************************************************"+id.getId());
 		List<DrugSearchDTO> searchResult = drugService.getdrugsForPatient(id.getId());
 	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
 	}
@@ -135,7 +136,7 @@ public class DrugController {
 	 }
 	 
 	@PostMapping("/getAlternativeDrugs")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<DrugSearchDTO>> findAlternativeDrugs(@RequestBody DrugAlternativeDTO drugAlternativeDTO)
 	{
 		try {

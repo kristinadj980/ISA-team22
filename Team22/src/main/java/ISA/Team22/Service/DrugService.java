@@ -30,11 +30,14 @@ public class DrugService implements IDrugService {
 	
 	private final DrugRepository drugRepository;
 	private final ExaminationRepository examinationRepository;
+	private final PatientService patientService;
 
 	@Autowired
-	public DrugService(DrugRepository drugRepository, ExaminationRepository examinationRepository){
+	public DrugService(DrugRepository drugRepository, ExaminationRepository examinationRepository,
+			PatientService patientService){
 		this.drugRepository = drugRepository;
 		this.examinationRepository = examinationRepository;
+		this.patientService = patientService;
 	}
 
 	@Override
@@ -136,8 +139,8 @@ public class DrugService implements IDrugService {
 
 	@Override
 	public List<DrugSearchDTO> getdrugsForPatient(Long id) {
-		Examination examination = examinationRepository.findById(id).get();
-		List<Drug> allergies = examination.getPatient().getDrugs();
+		Patient patient = patientService.findById(id);
+		List<Drug> allergies = patient.getDrugs();
 		List<Drug> drugs = drugRepository.findAll();
 		List<DrugSearchDTO> drugsForPatient = new ArrayList<>();
 		

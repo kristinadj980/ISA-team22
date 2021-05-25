@@ -18,4 +18,6 @@ public interface ICounselingService {
 	Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term);
 	List<Counseling> findAll();
 	boolean canPharmacistMakeComplaint(Long pharmacistId);
+	List<CounselingDTO> getMyScheduledCounsellings(Long id);
+	CounselingDTO getCounsellingById(Long id);
 }

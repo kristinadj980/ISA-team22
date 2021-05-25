@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class CounselingDTO {
+	private Long pharmacyID;
 	
 	private Long counselingId;
 	
@@ -13,6 +14,10 @@ public class CounselingDTO {
 	
 	private LocalTime endTime;
 	
+	private String startTimeText;
+	
+	private String endTimeText;
+	
 	private String patientInfo;
 
 	
@@ -21,6 +26,16 @@ public class CounselingDTO {
 	}
 
 	
+	public CounselingDTO(Long pharmacyID, Long counselingId, LocalDate startDate,String startTimeText, String patientInfo) {
+		super();
+		this.pharmacyID = pharmacyID;
+		this.counselingId = counselingId;
+		this.startDate = startDate;
+		this.startTimeText = startTimeText;
+		this.patientInfo = patientInfo;
+	}
+
+
 	public CounselingDTO(Long counselingId, LocalDate startDate, LocalTime startTime, LocalTime endTime, String patientInfo) {
 		super();
 		this.counselingId = counselingId;
@@ -42,6 +57,24 @@ public class CounselingDTO {
 
 	public Long getCounselingId() {
 		return counselingId;
+	}
+
+
+	public CounselingDTO(Long pharmacyID, Long counselingId, String patientInfo) {
+		super();
+		this.pharmacyID = pharmacyID;
+		this.counselingId = counselingId;
+		this.patientInfo = patientInfo;
+	}
+
+
+	public Long getPharmacyID() {
+		return pharmacyID;
+	}
+
+
+	public void setPharmacyID(Long pharmacyID) {
+		this.pharmacyID = pharmacyID;
 	}
 
 
@@ -80,6 +113,26 @@ public class CounselingDTO {
 
 	public void setPatientInfo(String patientInfo) {
 		this.patientInfo = patientInfo;
+	}
+
+
+	public String getStartTimeText() {
+		return startTimeText;
+	}
+
+
+	public void setStartTimeText(String startTimeText) {
+		this.startTimeText = startTimeText;
+	}
+
+
+	public String getEndTimeText() {
+		return endTimeText;
+	}
+
+
+	public void setEndTimeText(String endTimeText) {
+		this.endTimeText = endTimeText;
 	}
 	
 	
