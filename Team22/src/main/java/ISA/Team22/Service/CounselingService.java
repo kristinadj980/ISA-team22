@@ -202,5 +202,14 @@ public class CounselingService implements ICounselingService {
 		counselingRepository.save(counseling);
 		
 	}
+
+	@Override
+	public void updateCounseling(CounselingDTO counselingDTO) {
+		Counseling counseling =  counselingRepository.findById(counselingDTO.getCounselingId()).get();
+		counseling.setDiagnosis(counselingDTO.getPatientInfo());
+		counseling.setCounselingStatus(ExaminationStatus.held);
+		counselingRepository.save(counseling);
+		
+	}
 	
 }

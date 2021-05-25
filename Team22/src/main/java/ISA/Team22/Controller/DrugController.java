@@ -139,7 +139,8 @@ public class DrugController {
 	public ResponseEntity<List<DrugSearchDTO>> findAlternativeDrugs(@RequestBody DrugAlternativeDTO drugAlternativeDTO)
 	{
 		try {
-			System.out.println(drugAlternativeDTO.getExaminationId());
+			System.out.println(drugAlternativeDTO.getPatientId());
+			System.out.println(drugAlternativeDTO.getDrugId());
 			List<DrugSearchDTO> searchResult = drugService.findAlternativeDrugs(drugAlternativeDTO);
 			return ResponseEntity.ok(searchResult);
 		} catch(Exception e) {

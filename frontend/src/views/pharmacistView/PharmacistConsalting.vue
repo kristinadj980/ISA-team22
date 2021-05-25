@@ -24,7 +24,7 @@
                 </b-radio-group>
             </div>
             <b-tabs v-if="counselingID > 0" card>
- <!----->               <b-tab title="Begin with examination" v-if="selected == 1" @click="getPatientValidDrugs">
+                <b-tab title="Begin with examination" v-if="selected == 1" @click="getPatientValidDrugs">
                     <b-row class="mt-2">
                         <b-col sm="3">
                         <h3 for="textarea-large" class="text-left" style="font-size:18px">Enter information about examination:</h3>
@@ -34,7 +34,7 @@
                         <b-form-textarea
                             id="textarea-large"
                             size="lg"
-                            v-model="examinationInfo"
+                            v-model="counselingInfo"
                             placeholder="type here.."
                         ></b-form-textarea>
                         </b-col>
@@ -126,7 +126,7 @@
                             <b-button
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; margin-bottom:10px;width:320px;height:50px;" 
-                            @click="checkDrugAvailability()">
+                            v-on:click="checkDrugAvailability">
                                 Check drug availability
                             </b-button>
                         </b-row>
@@ -149,14 +149,14 @@
                             v-if="updated == false"
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; width:460px;height:50px;"
-                            v-on:click = "updateExamination">
-                                Finish examination
+                            v-on:click = "updateCounseling">
+                                Finish counseling
                         </b-button>
                         <b-button v-if="updated == true"
                             class="btn btn-info btn-lg space_style" 
                             style="background-color:#17a2b8; width:460px;height:50px;"
-                            v-on:click = "showNewExamination">
-                                Schedule new examination
+                            v-on:click = "showNewConsalting">
+                                Schedule new counseling
                         </b-button>
                 </b-tab>
                 <b-tab title="Unsustainable counsaling" v-else-if="selected == 2" >
@@ -320,7 +320,7 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             
             const counselingInfo = {
-                counselingId: this.examinationID
+                counselingId: Number(this.$route.params.selectedCounseling)
             };
             this.axios.post('/counseling/absenceRegister',counselingInfo, { 
                 headers: {
@@ -381,8 +381,8 @@ export default {
             const prescribeDrug = {
                 durationOfTherapy: this.terapyDuration,
                 amountOfDrug: this.terapyAmount,
-                pharmacyId: this.examination.pharmacyID,
-                patientId: this.examination.patientInfo,
+                pharmacyId: this.counseling.pharmacyID,
+                patientId: Number(this.counseling.patientInfo),
                 drugId: this.selectedDrug.id,
 
             };
@@ -401,9 +401,8 @@ export default {
 
             const checkDrug = {
                 drugId: this.selectedDrug.id,
-                pharmacyId: this.examination.pharmacyID,
-                patientId: this.examination.patientInfo,
-
+                pharmacyId: this.counseling.pharmacyID,
+                patientId: this.counseling.patientInfo,
             };
             this.axios.post('/pharmacy/isDrugAvailable',checkDrug ,{ 
              headers: {
@@ -424,7 +423,7 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const alternativeForDrug = {
                 drugId: this.selectedDrug.id,
-                examinationId: this.$route.params.selectedExamination,
+                patientId: Number(this.counseling.patientInfo),
 
             };
             this.axios.post('/drug/getAlternativeDrugs',alternativeForDrug ,{ 
@@ -438,14 +437,14 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },updateExamination: function() {
+        },updateCounseling: function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            const examinaionInfo = {
-                examinationId: this.examinationID,
-                examinationInfo: this.examinationInfo,
+            const counselingInfo = {
+                counselingId: this.counselingID,
+                patientInfo: this.counselingInfo,
 
             };
-            this.axios.post('/examination/updateExamination',examinaionInfo ,{ 
+            this.axios.post('/counseling/updateCounseling',counselingInfo ,{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }

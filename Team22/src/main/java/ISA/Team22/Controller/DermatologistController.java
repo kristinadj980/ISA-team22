@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,10 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DermatologistDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
-import ISA.Team22.Domain.DTO.PatientDTO;
 import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.Users.Dermatologist;
-import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Service.DermatologistService;

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.CounselingDTO;
-import ISA.Team22.Domain.DTO.ExaminationDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Service.CounselingService;
 
@@ -83,5 +82,16 @@ public class CounselingController {
 		}
 	}
 	
+	@PostMapping("/updateCounseling")
+	@PreAuthorize("hasRole('PHARMACIST')")
+	public ResponseEntity<String> updateCounseling(@RequestBody CounselingDTO counselingDTO) {
+		try {
+			counselingService.updateCounseling(counselingDTO);
+			return new ResponseEntity<>("Counseling finished.", HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
 
 }

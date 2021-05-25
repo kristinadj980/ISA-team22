@@ -425,7 +425,7 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const alternativeForDrug = {
                 drugId: this.selectedDrug.id,
-                examinationId: this.$route.params.selectedExamination,
+                patientId: Number(this.examination.patientInfo),
 
             };
             this.axios.post('/drug/getAlternativeDrugs',alternativeForDrug ,{ 
