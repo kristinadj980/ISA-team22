@@ -20,4 +20,5 @@ public interface ICounselingService {
 	boolean canPharmacistMakeComplaint(Long pharmacistId);
 	List<CounselingDTO> getMyScheduledCounsellings(Long id);
 	CounselingDTO getCounsellingById(Long id);
+	void registerAbsence(Long id);
 }

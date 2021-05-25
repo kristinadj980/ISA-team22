@@ -121,13 +121,12 @@ public class DrugController {
 	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<DrugSearchDTO>> getdrugsForPatient(@RequestBody DrugSearchDTO id)
 	{
-		System.out.println("*********************************************************"+id.getId());
 		List<DrugSearchDTO> searchResult = drugService.getdrugsForPatient(id.getId());
 	    return searchResult == null ?  new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(searchResult);
 	}
 	
 	@GetMapping("/getOnlyDrugSpecification/{drugID}")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<DrugSpecificationDTO> getOnlyDrugSpecification(@PathVariable Integer drugID)
 	{
 		Long id = (long) drugID;

@@ -191,5 +191,16 @@ public class CounselingService implements ICounselingService {
 		
 		return counselingsDTO;
 	}
+
+	@Override
+	public void registerAbsence(Long id) {
+		Counseling counseling  = counselingRepository.findById(id).get();
+		counseling.setCounselingStatus(ExaminationStatus.didNotCome); 
+		Patient patient = patientService.findByEmail(counseling.getPatient().getEmail());
+		Integer penals = patient.getPenalty() + 1;
+		patient.setPenalty(penals);
+		counselingRepository.save(counseling);
+		
+	}
 	
 }

@@ -70,5 +70,18 @@ public class CounselingController {
 			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping("/absenceRegister")
+	@PreAuthorize("hasRole('PHARMACIST')")
+	public ResponseEntity<String> registerAbsence(@RequestBody CounselingDTO counselingDTO) {
+		try {
+			counselingService.registerAbsence(counselingDTO.getCounselingId());
+			return new ResponseEntity<>("Examination absence registered.", HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 
 }

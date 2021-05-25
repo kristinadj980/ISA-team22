@@ -159,7 +159,7 @@
                                 Schedule new examination
                         </b-button>
                 </b-tab>
-                <b-tab title="Unsustainable examination" v-else-if="selected == 2" >
+                <b-tab title="Unsustainable counsaling" v-else-if="selected == 2" >
                     <h3  class="text-left"
                     style="margin-left:1%;
                     margin-top:1%;">Please, confirm once more:</h3>
@@ -181,7 +181,7 @@
                     style="
                     margin-top:0%;
                     width: 20%;"
-                    v-on:click = "patientDidntShow"> finish examination</button>
+                    v-on:click = "patientDidntShow"> finish counseling</button>
                     
                 </b-tab>
                 <b-tab title="Please choose one of the options!" v-else disabled></b-tab>
@@ -319,10 +319,10 @@ export default {
         patientDidntShow : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             
-            const examinationInfo = {
-                examinationID: this.examinationID
+            const counselingInfo = {
+                counselingId: this.examinationID
             };
-            this.axios.post('/examination/absenceRegister',examinationInfo, { 
+            this.axios.post('/counseling/absenceRegister',counselingInfo, { 
                 headers: {
                 'Authorization': 'Bearer ' + token,
                 }})
