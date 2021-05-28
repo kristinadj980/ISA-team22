@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -41,7 +42,11 @@ public class EPrescription {
 	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false, unique = false)
 	public Patient patient;
+	
+	@Column(name = "pharmacyId", nullable = false)
+	private Integer pharmacyId;
 	
 	public EPrescription() {
 		super();

@@ -38,6 +38,7 @@ import Complaint from '../views/PatientView/Complaint.vue'
 import Complaints from '../views/SystemAdmin/Complaints.vue'
 import ShowDrugs from '../views/PharmacyView/ShowDrugs.vue'
 import LoaltyProgram from '../views/SystemAdmin/LoaltyProgram.vue'
+import EPrescription from '../views/PatientView/EPrescription.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -237,6 +238,11 @@ const routes = [
     path: '/loaltyProgram',
     name: 'LoaltyProgram',
     component: LoaltyProgram
+  },
+  {
+    path: '/ePrescription',
+    name: 'EPrescription',
+    component: EPrescription
   }
 ]
 

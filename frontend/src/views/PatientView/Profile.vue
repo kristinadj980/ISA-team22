@@ -6,6 +6,7 @@
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSubsribedPharmacies">Subscribed pharmacies</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Complaint</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showEPrescription">EPrescription</button>
             </span>
             <span  style="float:right;margin:15px">
                 <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
@@ -60,6 +61,9 @@ export default {
         },
         showPharmacyPage: function(){
            window.location.href = '/';
+        },
+        showEPrescription: function(){
+           window.location.href = '/ePrescription';
         },
         writeComplaint: function(){
            window.location.href = '/complaint';
