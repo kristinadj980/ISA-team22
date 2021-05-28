@@ -22,8 +22,8 @@ INSERT INTO ADDRESS (id, street_name, street_number, city_id) VALUES (304, 'Dalm
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (8);
 INSERT INTO PHARMACY_INVENTORY(id) VALUES (9);
 
-INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 50,'First Pharmacy', 'Tilia', 10, 300, 8);
-INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 50,'Second Pharmacy', 'Zegin', 10, 300, 9);
+INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 10,'First Pharmacy', 'Tilia', 10, 300, 8);
+INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 8,'Second Pharmacy', 'Zegin', 10, 303, 9);
 
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'derma@derma', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, main_admin) VALUES('SystemAdministrator', 101,'0655552525', 'pera@pera.com', true, true, 'Peric', 'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300, true);
@@ -172,6 +172,8 @@ INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,32);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,33);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (8,33);
 
 
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (113, 700);

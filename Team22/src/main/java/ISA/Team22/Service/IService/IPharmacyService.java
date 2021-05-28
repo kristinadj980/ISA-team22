@@ -5,6 +5,8 @@ import java.util.List;
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
+import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.SortingPharmaciesDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.Users.Patient;
 
@@ -22,4 +24,5 @@ public interface IPharmacyService {
     Boolean checkDrugs(Long pharmacyId, Patient patient, Boolean isAble);
     List<DrugAvailabilityDTO> getAvailabilityInPharmacies ( String code);
     Boolean checkDrugAvailabilityForExamination (DrugAvailabilityDTO drugAvailabilityDTO);
+    List<PharmacyDrugAvailabilityDTO> sortPharmacies(SortingPharmaciesDTO sortingPharmaciesDTO);
 }

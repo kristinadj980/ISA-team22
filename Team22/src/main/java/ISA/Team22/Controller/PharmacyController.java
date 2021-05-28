@@ -28,6 +28,7 @@ import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.SortingPharmaciesDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -116,11 +117,9 @@ public class PharmacyController {
     
     @PostMapping("/sortResult")
     @PreAuthorize("hasRole('PATIENT')")
-		public ResponseEntity<List<PharmacyDrugAvailabilityDTO>> sortResults(@RequestBody PharmacyDrugAvailabilityDTO sortingKey) {
-			System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    	System.out.println(sortingKey.getPharmacyName());
+	public ResponseEntity<List<PharmacyDrugAvailabilityDTO>> sortResults(@RequestBody SortingPharmaciesDTO sortingPharmaciesDTO) {
     	try {
-				List<PharmacyDrugAvailabilityDTO> searchResult = pharmacyService.sortDrugs(sortingKey);
+				List<PharmacyDrugAvailabilityDTO> searchResult = pharmacyService.sortPharmacies(sortingPharmaciesDTO);
 				
 				return	ResponseEntity.ok(searchResult);
 			} catch (Exception e) {

@@ -129,15 +129,16 @@ export default {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
              const columnForSort = {
                 sortingKey : this.fieldForSorting,
-                pharmacyName: this.name,
+                pharmaciesList: this.pharmacies,
             };
-            alert(this.pharmacyName)
+           
             this.axios.post('/pharmacy/sortResult',columnForSort, { 
                 headers: {
                 'Authorization': 'Bearer ' + token,
                 }})
                 .then(response => {
                     this.pharmacies = response.data;
+                    alert("Success")
                 })
                 .catch(response => {
                     alert("Please, try later.")

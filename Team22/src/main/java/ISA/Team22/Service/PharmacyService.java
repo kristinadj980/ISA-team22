@@ -16,9 +16,9 @@ import ISA.Team22.Domain.Pharmacy.PharmacyInventory;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
-import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.SortingPharmaciesDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -195,36 +195,25 @@ public class PharmacyService implements IPharmacyService {
 		return false;
 	}
 	
-	public List<PharmacyDrugAvailabilityDTO> sortDrugs(PharmacyDrugAvailabilityDTO sortingKey) {
-		System.out.println("************************");
-		System.out.println(sortingKey.getPharmacyName());
-		System.out.println(sortingKey.getMark());
-		System.out.println("********************");
-		 List<PharmacyDrugAvailabilityDTO> pharmaciesDTO = new ArrayList<PharmacyDrugAvailabilityDTO>();
-		 PharmacyDrugAvailabilityDTO availabilityDTO = new PharmacyDrugAvailabilityDTO();
-			 
-			 availabilityDTO.setPharmacyName(sortingKey.getPharmacyName());
-			 availabilityDTO.setMark(sortingKey.getMark());
-			 availabilityDTO.setAddress(new AddressDTO(sortingKey.getAddress().getStreet()));
-			 availabilityDTO.setSumPrice(sortingKey.getSumPrice());
-			 pharmaciesDTO.add(availabilityDTO);
-		
-		
-		if(sortingKey.getSortingKey().equals("pharmacyName")) {
+	@Override
+	public List<PharmacyDrugAvailabilityDTO> sortPharmacies(SortingPharmaciesDTO sortingPharmaciesDTO) {
+		 List<PharmacyDrugAvailabilityDTO> pharmaciesDTO = sortingPharmaciesDTO.getPharmaciesList();
+		 
+		if(sortingPharmaciesDTO.getSortingKey().equals("pharmacyName")) {
 			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
 				@Override
 				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
 					return o1.getPharmacyName().compareTo(o2.getPharmacyName());
 				}
 			});
-		}else if(sortingKey.getSortingKey().equals("mark")) {
+		}else if(sortingPharmaciesDTO.getSortingKey().equals("mark")) {
 			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
 				@Override
 				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
 					return o1.getMark().compareTo(o2.getMark());
 				}
 			});
-		}else if(sortingKey.getSortingKey().equals("address")) {
+		}else if(sortingPharmaciesDTO.getSortingKey().equals("address")) {
 			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
 				@Override
 				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
@@ -232,7 +221,7 @@ public class PharmacyService implements IPharmacyService {
 				}
 			});
 		}
-			else if(sortingKey.getSortingKey().equals("sumPrice")) {
+			else if(sortingPharmaciesDTO.getSortingKey().equals("sumPrice")) {
 				Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
 					@Override
 					public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
@@ -241,7 +230,6 @@ public class PharmacyService implements IPharmacyService {
 					}
 				});
 		}
-		System.out.println("ZAVRSIOOOOOOOOOOOO");
 		
 		return pharmaciesDTO;
 	}
