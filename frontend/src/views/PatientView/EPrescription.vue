@@ -37,7 +37,8 @@
                     <tr>
                     <th scope="col" 
                     v-for="f in fields" v-bind:key="f.key" 
-                    >
+                     @click="fieldForSorting = f.key"
+                    v-on:click="sortColumn">
                         {{f.label}}
                     </th>
                     </tr>
@@ -45,7 +46,7 @@
                 <tbody>
                     <tr v-for="pharmacy in pharmacies" v-bind:key="pharmacy.id"
                     @click="selectedPharmacy = pharmacy.id">
-                    <td>{{pharmacy.pharmacyName}}</td>
+                    <td v-bind="name">{{pharmacy.pharmacyName}}</td>
                     <td>{{pharmacy.mark}}</td>
                     <td>{{pharmacy.address.street}}</td>
                      <td>{{pharmacy.sumPrice}}</td>
@@ -67,6 +68,7 @@ export default {
 
       file: '',
       pharmacies:[],
+      name:'',
        sortBy: 'grade',
        sortDesc: false,
        fieldForSorting: "grade",
@@ -123,6 +125,25 @@ export default {
          handleFileUpload(){
         this.file = this.$refs.file.files[0];
       },
+       sortColumn : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+             const columnForSort = {
+                sortingKey : this.fieldForSorting,
+                pharmacyName: this.name,
+            };
+            alert(this.pharmacyName)
+            this.axios.post('/pharmacy/sortResult',columnForSort, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.pharmacies = response.data;
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
+        }
      
        
     }

@@ -15,6 +15,7 @@ public interface IPharmacyService {
     Pharmacy save(PharmacyDTO pharmacy);
     List<Pharmacy> findAll();
     Pharmacy findById(Long pharmacyId);
+    Pharmacy findByName(String name);
     boolean canMakeComplaintPharmacy(Long pharmacyId);
     Boolean checkExaminations(Long pharmacyId, Patient patient, Boolean isAble);
     Boolean checkCounselings(Long pharmacyId, Patient patient, Boolean isAble);

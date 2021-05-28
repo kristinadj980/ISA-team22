@@ -1,5 +1,6 @@
 package ISA.Team22.Domain.DTO;
 
+import java.util.List;
 
 public class PharmacyDrugAvailabilityDTO {
 	 private Long pharmacyId;
@@ -7,6 +8,9 @@ public class PharmacyDrugAvailabilityDTO {
 	 private Integer mark;
 	 private AddressDTO address;
 	 private String pharmacyName;
+	 private String sortingKey;
+	 
+	 
 	public PharmacyDrugAvailabilityDTO() {
 		super();
 	}
@@ -19,9 +23,20 @@ public class PharmacyDrugAvailabilityDTO {
 		this.address = address;
 		this.pharmacyName = pharmacyName;
 	}
-	
-	
 
+	public PharmacyDrugAvailabilityDTO(Long pharmacyId, double sumPrice, Integer mark, AddressDTO address,
+			String pharmacyName, String sortingKey) {
+		super();
+		this.pharmacyId = pharmacyId;
+		this.sumPrice = sumPrice;
+		this.mark = mark;
+		this.address = address;
+		this.pharmacyName = pharmacyName;
+		this.sortingKey = sortingKey;
+	}
+	
+	
+	
 	public Long getPharmacyId() {
 		return pharmacyId;
 	}
@@ -52,7 +67,13 @@ public class PharmacyDrugAvailabilityDTO {
 	public void setPharmacyName(String pharmacyName) {
 		this.pharmacyName = pharmacyName;
 	}
-	 
+	public String getSortingKey() {
+		return sortingKey;
+	}
+	public void setSortingKey(String sortingKey) {
+		this.sortingKey = sortingKey;
+	}
+	
 	 
 	    
 	    

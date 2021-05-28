@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.DrugDTO;
+import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
+import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.UserInfoComplaintDTO;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -111,4 +113,18 @@ public class PharmacyController {
 
         return isAvailable == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(isAvailable);
     }
+    
+    @PostMapping("/sortResult")
+    @PreAuthorize("hasRole('PATIENT')")
+		public ResponseEntity<List<PharmacyDrugAvailabilityDTO>> sortResults(@RequestBody PharmacyDrugAvailabilityDTO sortingKey) {
+			System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    	System.out.println(sortingKey.getPharmacyName());
+    	try {
+				List<PharmacyDrugAvailabilityDTO> searchResult = pharmacyService.sortDrugs(sortingKey);
+				
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
 }

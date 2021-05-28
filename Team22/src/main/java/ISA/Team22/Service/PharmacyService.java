@@ -1,6 +1,8 @@
 package ISA.Team22.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import ISA.Team22.Domain.Pharmacy.PharmacyInventory;
 import ISA.Team22.Domain.PharmacyWorkflow.Notification;
 import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
+import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -190,6 +194,63 @@ public class PharmacyService implements IPharmacyService {
 		
 		return false;
 	}
+	
+	public List<PharmacyDrugAvailabilityDTO> sortDrugs(PharmacyDrugAvailabilityDTO sortingKey) {
+		System.out.println("************************");
+		System.out.println(sortingKey.getPharmacyName());
+		System.out.println(sortingKey.getMark());
+		System.out.println("********************");
+		 List<PharmacyDrugAvailabilityDTO> pharmaciesDTO = new ArrayList<PharmacyDrugAvailabilityDTO>();
+		 PharmacyDrugAvailabilityDTO availabilityDTO = new PharmacyDrugAvailabilityDTO();
+			 
+			 availabilityDTO.setPharmacyName(sortingKey.getPharmacyName());
+			 availabilityDTO.setMark(sortingKey.getMark());
+			 availabilityDTO.setAddress(new AddressDTO(sortingKey.getAddress().getStreet()));
+			 availabilityDTO.setSumPrice(sortingKey.getSumPrice());
+			 pharmaciesDTO.add(availabilityDTO);
+		
+		
+		if(sortingKey.getSortingKey().equals("pharmacyName")) {
+			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
+				@Override
+				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
+					return o1.getPharmacyName().compareTo(o2.getPharmacyName());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("mark")) {
+			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
+				@Override
+				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
+					return o1.getMark().compareTo(o2.getMark());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("address")) {
+			Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
+				@Override
+				public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
+					return o1.getAddress().getStreet().compareTo(o2.getAddress().getStreet());
+				}
+			});
+		}
+			else if(sortingKey.getSortingKey().equals("sumPrice")) {
+				Collections.sort(pharmaciesDTO, new Comparator<PharmacyDrugAvailabilityDTO>() {
+					@Override
+					public int compare(PharmacyDrugAvailabilityDTO o1, PharmacyDrugAvailabilityDTO o2) {
+						int compared = Double.compare(o1.getSumPrice(), o2.getSumPrice());
+						return compared;
+					}
+				});
+		}
+		System.out.println("ZAVRSIOOOOOOOOOOOO");
+		
+		return pharmaciesDTO;
+	}
+
+	@Override
+	public Pharmacy findByName(String name) {
+		return pharmacyRepository.findByName(name);
+	}
+
 	
 	
 	
