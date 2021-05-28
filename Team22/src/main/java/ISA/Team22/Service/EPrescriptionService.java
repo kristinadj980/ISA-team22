@@ -75,7 +75,7 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	            for (String drug: drugs) {
 	                String []drugParts = drug.split("_");
 	               
-	                qrCodeDTOs.add(new QRCodeDTO(drugParts[0],Long.parseLong(drugParts[1]),Integer.parseInt(drugParts[2])));
+	                qrCodeDTOs.add(new QRCodeDTO(drugParts[0],drugParts[1],Integer.parseInt(drugParts[2])));
 	            }
 	            for (QRCodeDTO qr : qrCodeDTOs) {
 					System.out.println(qr.getDrugName());
@@ -86,7 +86,7 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	        else {
 	            String []code = decodedText.split("!");
 	            String []drugParts = code[1].split("_");
-	            qrCodeDTOs.add(new QRCodeDTO(drugParts[0],Long.parseLong(drugParts[1]),Integer.parseInt(drugParts[2])));
+	            qrCodeDTOs.add(new QRCodeDTO(drugParts[0],drugParts[1],Integer.parseInt(drugParts[2])));
 	        }
 	        return qrCodeDTOs;
 	    }
@@ -96,21 +96,33 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	 public List<PharmacyDrugAvailabilityDTO> getAvailabilityInPharmacies(List<QRCodeDTO> qrCodeDrugs) {
 	        List<PharmacyDrugAvailabilityDTO> pharmacyList = new ArrayList<>();
 	        List<Pharmacy> pharmacies = pharmacyService.findAll();
-	        Double sumPrice = 0.0;
+	        
 	        for(Pharmacy pharmacy : pharmacies) {
+	        	int i = 0;
 	        	List<DrugInfo> drugInfos = pharmacy.getPharmacyInventory().getDrugInfos();
-	        	for (DrugInfo drugInfo : drugInfos) {
-					for (QRCodeDTO qrCodeDrug : qrCodeDrugs) {
-						if(drugInfo.getDrug().getName().equals(qrCodeDrug.getDrugName()) && drugInfo.getDrugAmount() >= qrCodeDrug.getAmount()) {
+	        	Double sumPrice = 0.0;
+	        	for (QRCodeDTO qrCodeDrug : qrCodeDrugs) {
+	        		
+	        		for (DrugInfo drugInfo : drugInfos){
+	        			
+						if(drugInfo.getDrug().getName().equals(qrCodeDrug.getDrugName()) && drugInfo.getDrug().getCode().equals(qrCodeDrug.getDrugCode()) && drugInfo.getDrugAmount() >= qrCodeDrug.getAmount()) {
 							Double price = drugInfo.getPrice();
 							sumPrice += price;
-							AddressDTO address = new AddressDTO(pharmacy.getAddress().getCity().getName(), pharmacy.getAddress().getStreetName(),
-				        			pharmacy.getAddress().getStreetNumber(), pharmacy.getAddress().getCity().getCountry().getName());
+							System.out.println(sumPrice);
+							i++;
 							
-				            pharmacyList.add(new PharmacyDrugAvailabilityDTO(pharmacy.getId(), sumPrice, pharmacy.getAllGrades(), address, pharmacy.getName()));
+						}else {
+							continue;
 						}
-					}
+	        		}
 				}
+	        	
+	        	if(qrCodeDrugs.size() == i) {
+	        	AddressDTO address = new AddressDTO(pharmacy.getAddress().getCity().getName(), pharmacy.getAddress().getStreetName(),
+	        			pharmacy.getAddress().getStreetNumber(), pharmacy.getAddress().getCity().getCountry().getName());
+				
+	            pharmacyList.add(new PharmacyDrugAvailabilityDTO(pharmacy.getId(), sumPrice, pharmacy.getAllGrades(), address, pharmacy.getName()));
+	        	}
 	        }
 	        return pharmacyList;
 	    }

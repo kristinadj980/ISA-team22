@@ -28,6 +28,31 @@
                         </div>
                 </div>
          </div>
+
+           <!-- TABLE -->
+       <div style="height:25px"></div>
+            <h3>Pharmacies</h3>
+            <table class="table table-striped" style="width:100%;">
+                <thead class="thead-light">
+                    <tr>
+                    <th scope="col" 
+                    v-for="f in fields" v-bind:key="f.key" 
+                    >
+                        {{f.label}}
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pharmacy in pharmacies" v-bind:key="pharmacy.id"
+                    @click="selectedPharmacy = pharmacy.id">
+                    <td>{{pharmacy.pharmacyName}}</td>
+                    <td>{{pharmacy.mark}}</td>
+                    <td>{{pharmacy.address.street}}</td>
+                     <td>{{pharmacy.sumPrice}}</td>
+                   
+                    </tr>
+                </tbody>
+            </table>
          </div>
         
     </div>
@@ -41,6 +66,17 @@ export default {
     return {
 
       file: '',
+      pharmacies:[],
+       sortBy: 'grade',
+       sortDesc: false,
+       fieldForSorting: "grade",
+       fields: [
+          { key: 'pharmacyName', label: 'PharmacyName' },
+          { key: 'mark', label: 'Grade' },
+          { key: 'address', label: 'Address' },
+           { key: 'sumPrice', label: 'SumPrice' },
+        ],
+        selectMode: 'single',
         
     }
   },
@@ -66,8 +102,7 @@ export default {
             let formData = new FormData();
 
             formData.append('file', this.file);
-            this.pharmacyList = [];
-             this.pharmacyListFilter=[];
+           
 
             this.axios.post( '/erecipes/file', formData, {
                 headers: {
@@ -75,12 +110,11 @@ export default {
                      'Authorization': 'Bearer ' + token
                 }
               }). then(response => {
-                    this.pharmacyList = response.data.pharmacies;
-                    this.pharmacyListFilter=response.data.pharmacies;
-                    this.medications = response.data.medicationsInQRcode;
-                    this.eReceiptCode = response.data.code;
-                    if(this.pharmacyList.length===0) {
-                        alert("There is no pharmacy that has all mediciations.")
+                    this.pharmacies = response.data.pharmacies;
+                   // this.medications = response.data.medicationsInQRcode;
+                   // this.eReceiptCode = response.data.code;
+                    if(this.pharmacies.length===0) {
+                        alert("There is no pharmacy that has all drugs.")
                     }    
                 }).catch(res => {
                     alert(res.response.data.message);

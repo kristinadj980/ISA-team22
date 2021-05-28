@@ -164,10 +164,14 @@ INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(31,10,2900,702,900);
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(32,15,2500,702,900);
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(33,25,2000,701,900);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,31);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,32);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (9,33);
 
 
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (113, 700);

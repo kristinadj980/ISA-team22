@@ -6,16 +6,18 @@ public class EPrescriptionDTO {
 	
 	 private List<QRCodeDTO> qrCodeDrugs;
 	 private String code;
+	 private List<PharmacyDrugAvailabilityDTO> pharmacies;
 	
 	 public EPrescriptionDTO() {
 		super();
 	
 	 }
 
-	public EPrescriptionDTO(List<QRCodeDTO> qrCodeDrugs, String code) {
+	public EPrescriptionDTO(List<QRCodeDTO> qrCodeDrugs, String code, List<PharmacyDrugAvailabilityDTO> pharmacies) {
 		super();
 		this.qrCodeDrugs = qrCodeDrugs;
 		this.code = code;
+		this.pharmacies = pharmacies;
 	}
 
 	public List<QRCodeDTO> getQrCodeDrugs() {
@@ -33,4 +35,14 @@ public class EPrescriptionDTO {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public List<PharmacyDrugAvailabilityDTO> getPharmacies() {
+		return pharmacies;
+	}
+
+	public void setPharmacies(List<PharmacyDrugAvailabilityDTO> pharmacies) {
+		this.pharmacies = pharmacies;
+	}
+	
+	
 }

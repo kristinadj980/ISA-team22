@@ -80,7 +80,7 @@ public class EPrescriptionController {
                     }
                     
                     List<PharmacyDrugAvailabilityDTO> pharmacyDrugAvailabilityDTOs = ePrescriptionService.getAvailabilityInPharmacies(qrCodeDrugs);
-                    EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeDrugs,code);
+                    EPrescriptionDTO ePrescriptionDTO = new EPrescriptionDTO(qrCodeDrugs,code,pharmacyDrugAvailabilityDTOs);
                     return pharmacyDrugAvailabilityDTOs == null ?
                             new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                             ResponseEntity.ok(ePrescriptionDTO);

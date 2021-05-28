@@ -3,7 +3,7 @@ package ISA.Team22.Domain.DTO;
 public class QRCodeDTO {
 	
 	 private String drugName;
-	 private long drugCode;
+	 private String drugCode;
 	 private int amount;
 	
 	 public QRCodeDTO() {
@@ -11,7 +11,7 @@ public class QRCodeDTO {
 	
 	 }
 
-	public QRCodeDTO(String drugName, long drugCode, int amount) {
+	public QRCodeDTO(String drugName, String drugCode, int amount) {
 		super();
 		this.drugName = drugName;
 		this.drugCode = drugCode;
@@ -26,11 +26,11 @@ public class QRCodeDTO {
 		this.drugName = drugName;
 	}
 
-	public long getDrugCode() {
+	public String getDrugCode() {
 		return drugCode;
 	}
 
-	public void setDrugCode(long drugCode) {
+	public void setDrugCode(String drugCode) {
 		this.drugCode = drugCode;
 	}
 

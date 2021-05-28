@@ -23,7 +23,7 @@ public class Team22Application {
 		 // The data that the QR code will contain
 		String drug1 = "brufen";
 		String drug2 = "aspirin";
-        String data = "792521!brufen_555_5;aspirin_1010_7";
+        String data = "792521!brufen_M60_4;aspirin_M35_7";
         ArrayList<String> drugs = new ArrayList<String>();
         drugs.add(drug1);
         drugs.add(drug2);
