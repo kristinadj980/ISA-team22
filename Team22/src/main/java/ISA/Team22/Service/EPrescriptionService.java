@@ -3,6 +3,7 @@ package ISA.Team22.Service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,15 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.EPrescriptionFrontDTO;
 import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.QRCodeDTO;
+import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Examination.EPrescription;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
+import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
+import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Repository.EPrescriptionRepository;
 import ISA.Team22.Service.IService.IEPrescriptionService;
 import javassist.NotFoundException;
@@ -34,11 +39,13 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	
 	private  final EPrescriptionRepository ePrescriptionRepository;
 	private final PharmacyService pharmacyService;
+	private final DrugService drugService;
 	
 	@Autowired
-	public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository,PharmacyService pharmacyService) {
+	public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository,PharmacyService pharmacyService,DrugService drugService) {
 		this.ePrescriptionRepository = ePrescriptionRepository;
 		this.pharmacyService = pharmacyService;
+		this.drugService = drugService;
 	}
 
 	@Override
@@ -126,5 +133,31 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	        }
 	        return pharmacyList;
 	    }
+	 
+	 @Override
+	 public EPrescription saveEPrescription(Patient patient,EPrescriptionFrontDTO ePrescriptionFrontDTO,Pharmacy pharmacy) {
+		    List<QRCodeDTO> drugs = ePrescriptionFrontDTO.getQrCodeDrugs();
+			List<DrugInfo> pharmacyDrugs = pharmacy.getPharmacyInventory().getDrugInfos();
+			EPrescription ePrescription = new EPrescription();
+			List<Drug> drugsForEPrescription = new ArrayList<Drug>();
+			for (QRCodeDTO qrDug : drugs) {
+				for (DrugInfo drug : pharmacyDrugs) {
+					if(qrDug.getDrugCode().equals(drug.getDrug().getCode())) {
+						int drugAmount = drug.getDrugAmount() - qrDug.getAmount();
+						drug.setDrugAmount(drugAmount);
+					    Drug drug1 = drugService.findByCode(qrDug.getDrugCode());
+			            ePrescription.setPatient(patient);
+			            ePrescription.setCode(ePrescriptionFrontDTO.getCode());
+			            ePrescription.setPrescriptionDate(LocalDate.now());
+			            ePrescription.setPharmacyId(pharmacy.getId());
+			            drugsForEPrescription.add(drug1);
+			            ePrescription.setDrugs(drugsForEPrescription);
+					}
+				}
+					
+			}
+			return ePrescriptionRepository.save(ePrescription);
+		}
+			
 
 }

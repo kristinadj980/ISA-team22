@@ -35,6 +35,11 @@ public class PurchaseOrderDrug {
 		this.drug = drug;
 	}
 	
+	public PurchaseOrderDrug(Integer amount, Drug drug) {
+		super();
+		this.amount = amount;
+		this.drug = drug;
+	}
 	public Long getId() {
 		return id;
 	}

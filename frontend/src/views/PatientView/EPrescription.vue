@@ -50,7 +50,9 @@
                     <td>{{pharmacy.mark}}</td>
                     <td>{{pharmacy.address.street}}</td>
                      <td>{{pharmacy.sumPrice}}</td>
-                   
+                    <td>
+                    <button  style="background-color:#17a2b8" class="btn btn-primary"  v-on:click = "buyDrugs($event,pharmacy)">Buy here</button>
+                    </td>
                     </tr>
                 </tbody>
             </table>
@@ -68,7 +70,9 @@ export default {
 
       file: '',
       pharmacies:[],
+      qrCodeDrugs:[],
       name:'',
+      selectedPharmacyId:0,
        sortBy: 'grade',
        sortDesc: false,
        fieldForSorting: "grade",
@@ -77,6 +81,7 @@ export default {
           { key: 'mark', label: 'Grade' },
           { key: 'address', label: 'Address' },
            { key: 'sumPrice', label: 'SumPrice' },
+            {label: 'Buy'},
         ],
         selectMode: 'single',
         
@@ -113,8 +118,8 @@ export default {
                 }
               }). then(response => {
                     this.pharmacies = response.data.pharmacies;
-                   // this.medications = response.data.medicationsInQRcode;
-                   // this.eReceiptCode = response.data.code;
+                    this.qrCodeDrugs = response.data.qrCodeDrugs;
+                    this.code = response.data.code;
                     if(this.pharmacies.length===0) {
                         alert("There is no pharmacy that has all drugs.")
                     }    
@@ -144,7 +149,30 @@ export default {
                     alert("Please, try later.")
                     alert(response);
                 })
-        }
+        },
+        buyDrugs : function(event, pharmacy) {
+          this.selectedPharmacyId = pharmacy.pharmacyId;
+          alert(this.selectedPharmacyId)
+          const pharmacyInfos1 ={
+                pharmacyId : this.selectedPharmacyId,
+                qrCodeDrugs : this.qrCodeDrugs,
+                 code: this.code,
+            } 
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.post('/pharmacy/buyDrugsHere',pharmacyInfos1,{ 
+                         headers: {
+                                'Authorization': 'Bearer ' + token,
+                }}).then(response => {
+                    //this.drugInfo = response.data
+                    alert("You have successfully bought drugs in this pharmacy");
+                    console.log(response); 
+                }).catch(res => {
+                       alert("Please try later!");
+                        console.log(res);
+                });
+          
+          
+      },
      
        
     }
