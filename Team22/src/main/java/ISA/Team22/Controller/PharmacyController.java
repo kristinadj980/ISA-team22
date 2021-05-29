@@ -48,6 +48,7 @@ import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Service.DermatologistService;
 import ISA.Team22.Service.EPrescriptionService;
+import ISA.Team22.Service.EmailService;
 import ISA.Team22.Service.PatientService;
 import ISA.Team22.Service.PharmacyService;
 
@@ -59,13 +60,16 @@ public class PharmacyController {
 	private final DermatologistService dermatologistService;
 	private final PatientService patientService;
 	private final EPrescriptionService ePrescriptionService;
+	private final EmailService emailServices;
 
 	@Autowired
-	public PharmacyController(PharmacyService pharmacyService, DermatologistService dermatologistService,PatientService patientService,EPrescriptionService ePrescriptionService) {
+	public PharmacyController(PharmacyService pharmacyService, DermatologistService dermatologistService,PatientService patientService,
+			EPrescriptionService ePrescriptionService,EmailService emailServices) {
 		this.pharmacyService = pharmacyService;
 		this.dermatologistService = dermatologistService;
 		this.patientService = patientService;
 		this.ePrescriptionService = ePrescriptionService;
+		this.emailServices = emailServices;
 	}
 
 	@GetMapping("/pharmacystaff/dermatologist")
@@ -159,6 +163,8 @@ public class PharmacyController {
 			}
 			
 			ePrescriptionService.saveEPrescription(patient, ePrescriptionFrontDTO, pharmacy);
+			this.emailServices.sendNotificationAsync(patient.getEmail(), "EPrescription INFO", ""
+					+ "EPrescription was successfull and you have successfully bought drugs in this pharmacy" + ".");
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
