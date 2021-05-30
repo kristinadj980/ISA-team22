@@ -22,6 +22,7 @@ import ISA.Team22.Domain.DTO.SortingPharmaciesDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
 import ISA.Team22.Domain.Examination.Counseling;
+import ISA.Team22.Domain.Examination.EPrescription;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.Examination.Prescription;
@@ -108,7 +109,12 @@ public class PharmacyService implements IPharmacyService {
         	Boolean isAbleExaminations = checkExaminations(pharmacyId, patient, isAble);
         	Boolean isAbleCounselings = checkCounselings(pharmacyId, patient, isAble);
         	Boolean isAbleDrugs = checkDrugs(pharmacyId, patient, isAble);
-        	if(isAbleExaminations && isAbleCounselings && isAbleDrugs) {
+        	Boolean isAbleEPrescriptions = checkEPrescriptions(pharmacyId, patient, isAble);
+        	System.out.println("************************");
+        	System.out.println(isAbleEPrescriptions);
+        	System.out.println(isAbleExaminations);
+        	System.out.println(isAbleCounselings);
+        	if(isAbleExaminations || isAbleCounselings || isAbleDrugs) {
         		isAble = true;
         	}
 			
@@ -124,6 +130,18 @@ public class PharmacyService implements IPharmacyService {
 		
 		for (Examination examination : examinations) {
 			if(examination.getPharmacy().getId().equals(pharmacyId) && examination.getExaminationStatus().equals(status)) {
+				isAble = true;
+				}
+			}
+		
+		return isAble;
+	}
+	
+	public Boolean checkEPrescriptions(Long pharmacyId, Patient patient, Boolean isAble) {
+		List<EPrescription> ePrescriptions = patient.getePrescriptions();
+		
+		for (EPrescription prescription : ePrescriptions) {
+			if(prescription.getPharmacyId().equals(pharmacyId)) {
 				isAble = true;
 				}
 			}

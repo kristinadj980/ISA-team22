@@ -5,7 +5,8 @@
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSubsribedPharmacies">Subscribed pharmacies</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Write complaint</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Complaint</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showEPrescription">EPrescription</button>
             </span>
             <span  style="float:right;margin:15px">
                 <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut" >Log Out</button>
@@ -142,6 +143,9 @@ export default {
         },
           writeComplaint: function(){
            window.location.href = '/complaint';
+        },
+        showEPrescription: function(){
+           window.location.href = '/ePrescription';
         },
          logOut : function(){
             localStorage.removeItem('token');
