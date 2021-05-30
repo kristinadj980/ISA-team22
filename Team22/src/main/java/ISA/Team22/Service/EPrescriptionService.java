@@ -85,11 +85,6 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	               
 	                qrCodeDTOs.add(new QRCodeDTO(drugParts[0],drugParts[1],Integer.parseInt(drugParts[2])));
 	            }
-	            for (QRCodeDTO qr : qrCodeDTOs) {
-					System.out.println(qr.getDrugName());
-					System.out.println(qr.getDrugCode());
-					System.out.println(qr.getAmount());
-				}
 	        }
 	        else {
 	            String []code = decodedText.split("!");
@@ -109,16 +104,13 @@ public class EPrescriptionService implements IEPrescriptionService  {
 	        	int i = 0;
 	        	List<DrugInfo> drugInfos = pharmacy.getPharmacyInventory().getDrugInfos();
 	        	Double sumPrice = 0.0;
-	        	for (QRCodeDTO qrCodeDrug : qrCodeDrugs) {
-	        		
+	        	for (QRCodeDTO qrCodeDrug : qrCodeDrugs) {	
 	        		for (DrugInfo drugInfo : drugInfos){
-	        			
 						if(drugInfo.getDrug().getName().equals(qrCodeDrug.getDrugName()) && drugInfo.getDrug().getCode().equals(qrCodeDrug.getDrugCode()) && drugInfo.getDrugAmount() >= qrCodeDrug.getAmount()) {
 							Double price = drugInfo.getPrice();
 							sumPrice += price;
 							System.out.println(sumPrice);
 							i++;
-							
 						}else {
 							continue;
 						}

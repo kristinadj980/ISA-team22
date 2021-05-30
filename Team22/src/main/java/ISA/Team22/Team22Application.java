@@ -17,38 +17,6 @@ public class Team22Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Team22Application.class, args);
-		
-		///MyQr myQr = new MyQr();
-		
-		 // The data that the QR code will contain
-        //String data = "682411!brufen_M65_57;aerius_M55_1;";
- 
-        // The path where the image will get saved
-        //String path = "C:\\Users\\user\\Desktop\\isa\\ISA-team22\\Team22\\src\\main\\resources\\qrCodes\\code1.png";
- 
-        // Encoding charset
-        //String charset = "UTF-8";
- 
-       /* Map<EncodeHintType, ErrorCorrectionLevel> hashMap
-            = new HashMap<EncodeHintType,
-                          ErrorCorrectionLevel>();
- 
-        hashMap.put(EncodeHintType.ERROR_CORRECTION,
-                    ErrorCorrectionLevel.L);*/
- 
-        // Create the QR code and save
-        // in the specified folder
-        // as a jpg file
-        /*try {
-			myQr.createQR(data, path, charset, hashMap, 200, 200);
-		} catch (WriterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        System.out.println("QR Code Generated!!! ");*/
 	}
 
 }

@@ -158,7 +158,6 @@ public class PharmacyController {
 					throw new ResourceConflictException("EPrescription with that code already exists");
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
 				System.out.println(e.getMessage());
 			}
 			
@@ -166,7 +165,6 @@ public class PharmacyController {
 			this.emailServices.sendNotificationAsync(patient.getEmail(), "EPrescription INFO", ""
 					+ "EPrescription was successfull and you have successfully bought drugs in this pharmacy" + ".");
 		} catch (Exception e) {
-			// TODO: handle exception
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
     	
