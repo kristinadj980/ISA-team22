@@ -157,7 +157,7 @@ INSERT INTO PRESCRIPTION_DRUGS (prescription_id,drug_id)
 VALUES (871,700);
 
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
-VALUES(30,5,2000,700,900);
+VALUES(30,50,2000,700,900);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,30);
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
@@ -166,6 +166,10 @@ INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(32,15,2500,702,900);
 INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
 VALUES(33,25,2000,701,900);
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(34,30,3000,704,900);
+INSERT INTO DRUG_INFO(id,drug_amount,price,drug_id,period_id)
+VALUES(35,19,4000,705,900);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,31);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
@@ -174,6 +178,12 @@ INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (9,33);
 INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
 VALUES (8,33);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (8,34);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (9,35);
+INSERT INTO PHARMACY_INVENTORY_DRUG_INFOS(pharmacy_inventory_id,drug_infos_id)
+VALUES (9,30);
 
 
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (113, 700);

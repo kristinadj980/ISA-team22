@@ -152,7 +152,7 @@ export default {
         },
         buyDrugs : function(event, pharmacy) {
           this.selectedPharmacyId = pharmacy.pharmacyId;
-          alert(this.selectedPharmacyId)
+          
           const pharmacyInfos1 ={
                 pharmacyId : this.selectedPharmacyId,
                 qrCodeDrugs : this.qrCodeDrugs,
