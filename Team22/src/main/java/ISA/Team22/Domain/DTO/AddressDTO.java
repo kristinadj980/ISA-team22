@@ -21,6 +21,13 @@ public class AddressDTO {
 		this.number = number;
 		this.country = country;
 	}
+	
+	
+
+	public AddressDTO(String street) {
+		super();
+		this.street = street;
+	}
 
 	public String getTown() {
 		return town;

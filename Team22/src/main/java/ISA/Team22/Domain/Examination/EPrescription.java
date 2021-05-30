@@ -11,14 +11,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.PharmacyWorkflow.AbsenceRequestPharmacist;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Patient;
@@ -36,26 +42,35 @@ public class EPrescription {
 	@Column(name = "prescriptionDate",  nullable = false)
 	private LocalDate prescriptionDate;
 	
-	@ManyToMany(targetEntity = PurchaseOrderDrug.class,  cascade = CascadeType.ALL)
-	public List<PurchaseOrderDrug> purchaseOrderDrugs;
+	@ManyToMany
+    @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JoinTable(name = "eprescription_drugs", joinColumns = @JoinColumn(name = "eprescription_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"))
+	private List<Drug> drugs;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false, unique = false)
 	public Patient patient;
+	
+	@Column(name = "pharmacyId", nullable = false)
+	private Long pharmacyId;
 	
 	public EPrescription() {
 		super();
 	}
-	public EPrescription(Long id, String code, LocalDate prescriptionDate, List<PurchaseOrderDrug> purchaseOrderDrugs,
-			Patient patient) {
+	
+	public EPrescription(Long id, String code, LocalDate prescriptionDate, List<Drug> drugs, Patient patient,
+			Long pharmacyId) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.prescriptionDate = prescriptionDate;
-		this.purchaseOrderDrugs = purchaseOrderDrugs;
+		this.drugs = drugs;
 		this.patient = patient;
+		this.pharmacyId = pharmacyId;
 	}
-	
 
 	public Long getId() {
 		return id;
@@ -75,17 +90,27 @@ public class EPrescription {
 	public void setPrescriptionDate(LocalDate prescriptionDate) {
 		this.prescriptionDate = prescriptionDate;
 	}
-	public List<PurchaseOrderDrug> getPurchaseOrderDrugs() {
-		return purchaseOrderDrugs;
+	
+	public List<Drug> getDrugs() {
+		return drugs;
 	}
-	public void setPurchaseOrderDrugs(List<PurchaseOrderDrug> purchaseOrderDrugs) {
-		this.purchaseOrderDrugs = purchaseOrderDrugs;
+
+	public void setDrugs(List<Drug> drugs) {
+		this.drugs = drugs;
 	}
+
 	public Patient getPatient() {
 		return patient;
 	}
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+	public Long getPharmacyId() {
+		return pharmacyId;
+	}
+	public void setPharmacyId(Long pharmacyId) {
+		this.pharmacyId = pharmacyId;
+	}
+	
 	
 }
