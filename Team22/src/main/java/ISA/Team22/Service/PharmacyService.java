@@ -110,10 +110,6 @@ public class PharmacyService implements IPharmacyService {
         	Boolean isAbleCounselings = checkCounselings(pharmacyId, patient, isAble);
         	Boolean isAbleDrugs = checkDrugs(pharmacyId, patient, isAble);
         	Boolean isAbleEPrescriptions = checkEPrescriptions(pharmacyId, patient, isAble);
-        	System.out.println("************************");
-        	System.out.println(isAbleEPrescriptions);
-        	System.out.println(isAbleExaminations);
-        	System.out.println(isAbleCounselings);
         	if(isAbleExaminations || isAbleCounselings || isAbleDrugs) {
         		isAble = true;
         	}
