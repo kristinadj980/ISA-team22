@@ -53,7 +53,7 @@ public class DrugController {
     }
 	
 	@GetMapping("getdrugs")
-	@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	//@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 	//@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     ResponseEntity<List<DrugSearchDTO>> getAllDrugs()
     {
@@ -70,7 +70,7 @@ public class DrugController {
 	
 	 
 	 @PostMapping("/searchDrug")
-	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	 //@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<List<DrugSearchDTO>> searchDrug(@RequestBody DrugSearchDTO drugSearchDTO) {
 		 List<Drug> drugs = drugService.findAllDrugs();
 		 List<DrugSearchDTO> drugSearchDTOs = new ArrayList<DrugSearchDTO>();
@@ -88,7 +88,7 @@ public class DrugController {
 		}
 	 
 	 @PostMapping("/getDrugSpecification")
-	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	 //@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<DrugSearchDTO> findDrugSpecification(@RequestBody DrugSearchDTO drugSearchDTO) {
 		    Drug drug = drugService.findById(drugSearchDTO.getId());
 		  
@@ -101,7 +101,7 @@ public class DrugController {
 		}
 	 
 	 @PostMapping("/sortResult")
-	 @PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	 //@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<List<DrugSearchDTO>> sortDrugs(@RequestBody DrugSearchDTO sortingKey) {
 			try {
 				List<DrugSearchDTO> searchResult = drugService.sortDrugs(sortingKey);
