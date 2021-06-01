@@ -505,9 +505,9 @@ export default {
     .button:hover {background-color: #74b6c0}
 
     .button:active {
-    background-color: #17a2b8;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+        background-color: #17a2b8;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
     }
 
     .drug_info {

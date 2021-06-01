@@ -20,7 +20,7 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
-import ISA.Team22.Domain.DTO.ExaminationForCalendarDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.Examination.Counseling;
@@ -259,11 +259,11 @@ public class ExaminationService implements IExaminationService {
 	}
 
 	@Override
-	public List<ExaminationForCalendarDTO> getExaminationsForCalendar() {
+	public List<DataForCalendarDTO> getExaminationsForCalendar() {
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		List<Examination> examinations = getAllDermatologistExamination(person.getId());
-		List<ExaminationForCalendarDTO> examinationsForCalendar = new ArrayList<ExaminationForCalendarDTO>();
+		List<DataForCalendarDTO> examinationsForCalendar = new ArrayList<DataForCalendarDTO>();
 		Date date = new Date();
 		for (Examination e : examinations) {
 			Instant startTimeI = e.getStartTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
@@ -272,7 +272,7 @@ public class ExaminationService implements IExaminationService {
 			Date endTime = Date.from(endTimeI);
 			date = java.sql.Date.valueOf(e.getStartDate());
 			
-			examinationsForCalendar.add(new ExaminationForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
+			examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
 					endTime, e.getDuration(), e.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
 		}
 		return examinationsForCalendar;

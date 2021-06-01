@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.CounselingDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Service.CounselingService;
 
@@ -91,6 +92,18 @@ public class CounselingController {
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/getCounselingsForCalendar")
+	@PreAuthorize("hasRole('PHARMACIST')")
+	public ResponseEntity<List<DataForCalendarDTO>> getCounselingsForCalendar(){
+		try {
+			List<DataForCalendarDTO> response = counselingService.getCounselingsForCalendar();
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
 	}
 

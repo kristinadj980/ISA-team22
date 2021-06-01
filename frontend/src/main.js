@@ -30,10 +30,10 @@ Vue.filter('formatDate', function(value) {
   }
 });
 
-/*const baseURL2 = 'http://localhost:8080/api';
+const baseURL2 = 'http://localhost:8080/api';
 if (typeof baseURL2 !== 'undefined') {
   Vue.axios.defaults.baseURL = baseURL2;
-}*/
+}
 
 Vue.filter('formatDate', function(value) {
   if (value) {

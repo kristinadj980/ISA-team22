@@ -1,9 +1,14 @@
 package ISA.Team22.Service;
 
 
+import static java.time.temporal.ChronoUnit.MINUTES;
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.DTO.CounselingDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 import ISA.Team22.Domain.Users.Patient;
@@ -106,8 +112,9 @@ public class CounselingService implements ICounselingService {
 		LocalTime endTime = counselingDTO.getEndTime();
 		String[] tokens = counselingDTO.getPatientInfo().split("\\s");
 		Patient patient = patientService.findByEmail(tokens[3]);
+		Long duration = startTime.until(endTime, MINUTES);
 		
-		Counseling counseling = new Counseling(startDate, startTime, endTime, 0.0, "", pharmacist, patient, ExaminationStatus.scheduled );
+		Counseling counseling = new Counseling(startDate, startTime, endTime, 0.0, duration, "", pharmacist, patient, ExaminationStatus.scheduled);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), startDate, startTime, endTime);
 		Boolean checkCounseling = checkPatientCounselingSchedule(term);
 		
@@ -210,6 +217,27 @@ public class CounselingService implements ICounselingService {
 		counseling.setCounselingStatus(ExaminationStatus.held);
 		counselingRepository.save(counseling);
 		
+	}
+
+	@Override
+	public List<DataForCalendarDTO> getCounselingsForCalendar() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		Pharmacist pharmacist = pharmacistService.getById(person.getId());
+		List<Counseling> counselings = getAllPharmacistCounselings(person.getId());
+		List<DataForCalendarDTO> counselingsForCalendar = new ArrayList<DataForCalendarDTO>();
+		Date date = new Date();
+		for (Counseling e : counselings) {
+			Instant startTimeI = e.getStartTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date startTime = Date.from(startTimeI);
+			Instant endTimeI = e.getEndTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date endTime = Date.from(endTimeI);
+			date = java.sql.Date.valueOf(e.getStartDate());
+			
+			counselingsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
+					endTime, e.getDuration(), pharmacist.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
+		}
+		return counselingsForCalendar;
 	}
 	
 }

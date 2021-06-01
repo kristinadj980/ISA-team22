@@ -4,6 +4,7 @@ import java.util.List;
 
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.DTO.CounselingDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 
 
@@ -21,4 +22,5 @@ public interface ICounselingService {
 	CounselingDTO getCounsellingById(Long id);
 	void registerAbsence(Long id);
 	void updateCounseling(CounselingDTO counselingDTO);
+	List<DataForCalendarDTO> getCounselingsForCalendar();
 }
