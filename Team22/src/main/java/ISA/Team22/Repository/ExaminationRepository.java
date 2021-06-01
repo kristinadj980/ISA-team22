@@ -21,5 +21,5 @@ public interface ExaminationRepository extends JpaRepository<Examination, Long> 
             "from examination e" +
             "where e.id = :examination_id ", nativeQuery = true)
     Examination findSpecifiedexamination(@Param("examination_id") Long examination_id);
-
+	
 }
