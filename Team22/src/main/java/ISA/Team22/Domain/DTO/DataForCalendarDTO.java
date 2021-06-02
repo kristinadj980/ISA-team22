@@ -2,7 +2,7 @@ package ISA.Team22.Domain.DTO;
 
 import java.util.Date;
 
-public class ExaminationForCalendarDTO {
+public class DataForCalendarDTO {
 	
 	private Long id;
 	private Long patientId;
@@ -13,12 +13,12 @@ public class ExaminationForCalendarDTO {
 	private String pharmacyName;
 	private String patientInfo;
 	
-	public ExaminationForCalendarDTO() {
+	public DataForCalendarDTO() {
 		super();
 	}
 
 
-	public ExaminationForCalendarDTO(Long id, Long patientId, Date start, Date startTime, Date endTime, Long duration,
+	public DataForCalendarDTO(Long id, Long patientId, Date start, Date startTime, Date endTime, Long duration,
 			String pharmacyName, String patientInfo) {
 		super();
 		this.id = id;
