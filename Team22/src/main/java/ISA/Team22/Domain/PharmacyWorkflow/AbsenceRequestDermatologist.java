@@ -1,8 +1,9 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,9 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -28,14 +27,16 @@ public class AbsenceRequestDermatologist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "period_id", referencedColumnName = "id", nullable = false)
-	private Period period;
+	@Column(name = "startDate",  nullable = false)
+	private LocalDate startDate;
+	
+	@Column(name = "endDate",  nullable = false)
+	private LocalDate endDate;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private VacationType vacationType;
 	
-	@Column(name = "description",  nullable = false)
+	@Column(name = "description")
 	private String description;
 	
 	@Enumerated(EnumType.ORDINAL)
@@ -49,29 +50,40 @@ public class AbsenceRequestDermatologist {
 		super();
 	}
 
-	public AbsenceRequestDermatologist(Long id, Period period, VacationType vacationType, String description, OfferStatus status, Dermatologist dermatologist) {
+	public AbsenceRequestDermatologist(Long id, LocalDate startDate, LocalDate endDate, VacationType vacationType,
+			String description, OfferStatus status, Dermatologist dermatologist) {
 		super();
 		this.id = id;
-		this.period = period;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.vacationType = vacationType;
 		this.description = description;
 		this.status = status;
 		this.dermatologist = dermatologist;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Period getPeriod() {
-		return period;
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public void setPeriod(Period period) {
-		this.period = period;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public VacationType getVacationType() {
@@ -105,7 +117,6 @@ public class AbsenceRequestDermatologist {
 	public void setDermatologist(Dermatologist dermatologist) {
 		this.dermatologist = dermatologist;
 	}
-	  
+
 	
-	   
 }
