@@ -25,7 +25,7 @@ import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
 
 import ISA.Team22.Exception.ResourceConflictException;
-
+import ISA.Team22.Service.PersonService;
 import ISA.Team22.Service.SupplierService;
 
 @RestController
@@ -34,10 +34,12 @@ import ISA.Team22.Service.SupplierService;
 public class SupplierController {
 
 	private final SupplierService supplierService;
+	private final PersonService personService;
 
 	@Autowired
-	public SupplierController(SupplierService supplierService) {
+	public SupplierController(SupplierService supplierService,PersonService personService) {
 		this.supplierService = supplierService;
+		this.personService = personService;
 	}
 	
 	@PostMapping("/register")
@@ -48,9 +50,9 @@ public class SupplierController {
 	     if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
 	         throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
 	     }
-	     Person existingUser = supplierService.findByEmail(userRequest.getEmail());
+	     Person existingUser = personService.findByEmail(userRequest.getEmail());
 	     if (existingUser != null) {
-	          throw new ResourceConflictException("Entered email already exists", "Email already exists");
+	          throw new IllegalArgumentException("Entered email already exists");
 	     }
 	     Person person = supplierService.save(userRequest);
 	     

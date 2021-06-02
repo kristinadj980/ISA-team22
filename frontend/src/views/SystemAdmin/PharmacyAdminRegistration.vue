@@ -118,12 +118,12 @@ export default {
         var res = /^[a-zA-Z]+$/;
         return res.test(country);
        },
-       validLettersCity: function (city) {
-        var res = /^[a-zA-Z]+$/;
+      validLettersCity: function (city) {
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(city);
        },
        validLettersStreet: function (street) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(street);
        },
          showHomePage: function(){

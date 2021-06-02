@@ -44,8 +44,13 @@ public class DrugController {
         Drug existingDrug = drugService.findByCode(drugDTO.getCode());
         if(existingDrug != null)
         {
-            throw new ResourceConflictException("Drug code already exists!");
+            throw new IllegalArgumentException("Drug code already exists!");
         }
+        if(drugDTO.getSpecification().getManufacturer().isEmpty() || drugDTO.getSpecification().getComposition().isEmpty() || 
+        		drugDTO.getSpecification().getContraIndications().isEmpty() || drugDTO.getSpecification().getTherapyDuration() <= 0) {
+        	throw new IllegalArgumentException("Drug must have specification, please fill all specification fields!");
+        }
+        
         Drug drug = drugService.save(drugDTO);
         return (ResponseEntity<Drug>) (drug == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :

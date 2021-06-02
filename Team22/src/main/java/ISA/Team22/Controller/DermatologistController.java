@@ -27,6 +27,7 @@ import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Service.DermatologistService;
+import ISA.Team22.Service.PersonService;
 
 @RestController
 @RequestMapping(value = "/api/dermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,10 +35,12 @@ import ISA.Team22.Service.DermatologistService;
 public class DermatologistController {
 
 	private final DermatologistService dermatologistService;
+	private final PersonService personService;
 
 	@Autowired
-	public DermatologistController(DermatologistService dermatologistService) {
+	public DermatologistController(DermatologistService dermatologistService,PersonService personService) {
 		this.dermatologistService = dermatologistService;
+		this.personService = personService;
 	}
 
 	@GetMapping("/profile")
@@ -79,13 +82,12 @@ public class DermatologistController {
 	  @PostMapping("/register")
 	  @PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
 	  public ResponseEntity<String> registerDermatologist(@RequestBody DermatologistDTO userRequest) {
-		  
+		    Person existingUser = personService.findByEmail(userRequest.getEmail());
 	        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
 	            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
 	        }
-	        Person existingUser = dermatologistService.findByEmail(userRequest.getEmail());
 	        if (existingUser != null) {
-	            throw new ResourceConflictException("Entered email already exists", "Email already exists");
+	            throw new IllegalArgumentException("Entered email already exists");
 	        }
 	        Person person = dermatologistService.save(userRequest);
 	        

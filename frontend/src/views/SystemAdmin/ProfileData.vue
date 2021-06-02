@@ -3,7 +3,7 @@
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
+                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
@@ -49,8 +49,8 @@
                    <!-- <div class="mt-5 text-center top-buffer"><button class="btn btn-info btn-lg space_style" style="background-color:#003d66;"  v-on:click = "editProfile">Edit profile</button></div>-->  
                         <!-- Modal --> 
                         <div class="mt-5 text-center top-buffer">
-                            <b-button  class="btn btn-info btn-lg space_style" style="background-color:#003d66;" v-b-modal.modal-2>Edit password</b-button>
-                            <b-button  class="btn btn-info btn-lg space_style"  style="background-color:#003d66;" v-b-modal.modal-1>Edit profile info</b-button>
+                            <b-button  class="btn btn-info btn-lg space_style" style="background-color:white;" v-b-modal.modal-2>Edit password</b-button>
+                            <b-button  class="btn btn-info btn-lg space_style"  style="background-color:white;" v-b-modal.modal-1>Edit profile info</b-button>
                             <b-modal ref="modal-ref" id="modal-1" title="Edit profile info" hide-footer>
                                 <div>
                                     <h5 class ="text-justify top-buffer"> Name:
@@ -75,8 +75,8 @@
                                         <b-form-input v-model="admin.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "update">Update</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:white; width:5cm;" >Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:white; width:5cm;" v-on:click = "update">Update</b-button>
                                     </b-row>
                                 </div>
                             </b-modal>
@@ -116,8 +116,8 @@
                                         </div>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" >Cancel</b-button>
-                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:#003d66; width:5cm;" v-on:click = "updatePassword">Update</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:white; width:5cm;" >Cancel</b-button>
+                                        <b-button class="btn btn-info btn-lg space_style" style="background-color:white; width:5cm;" v-on:click = "updatePassword">Update</b-button>
                                     </b-row>
                                 </div>
                             </b-modal>
@@ -184,11 +184,11 @@ export default {
         return res.test(country);
        },
        validLettersCity: function (city) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(city);
        },
        validLettersStreet: function (street) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(street);
        },
          showProfile: function(){
