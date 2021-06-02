@@ -34,7 +34,7 @@ public class AbsenceRequestDermatologistController {
 	}
 	
 	@GetMapping("/absenceType")
-	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	@PreAuthorize("hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')")
 	public ResponseEntity<List<VacationType>> getVacationTypes() {
 		try {
 			List<VacationType> vacationTypes = new ArrayList<VacationType>(EnumSet.allOf(VacationType.class));

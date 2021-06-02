@@ -1,5 +1,7 @@
 package ISA.Team22.Domain.PharmacyWorkflow;
 
+import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,14 +28,16 @@ public class AbsenceRequestPharmacist {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "period_id", referencedColumnName = "id", nullable = false)
-	private Period period;
+	@Column(name = "startDate",  nullable = false)
+	private LocalDate startDate;
+	
+	@Column(name = "endDate",  nullable = false)
+	private LocalDate endDate;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private VacationType vacationType;
 	
-	@Column(name = "description",  nullable = false)
+	@Column(name = "description")
 	private String description;
 	
 	@Enumerated(EnumType.ORDINAL)
@@ -46,11 +50,12 @@ public class AbsenceRequestPharmacist {
 		super();
 	}
 
-	public AbsenceRequestPharmacist(Long id, Period period, VacationType vacationType, String description, OfferStatus status,
-			Pharmacist pharmacist) {
+	public AbsenceRequestPharmacist(Long id, LocalDate startDate, LocalDate endDate, VacationType vacationType,
+			String description, OfferStatus status, Pharmacist pharmacist) {
 		super();
 		this.id = id;
-		this.period = period;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.vacationType = vacationType;
 		this.description = description;
 		this.status = status;
@@ -60,16 +65,25 @@ public class AbsenceRequestPharmacist {
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public Period getPeriod() {
-		return period;
+
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public void setPeriod(Period period) {
-		this.period = period;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public VacationType getVacationType() {
@@ -103,6 +117,6 @@ public class AbsenceRequestPharmacist {
 	public void setPharmacist(Pharmacist pharmacist) {
 		this.pharmacist = pharmacist;
 	}
-	
+
 	
 }

@@ -28,8 +28,6 @@ public class AbsenceRequestDermatologistService implements IAbsenceRequestDermat
 		this.dermatologistSrevice = dermatologistSrevice;
 	}
 
-
-
 	@Override
 	public void setRequest(AbsenceRequestDTO absenceRequestDTO) {
 		AbsenceRequestDermatologist request = new AbsenceRequestDermatologist();
