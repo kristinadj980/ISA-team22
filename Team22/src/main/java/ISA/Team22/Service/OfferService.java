@@ -67,6 +67,9 @@ public class OfferService implements IOfferService {
 	
 	@Override
 	public Boolean isOfferPossible(OfferDTO offerDTO, Supplier supplier) {
+		if(offerDTO.getPrice() <= 0 ) {
+			throw new IllegalArgumentException("Price must be positive!");
+		}
 		if(offerDTO.isOfferGiven() == true) {
 			throw new IllegalArgumentException("You have already made an offer for this order!");
 		}

@@ -63,11 +63,13 @@ public class SupplierDrugStockController {
 	@PostMapping("/updateDrug")
     @PreAuthorize("hasRole('SUPPLIER')")
     public ResponseEntity<String> updateDrug(@RequestBody SupplierDrugUpdateDTO supplierDrugUpdateDTO) {
-
+        if(supplierDrugUpdateDTO.getNewQuantity() < 0) {
+        	throw new IllegalArgumentException("Quantity must be positive!");
+        }
         SupplierDrugStock drugStock= supplierDrugStockService.update(supplierDrugUpdateDTO);
         
         return drugStock == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>("Medication is successfully added!", HttpStatus.CREATED);
+                new ResponseEntity<>("Drug is successfully added!", HttpStatus.CREATED);
     }
 }

@@ -71,11 +71,11 @@ public class OfferController {
             if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("processed") && order.getDueDate().isAfter(LocalDate.now()))
             {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+                        order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
             }
             else {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false,o.getOfferStatus()));
+                        order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false,o.getOfferStatus()));
             }
 
         }
@@ -83,7 +83,7 @@ public class OfferController {
         return supplierOffersDto;
     }
 	
-	private List<DrugOrderDTO> getMedicationsInOrder(List<PurchaseOrderDrug> purchaseOrderDrugs) {
+	private List<DrugOrderDTO> getDrugsOrder(List<PurchaseOrderDrug> purchaseOrderDrugs) {
         List<DrugOrderDTO> drugs = new ArrayList<>();
         for (PurchaseOrderDrug drug: purchaseOrderDrugs) {
         	drugs.add(new DrugOrderDTO(drug.getId(), drug.getDrug().getName(),
@@ -116,11 +116,11 @@ public class OfferController {
                 if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("closed"))
                 {
                 	 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                             order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+                             order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
                  }
                 else {
                 	supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                            order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+                            order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
                 }
             }
 
@@ -133,6 +133,9 @@ public class OfferController {
     @PreAuthorize("hasRole('SUPPLIER')")
     ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO)
     {
+    	if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate())) {
+    		throw new IllegalArgumentException("Date is incorrect!");
+    	}
         Offer offer = offerService.sendOffer(offerDTO);
        
         return offer == null  ?
