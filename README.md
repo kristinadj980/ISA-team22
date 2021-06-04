@@ -9,19 +9,19 @@
 | Student 4 | Maja Dragojlović RA 213/2017|
 
 Tehnologije koje koristimo:<br />
-  -Backend: Java + Spring Boot<br />
-  -Frontend: Vue.js + Axios<br />
-  -RDBMS: PostgreSQL<br />
+  - Backend: Java + Spring Boot<br />
+  - Frontend: Vue.js + Axios<br />
+  - RDBMS: PostgreSQL<br />
 
 Pre pokretanja potrebno je instalirati:<br />
-  -NodeJS v14.15.4<br />
-  -PostgreSQL<br />
-  -VueJS v4.5.11<br />
-  -axios<br />
-  -vue-bootstrap<br />
+  - NodeJS v14.15.4<br />
+  - PostgreSQL<br />
+  - VueJS v4.5.11<br />
+  - axios<br />
+  - vue-bootstrap<br />
 
 Pokretanje projekta<br />
-  -Prvo je potrebno skinuti projekat sa linka https://github.com/kristinadj980/ISA-team22<br />
+  - Prvo je potrebno skinuti projekat sa linka https://github.com/kristinadj980/ISA-team22<br />
 
 Baza podataka: PostgreSQL
   - Baza se nalazi na portu 5432
