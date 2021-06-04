@@ -11,6 +11,7 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsalting">Consaltings</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewConsalting">Schedule new consalting</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showDispensingDrugs">Dispensing drugs</button>
             </span>
             <span  style="float:right;margin:15px">
                 <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
@@ -199,6 +200,9 @@ data() {
         },
         cancelPassword() {
             this.$refs['modal-ref2'].hide();
+        },
+        showDispensingDrugs : function(){
+            window.location.href = "/pharmacistDispensingDrugs";
         },
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);

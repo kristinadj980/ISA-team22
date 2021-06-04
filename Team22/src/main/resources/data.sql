@@ -191,3 +191,7 @@ INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (114, 702);
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (115, 705);
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (106, 705);
 
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1001, 700, '2021-07-11', 50, 0, 106);
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1002, 700, '2021-07-11', 51, 0, 114);
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1003, 700, '2021-07-11', 50, 0, 115);
+
