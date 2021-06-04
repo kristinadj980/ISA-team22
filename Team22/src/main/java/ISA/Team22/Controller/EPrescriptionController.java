@@ -71,7 +71,7 @@ public class EPrescriptionController {
                     String code = ePrescriptionService.getEReceiptCode(decodedText);
                     EPrescription ePrescription = ePrescriptionService.findByCode(code);
                     if(ePrescription!=null) {
-                        throw new IllegalArgumentException("This eReceipt is already used!");
+                        throw new IllegalArgumentException("This ePrescription is already used!");
                     }
                     
                     List<QRCodeDTO> qrCodeDrugs = ePrescriptionService.getDrugsInQRcode(decodedText);

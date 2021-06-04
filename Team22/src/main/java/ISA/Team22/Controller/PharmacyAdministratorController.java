@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
+import ISA.Team22.Service.PersonService;
 import ISA.Team22.Service.PharmacyAdministratorService;
 
 @RestController
@@ -23,9 +24,11 @@ import ISA.Team22.Service.PharmacyAdministratorService;
 public class PharmacyAdministratorController {
 
 	private final PharmacyAdministratorService pharmacyAdministratorService;
+	private final PersonService personService;
 	
-	public PharmacyAdministratorController(PharmacyAdministratorService pharmacyAdministratorService) {
+	public PharmacyAdministratorController(PharmacyAdministratorService pharmacyAdministratorService,PersonService personService) {
 		this.pharmacyAdministratorService = pharmacyAdministratorService;
+		this.personService = personService;
 	}
 	
 	 @PostMapping("/register")
@@ -34,9 +37,9 @@ public class PharmacyAdministratorController {
        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
            throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
        }
-       Person existingUser = pharmacyAdministratorService.findByEmail(userRequest.getEmail());
+       Person existingUser = personService.findByEmail(userRequest.getEmail());
        if (existingUser != null) {
-           throw new ResourceConflictException("Entered email already exists", "Email already exists");
+           throw new IllegalArgumentException("Entered email already exists");
        }
 
        Person user = pharmacyAdministratorService.save(userRequest);

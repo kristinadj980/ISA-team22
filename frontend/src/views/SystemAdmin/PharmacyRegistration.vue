@@ -67,11 +67,11 @@ export default {
         return res.test(country);
        },
        validLettersCity: function (city) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(city);
        },
        validLettersStreet: function (street) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(street);
        },
         showHomePage: function(){

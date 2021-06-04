@@ -3,9 +3,10 @@
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Give Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
                     
             </span>
@@ -157,6 +158,9 @@ export default {
         showProfile: function(){
            window.location.href = "/profileDataSupplier";
         },
+        showPharmacyPage: function(){
+           window.location.href = '/';
+        },
         showMyOffers: function(){
            window.location.href = "/offers";
         },
@@ -174,7 +178,6 @@ export default {
           this.choosenOffer = offer;
           this.choosenOfferPrice = offer.totalPrice;
           this.choosenOfferId = offer.purchaseOrderId;
-          alert(this.choosenOfferId)
           this.deliveryTime = this.format_date(offer.deliveryTime);
           this.dueDate = this.format_date(offer.date);
           this.offerId = offer.offerId;
@@ -213,7 +216,7 @@ export default {
 
                    alert("Offer is successfully changed!"); 
                 }).catch(res => {
-                       alert("Please try later.");
+                       alert(res.response.data.message);
                         console.log(res);
                 });
             this.$refs['quantity-modal'].hide();

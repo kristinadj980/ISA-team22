@@ -59,11 +59,32 @@ export default {
        selectedPharmacyID: '',
        selectedPharmacyName: "",
        selectedPromotionID:'',
+       isAuthorized : false,
+       patient:''
     }
   },
   mounted() {
-       this.getPharmacies()
+      let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.axios.get('/auth/authority',{ 
+             headers: {
+                 'Authorization': 'Bearer ' + token,
+
+             }
+         }).then(response => {
+             this.isAuthorized = true;
+             this.patient = response.data
+              this.getPharmacies();
+         
+         }).catch(res => {
+                       this.isAuthorized = false;
+                       alert("Please log in first!");
+                        window.location.href = "/login";
+                        console.log(res);
+                
+                 });
+      
     },
+   
   methods:{
        format_date(value){
          if (value) {
@@ -86,7 +107,7 @@ export default {
                     this.promotions = response.data;
                     console.log(response); 
                 }).catch(res => {
-                       alert("Please try later.");
+                       alert(res.response.data);
                         console.log(res);
                 });
       },
@@ -126,7 +147,7 @@ export default {
                     alert("You have successfully subscribed!");
                     console.log(response); 
                 }).catch(res => {
-                       alert("Please try later.");
+                       alert(res.response.data.message);
                         console.log(res);
                 });
           

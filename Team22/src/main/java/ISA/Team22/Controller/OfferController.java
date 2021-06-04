@@ -23,6 +23,7 @@ import ISA.Team22.Domain.DTO.OfferDTO;
 import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.Pharmacy.Offer;
 import ISA.Team22.Domain.Pharmacy.PurchaseOrder;
+import ISA.Team22.Domain.Pharmacy.PurchaseOrderStatus;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
@@ -56,42 +57,14 @@ public class OfferController {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierService.findById(person.getId());
-        List<OfferInfoDTO> offersDto = getSupplierOffersInfoDTOS(supplier);
+        List<OfferInfoDTO> offersDto = offerService.getSupplierOffersInfoDTOS(supplier);
 
         return (ResponseEntity<List<OfferInfoDTO>>) (offersDto == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(offersDto));
     }
 	
-	private List<OfferInfoDTO> getSupplierOffersInfoDTOS(Supplier supplier) {
-        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
-        List<Offer> offers =  supplier.getOffers();
-        for (Offer o: offers) {
-            PurchaseOrder order = o.getPurchaseOrder();
-            if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("processed") && order.getDueDate().isAfter(LocalDate.now()))
-            {
-                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
-            }
-            else {
-                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                        order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false,o.getOfferStatus()));
-            }
-
-        }
-
-        return supplierOffersDto;
-    }
 	
-	private List<DrugOrderDTO> getMedicationsInOrder(List<PurchaseOrderDrug> purchaseOrderDrugs) {
-        List<DrugOrderDTO> drugs = new ArrayList<>();
-        for (PurchaseOrderDrug drug: purchaseOrderDrugs) {
-        	drugs.add(new DrugOrderDTO(drug.getId(), drug.getDrug().getName(),
-        			drug.getDrug().getCode(),drug.getDrug().getDrugForm(),
-        			drug.getDrug().getDrugType(),drug.getAmount()));
-        }
-        return drugs;
-    }
 	
 	@GetMapping("/myOffers/{offerStatus}")
     @PreAuthorize("hasRole('SUPPLIER')")
@@ -100,39 +73,22 @@ public class OfferController {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierService.findById(person.getId());
-        List<OfferInfoDTO> offersDto = getOffersInfoDTOSByStatus(supplier,offerStatus);
+        List<OfferInfoDTO> offersDto = offerService.getOffersInfoDTOSByStatus(supplier,offerStatus);
 
         return offersDto == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(offersDto);
     }
 
-    private List<OfferInfoDTO> getOffersInfoDTOSByStatus(Supplier supplier, String offerStatus) {
-        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
-        List<Offer> offers =  supplier.getOffers();
-        for (Offer o: offers) {
-            if(o.getOfferStatus().toString().equals(offerStatus)) {
-                PurchaseOrder order = o.getPurchaseOrder();
-                if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("closed"))
-                {
-                	 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                             order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
-                 }
-                else {
-                	supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-                            order.getDueDate(), getMedicationsInOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
-                }
-            }
-
-        }
-       
-        return supplierOffersDto;
-    }
+   
     
     @PostMapping("/addOffer")
     @PreAuthorize("hasRole('SUPPLIER')")
     ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO)
     {
+    	if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate())) {
+    		throw new IllegalArgumentException("Date is incorrect!");
+    	}
         Offer offer = offerService.sendOffer(offerDTO);
        
         return offer == null  ?
