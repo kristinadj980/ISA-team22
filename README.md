@@ -52,3 +52,17 @@ Frontend:
 | Supplier | mina@mina.com| 123 |
 | Patient | maja98dragojlovic@gmail.com| 123 |
 *** Prilikom registracije pacijenta koristiti ovaj mail isa22project@gmail.com
+
+### Podaci za QR kodove (/src/main/resources/qrCodes):
+| Slika  | Lekovi | Dostupnost u apotekama |
+| ------ | ------ | ---------------------- |
+| code1 | 4 brufena, 7 aspirina | Tilia, Zegin |
+| code2 | 9 xyzala, 5 aspirina | nema ni u jednoj|
+| code3 | 2 aeriusa, 2 aspirina| Tilia |
+| code4 | 8 aspirina | Tilia, Zegin |
+| code5 | 10 xyzala, 2 aspirina , 4 brufen | nema ni u jednoj|
+| code6 | 4 cetirizina, 2 brufena | Zegin |
+| code7 | 6 brufena | Tilia,Zegin |
+| code8 | 2 cetirizina, 2 aeriusa, 1 xyzal | nema ni u jednoj|
+| code9 | 3 brufena, 2 aeriusa | Tilia |
+| code10 | nevalidan QR kod | nevalidan QR kod|
