@@ -70,7 +70,8 @@ public class PromotionService implements IPromotionService {
          for (Pharmacy p : pharmacies) {
 			if(p.getId().equals(pharmacy.getId())) {
 				System.out.println("You are already subsrcibed to this pharmacy!");
-				 return false;
+				throw new IllegalArgumentException("You are already subsrcibed to this pharmacy!");
+				 
 			}
 		}
          pharmacies.add(pharmacy);

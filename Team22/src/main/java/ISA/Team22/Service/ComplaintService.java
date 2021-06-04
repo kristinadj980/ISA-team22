@@ -96,13 +96,12 @@ public class ComplaintService implements IComplaintService {
 	@Override
 	public void findComplaints(List<Complaint> complaints, List<ComplaintReviewDTO> complaintDTOs) {
 		for(Complaint c:complaints) {
-			System.out.println("usao");
 			if(!c.isAnswered()) {
 			ComplaintReviewDTO complaintDTO = new ComplaintReviewDTO();
 			complaintDTO.setId(c.getId());
 			complaintDTO.setNameFrom(c.getPatient().getName());
 			complaintDTO.setDescription(c.getDescription());
-			System.out.println(complaintDTO.getDescription());
+			
 			if(c.getRole().equals("dermatologist")){
 				complaintDTO.setNameTo(c.getDermatologist().getName());
 			}else if(c.getRole().equals("pharmacist")) {

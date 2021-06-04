@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,8 @@ import ISA.Team22.Domain.DTO.DrugOrderDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
+import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Service.DrugService;
 
@@ -62,6 +66,7 @@ public class DrugController {
 	//@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     ResponseEntity<List<DrugSearchDTO>> getAllDrugs()
     {
+		
         List<Drug> drugs = drugService.findAllDrugs();
         List<DrugSearchDTO> drugsForFront = new ArrayList<>();
         for (Drug drug: drugs) {

@@ -6,7 +6,7 @@
                   <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Give Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
             </span>
             <span  style="float:right;margin:15px">

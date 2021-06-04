@@ -1,6 +1,7 @@
 package ISA.Team22.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import ISA.Team22.Domain.DTO.DrugOrderDTO;
 import ISA.Team22.Domain.DTO.OfferDTO;
+import ISA.Team22.Domain.DTO.OfferInfoDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.SupplierDrugStock;
 import ISA.Team22.Domain.Pharmacy.Offer;
@@ -145,6 +149,61 @@ public class OfferService implements IOfferService {
 	public Offer findById(Long id) {
 		return  offerRepository.findById(id).get();
 	}
+	
+	@Override
+	public List<DrugOrderDTO> getDrugsOrder(List<PurchaseOrderDrug> purchaseOrderDrugs) {
+        List<DrugOrderDTO> drugs = new ArrayList<>();
+        for (PurchaseOrderDrug drug: purchaseOrderDrugs) {
+        	drugs.add(new DrugOrderDTO(drug.getId(), drug.getDrug().getName(),
+        			drug.getDrug().getCode(),drug.getDrug().getDrugForm(),
+        			drug.getDrug().getDrugType(),drug.getAmount()));
+        }
+        return drugs;
+    }
+	
+	@Override
+	public List<OfferInfoDTO> getSupplierOffersInfoDTOS(Supplier supplier) {
+        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
+        List<Offer> offers =  supplier.getOffers();
+        for (Offer o: offers) {
+            PurchaseOrder order = o.getPurchaseOrder();
+            if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals(PurchaseOrderStatus.processed) && order.getDueDate().isAfter(LocalDate.now()))
+            {
+                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                        order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+            }
+            else {
+                supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+                        order.getDueDate(),getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false,o.getOfferStatus()));
+            }
+
+        }
+
+        return supplierOffersDto;
+    }
+	
+	@Override
+	 public List<OfferInfoDTO> getOffersInfoDTOSByStatus(Supplier supplier, String offerStatus) {
+	        List<OfferInfoDTO> supplierOffersDto = new ArrayList<>();
+	        List<Offer> offers =  supplier.getOffers();
+	        for (Offer o: offers) {
+	            if(o.getOfferStatus().toString().equals(offerStatus)) {
+	                PurchaseOrder order = o.getPurchaseOrder();
+	                if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("closed"))
+	                {
+	                	 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+	                             order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+	                 }
+	                else {
+	                	supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
+	                            order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+	                }
+	            }
+
+	        }
+	       
+	        return supplierOffersDto;
+	    }
 
 	
 }

@@ -43,7 +43,7 @@ public class SupplierDrugStockController {
 	
 	@GetMapping("")
     @PreAuthorize("hasRole('SUPPLIER')")
-    ResponseEntity<List<SupplierDrugsDTO>> getAllMedications()
+    ResponseEntity<List<SupplierDrugsDTO>> getAllDrugs()
     {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
