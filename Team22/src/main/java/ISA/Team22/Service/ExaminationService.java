@@ -26,6 +26,7 @@ import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
+import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
@@ -206,7 +207,9 @@ public class ExaminationService implements IExaminationService {
 		BusinessDayDermatologist businessDayDermatologist = businessDayDermatologistService.getDermatolgistBusinessDay(examination.getDermatologist().getId(), examination.getStartDate(), examination.getPharmacy().getId());
 		if(businessDayDermatologist.getId() == null)
 			return false;
-		
+		Boolean shift = checkShift(examination, businessDayDermatologist);
+		if(!shift)
+			return false;
 		//second we found does dermatologist have any other scheduled examination that day we need
 		List<Examination> examinations = getAllDermatologistExamination(examination.getDermatologist().getId());
 		for(Examination e:examinations)
@@ -222,7 +225,7 @@ public class ExaminationService implements IExaminationService {
 					return false;
 				else return true;
 			}else continue;
-		return true;
+		return shift;
 	}
 
 	@Override
@@ -244,6 +247,19 @@ public class ExaminationService implements IExaminationService {
 		
 	}
 
+	private Boolean checkShift(Examination examination, BusinessDayDermatologist businessDayDermatologist) {
+		if(examination.getStartTime().isBefore(businessDayDermatologist.getShift().getStartTime())) 
+			return false;
+		else if(examination.getStartTime().isAfter(businessDayDermatologist.getShift().getEndTime()))
+			return false;
+		else if(examination.getEndTime().isBefore(businessDayDermatologist.getShift().getStartTime()))
+			return false;
+		else if(examination.getEndTime().isAfter(businessDayDermatologist.getShift().getEndTime()))
+			return false;
+		else
+			return true;
+	}
+	
 	@Override
 	public void updateExamination(ExaminationUpdateDTO examinationUpdateDTO) {
 		Examination examination = examinationRepository.findById(examinationUpdateDTO.getExaminationId()).get();

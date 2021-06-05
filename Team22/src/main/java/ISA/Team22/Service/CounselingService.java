@@ -104,6 +104,10 @@ public class CounselingService implements ICounselingService {
 
 	@Override
 	public String scheduleCounselling(CounselingDTO counselingDTO) {
+		if(counselingDTO.getStartTime().isAfter(counselingDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
+		if(counselingDTO.getStartTime().equals(counselingDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		Pharmacist pharmacist = pharmacistService.getById(person.getId());
@@ -136,12 +140,13 @@ public class CounselingService implements ICounselingService {
 		BusinessDayPharmacist businessDayPharmacist = businessDayPharmacistService.getPharmacisttBusinessDay(counseling.getPharmacist().getId(), counseling.getStartDate());
 		if(businessDayPharmacist.getId() == null)
 			return false;
-		
+		Boolean shift = checkShift(counseling, businessDayPharmacist);
+		if(!shift)
+			return false;
 		//second we found does dermatologist have any other scheduled examination that day we need
 		List<Counseling> counselings = getAllPharmacistCounselings(counseling.getPharmacist().getId());
-		for(Counseling c:counselings)
+		for(Counseling c:counselings) {
 			if(counseling.getStartDate().equals(c.getStartDate())) {
-			System.out.println("Datum pregleda koji treba da zakazem" + counseling.getStartDate()+"Datum zakazanog" + c.getStartDate());
 				if(counseling.getStartTime().isAfter(c.getStartTime())  && counseling.getStartTime().isBefore(c.getEndTime()))
 					return false;
 				else if(counseling.getEndTime().isAfter(c.getStartTime())  && counseling.getEndTime().isBefore(c.getEndTime())) 
@@ -152,7 +157,21 @@ public class CounselingService implements ICounselingService {
 					return false;
 				else return true;
 			}else continue;
-		return true;
+		}
+		return shift;
+	}
+	
+	private Boolean checkShift(Counseling counseling, BusinessDayPharmacist businessDayPharmacist) {
+		if(counseling.getStartTime().isBefore(businessDayPharmacist.getShift().getStartTime())) 
+			return false;
+		else if(counseling.getStartTime().isAfter(businessDayPharmacist.getShift().getEndTime()))
+			return false;
+		else if(counseling.getEndTime().isBefore(businessDayPharmacist.getShift().getStartTime()))
+			return false;
+		else if(counseling.getEndTime().isAfter(businessDayPharmacist.getShift().getEndTime()))
+			return false;
+		else
+			return true;
 	}
 	
 	@Override

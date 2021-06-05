@@ -24,7 +24,7 @@ import ISA.Team22.Service.IService.IPatientService;
 @Service
 public class PatientService implements IPatientService {
 
-private final PatientRepository patientRepository;
+	private final PatientRepository patientRepository;
 	
 	@Autowired
     private AuthorityService authService;
