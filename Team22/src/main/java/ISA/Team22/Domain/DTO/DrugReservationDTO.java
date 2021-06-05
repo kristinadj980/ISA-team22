@@ -28,7 +28,10 @@ public class DrugReservationDTO {
 		this.pharmacyId = pharmacyId;
 		this.drugId = drugId;
 	}
-
+	public DrugReservationDTO(Long id) {
+		super();
+		this.id = id;
+	}
 	public Long getId() {
 		return id;
 	}

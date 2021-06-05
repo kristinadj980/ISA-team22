@@ -34,49 +34,50 @@
                 <b-button style="margin-left:2%;" v-on:click = "searchDispensing(codeForSearch)" variant="info">Search for reservation</b-button>
             </b-form>
             <div v-if="searched == 1">
-             <b-row >
-                <b-col sm="3"> Patient </b-col>
-                <b-col>
-                    <h5
-                    text-align-center
-                    v-bind:style="{ align: 'center', justify: 'center' }">
-                        {{this.patient.patient.name}} {{this.patient.patient.surname}}
-                    </h5>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="3"> Due date </b-col>
-                <b-col>
-                    <h5
-                    text-align-center
-                    v-bind:style="{ align: 'center', justify: 'center' }"
-                    >
-                    {{ format_date(this.patient.dueDate) }} 
-                    </h5>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="3"> Reserved drug </b-col>
-                <b-col>
-                    <h5
-                    text-align-center
-                    v-bind:style="{ align: 'center', justify: 'center' }"
-                    >
-                    {{ format_date(this.patient.drugId.name) }} 
-                    </h5>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="3"> Reservation status </b-col>
-                <b-col>
-                    <h5
-                    text-align-center
-                    v-bind:style="{ align: 'center', justify: 'center' }"
-                    >
-                    {{ this.patient.drugStatus }} 
-                    </h5>
-                </b-col>
-            </b-row>
+             <b-card class="reservation" align="left">
+                <b-row >
+                    <b-col sm="5"> Patient </b-col>
+                    <b-col>
+                        <h5
+                        text-align-left
+                        v-bind:style="{ align: 'left', justify: 'left' }">
+                            {{this.patient.patient.name}} {{this.patient.patient.surname}}
+                        </h5>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="5" > Due date </b-col>
+                    <b-col>
+                        <h5
+                        text-align-left
+                        v-bind:style="{ align: 'left', justify: 'left' }">
+                        {{ format_date(this.patient.dueDate) }} 
+                        </h5>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col left sm="5"> Reserved drug name</b-col>
+                    <b-col>
+                        <h5
+                        text-align-left
+                        v-bind:style="{ align: 'left', justify: 'left' }">
+                        {{ this.patient.drugId.name }} 
+                        </h5>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col sm="5"> Reservation status </b-col>
+                    <b-col>
+                        <h5
+                        text-align-left
+                        v-bind:style="{ align: 'left', justify: 'left' }">
+                        {{ this.patient.drugStatus }} 
+                        </h5>
+                    </b-col>
+                </b-row>
+                <p class="text_align"><b> Confirm that patient took reserved drug</b></p>
+                <b-button size="lg" variant="info"  v-on:click = "confirm" >  Confirm  </b-button>
+            </b-card>
             </div>
         </div>
     </div>
@@ -149,6 +150,13 @@ export default {
             }).then(response => {
                 this.patient = response.data;
                 this.searched = 1;
+                if(response.data.id == null){
+                    this.$bvToast.toast('Reservation ID is not valid!', {
+                    variant: 'danger',
+                    title: 'Drug reservation status',
+                    solid: true
+                    })
+                }
             }).catch(res => {
                 alert("Error");
                 console.log(res);
@@ -159,6 +167,30 @@ export default {
          if (value) {
            return moment(String(value)).format('YYYY-MM-DD')
           }
+        },
+        confirm : async function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            
+            const forUpdate = {
+                id: this.patient.id,
+            };
+            this.axios.post('/drugReservation/updateReservation', forUpdate, { 
+                headers: {
+                'Authorization': 'Bearer ' + token,
+                }})
+                .then(response => {
+                    this.patient.drugStatus = response.data;
+                    this.$bvToast.toast('Reservation status updated!', {
+                    variant: 'info',
+                    title: 'Drug reservation status',
+                    solid: true
+                    })
+
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
         },
     }
 }
@@ -187,5 +219,13 @@ export default {
         margin-top: 1% !important;
         margin-left: 4% !important;
         margin-bottom: 2% !important;
+    }
+    .reservation {
+        margin-top: 2% !important;
+        background: #88c1ca; 
+        width: 550px;
+    }
+    .text_align{
+        margin-top: 3% !important;
     }
 </style>
