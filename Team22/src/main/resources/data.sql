@@ -200,6 +200,10 @@ INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (114, 702);
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (115, 705);
 INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (106, 705);
 
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1001, 700, '2021-07-11', 50, 0, 106);
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1002, 700, '2021-07-11', 51, 0, 114);
+INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1003, 700, '2021-05-11', 50, 0, 115);
+
 INSERT INTO OFFER(id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
 VALUES (1000,'2021-07-09',1,6000,412,103);
 INSERT INTO OFFER(id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
@@ -207,3 +211,4 @@ VALUES (1001,'2021-07-08',2,4000,413,103);
 
 INSERT INTO COMPLAINT(id,complaint_date,description,is_answered,role,dermatologist_id,patient_id,pharmacy_id)
 VALUES (1005,'2021-06-03','complaint for dermatologist',false,'dermatologist',100,106,50);
+

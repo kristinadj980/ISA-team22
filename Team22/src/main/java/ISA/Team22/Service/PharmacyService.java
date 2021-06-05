@@ -124,11 +124,10 @@ public class PharmacyService implements IPharmacyService {
 		List<Examination> examinations = patient.getExaminations();
 		ExaminationStatus status = ExaminationStatus.held;
 		
-		for (Examination examination : examinations) {
-			if(examination.getPharmacy().getId().equals(pharmacyId) && examination.getExaminationStatus().equals(status)) {
+		for (Examination examination : examinations)
+			if(examination.getPharmacy().getId().equals(pharmacyId) && examination.getExaminationStatus().equals(status)) 
 				isAble = true;
-				}
-			}
+				
 		
 		return isAble;
 	}
@@ -136,11 +135,9 @@ public class PharmacyService implements IPharmacyService {
 	public Boolean checkEPrescriptions(Long pharmacyId, Patient patient, Boolean isAble) {
 		List<EPrescription> ePrescriptions = patient.getePrescriptions();
 		
-		for (EPrescription prescription : ePrescriptions) {
-			if(prescription.getPharmacyId().equals(pharmacyId)) {
+		for (EPrescription prescription : ePrescriptions)
+			if(prescription.getPharmacyId().equals(pharmacyId))
 				isAble = true;
-				}
-			}
 		
 		return isAble;
 	}
@@ -150,12 +147,10 @@ public class PharmacyService implements IPharmacyService {
 		List<Counseling> counselings = patient.getCounseling();  
 		ExaminationStatus status = ExaminationStatus.held;
 		
-		for (Counseling counseling : counselings) {
-			if(counseling.getPharmacist().getPharmacy().getId().equals(pharmacyId) && counseling.getCounselingStatus().equals(status)) {
+		for (Counseling counseling : counselings)
+			if(counseling.getPharmacist().getPharmacy().getId().equals(pharmacyId) && counseling.getCounselingStatus().equals(status)) 
 				isAble = true;
-			}
-		}
-		
+				
 		return isAble;
 	}
 	
@@ -163,11 +158,9 @@ public class PharmacyService implements IPharmacyService {
 	public Boolean checkDrugs(Long pharmacyId, Patient patient, Boolean isAble) {
 		List<Prescription> prescriptions = patient.getPrescription();
 		
-		for (Prescription prescription : prescriptions) {
-			if(prescription.getPharmacy().getId().equals(pharmacyId) && prescription.getPrescriptionStatus() == PrescriptionStatus.taken) {
+		for (Prescription prescription : prescriptions)
+			if(prescription.getPharmacy().getId().equals(pharmacyId) && prescription.getPrescriptionStatus() == PrescriptionStatus.taken)
 					isAble = true;
-			}
-		}
 		
 		return isAble;
 	}
@@ -181,7 +174,6 @@ public class PharmacyService implements IPharmacyService {
 	        
 	        for (Pharmacy pharmacy : pharmacies) {
 	        	pharmacyInventory = pharmacy.getPharmacyInventory();
-	        	System.out.println(pharmacy.getPharmacyInventory());
 	        	drugInfos = pharmacyInventory.getDrugInfos();
 	        	for (DrugInfo drugInfo : drugInfos) {
 					if(drugInfo.getDrug().getCode().equals(code)) {

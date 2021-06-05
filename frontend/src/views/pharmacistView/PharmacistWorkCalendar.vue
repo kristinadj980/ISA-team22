@@ -10,6 +10,7 @@
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showConsalting">Consaltings</button>
                 <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewConsalting">Schedule new consalting</button>
+                <button class = "btn btn-info btn-lg space_style" v-on:click = "showDispensingDrugs">Dispensing drugs</button>
             </span>
               <span  style="float:right;margin:15px">
                     <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
@@ -202,6 +203,9 @@ export default {
         },
         handleWeekendsToggle() {
             this.calendarOptions.weekends = !this.calendarOptions.weekends
+        },
+        showDispensingDrugs : function(){
+            window.location.href = "/pharmacistDispensingDrugs";
         },
         handleDateSelect(selectInfo) {
             let calendarApi = selectInfo.view.calendar;
