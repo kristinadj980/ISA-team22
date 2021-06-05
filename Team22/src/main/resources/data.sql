@@ -77,7 +77,11 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (106, 1);
 
 
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
-VALUES (411,'2021-06-12', 1,104);
+VALUES (411,'2021-07-12', 1,104);
+INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
+VALUES (412,'2021-07-11', 1,104);
+INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
+VALUES (413,'2021-07-10', 1,104);
 
 INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
 VALUES (711,'celuloza, laktoza','alergy','2 times a day',5);
@@ -115,23 +119,28 @@ INSERT INTO MEDICATIONS_ALTERNATIVES(drug_specification_id, drug_alternative_id)
 
 INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
 VALUES (600,45,700);
+INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
+VALUES (601,65,701);
+INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
+VALUES (602,20,703);
 
 INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
 VALUES (411,600);
+INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
+VALUES (412,601);
+INSERT INTO PURCHASE_ORDER_PURCHASE_ORDER_DRUGS(purchase_order_id,purchase_order_drugs_id)
+VALUES (413,602);
 
-
-INSERT INTO PURCHASE_ORDER_DRUG (id,amount,drug_id)
-VALUES (601,65,701);
 
 
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
 VALUES (800,67,'brufen',150,19,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
-VALUES (801,68,'probiotik',130,50,103);
+VALUES (801,68,'xyzal',130,10,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
-VALUES (802,69,'andol',167,87,103);
+VALUES (802,69,'andol',167,12,103);
 INSERT INTO SUPPLIER_DRUG_STOCK (id,code,name,quantity,reserved_quantity,supplier_id)
-VALUES (803,70,'panadol',145,24,103);
+VALUES (803,70,'aspirin',145,10,103);
 
 INSERT INTO PERIOD (id,start_date,end_date)
 VALUES (900,'2021-04-20', '2021-05-15');
@@ -194,4 +203,12 @@ INSERT INTO PATIENT_ALLERGIES(patient_id, drug_id) VALUES (106, 705);
 INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1001, 700, '2021-07-11', 50, 0, 106);
 INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1002, 700, '2021-07-11', 51, 0, 114);
 INSERT INTO DRUG_RESERVATION(resevation_id, drug_id, due_date, pharmacy_id, status, patient_id) VALUES (1003, 700, '2021-05-11', 50, 0, 115);
+
+INSERT INTO OFFER(id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
+VALUES (1000,'2021-07-09',1,6000,412,103);
+INSERT INTO OFFER(id,delivery_time,offer_status,total_price,purchase_order_id,supplier_id)
+VALUES (1001,'2021-07-08',2,4000,413,103);
+
+INSERT INTO COMPLAINT(id,complaint_date,description,is_answered,role,dermatologist_id,patient_id,pharmacy_id)
+VALUES (1005,'2021-06-03','complaint for dermatologist',false,'dermatologist',100,106,50);
 

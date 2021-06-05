@@ -170,24 +170,24 @@ export default {
     },
   methods:{
         getDrugs : function() {
-          let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+          //let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
           this.drugs = []
           this.axios.get('/drug/getdrugs',{ 
-             headers: {
-                 'Authorization': 'Bearer ' + token,
-             }
+            // headers: {
+               //  'Authorization': 'Bearer ' + token,
+             //}
          }).then(response => {
-             this.isAuthorized = true;
+            // this.isAuthorized = true;
              this.drugs=response.data;
          }).catch(res => {
-                this.isAuthorized = false;
+                //this.isAuthorized = false;
                 //alert("Please, log in first!");
                 //window.location.href = "/login";
                 console.log(res);
             });
       },
       searchDrug : function(){
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            //let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             if(this.drugName == ""){
                 alert("Please enter name!")
                 return;
@@ -196,13 +196,13 @@ export default {
                 name: this.drugName,
             };
             this.axios.post('/drug/searchDrug',drugForSearch, { 
-                headers: {
-                'Authorization': 'Bearer ' + token,
-                }})
+               // headers: {
+                //'Authorization': 'Bearer ' + token,
+                })
                 .then(response => {
                     this.drugs = response.data;
                     this.showMedicationInfoDiv = true;
-                    alert("Uspesno")
+                    alert("successfully")
                 })
                 .catch(response => {
                     alert("Please, try later.")
@@ -216,11 +216,11 @@ export default {
                 id : this.selectedDrugId,
                 drugCode : this.selectedDrugCode
             } 
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            //let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             this.axios.post('/pharmacy/checkDrugAvailability',drugInfos,{ 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                }}).then(response => {
+                        // headers: {
+                               // 'Authorization': 'Bearer ' + token,
+                }).then(response => {
                     this.pharmacyDrugAvailability = response.data
                     alert("successfully");
                     this.$refs['quantity-modal'].show();
@@ -235,11 +235,11 @@ export default {
           const drugInfos1 ={
                 id : this.selectedDrugId,
             } 
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+           // let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             this.axios.post('/drug/getDrugSpecification',drugInfos1,{ 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                }}).then(response => {
+                         //headers: {
+                                //'Authorization': 'Bearer ' + token,
+                }).then(response => {
                     this.drugInfo = response.data
                     alert("successfully");
                     this.$refs['quantity-modal2'].show();
@@ -252,15 +252,16 @@ export default {
           
       },
       sortColumn : function() {
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+           // let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
              const columnForSort = {
                 sortingKey : this.fieldForSorting
             };
             this.axios.post('/drug/sortResult',columnForSort, { 
-                headers: {
-                'Authorization': 'Bearer ' + token,
-                }})
+               // headers: {
+               // 'Authorization': 'Bearer ' + token,
+                })
                 .then(response => {
+                    alert("ok")
                     this.drugs = response.data;
                 })
                 .catch(response => {

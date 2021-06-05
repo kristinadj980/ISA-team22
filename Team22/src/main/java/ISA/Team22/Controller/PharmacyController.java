@@ -113,7 +113,7 @@ public class PharmacyController {
 	
 	
 	@PostMapping("/checkDrugAvailability")
-	@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
+	//@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
     public ResponseEntity<List<DrugAvailabilityDTO>> getAvailability ( @RequestBody DrugAvailabilityDTO drugAvailabilityDTO){
 		 
         List<DrugAvailabilityDTO> drugAvailabilityDTOs = pharmacyService.getAvailabilityInPharmacies(drugAvailabilityDTO.getDrugCode());

@@ -87,9 +87,9 @@ public class AuthenticationController {
        if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
         throw new IllegalArgumentException("Please make sure your password and confirmed password match!");
        }
-       Person existingUser = patientService.findByEmail(userRequest.getEmail());
+       Person existingUser = personService.findByEmail(userRequest.getEmail());
        if (existingUser != null) {
-        throw new ResourceConflictException("Entered email already exists", "Email already exists");
+        throw new ResourceConflictException("Entered email already exists");
        }
        Person user = patientService.save(userRequest);
     

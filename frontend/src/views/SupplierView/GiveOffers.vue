@@ -3,9 +3,10 @@
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                  <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Offers</button>
+                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Give Offers</button>
                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
                     
             </span>
@@ -51,7 +52,7 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button v-bind:disabled="isOfferGiven" style="background-color:#17a2b8"  v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
+                                <button  style="background-color:#17a2b8"  v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
                             </div>
                     </div>
                </div>
@@ -130,6 +131,9 @@ export default{
             localStorage.removeItem('token');
             window.location.href = "/login";
         },
+        showPharmacyPage: function(){
+           window.location.href = '/';
+        },
         showOffer : function(event, order) {
           this.choosenOrder = order;
           this.choosenOfferPrice = order.price;
@@ -177,7 +181,7 @@ export default{
 
                    alert("Offer is successfully sent!"); 
                 }).catch(res => {
-                       alert("Please try later.");
+                       alert(res.response.data.message);
                         console.log(res);
                 });
             this.$refs['quantity-modal'].hide();

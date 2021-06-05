@@ -82,8 +82,11 @@ export default {
          }).then(response => {
              
              this.pharmacies=response.data;
+             if(!this.pharmacies.length){
+                 alert("You are not subscribed to any pharmacy, please visit our home page to do so!")
+             }
          }).catch(res => {
-                console.log(res);
+                console.log(res.response.data.message);
             });
         },
          canclePromotion : function(event, pharmacy) {

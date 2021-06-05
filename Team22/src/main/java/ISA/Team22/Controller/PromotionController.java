@@ -57,7 +57,7 @@ public class PromotionController {
     ResponseEntity<List<PromotionDTO>> getPromotions(@RequestBody PharmacyBasicDTO pharmacyBasicDTO)
     {
         List<PromotionDTO> promotionDtos = promotionService.findPromotions(pharmacyBasicDTO);
-        
+       
         return promotionDtos == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(promotionDtos);

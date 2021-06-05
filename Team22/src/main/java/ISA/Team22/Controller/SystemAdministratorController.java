@@ -25,6 +25,7 @@ import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.SystemAdministrator;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Service.DermatologistService;
+import ISA.Team22.Service.PersonService;
 import ISA.Team22.Service.SystemAdministratorService;
 
 @RestController
@@ -34,10 +35,12 @@ public class SystemAdministratorController {
 
 	
 	private final SystemAdministratorService systemAdministratorService;
+	private final PersonService personService;
 	
 	@Autowired
-	public SystemAdministratorController(SystemAdministratorService systemAdministratorService) {
+	public SystemAdministratorController(SystemAdministratorService systemAdministratorService,PersonService personService) {
 		this.systemAdministratorService = systemAdministratorService;
+		this.personService = personService;
 	}
 
     @PostMapping("/register")
@@ -53,15 +56,16 @@ public class SystemAdministratorController {
         }
 
 
-        Person existingUser = systemAdministratorService.findByEmail(userRequest.getEmail());
+        Person existingUser = personService.findByEmail(userRequest.getEmail());
         if (existingUser != null) {
-            throw new ResourceConflictException("Entered email already exists", "Email already exists");
+            throw new IllegalArgumentException("Entered email already exists");
         }
         if(!userRequest.getPassword().equals(userRequest.getConfirmPassword())) {
             throw new IllegalArgumentException("Please make sure your password and rewrite password match!");
         }
 
         Person user = systemAdministratorService.save(userRequest);
+        
         return new ResponseEntity<>("System administrator is successfully registred!", HttpStatus.CREATED);
     }
     

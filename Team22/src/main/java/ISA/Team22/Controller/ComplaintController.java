@@ -60,7 +60,6 @@ public class ComplaintController {
     {
         try {
         	Dermatologist dermatologist =(Dermatologist) personService.findById(complaintDTO.getDermatologyId());
-            System.out.println(dermatologist.getName());
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("error");

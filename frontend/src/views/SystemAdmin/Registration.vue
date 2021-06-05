@@ -85,7 +85,6 @@ export default {
             country:'',
             phone:'',
         }
-
     },
     methods:{
        validEmail: function (email) {
@@ -150,7 +149,7 @@ export default {
                 phoneNumber : this.phone,
                 address : addressInfo
             }
-            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            //let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             if(!this.validLettersName(this.name)){
                 alert("Please enter valid name!")
                 return;
@@ -201,9 +200,7 @@ export default {
             }
             alert("OK?");
             this.axios.post('/auth/register',userInfo,{ 
-                         headers: {
-                                'Authorization': 'Bearer ' + token,
-                        }})
+                         })
                 .then(response => {
                        alert("Please check your email for validation link, so you could login!");
                         this.$router.push('/login') 
@@ -215,7 +212,6 @@ export default {
       
         }
     }
-
 }
 </script>
 
@@ -230,7 +226,6 @@ export default {
   justify-content: center;
   flex-direction: column;   
     }
-
 .form-group{
   position: relative;
   z-index: 1;
@@ -242,7 +237,6 @@ export default {
   margin: auto;
   
     }
-
 .button {
    background:  #174452;
    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -254,7 +248,6 @@ export default {
    width: 20%;
    height: 7%;
 }
-
 .homepage_style{
         background: #17a2b8; 
         position: fixed;
@@ -264,7 +257,6 @@ export default {
         width: 100%;
         height: 70px;
     }
-
     .space_style{
         margin-right:5px
     }

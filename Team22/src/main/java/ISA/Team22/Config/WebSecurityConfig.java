@@ -83,12 +83,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 
 		// Generalna bezbednost aplikacije
-		@Override
+		@Override 
 		public void configure(WebSecurity web) throws Exception {
 			// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 			web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/login");
-			web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/register");
-			//web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/getdrugs");
+			web.ignoring().antMatchers(HttpMethod.POST, "/api/auth/register", "/api/drug/searchDrug", "/api/drug/getDrugSpecification");
+			web.ignoring().antMatchers(HttpMethod.POST, "/api/drug/sortResult");
+			web.ignoring().antMatchers(HttpMethod.POST, "/api/pharmacy/checkDrugAvailability");
+			web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/getdrugs");
 			web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 					"/**/*.css", "/**/*.js");
 		}
