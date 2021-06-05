@@ -103,11 +103,15 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
-	public void updatePassword(DermatologistDTO dermatologistDTO) {
+	public String updatePassword(DermatologistDTO dermatologistDTO) {
 		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
+		if(passwordEncoder.matches(dermatologistDTO.getPassword(), dermatologist.getPassword())) {
+			dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
+			dermatologistRepository.save(dermatologist);
+			return "Succesfully";
+		}else 
+			return "Current password is not right! Please, try again!";
 		
-		dermatologistRepository.save(dermatologist);
 	}
 
 	@Override

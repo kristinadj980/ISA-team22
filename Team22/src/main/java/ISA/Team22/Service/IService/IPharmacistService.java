@@ -12,7 +12,7 @@ public interface IPharmacistService {
 	Pharmacist findByEmail(String email);
 	Pharmacist save(PharmacistDTO userRequest);
 	void update(PharmacistDTO pharmacistDTO);
-	void updatePassword(PharmacistDTO pharmacistDTO);
+	String updatePassword(PharmacistDTO pharmacistDTO);
 	List<Pharmacist> findAll();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
 	List<PatientSearchDTO> getMyPatients();

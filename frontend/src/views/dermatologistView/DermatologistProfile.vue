@@ -36,7 +36,7 @@
                         <hr>
                         <h4 class ="text-justify top-buffer"> Email:   {{dermatologist.email}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Password:   {{dermatologist.password}}</h4>
+                        <h4 class ="text-justify top-buffer"> Contact:   {{dermatologist.contact}} </h4>
                         <hr>
                         <h4 class ="text-justify top-buffer"> Address:   {{dermatologist.address.street}}, {{dermatologist.address.number}} </h4>
                         <hr>
@@ -54,7 +54,7 @@
                             <b-modal ref="modal-ref" id="modal-1" title="Edit profile info" hide-footer>
                                 <div>
                                     <h5 class ="text-justify top-buffer"> Name:
-                                        <b-form-input v-model="dermatologist.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
+                                        <b-form-input type="text" v-model="dermatologist.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Last Name:
                                         <b-form-input v-model="dermatologist.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
@@ -62,6 +62,9 @@
                                     <h5 class ="text-justify top-buffer"> Email:
                                         <b-form-input v-model="dermatologist.email" l
                                         abel="Email" disabled></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Contact:
+                                        <b-form-input v-model="dermatologist.contact" filled></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street:
                                         <b-form-input v-model="dermatologist.address.street" filled placeholder="Enter your street name"></b-form-input>
@@ -141,7 +144,7 @@ name: 'DermatologistProfile',
   },
 data() {
     return {
-        dermatologist : "",
+        dermatologist : [],
         name: "",
         surname: "",
         email: "",
@@ -149,7 +152,8 @@ data() {
         password : "",
         currentPassword : "",
         newPassword : "",
-        repeatNewPassword : ""
+        repeatNewPassword : "",
+        contact: "",
     }
   },
   mounted(){
@@ -185,7 +189,7 @@ data() {
         showAbsenceRequest: function(){
             window.location.href = "/dermatologistAbsenceRequest";
         },
-        showExamination: function(){
+        showExaminations: function(){
             window.location.href = "/dermatologistExamination/-1";
         },
         showNewExamination: function(){
@@ -194,7 +198,34 @@ data() {
         logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
-
+        },
+        validEmail: function (email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
+        validPhone: function (phone) {
+            var res = /^\d{10}$/;
+            return res.test(phone);
+        },
+        validLettersName: function (name) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(name);
+        },
+        validLettersSurname: function (surname) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(surname);
+        },
+        validLettersCountry: function (country) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(country);
+        },
+        validLettersCity: function (city) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(city);
+        },
+        validLettersStreet: function (street) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(street);
         },
         editProfile: function(){
             window.location.href = "/dermatologistNewExamination";
@@ -217,9 +248,41 @@ data() {
                 name: this.dermatologist.name,
                 surname : this.dermatologist.surname,
                 email:this.dermatologist.email,
-                address: addressInfo
+                address: addressInfo,
+                contact: this.contact,
            };
-       
+            if(!this.validLettersName(this.dermatologist.name)){
+                alert("Please enter valid name!")
+                return;
+            }
+            if(!this.validLettersSurname(this.dermatologist.surname)){
+                alert("Please enter valid surname!")
+                return;
+            }
+            if(!this.validPhone(this.dermatologist.contact)){
+                alert("Please enter valid contact number (10 digits)!")
+                return;
+            }
+            if(!this.validLettersCountry(this.dermatologist.address.country)){
+                alert("Please enter valid conutry!")
+                return;
+            }
+             if(!this.validLettersCity(this.dermatologist.address.city)){
+                alert("Please enter valid city!")
+                return;
+            }
+            if(!this.validLettersStreet(this.dermatologist.address.street)){
+                alert("Please enter valid street!")
+                return;
+            }
+            if(this.dermatologist.address.number == ""){
+                alert("Please enter street number!")
+                return;
+            }
+            if(this.dermatologist.address.number < 0){
+                alert("Please enter valid street number!")
+                return;
+            }
             this.axios.post('/dermatologist/update',dermatologistInfo, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,
@@ -241,7 +304,8 @@ data() {
             }
             const changePassword ={
                 password : this.dermatologist.currentPassword,
-                confirmPassword : this.dermatologist.newPassword
+                confirmPassword : this.dermatologist.newPassword,
+                newPassword : this.dermatologist.newPassword
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             this.axios.post('/dermatologist/updatePassword',changePassword, { 

@@ -53,7 +53,7 @@ public class DermatologistController {
 				dermatologist.getAddress().getStreetName(), dermatologist.getAddress().getStreetNumber(),
 				dermatologist.getAddress().getCity().getCountry().getName());
 		DermatologistDTO dermatologistDTO = new DermatologistDTO(dermatologist.getName(), dermatologist.getLastName(),
-				dermatologist.getEmail(), addressDto);
+				dermatologist.getEmail(), addressDto, dermatologist.getContact());
 		return (ResponseEntity<DermatologistDTO>) (dermatologist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(dermatologistDTO));
 	}
 
@@ -72,8 +72,8 @@ public class DermatologistController {
 	@PreAuthorize("hasRole('DERMATOLOGIST')")
 	public ResponseEntity<String> updateDermatologistPassword(@RequestBody DermatologistDTO dermatologistDTO) {
 		try {
-			dermatologistService.updatePassword(dermatologistDTO);
-			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
+			String response = dermatologistService.updatePassword(dermatologistDTO);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}
@@ -94,23 +94,21 @@ public class DermatologistController {
 	        return new ResponseEntity<>("Dermatologist is successfully registred!", HttpStatus.CREATED);
 	    }
 	  
-	  @GetMapping("/dermaInfo")
-		@PreAuthorize("hasRole('PATIENT')")  
-		public ResponseEntity<List<UserInfoComplaintDTO>> getDermatologyInfo() {
+	@GetMapping("/dermaInfo")
+	@PreAuthorize("hasRole('PATIENT')")  
+	public ResponseEntity<List<UserInfoComplaintDTO>> getDermatologyInfo() {
 		  
-			List<UserInfoComplaintDTO> infoComplaintDTOs = new ArrayList<UserInfoComplaintDTO>();
-	        List<Dermatologist> dermatologists = dermatologistService.findAll();
-	        for (Dermatologist dermatologist: dermatologists) {
-	        	UserInfoComplaintDTO userInfoComplaintDTO = new UserInfoComplaintDTO();
-	        	userInfoComplaintDTO.setFullName(dermatologist.getName() + " " + dermatologist.getLastName());
-	        	userInfoComplaintDTO.setEmail(dermatologist.getEmail());
-	        	userInfoComplaintDTO.setUserId(dermatologist.getId());
-	        	infoComplaintDTOs.add(userInfoComplaintDTO);
-	        }
+		List<UserInfoComplaintDTO> infoComplaintDTOs = new ArrayList<UserInfoComplaintDTO>();
+	    List<Dermatologist> dermatologists = dermatologistService.findAll();
+	    for (Dermatologist dermatologist: dermatologists) {
+	      	UserInfoComplaintDTO userInfoComplaintDTO = new UserInfoComplaintDTO();
+	       	userInfoComplaintDTO.setFullName(dermatologist.getName() + " " + dermatologist.getLastName());
+	       	userInfoComplaintDTO.setEmail(dermatologist.getEmail());
+        	userInfoComplaintDTO.setUserId(dermatologist.getId());
+	       	infoComplaintDTOs.add(userInfoComplaintDTO);
+	    }
 	        
-	        return infoComplaintDTOs == null ?
-	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-	                ResponseEntity.ok(infoComplaintDTOs);
+	    return infoComplaintDTOs == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(infoComplaintDTOs);
 			
 		}
 
