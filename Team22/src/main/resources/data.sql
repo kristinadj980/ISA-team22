@@ -46,12 +46,12 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (114, 1);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (115, 1);
 
 -- Dermatologist task 3.14
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (40, '2021-05-10', '15:00', '2021-05-10', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (41, '2021-05-11', '15:00', '2021-05-11', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (42, '2021-05-12', '20:00', '2021-05-12', '13:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (43, '2021-05-13', '15:00', '2021-05-13', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-05-20', '20:00', '2021-05-20', '13:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-05-30', '20:00', '2021-05-30', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (40, '2021-07-10', '15:00', '2021-07-10', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (41, '2021-07-11', '15:00', '2021-07-11', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (42, '2021-07-12', '20:00', '2021-07-12', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (43, '2021-07-13', '15:00', '2021-07-13', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-07-14', '20:00', '2021-07-14', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-07-15', '20:00', '2021-07-15', '13:00' );
 
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (400, 50, 100, 40);
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (401, 50, 100, 41);
@@ -67,7 +67,7 @@ INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 51);
 
 INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 5000, 0, '2021-06-10', '08:30', '09:00', 100, 113, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-06-10', '10:30', '11:00', 100, 114, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-06-10', '10:30', '11:00', 100, 50);
 INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 4000, 0, '2021-06-14', '16:30', '17:00', 100, 115, 51);
 
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);

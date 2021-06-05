@@ -61,6 +61,10 @@ public class ExaminationService implements IExaminationService {
 
 	@Override
 	public String scheduleNewExamination(ExaminationDTO examinationDTO) {
+		if(examinationDTO.getStartTime().isAfter(examinationDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
+		if(examinationDTO.getStartTime().equals(examinationDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		Dermatologist dermatologist = dermatologistService.getById(person.getId());
@@ -83,7 +87,7 @@ public class ExaminationService implements IExaminationService {
 					this.emailServices.sendNotificationAsync(patient.getEmail(), "Scheduled examination INFO", ""
 							+ "Your examination is scheduled for date " + examination.getStartDate().toString() + " " + examination.getStartTime() +".");
 					return("Examination is scheduled!");
-				}else return("Dermatologist is not free, please choose another date or time!");
+				}else return("Dermatologist is not free, please choose another date, time or pharmacy!");
 			else return("Patient has counceling in that time, please choose another date or time!");
 		}else return("Patient has another examination in that time, please choose another date or time!");
 	
@@ -92,6 +96,7 @@ public class ExaminationService implements IExaminationService {
 	public String updateScheduledExamination(ExaminationDTO examinationDTO) {
 		Examination examination = examinationRepository.findById(examinationDTO.getExaminationID()).get();
 		String[] tokens = examinationDTO.getPatientInfo().split("\\s");
+		System.out.println(tokens[3]);
 		Patient patient = patientService.findByEmail(tokens[3]);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), examinationDTO.getStartDate(), examinationDTO.getStartTime(), examination.getEndTime());
 		Boolean checkPatient = checkPatientExaminationSchedule(term);
@@ -122,10 +127,10 @@ public class ExaminationService implements IExaminationService {
 		List<Examination> allExaminations = examinationRepository.findAll();
 		List<Examination> examinations = new ArrayList<Examination>();
 		for(Examination e:allExaminations) {	
-			if(e.getPatient().getId().equals(id))
-				examinations.add(e);
-			else if(e.getPatient().getId() == null)
+			if(e.getPatient() == null ) 
 				continue;
+			else if(e.getPatient().getId().equals(id)) 
+				examinations.add(e);
 		}
 			
 		return examinations;
@@ -141,6 +146,7 @@ public class ExaminationService implements IExaminationService {
 	}
 
 	public Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term) {
+
 		List<Examination> examinations = getAllPatientExaminations(term.getPatientID());
 		if (examinations == null)
 			return true;
