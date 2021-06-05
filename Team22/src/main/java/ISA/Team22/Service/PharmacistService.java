@@ -103,11 +103,14 @@ public class PharmacistService implements IPharmacistService {
 	}
 
 	@Override
-	public void updatePassword(PharmacistDTO pharmacistDTO) {
+	public String updatePassword(PharmacistDTO pharmacistDTO) {
 		Pharmacist pharmacist = (Pharmacist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		pharmacist.setPassword(passwordEncoder.encode(pharmacistDTO.getConfirmPassword()));
-		
-		pharmacistRepository.save(pharmacist);
+		if(passwordEncoder.matches(pharmacistDTO.getPassword(), pharmacist.getPassword())) {
+			pharmacist.setPassword(passwordEncoder.encode(pharmacistDTO.getConfirmPassword()));
+			pharmacistRepository.save(pharmacist);
+		    return "Succesfully";
+		}else
+			return "Current password is not right! Please, try again!";
 		
 	}
 

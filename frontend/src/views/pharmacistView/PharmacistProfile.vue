@@ -37,7 +37,7 @@
                         <hr>
                         <h4 class ="text-justify top-buffer"> Email:   {{pharmacist.email}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Password:   {{pharmacist.password}}</h4>
+                        <h4 class ="text-justify top-buffer"> Contact:   {{pharmacist.contact}}</h4>
                         <hr>
                         <h4 class ="text-justify top-buffer"> Address:   {{pharmacist.address.street}}, {{pharmacist.address.number}} </h4>
                         <hr>
@@ -62,6 +62,9 @@
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Email:
                                         <b-form-input v-model="pharmacist.email" label="Email" disabled></b-form-input>
+                                    </h5>
+                                    <h5 class ="text-justify top-buffer"> Contact:
+                                        <b-form-input v-model="pharmacist.contact" label="Contact"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Street:
                                         <b-form-input v-model="pharmacist.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
@@ -204,6 +207,34 @@ data() {
         showDispensingDrugs : function(){
             window.location.href = "/pharmacistDispensingDrugs";
         },
+        validEmail: function (email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
+        validPhone: function (phone) {
+            var res = /^\d{10}$/;
+            return res.test(phone);
+        },
+        validLettersName: function (name) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(name);
+        },
+        validLettersSurname: function (surname) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(surname);
+        },
+        validLettersCountry: function (country) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(country);
+        },
+        validLettersCity: function (city) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(city);
+        },
+        validLettersStreet: function (street) {
+            var res = /^[a-zA-Z]+$/;
+            return res.test(street);
+        },
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const addressInfo = {
@@ -216,9 +247,41 @@ data() {
                 name: this.pharmacist.name,
                 surname : this.pharmacist.surname,
                 email:this.pharmacist.email,
-                address: addressInfo
+                address: addressInfo,
+                contact: this.pharmacist.contact
            };
-       
+           if(!this.validLettersName(this.pharmacist.name)){
+                alert("Please enter valid name, use only letters!")
+                return;
+            }
+            if(!this.validLettersSurname(this.pharmacist.surname)){
+                alert("Please enter valid surname, use only letters!")
+                return;
+            }
+            if(!this.validPhone(this.pharmacist.contact)){
+                alert("Please enter valid contact number (10 digits)!")
+                return;
+            }
+            if(!this.validLettersCountry(this.pharmacist.address.country)){
+                alert("Please enter valid conutry, use only letters!")
+                return;
+            }
+             if(!this.validLettersCity(this.pharmacist.address.town)){
+                alert("Please enter valid city name, use only letters!")
+                return;
+            }
+            if(!this.validLettersStreet(this.pharmacist.address.street)){
+                alert("Please enter valid street name, use only letters!")
+                return;
+            }
+            if(this.pharmacist.address.number == ""){
+                alert("Please enter street number!")
+                return;
+            }
+            if(this.pharmacist.address.number < 0){
+                alert("Please enter valid street number!")
+                return;
+            }
             this.axios.post('/pharmacist/update',pharmacistInfo, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,

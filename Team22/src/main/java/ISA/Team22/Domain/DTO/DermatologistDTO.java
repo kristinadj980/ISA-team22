@@ -2,23 +2,31 @@ package ISA.Team22.Domain.DTO;
 
 public class DermatologistDTO {
 	
-	 private String name;
-
-	 private String surname;
-
-	 private String email;
-
-	 private AddressDTO address;
-	 
-	 private String password;
-	 
-	 private String confirmPassword;
+	private String name;
+	private String surname;
+	private String email;
+	private AddressDTO address;
+	private String password;
+	private String confirmPassword;
+	private String newPassword;
+	private String contact;
 	 
 	public DermatologistDTO() {
 		super();
 	}
 
 	
+	
+	public DermatologistDTO(String name, String surname, String email, AddressDTO address, String contact) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.address = address;
+		this.contact = contact;
+	}
+
+
 	public DermatologistDTO(String name, String surname, String email, AddressDTO address, String password,
 			String confirmPassword) {
 		super();
@@ -40,10 +48,12 @@ public class DermatologistDTO {
 	}
 	
 	
-	public DermatologistDTO(String password, String confirmPassword) {
+	
+	public DermatologistDTO(String password, String confirmPassword, String newPassword) {
 		super();
 		this.password = password;
 		this.confirmPassword = confirmPassword;
+		this.newPassword = newPassword;
 	}
 
 
@@ -97,6 +107,22 @@ public class DermatologistDTO {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 	
 

@@ -14,7 +14,7 @@ public interface IDermatologistService {
 	Dermatologist findByEmail(String email);
 	Dermatologist save(DermatologistDTO userRequest);
 	void update(DermatologistDTO dto);
-	void updatePassword(DermatologistDTO dto);
+	String updatePassword(DermatologistDTO dto);
 	List<Dermatologist> findAll();
 	List<PatientSearchDTO> getMyPatients();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
