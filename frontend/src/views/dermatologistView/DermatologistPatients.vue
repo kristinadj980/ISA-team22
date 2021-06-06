@@ -106,7 +106,7 @@ export default {
         selected: [],
         selectedExamination: '',
         fieldForSorting: "name",
-        searche: 0,
+        searched: 0,
         
       }
     },
