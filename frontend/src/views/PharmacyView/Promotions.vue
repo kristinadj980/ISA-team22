@@ -64,8 +64,8 @@ export default {
     }
   },
   mounted() {
-      let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/auth/authority',{ 
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.axios.get('/patient/myAccount',{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
 

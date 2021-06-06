@@ -29,6 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ISA.Team22.Domain.DTO.JwtAuthenticationRequest;
 import ISA.Team22.Domain.DTO.PersonRequestDTO;
 import ISA.Team22.Domain.DTO.UserTokenState;
+import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Exception.ResourceConflictException;
 import ISA.Team22.Security.TokenUtils;
@@ -36,7 +37,7 @@ import ISA.Team22.Service.EmailService;
 import ISA.Team22.Service.PatientService;
 import ISA.Team22.Service.PersonService;
 
-//Kontroler zaduzen za autentifikaciju korisnika
+
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
@@ -51,36 +52,34 @@ public class AuthenticationController {
 	
 	private final EmailService emailService;
 	
+	private final PasswordEncoder passwordEncoder;
+	
 	@Autowired
-	public AuthenticationController(TokenUtils tokenUtils,AuthenticationManager authenticationManager,PersonService personService, PatientService patientService,EmailService emailService) {
+	public AuthenticationController(TokenUtils tokenUtils,AuthenticationManager authenticationManager,PersonService personService,
+			PatientService patientService,EmailService emailService,PasswordEncoder passwordEncoder) {
 		this.tokenUtils = tokenUtils;
 		this.authenticationManager = authenticationManager;
 		this.personService = personService;
 		this.patientService = patientService;
 		this.emailService = emailService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
-	// Prvi endpoint koji pogadja korisnik kada se loguje.
-	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response) {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-						authenticationRequest.getPassword()));  //pokusavamo autentifikaciju
+						authenticationRequest.getPassword()));  
        
-		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		// Kreiraj token za tog korisnika
 		Person person = (Person) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(person.getUsername());
 		int expiresIn = tokenUtils.getExpiredIn();
-		// Vrati token kao odgovor na uspesnu autentifikaciju
+		
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
-	// Endpoint za registraciju novog korisnika
 	@PostMapping("/register")
 	public ResponseEntity<String> registerUser(@RequestBody PersonRequestDTO userRequest, UriComponentsBuilder ucBuilder) {
 		
@@ -107,7 +106,7 @@ public class AuthenticationController {
 			return "Bad Request!";
 		person .setEnabled(true);
 		this.personService.savePerson(person);
-		System.out.println("Account is validated!");
+		
 		return "Validation succesfull, now you can use your account. Please return to login page.";
 	}
 
@@ -125,7 +124,8 @@ public class AuthenticationController {
 	@RequestMapping(value = "/passwordFirstLogin", method = RequestMethod.POST)
     @PreAuthorize("hasAnyRole('PATIENT', 'SUPPLIER', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMIN', 'PHARMACIST')")
     public ResponseEntity<?> changePasswordFirstLogin(@RequestBody PasswordChanger passwordChanger) {
-
+		 Person person = personService.findByEmail(passwordChanger.email);
+		 
         if(passwordChanger.newPassword.isEmpty() || passwordChanger.rewriteNewPassword.isEmpty()|| passwordChanger.oldPassword.isEmpty()) {
             throw new IllegalArgumentException("Please fill all the required fields!");
         }
@@ -135,7 +135,10 @@ public class AuthenticationController {
         if(passwordChanger.newPassword.equals(passwordChanger.oldPassword)) {
             throw new IllegalArgumentException("New password can not be same as old password!");
         }
-
+        if(!(passwordEncoder.matches(passwordChanger.oldPassword,person.getPassword()))) {
+        	throw new IllegalArgumentException("Please enter valid current password!");
+        }
+        
         personService.changePasswordFirstLogin(passwordChanger.oldPassword, passwordChanger.newPassword);
 
         Map<String, String> result = new HashMap<>();
@@ -161,5 +164,6 @@ public class AuthenticationController {
 		public String oldPassword;
 		public String newPassword;
 		public String rewriteNewPassword;
+		public String email;
 	}
 }

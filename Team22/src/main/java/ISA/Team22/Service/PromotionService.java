@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.PharmacyBasicDTO;
+import ISA.Team22.Domain.DTO.PharmacySubsribedDTO;
 import ISA.Team22.Domain.DTO.PromotionDTO;
 import ISA.Team22.Domain.DTO.PromotionPeriodDTO;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
@@ -39,6 +40,21 @@ public class PromotionService implements IPromotionService {
 	@Override
 	public List<Promotion> findAllPromotions() {
 		return promotionRepository.findAll();
+	}
+	
+	@Override
+	public List<PharmacySubsribedDTO> findSubscriptionsInPharmacy() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		 Person person = (Person)currentUser.getPrincipal();
+		 Patient patient = patientRepository.findById(person.getId()).get();
+		 List<Pharmacy> pharmacies = patient.getSubscribedToPharmacies();
+		 List<PharmacySubsribedDTO> pharmacySubsribedDTOs = new ArrayList<PharmacySubsribedDTO>();
+		 PharmacySubsribedDTO dto;
+		 for (Pharmacy p : pharmacies) {
+			 dto = new PharmacySubsribedDTO(p.getId(), p.getName());
+			 pharmacySubsribedDTOs.add(dto);
+			}
+		return pharmacySubsribedDTOs;
 	}
 	
 	@Override

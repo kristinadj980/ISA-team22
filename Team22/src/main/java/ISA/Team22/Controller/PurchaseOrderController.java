@@ -37,28 +37,12 @@ public class PurchaseOrderController {
 	ResponseEntity<List<OrdersReviewDTO>> getActiveOrders(){
 		List<PurchaseOrder> purchaseOrders = purchaseOrderService.findAllOrders();
 		List<OrdersReviewDTO> ordersReviewDTOs = new ArrayList<OrdersReviewDTO>();
-		for (PurchaseOrder purchaseOrder : purchaseOrders) {
-			
-			if(purchaseOrder.getDueDate().isAfter(LocalDate.now()) && !purchaseOrder.getPurchaseOrderStatus().equals(PurchaseOrderStatus.closed)){
-				OrdersReviewDTO dto = new OrdersReviewDTO(purchaseOrder.getId(), purchaseOrder.getDueDate(), purchaseOrder.getPurchaseOrderStatus().toString(), findDrugs(purchaseOrder.getPurchaseOrderDrugs()),
-						purchaseOrder.getPharmacyAdministrator().getPharmacy().getName());
-				ordersReviewDTOs.add(dto);
-				
-			}
-		}
+		ordersReviewDTOs = purchaseOrderService.findOrders(purchaseOrders, ordersReviewDTOs);
+		
 		 return ordersReviewDTOs == null ?
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                ResponseEntity.ok(ordersReviewDTOs);
 	}
 
-	private List<DrugOrderDTO> findDrugs(List<PurchaseOrderDrug> drugOrderDTOs) {
-		List<DrugOrderDTO> drugs = new ArrayList<>();
-		for (PurchaseOrderDrug d : drugOrderDTOs) {
-			DrugOrderDTO orderDTO = new DrugOrderDTO(d.getId(), d.getDrug().getName(), d.getDrug().getCode(), 
-					d.getDrug().getDrugForm(), d.getDrug().getDrugType(), d.getAmount());
-			drugs.add(orderDTO);
-		}
-		
-		return drugs;
-	}
+	
 }

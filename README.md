@@ -47,11 +47,17 @@ Frontend:
 ### Potrebni podaci za logovanje:
 | Uloga  | Email  | Password |
 | ------ | ------ | -------- |
-| Dermatologist |derma@derma| 123 |
-| Pharmacist | pharma@pharma | 123 |
+| Dermatologist |mila@gmail.com| 123 |
+| Pharmacist | ivan@gmail.com | 123 |
 | Supplier | mina@mina.com| 123 |
-| Patient | maja98dragojlovic@gmail.com| 123 |
-*** Prilikom registracije pacijenta koristiti ovaj mail isa22project@gmail.com
+| Patient | maja18isa@gmail.com| 123 |
+| System Administrator | pera@pera.com| 123 |
+| Supplier | ana@ana.com| 123 |
+| Patient | ana@ana| 123 |
+
+*** Prilikom registracije pacijenta koristiti ovaj mail isa22project@gmail.com ili bilo koji drugi koji je validan
+- sifra za maja18isa@gmail.com je maja12345678
+- sifra za isa22project@gmail.com je isateam22
 
 ### Podaci za QR kodove (/src/main/resources/qrCodes):
 | Slika  | Lekovi | Dostupnost u apotekama |

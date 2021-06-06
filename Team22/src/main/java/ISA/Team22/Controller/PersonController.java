@@ -28,26 +28,5 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 	
-	// Za pristup ovoj metodi neophodno je da ulogovani korisnik ima ADMIN ulogu
-		// Ukoliko nema, server ce vratiti gresku 403 Forbidden
-		// Korisnik jeste autentifikovan, ali nije autorizovan da pristupi resursu
-		@GetMapping("/person/{personId}")
-		@PreAuthorize("hasRole('ADMIN')")
-		public Person loadById(@PathVariable Long personId) {
-			return this.personService.findById(personId);
-		}
-
-		@GetMapping("/user/all")
-		@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
-		public List<Person> loadAll() {
-			return this.personService.findAll();
-		}
-		
-		@GetMapping(value = "/me")
-		@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')" + "||" + "hasRole('PHARMACY_ADMIN')" + "||" + "hasRole('PATIENT')" + "||"
-				+ "hasRole('PHARMACIST')" + "||" + "hasRole('DERMATOLOGIST')" + "||" + "hasRole('DEALER')")
-		public Person getMe(Authentication auth) {
-			return personService.findById(((Person) auth.getPrincipal()).getId());
-		}
 		
 }

@@ -130,6 +130,7 @@ public class PersonService implements IPersonService, UserDetailsService {
         return u;
 	}
 	
+	@Override
 	 public void changePasswordFirstLogin(String oldPassword, String newPassword) {
 	        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 	        Person user = (Person)currentUser.getPrincipal();

@@ -18,6 +18,7 @@ import ISA.Team22.Domain.DTO.AddressDTO;
 import ISA.Team22.Domain.DTO.DrugAvailabilityDTO;
 import ISA.Team22.Domain.DTO.PharmacyDTO;
 import ISA.Team22.Domain.DTO.PharmacyDrugAvailabilityDTO;
+import ISA.Team22.Domain.DTO.PharmacySubsribedDTO;
 import ISA.Team22.Domain.DTO.SortingPharmaciesDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugInfo;
@@ -115,7 +116,7 @@ public class PharmacyService implements IPharmacyService {
         	}
 			
 		}
-       
+     
         return isAble;
 	}
 
