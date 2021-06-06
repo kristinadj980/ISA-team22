@@ -47,7 +47,7 @@ public class PharmacistController {
 				pharmacist.getAddress().getStreetName(), pharmacist.getAddress().getStreetNumber(),
 				pharmacist.getAddress().getCity().getCountry().getName());
 		PharmacistDTO pharmacistDTO = new PharmacistDTO(pharmacist.getName(), pharmacist.getLastName(),
-				pharmacist.getEmail(), addressDto);
+				pharmacist.getEmail(), addressDto, pharmacist.getContact());
 		return (ResponseEntity<PharmacistDTO>) (pharmacist == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(pharmacistDTO));
 	}
 
@@ -66,8 +66,8 @@ public class PharmacistController {
 	@PreAuthorize("hasRole('PHARMACIST')")
 	public ResponseEntity<String> updatePharmacistPassword(@RequestBody PharmacistDTO pharmacistDTO) {
 		try {
-			pharmacistService.updatePassword(pharmacistDTO);
-			return new ResponseEntity<>("Profile successfully updated!", HttpStatus.OK);
+			String response = pharmacistService.updatePassword(pharmacistDTO);
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
 		}

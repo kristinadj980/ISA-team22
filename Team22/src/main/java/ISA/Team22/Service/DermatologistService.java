@@ -103,11 +103,15 @@ public class DermatologistService implements IDermatologistService {
 	}
 
 	@Override
-	public void updatePassword(DermatologistDTO dermatologistDTO) {
+	public String updatePassword(DermatologistDTO dermatologistDTO) {
 		Dermatologist dermatologist = (Dermatologist) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
+		if(passwordEncoder.matches(dermatologistDTO.getPassword(), dermatologist.getPassword())) {
+			dermatologist.setPassword(passwordEncoder.encode(dermatologistDTO.getConfirmPassword()));
+			dermatologistRepository.save(dermatologist);
+			return "Succesfully";
+		}else 
+			return "Current password is not right! Please, try again!";
 		
-		dermatologistRepository.save(dermatologist);
 	}
 
 	@Override
@@ -124,9 +128,11 @@ public class DermatologistService implements IDermatologistService {
 		PatientSearchDTO patientSearchDTO = new PatientSearchDTO();
 		
 		for(Examination e:examinations) {
-			patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
-					e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
-			myPatients.add(patientSearchDTO);
+			if(e.getPatient() != null) {
+				patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
+						e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
+				myPatients.add(patientSearchDTO);
+			}
 		}
 		
 		return myPatients;

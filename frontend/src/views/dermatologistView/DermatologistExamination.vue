@@ -329,6 +329,7 @@ export default {
                 }})
                 .then(response => {
                     alert(response.data);
+                    this.selected = 0;
                     this.$bvToast.toast('The patients absence was registered.', {
                     variant: 'warning',
                     title: 'INFO',
@@ -356,7 +357,8 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },getDrugSpecification: function(drugID) {
+        },
+        getDrugSpecification: function(drugID) {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
             this.axios.get('/drug/getOnlyDrugSpecification/'+drugID ,{ 
@@ -369,7 +371,8 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },prescribe :function(){
+        },
+        prescribe :function(){
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         if(this.terapyDuration == ""){
                 alert("Please enter terapy duration!")
@@ -397,7 +400,8 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },checkDrugAvailability: function() {
+        },
+        checkDrugAvailability: function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
 
             const checkDrug = {
@@ -421,7 +425,8 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },getAlternativeDrugs: function() {
+        },
+        getAlternativeDrugs: function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const alternativeForDrug = {
                 drugId: this.selectedDrug.id,
@@ -439,7 +444,8 @@ export default {
                         alert("Error");
                             console.log(res);
                     });
-        },updateExamination: function() {
+        },
+        updateExamination: function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const examinaionInfo = {
                 examinationId: this.examinationID,
@@ -505,9 +511,9 @@ export default {
     .button:hover {background-color: #74b6c0}
 
     .button:active {
-    background-color: #17a2b8;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+        background-color: #17a2b8;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
     }
 
     .drug_info {

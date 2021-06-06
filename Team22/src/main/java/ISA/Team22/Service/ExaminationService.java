@@ -1,13 +1,17 @@
 package ISA.Team22.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
+
+import java.time.Instant;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +20,13 @@ import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 
 import ISA.Team22.Domain.DTO.ExaminationDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Pharmacy.Pharmacy;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayDermatologist;
+import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 import ISA.Team22.Domain.Users.Dermatologist;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
@@ -50,13 +56,16 @@ public class ExaminationService implements IExaminationService {
 		this.emailServices = emailServices;
 	}
 	
-	@Override
 	public List<Examination> findAll() {
 		return examinationRepository.findAll();
 	}
 
 	@Override
 	public String scheduleNewExamination(ExaminationDTO examinationDTO) {
+		if(examinationDTO.getStartTime().isAfter(examinationDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
+		if(examinationDTO.getStartTime().equals(examinationDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		Dermatologist dermatologist = dermatologistService.getById(person.getId());
@@ -79,7 +88,7 @@ public class ExaminationService implements IExaminationService {
 					this.emailServices.sendNotificationAsync(patient.getEmail(), "Scheduled examination INFO", ""
 							+ "Your examination is scheduled for date " + examination.getStartDate().toString() + " " + examination.getStartTime() +".");
 					return("Examination is scheduled!");
-				}else return("Dermatologist is not free, please choose another date or time!");
+				}else return("Dermatologist is not free, please choose another date, time or pharmacy!");
 			else return("Patient has counceling in that time, please choose another date or time!");
 		}else return("Patient has another examination in that time, please choose another date or time!");
 	
@@ -88,6 +97,7 @@ public class ExaminationService implements IExaminationService {
 	public String updateScheduledExamination(ExaminationDTO examinationDTO) {
 		Examination examination = examinationRepository.findById(examinationDTO.getExaminationID()).get();
 		String[] tokens = examinationDTO.getPatientInfo().split("\\s");
+		System.out.println(tokens[3]);
 		Patient patient = patientService.findByEmail(tokens[3]);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), examinationDTO.getStartDate(), examinationDTO.getStartTime(), examination.getEndTime());
 		Boolean checkPatient = checkPatientExaminationSchedule(term);
@@ -114,21 +124,19 @@ public class ExaminationService implements IExaminationService {
 		return examinationsDTO;
 	}
 
-	@Override
 	public List<Examination> getAllPatientExaminations(Long id) {
 		List<Examination> allExaminations = examinationRepository.findAll();
 		List<Examination> examinations = new ArrayList<Examination>();
 		for(Examination e:allExaminations) {	
-			if(e.getPatient().getId().equals(id))
-				examinations.add(e);
-			else if(e.getPatient().getId() == null)
+			if(e.getPatient() == null ) 
 				continue;
+			else if(e.getPatient().getId().equals(id)) 
+				examinations.add(e);
 		}
 			
 		return examinations;
 	}
 
-	@Override
 	public List<Examination> getAllDermatologistExamination(Long id) {
 		List<Examination> allExaminations = examinationRepository.findAll();
 		List<Examination> examinations = new ArrayList<Examination>();
@@ -138,8 +146,8 @@ public class ExaminationService implements IExaminationService {
 		return examinations;
 	}
 
-	@Override
 	public Boolean checkPatientExaminationSchedule(TermAvailabilityCheckDTO term) {
+
 		List<Examination> examinations = getAllPatientExaminations(term.getPatientID());
 		if (examinations == null)
 			return true;
@@ -159,7 +167,6 @@ public class ExaminationService implements IExaminationService {
 		return true;
 	}
 	
-	@Override
 	public Boolean checkPatientCounselingSchedule(TermAvailabilityCheckDTO term) {
 		List<Counseling> counselings = patientService.getAllMyCounselings(term.getPatientID());
 		if (counselings.isEmpty())
@@ -195,13 +202,14 @@ public class ExaminationService implements IExaminationService {
         return isAble;
 	}
 
-	@Override
 	public Boolean checkDermatologistSchedule(Examination examination) {
 		//first we found does dermatologist work that day we need
 		BusinessDayDermatologist businessDayDermatologist = businessDayDermatologistService.getDermatolgistBusinessDay(examination.getDermatologist().getId(), examination.getStartDate(), examination.getPharmacy().getId());
 		if(businessDayDermatologist.getId() == null)
 			return false;
-		
+		Boolean shift = checkShift(examination, businessDayDermatologist);
+		if(!shift)
+			return false;
 		//second we found does dermatologist have any other scheduled examination that day we need
 		List<Examination> examinations = getAllDermatologistExamination(examination.getDermatologist().getId());
 		for(Examination e:examinations)
@@ -217,7 +225,7 @@ public class ExaminationService implements IExaminationService {
 					return false;
 				else return true;
 			}else continue;
-		return true;
+		return shift;
 	}
 
 	@Override
@@ -239,18 +247,36 @@ public class ExaminationService implements IExaminationService {
 		
 	}
 
+	private Boolean checkShift(Examination examination, BusinessDayDermatologist businessDayDermatologist) {
+		if(examination.getStartTime().isBefore(businessDayDermatologist.getShift().getStartTime())) 
+			return false;
+		else if(examination.getStartTime().isAfter(businessDayDermatologist.getShift().getEndTime()))
+			return false;
+		else if(examination.getEndTime().isBefore(businessDayDermatologist.getShift().getStartTime()))
+			return false;
+		else if(examination.getEndTime().isAfter(businessDayDermatologist.getShift().getEndTime()))
+			return false;
+		else
+			return true;
+	}
+	
 	@Override
 	public void updateExamination(ExaminationUpdateDTO examinationUpdateDTO) {
 		Examination examination = examinationRepository.findById(examinationUpdateDTO.getExaminationId()).get();
 		examination.setDiagnosis(examinationUpdateDTO.getExaminationInfo());
 		examination.setExaminationStatus(ExaminationStatus.held);
+		Patient patient = examination.getPatient();
+		List<Examination> patientExaminations = patient.getExaminations();
+		patientExaminations.add(examination);
+		patient.setExaminations(patientExaminations);
+		patientService.saveChanges(patient);
 		examinationRepository.save(examination);
 	}
 
 	@Override
 	public List<ExaminationDTO> getMyScheduledExaminations(Long id) {
 		List<Examination> examinations = getAllDermatologistExamination(id);
-		List<ExaminationDTO> examinationsDTO = new ArrayList<>();
+		List<ExaminationDTO> examinationsDTO = new ArrayList<ExaminationDTO>();
 		
 		for(Examination e:examinations)
 			examinationsDTO.add(new ExaminationDTO(e.getPharmacy().getId(), e.getStartDate(),e.getStartTime(),
@@ -258,6 +284,30 @@ public class ExaminationService implements IExaminationService {
 		
 		return examinationsDTO;
 	}
-	
+
+	@Override
+	public List<DataForCalendarDTO> getExaminationsForCalendar() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		List<Examination> examinations = getAllDermatologistExamination(person.getId());
+		List<DataForCalendarDTO> examinationsForCalendar = new ArrayList<DataForCalendarDTO>();
+		Date date = new Date();
+		for (Examination e : examinations) {
+			Instant startTimeI = e.getStartTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date startTime = Date.from(startTimeI);
+			Instant endTimeI = e.getEndTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date endTime = Date.from(endTimeI);
+			date = java.sql.Date.valueOf(e.getStartDate());
+			if(e.getPatient() == null) {
+				examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), date, startTime,
+						endTime, e.getDuration(), e.getPharmacy().getName()));
+			}else {
+				examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
+						endTime, e.getDuration(), e.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
+			}
+			
+		}
+		return examinationsForCalendar;
+	}
 	
 }

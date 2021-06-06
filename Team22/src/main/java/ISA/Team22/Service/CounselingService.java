@@ -1,9 +1,14 @@
 package ISA.Team22.Service;
 
 
+import static java.time.temporal.ChronoUnit.MINUTES;
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import ISA.Team22.Domain.Examination.Counseling;
 import ISA.Team22.Domain.Examination.Examination;
 import ISA.Team22.Domain.Examination.ExaminationStatus;
 import ISA.Team22.Domain.DTO.CounselingDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.DTO.TermAvailabilityCheckDTO;
 import ISA.Team22.Domain.PharmacyWorkflow.BusinessDayPharmacist;
 import ISA.Team22.Domain.Users.Patient;
@@ -98,6 +104,10 @@ public class CounselingService implements ICounselingService {
 
 	@Override
 	public String scheduleCounselling(CounselingDTO counselingDTO) {
+		if(counselingDTO.getStartTime().isAfter(counselingDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
+		if(counselingDTO.getStartTime().equals(counselingDTO.getEndTime()))
+			return "Please choose end time to be after start time!";
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) currentUser.getPrincipal();
 		Pharmacist pharmacist = pharmacistService.getById(person.getId());
@@ -106,8 +116,9 @@ public class CounselingService implements ICounselingService {
 		LocalTime endTime = counselingDTO.getEndTime();
 		String[] tokens = counselingDTO.getPatientInfo().split("\\s");
 		Patient patient = patientService.findByEmail(tokens[3]);
+		Long duration = startTime.until(endTime, MINUTES);
 		
-		Counseling counseling = new Counseling(startDate, startTime, endTime, 0.0, "", pharmacist, patient, ExaminationStatus.scheduled );
+		Counseling counseling = new Counseling(startDate, startTime, endTime, 0.0, duration, "", pharmacist, patient, ExaminationStatus.scheduled);
 		TermAvailabilityCheckDTO term = new TermAvailabilityCheckDTO(patient.getId(), startDate, startTime, endTime);
 		Boolean checkCounseling = checkPatientCounselingSchedule(term);
 		
@@ -129,12 +140,13 @@ public class CounselingService implements ICounselingService {
 		BusinessDayPharmacist businessDayPharmacist = businessDayPharmacistService.getPharmacisttBusinessDay(counseling.getPharmacist().getId(), counseling.getStartDate());
 		if(businessDayPharmacist.getId() == null)
 			return false;
-		
+		Boolean shift = checkShift(counseling, businessDayPharmacist);
+		if(!shift)
+			return false;
 		//second we found does dermatologist have any other scheduled examination that day we need
 		List<Counseling> counselings = getAllPharmacistCounselings(counseling.getPharmacist().getId());
-		for(Counseling c:counselings)
+		for(Counseling c:counselings) {
 			if(counseling.getStartDate().equals(c.getStartDate())) {
-			System.out.println("Datum pregleda koji treba da zakazem" + counseling.getStartDate()+"Datum zakazanog" + c.getStartDate());
 				if(counseling.getStartTime().isAfter(c.getStartTime())  && counseling.getStartTime().isBefore(c.getEndTime()))
 					return false;
 				else if(counseling.getEndTime().isAfter(c.getStartTime())  && counseling.getEndTime().isBefore(c.getEndTime())) 
@@ -145,7 +157,21 @@ public class CounselingService implements ICounselingService {
 					return false;
 				else return true;
 			}else continue;
-		return true;
+		}
+		return shift;
+	}
+	
+	private Boolean checkShift(Counseling counseling, BusinessDayPharmacist businessDayPharmacist) {
+		if(counseling.getStartTime().isBefore(businessDayPharmacist.getShift().getStartTime())) 
+			return false;
+		else if(counseling.getStartTime().isAfter(businessDayPharmacist.getShift().getEndTime()))
+			return false;
+		else if(counseling.getEndTime().isBefore(businessDayPharmacist.getShift().getStartTime()))
+			return false;
+		else if(counseling.getEndTime().isAfter(businessDayPharmacist.getShift().getEndTime()))
+			return false;
+		else
+			return true;
 	}
 	
 	@Override
@@ -208,8 +234,34 @@ public class CounselingService implements ICounselingService {
 		Counseling counseling =  counselingRepository.findById(counselingDTO.getCounselingId()).get();
 		counseling.setDiagnosis(counselingDTO.getPatientInfo());
 		counseling.setCounselingStatus(ExaminationStatus.held);
+		Patient patient = counseling.getPatient();
+		List<Counseling> patientCounselings = patient.getCounseling();
+		patientCounselings.add(counseling);
+		patient.setCounseling(patientCounselings);
+		patientService.saveChanges(patient);
 		counselingRepository.save(counseling);
 		
+	}
+
+	@Override
+	public List<DataForCalendarDTO> getCounselingsForCalendar() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		Pharmacist pharmacist = pharmacistService.getById(person.getId());
+		List<Counseling> counselings = getAllPharmacistCounselings(person.getId());
+		List<DataForCalendarDTO> counselingsForCalendar = new ArrayList<DataForCalendarDTO>();
+		Date date = new Date();
+		for (Counseling e : counselings) {
+			Instant startTimeI = e.getStartTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date startTime = Date.from(startTimeI);
+			Instant endTimeI = e.getEndTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
+			Date endTime = Date.from(endTimeI);
+			date = java.sql.Date.valueOf(e.getStartDate());
+			
+			counselingsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
+					endTime, e.getDuration(), pharmacist.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
+		}
+		return counselingsForCalendar;
 	}
 	
 }

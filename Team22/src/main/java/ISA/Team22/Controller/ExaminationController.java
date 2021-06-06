@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ISA.Team22.Domain.DTO.ExaminationUpdateDTO;
 import ISA.Team22.Domain.DTO.ExaminationDTO;
+import ISA.Team22.Domain.DTO.DataForCalendarDTO;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Service.ExaminationService;
 
@@ -113,6 +114,18 @@ public class ExaminationController {
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ResponseEntity<>("Something went wrong!", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/getExaminationsForCalendar")
+	@PreAuthorize("hasRole('DERMATOLOGIST')")
+	public ResponseEntity<List<DataForCalendarDTO>> getExaminationsForCalendar(){
+		try {
+			List<DataForCalendarDTO> response = examinationService.getExaminationsForCalendar();
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e);
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
 		}
 	}
 }

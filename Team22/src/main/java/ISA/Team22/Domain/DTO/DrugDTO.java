@@ -76,7 +76,11 @@ public class DrugDTO {
 		this.drugAvailibility = drugAvailibility;
 	}
 
-	
+	public DrugDTO(Long drugId, String name) {
+		super();
+		this.drugId = drugId;
+		this.name = name;
+	}
 	
 	public DrugDTO(Boolean drugAvailibility) {
 		super();

@@ -24,7 +24,7 @@ import ISA.Team22.Service.IService.IPatientService;
 @Service
 public class PatientService implements IPatientService {
 
-private final PatientRepository patientRepository;
+	private final PatientRepository patientRepository;
 	
 	@Autowired
     private AuthorityService authService;
@@ -97,8 +97,12 @@ private final PatientRepository patientRepository;
 	
 	@Override
 	public List<Counseling> getAllMyCounselings(Long id) {
-
 		Patient patient = patientRepository.findById(id).get();
 		return patient.getCounseling();
 	}
+	
+	public void saveChanges(Patient patient) {
+		patientRepository.save(patient);
+	}
+	
 }

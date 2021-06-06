@@ -2,17 +2,13 @@ package ISA.Team22.Domain.DTO;
 
 public class PharmacistDTO {
 	
-	 private String name;
-
-	 private String surname;
-
-	 private String email;
-
-	 private AddressDTO address;
-	 
-	 private String password;
-	 
-	 private String confirmPassword;
+	private String name;
+	private String surname;
+	private String email;
+	private AddressDTO address;	 
+	private String password;
+	private String confirmPassword;
+	private String contact;
 	 
 	public PharmacistDTO() {
 		super();
@@ -20,7 +16,7 @@ public class PharmacistDTO {
 
 	
 	public PharmacistDTO(String name, String surname, String email, AddressDTO address, String password,
-			String confirmPassword) {
+			String confirmPassword, String contact) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -28,15 +24,23 @@ public class PharmacistDTO {
 		this.address = address;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
+		this.contact = contact;
 	}
-
-
 	public PharmacistDTO(String name, String surname, String email, AddressDTO address) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.address = address;
+	}
+
+	public PharmacistDTO(String name, String surname, String email, AddressDTO address, String contact) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.address = address;
+		this.contact = contact;
 	}
 	
 	
@@ -98,5 +102,16 @@ public class PharmacistDTO {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+
+
+	public String getContact() {
+		return contact;
+	}
+
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	
 	
 }
