@@ -98,10 +98,14 @@ public class SupplierService implements ISupplierService  {
 	}
 
 	@Override
-	public void updatePassword(SupplierDTO supplierDTO) {
+	public String updatePassword(SupplierDTO supplierDTO) {
 		Supplier supplier = (Supplier) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		supplier.setPassword(passwordEncoder.encode(supplierDTO.getConfirmPassword()));
-		
-		supplierRepository.save(supplier);
+		if(passwordEncoder.matches(supplierDTO.getPassword(), supplier.getPassword())) {
+			supplier.setPassword(passwordEncoder.encode(supplierDTO.getConfirmPassword()));
+			supplierRepository.save(supplier);
+			return "Succesfully";
+		}else {
+			throw new IllegalArgumentException("Please enter valid current password!");
+		}
 	}
 }

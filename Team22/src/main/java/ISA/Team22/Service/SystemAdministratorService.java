@@ -107,11 +107,18 @@ public class SystemAdministratorService implements ISystemAdministratorService {
 	}
 
 	@Override
-	public void updatePassword(SystemAdminDTO systemAdminDTO) {
+	public String updatePassword(SystemAdminDTO systemAdminDTO) {
 		SystemAdministrator admin = (SystemAdministrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		admin.setPassword(passwordEncoder.encode(systemAdminDTO.getConfirmPassword()));
 		
-		systemAdministratorRepository.save(admin);
+		if(passwordEncoder.matches(systemAdminDTO.getPassword(), admin.getPassword())) {
+			admin.setPassword(passwordEncoder.encode(systemAdminDTO.getConfirmPassword()));
+			systemAdministratorRepository.save(admin);
+			return "Succesfully";
+		}else {
+			throw new IllegalArgumentException("Please enter valid current password!");
+		}
+		
+		
 		
 	}
 

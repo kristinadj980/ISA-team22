@@ -55,7 +55,7 @@ export default {
     },
      methods:{
         validLettersName: function (name) {
-        var res = /^[a-zA-Z]+$/;
+        var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(name);
        },
        validLettersDescription: function (description) {
@@ -198,7 +198,7 @@ export default {
    border:  1px solid rgb(25, 40, 90); 
    padding: 10px 20px;
    position: absolute;
-   top: 110%;
+   top: 95%;
    right: 40%;
    width: 20%;
    height: 7%;
