@@ -11,4 +11,5 @@ public interface IPersonService {
 	 List<Person > findAll ();
 	 Person  save(PersonRequestDTO personRequest);
 	 Person savePerson(Person person);
+	 void changePasswordFirstLogin(String oldPassword, String newPassword);
 }

@@ -49,10 +49,12 @@ public class OfferService implements IOfferService {
 	
 	@Override
 	public Offer sendOffer(OfferDTO offerDTO) {
-		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierRepository.findById(person.getId()).get();
+        if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate()))
+    		throw new IllegalArgumentException("Date is incorrect!");
+        
         offerDTO.setSupplierId(supplier.getId());
         Boolean canMakeOffer = isOfferPossible(offerDTO,supplier);
         
@@ -167,7 +169,7 @@ public class OfferService implements IOfferService {
         List<Offer> offers =  supplier.getOffers();
         for (Offer o: offers) {
             PurchaseOrder order = o.getPurchaseOrder();
-            if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals(PurchaseOrderStatus.processed) && order.getDueDate().isAfter(LocalDate.now()))
+            if(order.getDueDate().isAfter(LocalDate.now()) && o.getDeliveryTime().isAfter(LocalDate.now()) && order.getPurchaseOrderStatus().equals(PurchaseOrderStatus.processed))
             {
                 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
                         order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
@@ -189,14 +191,14 @@ public class OfferService implements IOfferService {
 	        for (Offer o: offers) {
 	            if(o.getOfferStatus().toString().equals(offerStatus)) {
 	                PurchaseOrder order = o.getPurchaseOrder();
-	                if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals("closed"))
+	                if(order.getDueDate().isAfter(LocalDate.now()) && !order.getPurchaseOrderStatus().equals(PurchaseOrderStatus.closed))
 	                {
 	                	 supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
 	                             order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
 	                 }
 	                else {
 	                	supplierOffersDto.add(new OfferInfoDTO(o.getId(), order.getId(), o.getDeliveryTime(), o.getTotalPrice(),
-	                            order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),true, o.getOfferStatus()));
+	                            order.getDueDate(), getDrugsOrder(order.getPurchaseOrderDrugs()), order.getPharmacyAdministrator().getPharmacy().getName(),false, o.getOfferStatus()));
 	                }
 	            }
 

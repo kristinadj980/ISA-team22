@@ -79,9 +79,9 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (106, 1);
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
 VALUES (411,'2021-07-12', 1,104);
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
-VALUES (412,'2021-07-11', 1,104);
+VALUES (412,'2021-07-11', 0,104);
 INSERT INTO PURCHASE_ORDER (id,due_date,purchase_order_status,pharmacy_administrator_id)
-VALUES (413,'2021-07-10', 1,104);
+VALUES (413,'2021-07-10', 0,104);
 
 INSERT INTO DRUG_SPECIFICATION (id,compositions, contraindications,therapy,therapy_duration)
 VALUES (711,'celuloza, laktoza','alergy','2 times a day',5);

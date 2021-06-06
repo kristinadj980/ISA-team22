@@ -66,13 +66,8 @@ public class DrugController {
 	//@PreAuthorize("hasRole('SYSTEM_ADMINISTRATOR')")
     ResponseEntity<List<DrugSearchDTO>> getAllDrugs()
     {
-		
-        List<Drug> drugs = drugService.findAllDrugs();
-        List<DrugSearchDTO> drugsForFront = new ArrayList<>();
-        for (Drug drug: drugs) {
-        	DrugSearchDTO drugSearchDTO = drugService.findDrugSpecification(drug);
-        	drugsForFront.add(drugSearchDTO);
-        }
+        List<DrugSearchDTO> drugsForFront = drugService.findDrugs();
+        
         return drugsForFront == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(drugsForFront);
@@ -82,21 +77,14 @@ public class DrugController {
 	 @PostMapping("/searchDrug")
 	 //@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<List<DrugSearchDTO>> searchDrug(@RequestBody DrugSearchDTO drugSearchDTO) {
-		 List<Drug> drugs = drugService.findAllDrugs();
-		 List<DrugSearchDTO> drugSearchDTOs = new ArrayList<DrugSearchDTO>();
-		 for (Drug d : drugs) {
-			if(d.getName().equals(drugSearchDTO.getName())){
-				DrugSearchDTO drugSearchDTO1 = drugService.findDrugSpecification(d);
-				drugSearchDTOs.add(drugSearchDTO1);
-			}
-		}
+		 List<DrugSearchDTO> drugSearchDTOs = drugService.findDRugForSearch(drugSearchDTO);
 	        
 	        return drugSearchDTOs == null ?
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
 	                ResponseEntity.ok(drugSearchDTOs);
 		  
 		}
-	 
+
 	 @PostMapping("/getDrugSpecification")
 	 //@PreAuthorize("hasAnyRole('PATIENT', 'SYSTEM_ADMINISTRATOR', 'DERMATOLOGIST', 'PHARMACY_ADMINISTRATOR', 'PHARMACIST','UNAUTHORISED')")
 		public ResponseEntity<DrugSearchDTO> findDrugSpecification(@RequestBody DrugSearchDTO drugSearchDTO) {

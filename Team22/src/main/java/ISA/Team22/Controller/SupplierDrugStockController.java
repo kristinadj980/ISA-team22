@@ -48,13 +48,8 @@ public class SupplierDrugStockController {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         Person person = (Person)currentUser.getPrincipal();
         Supplier supplier = supplierService.findById(person.getId());
-        List<SupplierDrugStock> supplierDrugs = supplier.getDrugStocks();
-        List<SupplierDrugsDTO> supplierDrugsDTOS = new ArrayList<>();
-
-        for (SupplierDrugStock drug: supplierDrugs ) {
-        	supplierDrugsDTOS.add(new SupplierDrugsDTO(drug.getId(), drug.getQuantity(),
-            		drug.getReservedQuantity(),drug.getName(), drug.getCode()));
-        }
+        List<SupplierDrugsDTO> supplierDrugsDTOS = supplierDrugStockService.findSupplierDrugs(supplier);
+        
         return supplierDrugsDTOS == null ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(supplierDrugsDTOS);
