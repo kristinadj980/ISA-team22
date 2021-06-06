@@ -188,5 +188,41 @@ public class DermatologistService implements IDermatologistService {
 		return myPatients;
 	}
 
+	@Override
+	public List<PatientSearchDTO> sortMyPatientDescending(PatientSearchDTO sortingKey) {
+		List<PatientSearchDTO> myPatients =  getMyPatients();
+		
+		if(sortingKey.getSortingKey().equals("name")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o2.getName().compareTo(o1.getName());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("surname")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o2.getSurname().compareTo(o1.getSurname());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("startDate")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o2.getStartDate().compareTo(o1.getStartDate());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("startTime")) {
+			Collections.sort(myPatients, new Comparator<PatientSearchDTO>() {
+				@Override
+				public int compare(PatientSearchDTO o1, PatientSearchDTO o2) {
+					return o2.getStartTime().compareTo(o1.getStartTime());
+				}
+			});
+		}
+		return myPatients;
+	}
+
 	
 }

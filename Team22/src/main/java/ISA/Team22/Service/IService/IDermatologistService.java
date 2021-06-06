@@ -19,5 +19,6 @@ public interface IDermatologistService {
 	List<PatientSearchDTO> getMyPatients();
 	List<PatientSearchDTO> searchMyPatient(PatientSearchDTO patientSearchDTO);
 	List<PatientSearchDTO> sortMyPatient(PatientSearchDTO sortingKey);
+	List<PatientSearchDTO> sortMyPatientDescending(PatientSearchDTO sortingKey);
 	
 }
