@@ -41,19 +41,17 @@ import ISA.Team22.Service.PromotionService;
 public class PromotionController {
 
 	private final PromotionService promotionService;
-	private final PatientService patientService;
 	private final PharmacyService pharmacyService;
 	
 	@Autowired
-	public PromotionController(PromotionService promotionService,PatientService patientService,PharmacyService pharmacyService) {
+	public PromotionController(PromotionService promotionService,PharmacyService pharmacyService) {
 		this.promotionService = promotionService;
-		this.patientService = patientService;
 		this.pharmacyService = pharmacyService;
 	}
 	
 	
 	@PostMapping("/promotions")
-    @PreAuthorize("hasRole('PATIENT')") //mozda ce trebati za jos neke role?
+    @PreAuthorize("hasRole('PATIENT')")
     ResponseEntity<List<PromotionDTO>> getPromotions(@RequestBody PharmacyBasicDTO pharmacyBasicDTO)
     {
         List<PromotionDTO> promotionDtos = promotionService.findPromotions(pharmacyBasicDTO);
@@ -85,16 +83,7 @@ public class PromotionController {
 	 @PreAuthorize("hasRole('PATIENT')")
 	 public ResponseEntity<List<PharmacySubsribedDTO>> getMySubscriptions()
 	 {
-		 Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		 Person person = (Person)currentUser.getPrincipal();
-		 Patient patient = patientService.findById(person.getId());
-		 List<Pharmacy> pharmacies = patient.getSubscribedToPharmacies();
-		 List<PharmacySubsribedDTO> pharmacySubsribedDTOs = new ArrayList<PharmacySubsribedDTO>();
-		 PharmacySubsribedDTO dto;
-		 for (Pharmacy p : pharmacies) {
-			 dto = new PharmacySubsribedDTO(p.getId(), p.getName());
-			 pharmacySubsribedDTOs.add(dto);
-			}
+		 List<PharmacySubsribedDTO> pharmacySubsribedDTOs = promotionService.findSubscriptionsInPharmacy();
 
 	     return pharmacySubsribedDTOs == null ?
 	                new ResponseEntity<>(HttpStatus.NOT_FOUND) :

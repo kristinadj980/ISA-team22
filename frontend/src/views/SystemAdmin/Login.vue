@@ -52,7 +52,8 @@ export default {
             currentPassword : "",
             newPassword : "",
             newPasswordRepeat : "",
-            authority :""  
+            authority :""  ,
+            
         }
     },
     methods:{
@@ -166,7 +167,8 @@ export default {
         const changePasswordInfo ={
                 oldPassword : this.currentPassword,
                 newPassword : this.newPassword,
-                rewriteNewPassword : this.newPasswordRepeat
+                rewriteNewPassword : this.newPasswordRepeat,
+                email : this.email,
             } 
         let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
         this.axios.post('/auth/passwordFirstLogin',changePasswordInfo,{ 

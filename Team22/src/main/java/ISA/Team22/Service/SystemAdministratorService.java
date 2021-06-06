@@ -47,8 +47,8 @@ public class SystemAdministratorService implements ISystemAdministratorService {
 
 	@Override
 	public SystemAdministrator findByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return systemAdministratorRepository.findByEmail(email);
 	}
 
 	@Override

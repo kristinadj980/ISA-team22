@@ -24,4 +24,6 @@ public interface IDrugService {
     List<DrugSearchDTO> getdrugsForPatient(Long id);
     DrugSpecificationDTO getOnlyDrugSpecification(Long id);
     List<DrugSearchDTO> findAlternativeDrugs (DrugAlternativeDTO drugAlternativeDTO);
+    List<DrugSearchDTO> findDrugs();
+    List<DrugSearchDTO> findDRugForSearch(DrugSearchDTO drugSearchDTO);
 }

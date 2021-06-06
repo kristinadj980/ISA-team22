@@ -48,6 +48,20 @@ public class DrugService implements IDrugService {
         
         return drugRepository.save(drug);
 	}
+	
+	@Override
+	public List<DrugSearchDTO> findDRugForSearch(DrugSearchDTO drugSearchDTO) {
+		List<Drug> drugs = findAllDrugs();
+		 List<DrugSearchDTO> drugSearchDTOs = new ArrayList<DrugSearchDTO>();
+		 for (Drug d : drugs) {
+			if(d.getName().equals(drugSearchDTO.getName())){
+				DrugSearchDTO drugSearchDTO1 = findDrugSpecification(d);
+				drugSearchDTOs.add(drugSearchDTO1);
+			}
+		}
+		return drugSearchDTOs;
+	}
+	 
 
 	@Override
 	public Drug findByName(String name) {
@@ -85,6 +99,17 @@ public class DrugService implements IDrugService {
 		drugSearchDTO.setType(drug.getDrugType());
 		
 		return drugSearchDTO;
+	}
+	
+	@Override
+	public List<DrugSearchDTO> findDrugs() {
+		List<Drug> drugs = findAllDrugs();
+        List<DrugSearchDTO> drugsForFront = new ArrayList<>();
+        for (Drug drug: drugs) {
+        	DrugSearchDTO drugSearchDTO = findDrugSpecification(drug);
+        	drugsForFront.add(drugSearchDTO);
+        }
+		return drugsForFront;
 	}
 
 	@Override

@@ -86,9 +86,6 @@ public class OfferController {
     @PreAuthorize("hasRole('SUPPLIER')")
     ResponseEntity<Offer> addOffer(@RequestBody OfferDTO offerDTO)
     {
-    	if(offerDTO.getDeliveryDate().isAfter(offerDTO.getDueDate())) {
-    		throw new IllegalArgumentException("Date is incorrect!");
-    	}
         Offer offer = offerService.sendOffer(offerDTO);
        
         return offer == null  ?

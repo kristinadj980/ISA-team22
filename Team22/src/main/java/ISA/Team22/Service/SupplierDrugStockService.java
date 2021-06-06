@@ -1,5 +1,6 @@
 package ISA.Team22.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import ISA.Team22.Domain.DTO.OfferDTO;
 import ISA.Team22.Domain.DTO.SupplierDrugUpdateDTO;
+import ISA.Team22.Domain.DTO.SupplierDrugsDTO;
 import ISA.Team22.Domain.DrugManipulation.SupplierDrugStock;
 import ISA.Team22.Domain.PharmacyWorkflow.PurchaseOrderDrug;
+import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Repository.PurchaseOrderRepository;
 import ISA.Team22.Repository.SupplierDrugStockRepository;
 import ISA.Team22.Service.IService.ISupplierDrugStockService;
@@ -56,6 +59,18 @@ public class SupplierDrugStockService implements ISupplierDrugStockService {
 	       
 	        return true;
 	    }
+	
+	@Override
+	public List<SupplierDrugsDTO> findSupplierDrugs(Supplier supplier) {
+		List<SupplierDrugStock> supplierDrugs = supplier.getDrugStocks();
+        List<SupplierDrugsDTO> supplierDrugsDTOS = new ArrayList<>();
+
+        for (SupplierDrugStock drug: supplierDrugs ) {
+        	supplierDrugsDTOS.add(new SupplierDrugsDTO(drug.getId(), drug.getQuantity(),
+            		drug.getReservedQuantity(),drug.getName(), drug.getCode()));
+        }
+		return supplierDrugsDTOS;
+	}
 
 	
 }

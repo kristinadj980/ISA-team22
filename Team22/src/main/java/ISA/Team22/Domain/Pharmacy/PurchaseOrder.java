@@ -109,7 +109,5 @@ public class PurchaseOrder {
 	public void setPurchaseOrderDrugs(List<PurchaseOrderDrug> purchaseOrderDrugs) {
 		this.purchaseOrderDrugs = purchaseOrderDrugs;
 	}
-
-	 
 	   
 }
