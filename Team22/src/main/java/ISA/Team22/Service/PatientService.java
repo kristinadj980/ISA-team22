@@ -97,8 +97,12 @@ public class PatientService implements IPatientService {
 	
 	@Override
 	public List<Counseling> getAllMyCounselings(Long id) {
-
 		Patient patient = patientRepository.findById(id).get();
 		return patient.getCounseling();
 	}
+	
+	public void saveChanges(Patient patient) {
+		patientRepository.save(patient);
+	}
+	
 }

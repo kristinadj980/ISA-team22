@@ -313,8 +313,7 @@ data() {
                     'Authorization': 'Bearer ' + token,
                 }})
                 .then(response => {
-                    alert("Successfully edited password.")
-                        console.log(response);
+                    alert(response.data)
                 })
                 .catch(response => {
                     alert("Please, try later.")

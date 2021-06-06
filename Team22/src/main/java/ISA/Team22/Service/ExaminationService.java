@@ -265,6 +265,11 @@ public class ExaminationService implements IExaminationService {
 		Examination examination = examinationRepository.findById(examinationUpdateDTO.getExaminationId()).get();
 		examination.setDiagnosis(examinationUpdateDTO.getExaminationInfo());
 		examination.setExaminationStatus(ExaminationStatus.held);
+		Patient patient = examination.getPatient();
+		List<Examination> patientExaminations = patient.getExaminations();
+		patientExaminations.add(examination);
+		patient.setExaminations(patientExaminations);
+		patientService.saveChanges(patient);
 		examinationRepository.save(examination);
 	}
 
@@ -293,9 +298,14 @@ public class ExaminationService implements IExaminationService {
 			Instant endTimeI = e.getEndTime().atDate(LocalDate.of(1111, 11, 11)).atZone(ZoneId.systemDefault()).toInstant();
 			Date endTime = Date.from(endTimeI);
 			date = java.sql.Date.valueOf(e.getStartDate());
+			if(e.getPatient() == null) {
+				examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), date, startTime,
+						endTime, e.getDuration(), e.getPharmacy().getName()));
+			}else {
+				examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
+						endTime, e.getDuration(), e.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
+			}
 			
-			examinationsForCalendar.add(new DataForCalendarDTO(e.getId(), e.getPatient().getId(), date, startTime,
-					endTime, e.getDuration(), e.getPharmacy().getName(),e.getPatient().getName() + " " + e.getPatient().getLastName()));
 		}
 		return examinationsForCalendar;
 	}

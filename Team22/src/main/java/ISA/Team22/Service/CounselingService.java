@@ -234,6 +234,11 @@ public class CounselingService implements ICounselingService {
 		Counseling counseling =  counselingRepository.findById(counselingDTO.getCounselingId()).get();
 		counseling.setDiagnosis(counselingDTO.getPatientInfo());
 		counseling.setCounselingStatus(ExaminationStatus.held);
+		Patient patient = counseling.getPatient();
+		List<Counseling> patientCounselings = patient.getCounseling();
+		patientCounselings.add(counseling);
+		patient.setCounseling(patientCounselings);
+		patientService.saveChanges(patient);
 		counselingRepository.save(counseling);
 		
 	}
