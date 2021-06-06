@@ -13,6 +13,6 @@ public interface ISystemAdministratorService {
 	 List<SystemAdministrator> findAll ();
 	 SystemAdministrator save(PersonRequestDTO userRequest);
 	 void update(SystemAdminDTO systemAdminDTO);
-	 void updatePassword(SystemAdminDTO systemAdminDTO);
+	 String updatePassword(SystemAdminDTO systemAdminDTO);
 	
 }

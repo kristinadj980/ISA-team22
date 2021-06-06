@@ -274,7 +274,7 @@ export default {
    border:  1px solid rgb(25, 40, 90); 
    padding: 10px 20px;
    position: absolute;
-   top: 110%;
+   top: 100%;
    right: 40%;
    width: 20%;
    height: 7%;

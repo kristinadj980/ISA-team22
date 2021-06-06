@@ -75,11 +75,6 @@
                     </div>
             </div>
             <button style="color:white" type="submit" class="button" v-on:click = "registerUser">Sign Up</button>
-
-            <p class="forgot-password text-center">
-                Already registered 
-                <router-link :to="{name: 'login'}">sign in?</router-link>
-            </p>
         
     </div>
 </div>
@@ -280,7 +275,7 @@ export default {
    border:  1px solid rgb(25, 40, 90); 
    padding: 10px 20px;
    position: absolute;
-   top: 110%;
+   top: 100%;
    right: 40%;
    width: 20%;
    height: 7%;

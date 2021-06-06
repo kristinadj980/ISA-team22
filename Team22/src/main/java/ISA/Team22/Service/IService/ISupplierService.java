@@ -10,5 +10,5 @@ public interface ISupplierService {
 	Supplier save(PersonRequestDTO userRequest);
 	Supplier findById(Long id);
 	void update(SupplierDTO supplierDTO);
-	void updatePassword(SupplierDTO supplierDTO);
+	String updatePassword(SupplierDTO supplierDTO);
 }

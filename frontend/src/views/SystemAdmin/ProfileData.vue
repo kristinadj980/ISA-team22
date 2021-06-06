@@ -100,7 +100,7 @@
                                         <VuePassword
                                             v-model="admin.newPassword"
                                             id="password1"
-                                            placeholder="Enter your current password"
+                                            placeholder="Enter your new password"
                                            
                                         />
                                         </div>
@@ -111,7 +111,7 @@
                                         <VuePassword
                                             v-model="admin.repeatNewPassword"
                                             id="password1"
-                                            placeholder="Enter your current password"
+                                            placeholder="Enter password again"
                                         />
                                         </div>
                                     </h5>
@@ -235,7 +235,7 @@ export default {
                 email:this.admin.email,
                 address: addressInfo
            };
-           alert(this.admin.address.number);
+           
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
              if(!this.validLettersName(this.admin.name)){
                 alert("Please enter valid name!")

@@ -47,8 +47,8 @@ Frontend:
 ### Potrebni podaci za logovanje:
 | Uloga  | Email  | Password |
 | ------ | ------ | -------- |
-| Dermatologist |derma@derma| 123 |
-| Pharmacist | pharma@pharma | 123 |
+| Dermatologist |mila@gmail.com| 123 |
+| Pharmacist | ivan@gmail.com | 123 |
 | Supplier | mina@mina.com| 123 |
 | Patient | maja18isa@gmail.com| 123 |
 | System Administrator | pera@pera.com| 123 |
