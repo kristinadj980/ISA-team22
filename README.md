@@ -66,7 +66,7 @@ Frontend:
 | code2 | 9 xyzala, 5 aspirina | nema ni u jednoj|
 | code3 | 2 aeriusa, 2 aspirina| Tilia |
 | code4 | 8 aspirina | Tilia, Zegin |
-| code5 | 10 xyzala, 2 aspirina , 4 brufen | nema ni u jednoj|
+| code5 | 10 xyzala, 2 aspirina , 4 brufena | nema ni u jednoj|
 | code6 | 4 cetirizina, 2 brufena | Zegin |
 | code7 | 6 brufena | Tilia,Zegin |
 | code8 | 2 cetirizina, 2 aeriusa, 1 xyzal | nema ni u jednoj|
