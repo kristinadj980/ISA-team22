@@ -10,6 +10,7 @@ import ISA.Team22.Domain.DTO.DrugAlternativeDTO;
 import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.DrugManipulation.DrugSpecification;
 import ISA.Team22.Domain.Users.Patient;
@@ -149,6 +150,41 @@ public class DrugService implements IDrugService {
 			});
 		}
 		
+		return drugSearchDTOs;
+	}
+	
+	@Override
+	public List<DrugSearchDTO> sortDrugsDesc(DrugSearchDTO sortingKey) {
+		 List<Drug> drugs = findAllDrugs();
+		 List<DrugSearchDTO> drugSearchDTOs = new ArrayList<DrugSearchDTO>();
+		 for (Drug d : drugs) {
+			 DrugSearchDTO drugSearchDTO1 = findDrugSpecification(d);
+			 drugSearchDTOs.add(drugSearchDTO1);
+		 }
+		
+		if(sortingKey.getSortingKey().equals("name")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o2.getName().compareTo(o1.getName());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("type")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o2.getType().compareTo(o1.getType());
+				}
+			});
+		}else if(sortingKey.getSortingKey().equals("grade")) {
+			Collections.sort(drugSearchDTOs, new Comparator<DrugSearchDTO>() {
+				@Override
+				public int compare(DrugSearchDTO o1, DrugSearchDTO o2) {
+					return o2.getNumberOfGrades().compareTo(o1.getNumberOfGrades());
+				}
+			});
+		
+		}
 		return drugSearchDTOs;
 	}
 
