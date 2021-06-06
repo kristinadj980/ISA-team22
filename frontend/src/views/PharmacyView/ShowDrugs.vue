@@ -24,12 +24,24 @@
        <div style="height:25px"></div>
             <h3>Drugs</h3>
             <table class="table table-striped" style="width:100%;">
-                <thead class="thead-light">
+                <thead class="thead-light" v-if="searched == 0">
                     <tr>
                     <th scope="col" 
                     v-for="f in fields" v-bind:key="f.key" 
                     @click="fieldForSorting = f.key"
-                    v-on:click="sortColumn">
+                    >
+                        {{f.label}}
+                        <b-icon icon="caret-down-fill" @click="sortColumnA" aria-hidden="true"> </b-icon>
+                        <b-icon icon="caret-up-fill" @click="sortColumnD" aria-hidden="true"> </b-icon>
+                    </th>
+                    </tr>
+                </thead>
+                 <thead class="thead-light" v-else>
+                    <tr>
+                    <th scope="col" 
+                    v-for="f in fields" v-bind:key="f.key" 
+                    @click="fieldForSorting = f.key"
+                   >
                         {{f.label}}
                     </th>
                     </tr>
@@ -163,6 +175,7 @@ export default {
             medicationId : 0,
             code : 0
       },
+      searched: 0,
     }
   },
   mounted() {
@@ -251,12 +264,37 @@ export default {
           
           
       },
-      sortColumn : function() {
+      sortColumnA : function() {
            // let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-             const columnForSort = {
+           if(this.fieldForSorting == 'btn'){
+                return;
+            }
+            const columnForSort = {
                 sortingKey : this.fieldForSorting
             };
             this.axios.post('/drug/sortResult',columnForSort, { 
+               // headers: {
+               // 'Authorization': 'Bearer ' + token,
+                })
+                .then(response => {
+                    alert("ok")
+                    this.drugs = response.data;
+                })
+                .catch(response => {
+                    alert("Please, try later.")
+                    alert(response);
+                })
+        },
+
+        sortColumnD : function() {
+           // let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+           if(this.fieldForSorting == 'btn'){
+                return;
+            }
+            const columnForSort = {
+                sortingKey : this.fieldForSorting
+            };
+            this.axios.post('/drug/sortResultDescending',columnForSort, { 
                // headers: {
                // 'Authorization': 'Bearer ' + token,
                 })

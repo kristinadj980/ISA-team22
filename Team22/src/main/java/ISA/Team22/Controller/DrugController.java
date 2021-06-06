@@ -23,6 +23,7 @@ import ISA.Team22.Domain.DTO.DrugDTO;
 import ISA.Team22.Domain.DTO.DrugOrderDTO;
 import ISA.Team22.Domain.DTO.DrugSearchDTO;
 import ISA.Team22.Domain.DTO.DrugSpecificationDTO;
+import ISA.Team22.Domain.DTO.PatientSearchDTO;
 import ISA.Team22.Domain.DrugManipulation.Drug;
 import ISA.Team22.Domain.Users.Person;
 import ISA.Team22.Domain.Users.Supplier;
@@ -104,6 +105,16 @@ public class DrugController {
 			try {
 				List<DrugSearchDTO> searchResult = drugService.sortDrugs(sortingKey);
 				
+				return	ResponseEntity.ok(searchResult);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		}
+	 
+	 @PostMapping("/sortResultDescending")
+		public ResponseEntity<List<DrugSearchDTO>> sortDrugsDesc(@RequestBody DrugSearchDTO sortingKey) {
+			try {
+				List<DrugSearchDTO> searchResult = drugService.sortDrugsDesc(sortingKey);
 				return	ResponseEntity.ok(searchResult);
 			} catch (Exception e) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

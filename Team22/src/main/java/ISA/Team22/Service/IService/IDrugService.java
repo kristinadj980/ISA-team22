@@ -26,4 +26,5 @@ public interface IDrugService {
     List<DrugSearchDTO> findAlternativeDrugs (DrugAlternativeDTO drugAlternativeDTO);
     List<DrugSearchDTO> findDrugs();
     List<DrugSearchDTO> findDRugForSearch(DrugSearchDTO drugSearchDTO);
+    List<DrugSearchDTO> sortDrugsDesc(DrugSearchDTO sortingKey);
 }
