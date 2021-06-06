@@ -30,6 +30,16 @@ public class DataForCalendarDTO {
 		this.pharmacyName = pharmacyName;
 		this.patientInfo = patientInfo;
 	}
+	public DataForCalendarDTO(Long id,Date start, Date startTime, Date endTime, Long duration,String pharmacyName) {
+		super();
+		this.id = id;
+		this.start = start;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.duration = duration;
+		this.pharmacyName = pharmacyName;
+	}
+
 
 	public Long getId() {
 		return id;

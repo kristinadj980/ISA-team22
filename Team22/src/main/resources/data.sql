@@ -25,12 +25,12 @@ INSERT INTO PHARMACY_INVENTORY(id) VALUES (9);
 INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (50, 10,'First Pharmacy', 'Tilia', 10, 300, 8);
 INSERT INTO PHARMACY(id, all_grades, description, name, number_of_grades, address_id, pharmacy_inventory_id) VALUES (51, 8,'Second Pharmacy', 'Zegin', 10, 303, 9);
 
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'derma@derma', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Dermatologist', 100,'0655552525', 'mila@gmail.com', true, false, 'Ivanovic', 'Mila', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, main_admin) VALUES('SystemAdministrator', 101,'0655552525', 'pera@pera.com', true, true, 'Peric', 'Pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300, true);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('Pharmacist', 102,'0655552525', 'pharma@pharma', true, false, 'Mikic', 'Ivan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 113,'06201023325', 'kristinadjuric65@gmail.com', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 114,'06256306363', 'miki@miki', true, false, 'Mikic', 'Miki', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 303);
-INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Patient', 115,'06125478958', 'ana@ana', true, false, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 304);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('Pharmacist', 102,'0655552525', 'ivan@gmail.com', true, false, 'Mikic', 'Ivan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, penalty) VALUES('Patient', 113,'06201023325', 'kristinadjuric65@gmail.com', true, false, 'Minic', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 302,0);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, penalty) VALUES('Patient', 114,'06256306363', 'miki@miki', true, false, 'Mikic', 'Miki', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 303, 0);
+INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id, penalty) VALUES('Patient', 115,'06125478958', 'ana@ana', true, false, 'Anic', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 304, 0);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 103,'0657552525', 'mina@mina.com', true, true, 'Maric', 'Mina', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id,pharmacy_id) VALUES('PharmacyAdministrator', 104,'0657552525', 'marko@marko.com', true, true, 'Maric', 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300,50);
 INSERT INTO PERSON(dtype, id, contact, email, enabled, first_logged, last_name, name, password, address_id) VALUES('Supplier', 105,'0657552525', 'ana@ana.com', true, true, 'Maric', 'Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 300);
@@ -46,12 +46,12 @@ INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (114, 1);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (115, 1);
 
 -- Dermatologist task 3.14
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (40, '2021-05-10', '15:00', '2021-05-10', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (41, '2021-05-11', '15:00', '2021-05-11', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (42, '2021-05-12', '20:00', '2021-05-12', '13:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (43, '2021-05-13', '15:00', '2021-05-13', '07:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-05-20', '20:00', '2021-05-20', '13:00' );
-INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-05-30', '20:00', '2021-05-30', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (40, '2021-07-10', '15:00', '2021-07-10', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (41, '2021-07-11', '15:00', '2021-07-11', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (42, '2021-07-12', '20:00', '2021-07-12', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (43, '2021-07-13', '15:00', '2021-07-13', '07:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (44, '2021-07-14', '20:00', '2021-07-14', '13:00' );
+INSERT INTO PERIOD(id, end_date, end_time, start_date, start_time) VALUES (45, '2021-07-15', '20:00', '2021-07-15', '13:00' );
 
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (400, 50, 100, 40);
 INSERT INTO BUSINESS_DAY_DERMATOLOGIST(id, pharmacy_id, dermatologist_id, shift_id) VALUES (401, 50, 100, 41);
@@ -67,7 +67,7 @@ INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 51);
 
 INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 5000, 0, '2021-06-10', '08:30', '09:00', 100, 113, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-06-10', '10:30', '11:00', 100, 114, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-06-10', '10:30', '11:00', 100, 50);
 INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 4000, 0, '2021-06-14', '16:30', '17:00', 100, 115, 51);
 
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);

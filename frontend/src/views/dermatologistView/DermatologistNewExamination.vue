@@ -19,7 +19,7 @@
         <b-card 
         style=" background: #e6f9fc; 
         position: fixed;
-        top: 10.5%;
+        top: 9%;
         width: 100%;
         height: 100%;
         max-width: 100%;"
@@ -51,7 +51,7 @@
                             {{ patient.name }} {{patient.surname}} | {{patient.email}} 
                         </option>
                     </datalist>
-                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important; margin-top: 10% !important;">
+                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important; margin-top: 12% !important;">
                     <b> 
                         Select pharmacy for examination:
                     </b>
@@ -72,7 +72,7 @@
                 id="dropdown-divider">
                     <b-dropdown-item  
                     v-for="pharm in pharmacies" v-bind:key="pharm.id" :value="pharm.id"
-                    @click="selectedPharmacyIDE1 = pharm.id, selectedPharmacyNameE1 = pharm.name">
+                    @click="selectedPharmacyIDE1 = pharm.id, selectedPharmacyNameE1 = pharm.name, filteredScheduledExaminations(pharm.id)">
                         {{ pharm.name}}
                     </b-dropdown-item>
                 </b-dropdown>
@@ -85,7 +85,7 @@
                      <b>
                          Selected pharmacy: {{ selectedPharmacyNameE1 }}
                     </b>
-                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 12% !important;"><b> Select one date from the list:</b></h5>
+                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 15% !important;"><b> Select one date from the list:</b></h5>
                 <select
                 multiple = "true" 
                 text="Select date" 
@@ -102,7 +102,7 @@
                 
                 <b-button 
                     class="btn btn-info btn-lg space_style object_space" 
-                    style="background-color:#17a2b8; width:16.3cm; margin-top: 18% !important;" 
+                    style="background-color:#17a2b8; width:16.3cm; margin-top: 17% !important;" 
                     v-on:click = "scheduleSelectedExamination">
                     Schedule
                 </b-button>
@@ -113,13 +113,13 @@
             border:2px solid #17a2b8; 
             background-color: #ffffff; 
             left:52%;
-            top: 18.5%;">
+            top: 16%;">
             <div class="vl"></div>
-            <h4 class="ml-n mt-6 strong text_position" style="color: #17a2b8;"><b>Schedule new examination</b></h4>
+            <h4 class="ml-n mt-6  text_position" style="color: #17a2b8;"><b>Schedule new examination</b></h4>
             <div style="position: fixed;
                     top: 18%; 
                     max-width: 100%;
-                    left: 810px;
+                    left: 910px;
                     height: 450px;
                     width: 40%;
                     max-width: 100%;">
@@ -149,6 +149,15 @@
                                 {{ pharm.name}}
                              </b-dropdown-item>
                     </b-dropdown>
+                    <p class="ml-n mt-6 strong chosen"
+                    style="width: 14%;
+                    position: fixed;
+                    left: 68%;
+                    top: 36%; 
+                    margin-left: 2%;">
+                        <b>
+                            Selected pharmacy: {{ selectedPharmacyName }}
+                        </b>
                     <span></span>
                     <h5 class="ml-n mt-6 strong text-left" style="margin-top:10%"><b>Select date of examination</b></h5>
                     <b-form-input type="date" class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
@@ -188,17 +197,8 @@ export default {
         }
     },
     mounted(){
-     let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/examination/getFreeScheduled',{ 
-            headers: {
-                'Authorization': 'Bearer ' + token,
-            }
-        }).then(response => {
-            this.examinations = response.data;
-        }).catch(res => {
-            alert("Error");
-            console.log(res);
-        });
+        let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+        this.freeScheduledExaminations();
 
         this.axios.get('/pharmacy/pharmacystaff/dermatologist',{ 
             headers: {
@@ -303,6 +303,19 @@ export default {
                     alert(response);
                 })
         },
+        freeScheduledExaminations : function() {
+            let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
+            this.axios.get('/examination/getFreeScheduled',{ 
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+                }).then(response => {
+                    this.examinations = response.data;
+                }).catch(res => {
+                    alert("Error");
+                    console.log(res);
+                })
+        },
         scheduleSelectedExamination : function() {
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             if(this.selectedExamination.examinationID == null){
@@ -337,6 +350,19 @@ export default {
             variant: variant,
             solid: true
             })
+        },
+        filteredScheduledExaminations: async function(pharmacyId){
+            if(this.examinations.length == 0){
+                this.freeScheduledExaminations();
+            }
+            let examinationsFiltered = [];
+            for(let i in this.examinations){
+                let ex = this.examinations[i];
+                if(ex.pharmacyID == pharmacyId){
+                    examinationsFiltered.push(ex);
+                }
+            } 
+            this.examinations =examinationsFiltered;
         }
        
     }
@@ -371,7 +397,7 @@ export default {
         height: 380px;
         position: fixed;
         top: 18%;
-        left: 720px;
+        left: 810px;
         z-index: 999;
         max-width: 100%;
     }
@@ -409,8 +435,8 @@ export default {
     }
     .text_position{
         position: fixed;
-        left: 50%;
-        top: 11%;
+        left: 49%;
+        top: 9.5%;
         margin-left: 3%;
         margin-top: 1% !important;
         margin-bottom: 1% !important;

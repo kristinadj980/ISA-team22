@@ -128,9 +128,11 @@ public class DermatologistService implements IDermatologistService {
 		PatientSearchDTO patientSearchDTO = new PatientSearchDTO();
 		
 		for(Examination e:examinations) {
-			patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
-					e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
-			myPatients.add(patientSearchDTO);
+			if(e.getPatient() != null) {
+				patientSearchDTO = new PatientSearchDTO(e.getPatient().getName(),e.getPatient().getLastName(),e.getPatient().getEmail(),
+						e.getStartDate().toString(), e.getStartTime().toString(), e.getId());
+				myPatients.add(patientSearchDTO);
+			}
 		}
 		
 		return myPatients;

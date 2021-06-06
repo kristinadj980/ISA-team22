@@ -98,7 +98,7 @@
                     >Close</b-button
                     >
                 </b-col>
-                <b-col> 
+                <b-col v-if="startExamination==true"> 
                     <router-link :to="{ name: 'DermatologistExamination', params: {selectedExamination: this.examinationId}}" class="search-btn">
                         <b-button
                         class="button_custom"
@@ -153,7 +153,7 @@ export default {
                 eventsSet: this.handleEvents,
                 events: this.scheduledExaminations
             },
-            isAvailable: true,
+            startExamination: true,
             examinations: [],
             currentEvents: [],
             choosenExamination : '',
@@ -199,14 +199,23 @@ export default {
                     startTime.setUTCDate(startDate.getDate());
                     startTime.setUTCMonth(startDate.getUTCMonth());
                     startTime.setFullYear(startDate.getFullYear());
-                    console.log(startTime + "****" +startDate);
-                    let newEvent = {
-                        id: ex.id,
-                        title: ex.pharmacyName +" "+ ex.patientInfo,
-                        start: startTime,
-                        backgroundColor: "#17a2b8",
-                    };
-                examinationsForCalendar.push(newEvent);
+                    if(ex.patientInfo == null){
+                        let newEvent = {
+                            id: ex.id,
+                            title: ex.pharmacyName,
+                            start: startTime,
+                            backgroundColor: "#17a2b8",
+                            };   
+                        examinationsForCalendar.push(newEvent);
+                    }else{
+                            let newEvent = {
+                            id: ex.id,
+                            title: ex.pharmacyName +" "+ ex.patientInfo,
+                            start: startTime,
+                            backgroundColor: "#17a2b8",
+                        };
+                        examinationsForCalendar.push(newEvent);
+                    }
                 }
                 this.examinations = examinationsForCalendar;
                 this.calendarOptions.events = examinationsForCalendar;
@@ -266,10 +275,10 @@ export default {
             this.endDate = new Date(this.startTime.getTime());
             this.startTime =  this.endDate.toLocaleString();
             this.duration = exam[0].duration;
-            if (this.name === "") {
-                this.isAvailable = false;
+            if (this.patientInfo == null) {
+                this.startExamination = false;
             } else {
-                this.isAvailable = true;
+                this.startExamination = true;
             }
         
         },
@@ -290,21 +299,19 @@ export default {
             let examinationsForCalendar = [];
                 for (let i in examiantions) {
                     let ex = examiantions[i];
-                    console.log("usao je ov "+ ex.pharmacyName);
                     if(ex.pharmacyName == pharmacyName){
-                    let startDate = new Date(ex.start); //ovde imamo datum
-                    let startTime = new Date(ex.startTime);
-                    startTime.setUTCDate(startDate.getDate());
-                    startTime.setUTCMonth(startDate.getUTCMonth());
-                    startTime.setFullYear(startDate.getFullYear());
-                    console.log(startTime + "****" +startDate);
-                    let newEvent = {
-                        id: ex.id,
-                        title: ex.pharmacyName +" "+ ex.patientInfo,
-                        start: startTime,
-                        backgroundColor: "#17a2b8",
-                    };
-                examinationsForCalendar.push(newEvent);
+                        let startDate = new Date(ex.start);
+                        let startTime = new Date(ex.startTime);
+                        startTime.setUTCDate(startDate.getDate());
+                        startTime.setUTCMonth(startDate.getUTCMonth());
+                        startTime.setFullYear(startDate.getFullYear());
+                        let newEvent = {
+                            id: ex.id,
+                            title: ex.pharmacyName +" "+ ex.patientInfo,
+                            start: startTime,
+                            backgroundColor: "#17a2b8",
+                        };
+                    examinationsForCalendar.push(newEvent);
                 }
                 this.examinations = examinationsForCalendar;
                 this.calendarOptions.events = examinationsForCalendar;

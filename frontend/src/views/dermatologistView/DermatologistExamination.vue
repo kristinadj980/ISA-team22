@@ -329,6 +329,7 @@ export default {
                 }})
                 .then(response => {
                     alert(response.data);
+                    this.selected = 0;
                     this.$bvToast.toast('The patients absence was registered.', {
                     variant: 'warning',
                     title: 'INFO',
