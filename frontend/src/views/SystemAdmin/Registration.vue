@@ -2,69 +2,110 @@
 <div id="registration">
    
     <div class="vue-tempalte">
-       
-            <h3>Sign Up</h3>
-
             <div class="form-group">
                  
                  <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Name</label>
-                        <input type="text" class="form-control" v-model="name" placeholder="Enter name" required>
+                        <label style="color:white">Ime</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="person"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Ime" v-model="name" required></b-form-input>
+                        </b-input-group>
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Surname</label>
-                        <input type="text" class="form-control" v-model = "surname" placeholder="Enter surname" required >
+                        <label style="color:white">Prezime</label>
+                        <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="person"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Prezime" v-model="surname" required></b-form-input>
+                        </b-input-group>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                         <label style="color:white">Email</label>
-                        <input type="email" class="form-control" v-model="email" placeholder="Enter email" required>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="envelope"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="email" placeholder="me@example.com" v-model="email" required></b-form-input>
+                        </b-input-group>
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Phone number</label>
-                        <input type="text" class="form-control" v-model="phone" placeholder="Enter phone number" required>
+                        <label style="color:white">Telefon</label>
+                        <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="telephone"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="0604222333" v-model="phone" required></b-form-input>
+                        </b-input-group>
                         </div>
                     </div>
                       <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Country</label>
-                        <input type="text" class="form-control" v-model="country" placeholder="Enter country" required>
+                        <label style="color:white">Zemlja</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Zemlja" v-model="country" required></b-form-input>
+                        </b-input-group>
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">City</label>
-                        <input type="text" class="form-control" v-model="city" placeholder="Enter city" required>
+                        <label style="color:white">Grad</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="building"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Grad" v-model="city" required></b-form-input>
+                        </b-input-group>
                         </div>
                     </div>
                      <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Street</label>
-                        <input type="text" class="form-control" v-model="street" placeholder="Enter street" required>
+                        <label style="color:white">Ulica</label>
+                        <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo-alt"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Ulica" v-model="street" required></b-form-input>
+                        </b-input-group>
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Street Number</label>
-                        <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number" required>
+                        <label style="color:white">Broj ulice</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo-alt"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="number" placeholder="1" v-model="streetNumber" required></b-form-input>
+                        </b-input-group>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Password</label>
-                        <input type="password" class="form-control" v-model="password" placeholder="Enter password" required>
+                        <label style="color:white">Šifra</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="lock"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="password" placeholder="me123" v-model="password" required></b-form-input>
+                        </b-input-group>
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Confirm password</label>
-                        <input type="password" class="form-control" v-model="passwordConf" placeholder="Repeat password" required>
+                        <label style="color:white">Potvrdite šifru</label>
+                        <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="lock"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="password" placeholder="me123" v-model="passwordConf" required></b-form-input>
+                        </b-input-group>
                         </div>
                     </div>
             </div>
-            <button style="color:white" type="submit" class="button" v-on:click = "registerUser">Sign Up</button>
-
-            <p class="forgot-password text-center">
-                Already registered 
-                <router-link :to="{name: 'login'}">sign in?</router-link>
-            </p>
-        
+            <b-button pill style="color:white; margin-top:-60px" type="submit" class="button" v-on:click = "registerUser">Registruj se</b-button>
     </div>
 </div>
 </template>
@@ -224,7 +265,8 @@ export default {
   display: flex;
   font-weight: 400;
   justify-content: center;
-  flex-direction: column;   
+  flex-direction: column;  
+  margin-top: -30px; 
     }
 .form-group{
   position: relative;

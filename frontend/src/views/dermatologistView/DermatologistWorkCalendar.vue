@@ -2,26 +2,28 @@
 <template>
     <div id="dermatologistWorkCalendar">
         <div class="homepage_style ">
-           <span style="float: left; margin: 15px;">
-                <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomepage">Home</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Examinations</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new examination</button>
+            <span style="float: left; margin: 15px">
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                <b-button style="margin-left:20px" pill class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">Pacijenti</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Radni kalendar</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Odmor</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Pregledi</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Nov pregled</b-button>
             </span>
-              <span  style="float:right;margin:15px">
-                    <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
-                </span>
+            <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
+            </span>
             </div>
             <div style="padding-top:10px;
         padding-bottom:10px;
         padding-left:1px;
-        background: #EFFDFD;">
-            <h4 style="margin-left:1%" class="text-left">If you want work calendar for certain pharmacy, please select one:</h4>
-            <b-dropdown text="Select pharmacy" dropright  variant="outline-info" style="width: 14%;
+        background: #white">
+            <h4 style="margin-left:4%;margin-top:8px" class="text-left">Molim vas izaberite željenu apoteku:</h4>
+            <b-dropdown text="Izaberite apoteku" dropright  variant="outline-info" style="width: 14%;
                 position: fixed;
                 left: 45%;
                 margin-top: -2%;">
@@ -333,7 +335,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
 
     .space_style{

@@ -40,6 +40,10 @@ import ShowDrugs from '../views/PharmacyView/ShowDrugs.vue'
 import LoaltyProgram from '../views/SystemAdmin/LoaltyProgram.vue'
 import EPrescription from '../views/PatientView/EPrescription.vue'
 import PharmacistDispensingDrugs from '../views/pharmacistView/PharmacistDispensingDrugs.vue'
+import BodyCare from '../views/PharmacyView/BodyCare.vue'
+import Vitamins from '../views/PharmacyView/Vitamins.vue'
+import DrugAdvices from '../views/PharmacyView/DrugAdvices.vue'
+import ProfileInfo from '../views/PatientView/ProfileInfo.vue'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -249,6 +253,26 @@ const routes = [
     path: '/ePrescription',
     name: 'EPrescription',
     component: EPrescription
+  },
+  {
+    path: '/bodyCare',
+    name: 'BodyCare',
+    component: BodyCare
+  },
+  {
+    path: '/vitamins',
+    name: 'Vitamins',
+    component: Vitamins
+  },
+  {
+    path: '/drugAdvices',
+    name: 'DrugAdvices',
+    component: DrugAdvices
+  },
+  {
+    path: '/profileInfo',
+    name: 'ProfileInfo',
+    component: ProfileInfo
   }
 ]
 

@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ISA.Team22.Domain.DTO.AddressDTO;
+import ISA.Team22.Domain.DTO.PatientDTO;
 import ISA.Team22.Domain.DTO.PatientFrontDTO;
+import ISA.Team22.Domain.DTO.SupplierDTO;
 import ISA.Team22.Domain.Users.Patient;
 import ISA.Team22.Domain.Users.Person;
+import ISA.Team22.Domain.Users.Supplier;
 import ISA.Team22.Service.PatientService;
 
 @RestController
@@ -49,6 +53,23 @@ public class PatientController {
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 ResponseEntity.ok(patient);
     }
+	
+	@GetMapping("/profile")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<SupplierDTO> getMyAccountInfo() {
+		
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) currentUser.getPrincipal();
+		Patient patient = patientService.findById(person.getId());
+		AddressDTO addressDto = new AddressDTO(patient.getAddress().getCity().getName(),
+				patient.getAddress().getStreetName(), patient.getAddress().getStreetNumber(),
+				patient.getAddress().getCity().getCountry().getName());
+		SupplierDTO supplierDTO = new SupplierDTO(patient.getName(), patient.getLastName(),
+				patient.getEmail(), addressDto, patient.getPassword());
+		
+		return (ResponseEntity<SupplierDTO>) (patient == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(supplierDTO));
+	}
+	
 	
 	
 }

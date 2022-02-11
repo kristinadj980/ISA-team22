@@ -2,28 +2,32 @@
     <div id="EPrescription">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSubsribedPharmacies">Subscribed pharmacies</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Complaint</button>
-                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showEPrescription">EPrescription</button>
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                  <b-button pill  style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style"  v-on:click = "showSubsribedPharmacies">Pretplaćene apoteke</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Žalbe</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showEPrescription">ERecept</b-button>
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
             </span>
         </div>       
          <div class="container">
          <div class = "col-8">
-                <div style = "background-color:#174452; margin: auto; ;padding: 50px;">
-                            <h3 style="color: white;margin-bottom:20px">Upload your QR code</h3>
+                <div style = "background-color:#174452 ;padding: 50px; margin-top:30px;margin-left:260px;width:550px">
+                            <h3 style="color: white;margin-bottom:20px">Upload-ujte vaš QR kod</h3>
                         <div class="form-group">
                             <div class="row">
                                 
                                     <div class="col">
-                                        <input type="file" id="file" ref="file"  v-on:change="handleFileUpload()" />
+                                        <input type="file" style="margin-top:30px; margin-left:15px" id="file" ref="file"  v-on:change="handleFileUpload()" />
                                     </div> 
                                     <div class="col">
-                                        <button  class="btn btn-primary" v-on:click="submitFile()">Check availability in pharmacies</button>
+                                        <b-button pill variant="info" style="width:200px; margin-top:60px; margin-left:-93px" class="btn btn-primary" v-on:click="submitFile()">Proverite dostupnost u apotekama</b-button>
                                     </div>
                             </div>
                         </div>
@@ -32,8 +36,8 @@
 
            <!-- TABLE -->
        <div style="height:25px"></div>
-            <h3>Pharmacies</h3>
-            <table class="table table-striped" style="width:100%;">
+            <h3 style="margin-top:30px">Dostupnost u apotekama</h3>
+            <table class="table table-striped" style="width:100%; margin-top:30px">
                 <thead class="thead-light">
                     <tr>
                     <th scope="col" 
@@ -52,7 +56,7 @@
                     <td>{{pharmacy.address.street}}</td>
                      <td>{{pharmacy.sumPrice}}</td>
                     <td>
-                    <button  style="background-color:#17a2b8" class="btn btn-primary"  v-on:click = "buyDrugs($event,pharmacy)">Buy here</button>
+                    <b-button pill variant="info" style="margin-top:-5px;width:170px" class="btn btn-primary"  v-on:click = "buyDrugs($event,pharmacy)">Kupi</b-button>
                     </td>
                     </tr>
                 </tbody>
@@ -78,11 +82,11 @@ export default {
        sortDesc: false,
        fieldForSorting: "grade",
        fields: [
-          { key: 'pharmacyName', label: 'PharmacyName' },
-          { key: 'mark', label: 'Grade' },
-          { key: 'address', label: 'Address' },
-           { key: 'sumPrice', label: 'SumPrice' },
-            {label: 'Buy'},
+          { key: 'pharmacyName', label: 'Ime apoteke' },
+          { key: 'mark', label: 'Ocena' },
+          { key: 'address', label: 'Adresa' },
+           { key: 'sumPrice', label: 'Ukupna cena' },
+            {label: ''},
         ],
         selectMode: 'single',
         
@@ -91,9 +95,7 @@ export default {
  
     methods:{
         
-         showSubsribedPharmacies: function(){
-          this.getMyPromotions();
-        },
+       
         showPharmacyPage: function(){
            window.location.href = '/';
         },
@@ -106,6 +108,12 @@ export default {
         },
          showEPrescription: function(){
            window.location.href = '/ePrescription';
+        },
+         showSubsribedPharmacies: function(){
+         window.location.href = '/patientProfile';
+        },
+        showProfile: function(){
+           window.location.href = '/profileInfo';
         },
         submitFile(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
@@ -198,7 +206,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
     .profile_style{
         position: fixed;

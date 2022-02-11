@@ -2,32 +2,36 @@
     <div id="complaints">
          <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                  <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                     <b-button pill variant="info" style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                      <b-dropdown style="height:45px;color:black" text="Registracija" variant="info" pill >
+                         <b-dropdown-item href="/pharmacyRegistration">Apoteke</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Dermatologa</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Farmaceuta</b-dropdown-item>
+                         <b-dropdown-item href="/supplierRegistration">Dobavljača</b-dropdown-item>
+                    </b-dropdown>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Lekovi</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty klub</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Žalbe</b-button>
             </span>
-            <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
+             <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
             </span>
         </div>
          <!-- table -->
-         <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
+         <div style = "background-color:white; margin: auto; width: 60%;border: 1px solid black;padding: 10px;margin-top:45px;">
                <div class="row">
                     <div class=" form-group col">
-                        <label >Complaint from</label>
+                        <b><label >Žalba od</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Complaint to</label>
+                       <b> <label >Žalba za</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Description</label>
+                       <b> <label >Opis</label></b>
                     </div>
                     <div class=" form-group col">
                         <label ></label>
@@ -46,26 +50,26 @@
                                 <label >{{complaint.description}}</label>
                             </div>
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showComplaint($event,complaint)">Answer</button>
+                                <b-button  pill variant="info" style="margin-top:-8px;width:160px" class="btn btn-primary" v-on:click = "showComplaint($event,complaint)">Odgovori</b-button>
                             </div>
                     </div>
                </div>
          </div>
       <div> 
-          <b-modal ref="quantity-modal" hide-footer scrollable title="Complaint answer" size="lg" modal-class="b-modal">
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Odgovor na žalbu" size="lg" modal-class="b-modal">
                <div modal-class="modal-dialog" role="document">
                     <div class="modal-content" style="background-color:whitesmoke">
                          <div class="modal-body">
                              <div class="row">
                                 <div class=" form-group col">
-                                     <label>Write answer: </label> 
+                                     <label>Odgovor: </label> 
                                 </div>
                                 <div class=" form-group col">  
-                                    <input type="text" class="form-control" v-model="answer" placeholder="Answer...">
+                                    <input type="text" class="form-control" v-model="answer" placeholder="Odgovor...">
                                 </div>
                              </div>
-                             
-                            <button v-on:click = "answerOnComplaint" class="btn btn-primary">Confirm</button> 
+                             <b-button pill style="margin-left:399px; margin-top:20px; width:150px" variant="info" v-on:click = "giveUp" class="btn btn-primary">Odustani</b-button> 
+                            <b-button pill style="margin-left:582px; margin-top:-66px; width:150px" variant="info" v-on:click = "answerOnComplaint" class="btn btn-primary">Potvrdi</b-button> 
                                                        
                          </div>                
                     </div>
@@ -124,6 +128,10 @@ export default {
         },
          showLoalty: function(){
            window.location.href = "/loaltyProgram";
+        },
+        giveUp:function(){
+
+          this.$refs['quantity-modal'].hide();
         },
         getComplaints : function() {
           let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
@@ -191,7 +199,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
     .profile_style{
         position: fixed;

@@ -1,77 +1,82 @@
 <template>
   <div id="addingDrug">
         <div class="homepage_style ">
-            <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
-                     <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
+             <span style="float: left; margin: 15px;">
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                     <b-button pill variant="info" style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                      <b-dropdown style="height:45px;color:black" text="Registracija" variant="info" pill >
+                         <b-dropdown-item href="/pharmacyRegistration">Apoteke</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Dermatologa</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Farmaceuta</b-dropdown-item>
+                         <b-dropdown-item href="/supplierRegistration">Dobavljača</b-dropdown-item>
+                    </b-dropdown>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Lekovi</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty klub</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Žalbe</b-button>
             </span>
-            <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
+             <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
             </span>
+            
         </div>
          <!-- DRUG REGISTRATION -->
      <div style="background-color:#174452; margin: auto; width: 40%;padding: 10px;margin-top:45px;">
-                     <h3 style="color: white">Drug</h3>
                 
                     <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                        <label>Name:</label>
-                        <input type="text" class="form-control" v-model="name" placeholder="Enter name">
+                        <label style="color:white;text-align:left; margin-top:10px">Ime leka:</label>
+                        <input type="text" class="form-control" v-model="name" placeholder="brufen">
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                        <label>Code:</label>
-                        <input type="text" class="form-control" v-model = "code" placeholder="Enter code">
+                        <label style="color:white;text-align:left">Kod:</label>
+                        <input type="text" class="form-control" v-model = "code" placeholder="M65">
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                            <label>Loalty points:</label>
-                            <input type="number" class="form-control" v-model="points" placeholder="Enter points">
+                            <label style="color:white;text-align:left">Loalty poeni:</label>
+                            <input type="number" class="form-control" v-model="points" placeholder="0">
                         </div>
                     </div>
                     <!-- DRUG TYPE -->
                    <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                             <label style="color:white">Drug type:
-                             <select v-model="type">
-                                 <option value="antibiotic">antibiotic</option>
-                                 <option value="antihistamine">antihistamine</option>
-                                 <option value="taAntidepressantblet">taAntidepressantblet</option>
-                             </select>
+                             <label style="color:white; text-align:left">Tip:
+                                 <b-dropdown v-model="type" variant="info" style="width:150px; margin-left:107px" text="izaberite tip">
+                          <b-dropdown-item  value="antibiotic">antibiotic</b-dropdown-item>
+                          <b-dropdown-item value="antihistamine">antihistamine</b-dropdown-item>
+                          <b-dropdown-item value="taAntidepressantblet">taAntidepressantblet</b-dropdown-item>
+                       </b-dropdown>
+                             
                     </label>
                         </div>
                    </div>
                      <!-- DRUG TYPE -->
                 <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                               <label style="color:white">Drug form:
-                          <select v-model="form">
-                                 <option value="gel">gel</option>
-                                 <option value="powder">powder</option>
-                                 <option value="tablets">tablets</option>
-                             </select>
+                               <label style="color:white;text-align:left">Forma:
+                                   <b-dropdown v-model="form" variant="info" style="width:150px; margin-left:83px" text="izaberite formu">
+                          <b-dropdown-item  value="gel">gel</b-dropdown-item>
+                          <b-dropdown-item value="powder">prašak</b-dropdown-item>
+                          <b-dropdown-item value="tablets">tableta</b-dropdown-item>
+                       </b-dropdown>
+                         
                            </label> 
                         </div>
                    </div>
                             <!-- DRUG WAY OF SELLING -->
                             <div class="form-row d-flex justify-content-center">
                         <div class="form-group col-md-6">
-                     <label style="color:white">Way of selling:
-                     <select v-model="wayOfSelling">
-                                 <option value="onPrescription">onPrescription</option>
-                                 <option value="nonPrescription">nonPrescription</option>
-                                 
-                             </select>
+                     <label style="color:white;text-align:left">Način prodaje:
+                          <b-dropdown v-model="wayOfSelling" variant="info" style="width:150px; margin-left:31px" text="izaberite način">
+                          <b-dropdown-item  value="onPrescription">na recept</b-dropdown-item>
+                          <b-dropdown-item value="nonPrescription">bez recepta</b-dropdown-item>
+                       </b-dropdown>
                      </label>
                         </div>
                             </div>
@@ -79,17 +84,17 @@
                          <div class="form-group col"></div>
 
                         <div class="form-group col">
-                            <button class="btn btn-primary" v-on:click = "showSpecificationModal">Click to add specification</button>
+                            <b-button pill variant="info" style="width:210px; margin-top:10px" v-on:click = "showSpecificationModal">Dodaj specifikaciju</b-button>
                         </div>
     
                         <div class="form-group col">
-                            <button class="btn btn-primary" v-on:click = "showAlternativesModal">Click to add alternatives</button>
+                            <b-button pill variant="info" style="width:210px;margin-top:10px" v-on:click = "showAlternativesModal">Dodaj alternativne lekove</b-button>
                         </div>
                           <div class="form-group col"></div>
 
                     </div>
                    
-                    <button class="btn btn-primary btn-lg" v-on:click = "addDrugs">Add drug</button>
+                    <b-button pill variant="info" style="width:200px ;margin-top:20px" v-on:click = "addDrugs">POTVRDI</b-button>
             </div>
        <div> 
           <b-modal ref="specification-modal" hide-footer scrollable title="Fill drug specification" size="lg" modal-class="b-modal">
@@ -340,7 +345,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
 
     .space_style{

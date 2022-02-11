@@ -4,26 +4,26 @@
           <h4 class="text-left"
         style="margin-left:2%;
         margin-top:1%;">
-        <b>Drug search:</b>
         </h4>
         
         <div
         style="margin-top: 2%;
-        margin-left: 2%;">
+        margin-left: 4%;">
             <b-form inline>
-                <b-form-input
-                v-model="drugName"
-                class="mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Drug name"
-                ></b-form-input>
-                <b-button style="margin-left:2%;" v-on:click = "searchDrug" variant="info">Search</b-button>
+                 <b-input-group size="sm" class="mb-2">
+      <b-input-group-prepend is-text>
+        <b-icon icon="search"></b-icon>
+      </b-input-group-prepend>
+      <b-form-input type="search" placeholder="ime leka"></b-form-input>
+    </b-input-group>
+                <b-button pill style="margin-left:1%; margin-top:-10px" v-on:click = "searchDrug" variant="info">Traži</b-button>
                
             </b-form>
         </div>  
         <!-- TABLE -->
-       <div style="height:25px"></div>
-            <h3>Drugs</h3>
-            <table class="table table-striped" style="width:100%;">
+       <div style="height:35px"></div>
+           
+            <table class="table table-striped" style="width:90%; margin-left:65px">
                 <thead class="thead-light" v-if="searched == 0">
                     <tr>
                     <th scope="col" 
@@ -53,9 +53,9 @@
                     <td>{{drug.type}}</td>
                     <td>{{drug.numberOfGrades}}</td>
                     <td>
-                    <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drug)" >See Specification</button>
+                    <b-button pill style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "showDrugSpecification($event,drug)" >See Specification</b-button>
                     </td>
-                    <td><button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drug)">See Availability</button> </td>
+                    <td><b-button pill style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "checkAvailability($event,drug)">See Availability</b-button> </td>
                     </tr>
                 </tbody>
             </table>
@@ -66,15 +66,24 @@
           <b-modal ref="quantity-modal" hide-footer scrollable title="Drug availability" size="lg" modal-class="b-modal">
                <div modal-class="modal-dialog" role="document">
                     <div class="modal-content" style="background-color:whitesmoke">
-                         <div v-for="pharmacy in pharmacyDrugAvailability" v-bind:key="pharmacy.id" class="modal-body">
-                             
+                         <div  class="modal-body">
                              <div class="row">
+                    <div class=" form-group col">
+                        <b><label >Apoteka</label></b>
+                    </div>
+                    <div class=" form-group col">
+                        <b><label >Cena</label></b>
+                    </div>
+                   
+               </div>
+                             <div v-for="pharmacy in pharmacyDrugAvailability" v-bind:key="pharmacy.id" class="row">
                                 <div class=" form-group col">
-                                <label > Pharmacy : {{pharmacy.pharmacyName}}</label>
+                                <label >{{pharmacy.pharmacyName}}</label>
                             </div>
                             <div  class=" form-group col">          
-                                <label >Price : {{pharmacy.price}}</label>
+                                <label >{{pharmacy.price}}</label>
                             </div>
+                           
                              </div>
                                                        
                          </div>                
@@ -90,22 +99,22 @@
                          <div  class="modal-body">
                              <div class="row">
                     <div class=" form-group col">
-                        <label >Code</label>
+                        <b><label >Kod</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Form</label>
+                        <b><label >Forma</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Composition</label>
+                       <b> <label >Kompozicija</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Producer</label>
+                        <b><label >Proizvođac</label></b>
                     </div>
                      <div class=" form-group col">
-                        <label >Issuance regime</label>
+                       <b> <label >Idavanje na</label></b>
                     </div>
                      <div class=" form-group col">
-                        <label >Contraindications</label>
+                       <b> <label >Kontraindikacije</label></b>
                     </div>
                </div>
                              <div class="row">

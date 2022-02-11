@@ -1,40 +1,74 @@
 <template>
 <div id="pharmacyRregistration">
     <div class="homepage_style ">
-            <span style="float: left; margin: 15px;">
-                    <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
+             <span style="float: left; margin: 15px;">
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                     <b-button pill variant="info" style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                      <b-dropdown style="height:45px;color:black" text="Registracija" variant="info" pill >
+                         <b-dropdown-item href="/pharmacyRegistration">Apoteke</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Dermatologa</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Farmaceuta</b-dropdown-item>
+                         <b-dropdown-item href="/supplierRegistration">Dobavljača</b-dropdown-item>
+                    </b-dropdown>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Lekovi</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty klub</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Žalbe</b-button>
             </span>
-              <span  style="float:right;margin:15px">
-                    <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
-                </span>
+             <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
+            </span>
         </div>
-    <div class="vue-tempalte">
-            <h3>Pharmacy registration</h3>
-            <div class="form-group">
-                <label style="color:white">Pharmacy name</label>
-                <input type="text" class="form-control" v-model="name" placeholder="Enter name">
-                <label style="color:white">Country</label>
-                <input type="text" class="form-control" v-model="country" placeholder="Enter country">
-                <label style="color:white">City</label>
-                <input type="text" class="form-control" v-model="city" placeholder="Enter city">
-                <label style="color:white">Street</label>
-                <input type="text" class="form-control" v-model="street" placeholder="Enter street">
-                <label style="color:white">Street number</label>
-                <input type="number" class="form-control" v-model="streetNumber" placeholder="Enter street number">
-                <label style="color:white">Description</label>
-                <input type="text" class="form-control form-control-lg" v-model="description" placeholder="Enter description"/>
+    <div class="vue-tempalte" style="margin-top:-10px">
+            <h3 style="margin-top:20px">Registracija apoteke</h3>
+            <div class="form-group" style="margin-top:10px">
+                <label style="color:white">Ime</label>
+                 <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="person"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Ime" v-model="name" required></b-form-input>
+                        </b-input-group>
+                <label style="color:white">Zemlja</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Zemlja" v-model="country" required></b-form-input>
+                        </b-input-group>
+                 <label style="color:white">Grad</label>
+                       <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="building"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Grad" v-model="city" required></b-form-input>
+                        </b-input-group>
+               <label style="color:white">Ulica</label>
+                       <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo-alt"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Ulica" v-model="street" required></b-form-input>
+                        </b-input-group>
+                 <label style="color:white">Broj ulice</label>
+                         <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="geo-alt"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="number" placeholder="1" v-model="streetNumber" required></b-form-input>
+                        </b-input-group>
+                <label style="color:white">Opis</label>
+                <b-input-group size="lg">
+                            <b-input-group-prepend is-text>
+                              <b-icon icon="file-medical"></b-icon>
+                            </b-input-group-prepend>
+                            <b-form-input type="text" placeholder="Opis" v-model="street" required></b-form-input>
+                        </b-input-group>
             </div>
-
-            <button style="color:white" type="submit" class="button" v-on:click = "registerPharmacy">Register</button>
+               <b-button pill style="color:white; margin-top:70px" type="submit" class="button" v-on:click = "registerPharmacy">Registruj</b-button>
+        
     </div>
 </div>
 </template>
@@ -212,7 +246,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
 
     .space_style{
