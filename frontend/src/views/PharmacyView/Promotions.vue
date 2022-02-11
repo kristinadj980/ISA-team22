@@ -11,16 +11,16 @@
                     </b-dropdown>
                     <p class="ml-n mt-6 strong chosen"> <b>Selected pharmacy: {{ selectedPharmacyName}}</b></p>
         <!-- table -->
-         <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
+         <div style = "background-color:#white; margin: auto; width: 60%;border: 1px solid black;padding: 10px;margin-top:45px;">
                <div class="row">
                     <div class=" form-group col">
-                        <label >Description</label>
+                       <b> <label style="color:black">Opis</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Start date</label>
+                        <b><label style="color:black">Pocetak</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >End date</label>
+                       <b> <label style="color:black">Kraj</label></b>
                     </div>
                     <div class=" form-group col">
                         <label ></label>
@@ -30,17 +30,17 @@
                <div v-for="promotion in promotions"   v-bind:key="promotion.id">
                     <div class="row">
                             <div class=" form-group col">
-                                <label >{{promotion.description}}</label>
+                                <label style="color:black">{{promotion.description}}</label>
                             </div>
                             <div  class=" form-group col">          
-                                <label >{{format_date(promotion.period.startDate)}}</label>
+                                <label style="color:black">{{format_date(promotion.period.startDate)}}</label>
                             </div>
                              <div  class=" form-group col">          
-                                <label >{{format_date(promotion.period.endDate)}}</label>
+                                <label style="color:black">{{format_date(promotion.period.endDate)}}</label>
                             </div>
                            
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8" class="btn btn-primary" v-on:click = "subscribe($event,promotion)">Subscribe</button>
+                                <b-button  pill variant="info"  v-on:click = "subscribe($event,promotion)">Subscribe</b-button>
                             </div>
                     </div>
                </div>
@@ -202,5 +202,10 @@ export default {
         left:10px;
         bottom:-50%;
     }
+
+    .promotions{
+  margin-left: 50px;
+  margin-right: 50px;
+}
 
 </style>

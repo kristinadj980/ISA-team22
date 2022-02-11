@@ -68,9 +68,9 @@ INSERT INTO BUSINESS_DAY_PHARMACIST(id, pharmacist_id, shift_id) VALUES (407, 10
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 50);
 INSERT INTO PHARMACY_DERMATOLOGISTS(dermatologist_id, pharmacy_id) VALUES (100, 51);
 
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 5000, 0, '2021-06-10', '08:30', '09:00', 100, 113, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-06-10', '10:30', '11:00', 100, 50);
-INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 4000, 0, '2021-06-14', '16:30', '17:00', 100, 115, 51);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (500, '', 30, 5000, 0, '2021-08-18', '08:30', '09:00', 100, 113, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, pharmacy_id) VALUES (501, '', 30, 3000, 0, '2021-09-24', '10:30', '11:00', 100, 50);
+INSERT INTO EXAMINATION(id, diagnosis, duration, examination_price, examination_status, start_date, start_time, end_time, dermatologist_id, patient_id, pharmacy_id) VALUES (502, '', 30, 4000, 0, '2021-09-21', '16:30', '17:00', 100, 115, 51);
 
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (103, 6);
 INSERT INTO USER_AUTHORITY(user_id, authority_id) VALUES (104, 4);
@@ -153,7 +153,7 @@ INSERT INTO PROMOTION (id,description,period_id,pharmacy_id)
 VALUES (951,'snizenje lekova 30%', 900,51);
 
 INSERT INTO EXAMINATION (id,diagnosis,duration,examination_status,examination_price,start_date,start_time,end_time,dermatologist_id,patient_id,pharmacy_id)
-VALUES (850,'grip',30,2,1500,'2021-05-10','11:30','12:30',100,106,50);
+VALUES (850,'grip',30,2,1500,'2021-09-25','11:30','12:30',100,106,50);
 
 INSERT INTO COUNSELING (id,counseling_status,diagnosis,start_date,start_time,end_time,patient_id,pharmacist_id, duration)
 VALUES (860,2,'osip','2021-07-14','13:30','14:30',106,102, 30);

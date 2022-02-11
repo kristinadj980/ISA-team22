@@ -1,14 +1,14 @@
 <template>
-    <div id="supplierProfile">
+    <div id="patientProfile">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
                 <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
                 src="@/images/benu.png">
                   <b-button pill  style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</b-button>
                     <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
-                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">Pregled mojih ponuda</b-button>
-                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Daj ponudu</b-button>
-                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">Lekovi</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style"  v-on:click = "showSubsribedPharmacies">Pretplaćene apoteke</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "writeComplaint">Žalbe</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showEPrescription">ERecept</b-button>
             </span>
             <span  style="float:right;margin:15px">
              <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
@@ -22,23 +22,23 @@
             <div class="card"  >
                 <div class="profile-img">
                     <img class="img-responsive" src="@/images/nature.jpg" style=" height:150px;" width="100%" />
-                    <img class="img-circle img-responsive rounded-circle"  src="https://www.vhv.rs/dpng/d/260-2601176_transparent-woman-smiling-png-smiling-girl-png-png.png" style="width:120px; height:120px;"  />
+                    <img class="img-circle img-responsive rounded-circle"  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGFwcHklMjB3b21hbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80" style="width:120px; height:120px;"  />
                 </div>
                <div class=" d-inline-block " style=" height:100%; background-color: #ced2d3;">
-                    <h4 style = "position:left; left:60px; top:2px; background-color:#ebf0fa;"><b>Dobavljač: {{supplier.name}}  {{supplier.surname}} </b></h4>
+                    <h4 style = "position:left; left:60px; top:2px; background-color:#ebf0fa;"><b>Korisnik: {{patient.name}}  {{patient.surname}} </b></h4>
                     <div class="p-3 py-5 ">
-                    <div class="col-md-8 ">Ime
+                    <div class="col-md-8 ">
                     <div class="card mb-3 " style = "position:right; left:90px; top:2px; background-color:#ebf0fa;">
                     <div class="card-body" style="background-color: #ebf0fa;">
-                        <h4 class ="text-justify top-buffer"> : Ime {{supplier.name}}  </h4>
+                        <h4 class ="text-justify top-buffer"> Ime :  {{patient.name}}  </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Prezime:   {{supplier.surname}}  </h4>
+                        <h4 class ="text-justify top-buffer"> Prezime:   {{patient.surname}}  </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Email:  {{supplier.email}}  </h4>
+                        <h4 class ="text-justify top-buffer"> Email:  {{patient.email}}  </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Adresa: {{supplier.address.street}}, {{supplier.address.number}} </h4>
+                        <h4 class ="text-justify top-buffer"> Adresa: {{patient.address.street}}, {{patient.address.number}} </h4>
                         <hr>
-                        <h4 class ="text-justify top-buffer"> Grad:   {{supplier.address.town}}, {{supplier.address.country}} </h4>
+                        <h4 class ="text-justify top-buffer"> Grad:   {{patient.address.town}}, {{patient.address.country}} </h4>
                         
                 </div>
                 </div>
@@ -53,28 +53,28 @@
                             <b-modal ref="modal-ref" id="modal-1" title="Izmena ličnih podataka" hide-footer>
                                 <div>
                                     <h5 class ="text-justify top-buffer"> Ime:
-                                        <b-form-input v-model="supplier.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
+                                        <b-form-input v-model="patient.name" label="First Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Prezime:
-                                        <b-form-input v-model="supplier.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
+                                        <b-form-input v-model="patient.surname" label="Last Name" filled placeholder="Enter your name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Email:
-                                        <b-form-input v-model="supplier.email" label="Email" disabled></b-form-input>
+                                        <b-form-input v-model="patient.email" label="Email" disabled></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Ulica:
-                                        <b-form-input v-model="supplier.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
+                                        <b-form-input v-model="patient.address.street" label="Street" filled placeholder="Enter your street name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Broj ulice:
-                                        <b-form-input v-model="supplier.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
+                                        <b-form-input v-model="patient.address.number" label="Street Number" filled placeholder="Enter your street number"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Grad:
-                                        <b-form-input v-model="supplier.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
+                                        <b-form-input v-model="patient.address.town" label="City" filled placeholder="Enter the city name"></b-form-input>
                                     </h5>
                                     <h5 class ="text-justify top-buffer"> Država:
-                                        <b-form-input v-model="supplier.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
+                                        <b-form-input v-model="patient.address.country" label="Country" filled placeholder="Enter the country name"></b-form-input>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button pill variant="info" class="btn btn-info btn-lg space_style" style=" margin-left:30px;width:4cm;" >Odustani</b-button>
+                                        <b-button pill variant="info" class="btn btn-info btn-lg space_style" style=" margin-left:30px;width:4cm;" v-on:click = "giveUp">Odustani</b-button>
                                         <b-button  pill variant="info" class="btn btn-info btn-lg space_style" style="margin-left:30px;width:4cm;" v-on:click = "update">Potvrdi</b-button>
                                     </b-row>
                                 </div>
@@ -85,7 +85,7 @@
                                         <div class="mb-4">
                                         <label for="password">Trenutna šifra</label>
                                         <VuePassword
-                                            v-model="supplier.currentPassword"
+                                            v-model="patient.currentPassword"
                                             id="password1"
                                             placeholder="me123"
                                             :badge="false" 
@@ -97,7 +97,7 @@
                                         <div class="mb-4">
                                         <label for="password">Nova šifra:</label>
                                         <VuePassword
-                                            v-model="supplier.newPassword"
+                                            v-model="patient.newPassword"
                                             id="password1"
                                             placeholder="1234"
                                            
@@ -108,14 +108,14 @@
                                         <div class="mb-4">
                                         <label for="password">Potvrdite novu šifru:</label>
                                         <VuePassword
-                                            v-model="supplier.repeatNewPassword"
+                                            v-model="patient.repeatNewPassword"
                                             id="password1"
                                             placeholder="1234"
                                         />
                                         </div>
                                     </h5>
                                     <b-row style="float: left; margin: 30px;">
-                                        <b-button pill variant="info" class= "btn btn-info btn-lg space_style" style=" margin-left:33px; width:4cm;" >Odustani</b-button>
+                                        <b-button pill variant="info" class= "btn btn-info btn-lg space_style" style=" margin-left:33px; width:4cm;" v-on:click = "giveUp2" >Odustani</b-button>
                                         <b-button pill variant="info" class="btn btn-info btn-lg space_style" style="margin-left:30px; width:4cm;" v-on:click = "updatePassword">Izmeni</b-button>
                                     </b-row>
                                 </div>
@@ -129,18 +129,17 @@
     
 </template>
 
-
 <script>
 import VuePassword from 'vue-password'
 export default {
-    name: 'ProfileDataSupplier',
+    name: 'ProfileDataPatient',
     components: {
     VuePassword,
   },
      data() {
     return {
 
-        supplier : "",
+        patient : "",
         name: "",
         surname: "",
         email: "",
@@ -154,12 +153,12 @@ export default {
   },
  mounted(){
      let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-        this.axios.get('/supplier/profile',{ 
+        this.axios.get('/patient/profile',{ 
              headers: {
                  'Authorization': 'Bearer ' + token,
              }
          }).then(response => {
-               this.supplier=response.data;
+               this.patient=response.data;
          }).catch(res => {
                        alert("Error");
                         console.log(res);
@@ -190,70 +189,76 @@ export default {
         var res = /^[a-zA-Z]+(\s[a-zA-Z]+)?$/;
         return res.test(street);
        },
-         showProfile: function(){
-           window.location.href = "/profileDataSupplier";
-        },
-        showMyOffers: function(){
-           window.location.href = "/offers";
-        },
-        showMyDrugs:  function(){
-           window.location.href = "/drugs";
+         showSubsribedPharmacies: function(){
+         window.location.href = '/patientProfile';
         },
         showPharmacyPage: function(){
            window.location.href = '/';
+        },
+        showEPrescription: function(){
+           window.location.href = '/ePrescription';
+        },
+         showProfile: function(){
+           window.location.href = '/profileInfo';
+        },
+        writeComplaint: function(){
+           window.location.href = '/complaint';
         },
         logOut : function(){
             localStorage.removeItem('token');
             window.location.href = "/login";
         },
-        showGiveOffers:  function(){
-           window.location.href = "/giveOffers";
+         giveUp:function(){
+          this.$refs['modal-ref'].hide();
+        },
+         giveUp2:function(){
+          this.$refs['modal-ref2'].hide();
         },
         update : function(){
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
             const addressInfo = {
-                town: this.supplier.address.town,
-                street: this.supplier.address.street,
-                number:this.supplier.address.number,
-                country: this.supplier.address.country
+                town: this.patient.address.town,
+                street: this.patient.address.street,
+                number:this.patient.address.number,
+                country: this.patient.address.country
             };
-            const supplierInfo = {
-                name: this.supplier.name,
-                surname : this.supplier.surname,
-                email:this.supplier.email,
+            const patientInfo = {
+                name: this.patient.name,
+                surname : this.patient.surname,
+                email:this.patient.email,
                 address: addressInfo
            };
 
-            if(!this.validLettersName(this.supplier.name)){
+            if(!this.validLettersName(this.patient.name)){
                 alert("Please enter valid name!")
                 return;
             }
-            if(!this.validLettersSurname(this.supplier.surname)){
+            if(!this.validLettersSurname(this.patient.surname)){
                 alert("Please enter valid surname!")
                 return;
             }
-            if(!this.validLettersStreet(this.supplier.address.street)){
+            if(!this.validLettersStreet(this.patient.address.street)){
                 alert("Please enter valid street!")
                 return;
             }
-            if(this.supplier.address.number == ""){
+            if(this.patient.address.number == ""){
                 alert("Please enter streetNumber!")
                 return;
             }
-            if(this.supplier.address.numberr < 0){
+            if(this.patient.address.numberr < 0){
                 alert("Please enter valid streetNumber!")
                 return;
             }
-            if(!this.validLettersCity(this.supplier.address.town)){
+            if(!this.validLettersCity(this.patient.address.town)){
                 alert("Please enter valid city!")
                 return;
             }
-             if(!this.validLettersCountry(this.supplier.address.country)){
+             if(!this.validLettersCountry(this.patient.address.country)){
                 alert("Please enter valid conutry!")
                 return;
             }
        
-            this.axios.post('/supplier/update',supplierInfo, { 
+            this.axios.post('/patient/update',patientInfo, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 }})
@@ -269,16 +274,16 @@ export default {
             
         },
          updatePassword : function () {
-            if(this.supplier.newPassword != this.supplier.repeatNewPassword) {
+            if(this.patient.newPassword != this.patient.repeatNewPassword) {
             alert("New passwords are not equals!")
             return;
             }
             const changePassword ={
-                password : this.supplier.currentPassword,
-                confirmPassword : this.supplier.newPassword
+                password : this.patient.currentPassword,
+                confirmPassword : this.patient.newPassword
             } 
             let token = localStorage.getItem('token').substring(1, localStorage.getItem('token').length-1);
-            this.axios.post('/supplier/updatePassword',changePassword, { 
+            this.axios.post('/patient/updatePassword',changePassword, { 
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 }})

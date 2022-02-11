@@ -2,32 +2,34 @@
 <div id="giveOffers">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">MyOffers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Give Offers</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">MyDrugs</button>
-                    
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                  <b-button pill  style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyPage">Pharmacy home page</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showMyOffers">Pregled mojih ponuda</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showGiveOffers">Daj ponudu</b-button>
+                    <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showMyDrugs">Lekovi</b-button>
             </span>
             <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut" >Log Out</button>
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
             </span>
         </div>
-    <div style = "background-color:oldlace; margin: auto; width: 60%;border: 2px solid #17a2b8;padding: 10px;margin-top:45px;">
+    <div style = "background-color:white; margin: auto; width: 60%;border: 1px solid black;padding: 10px;margin-top:45px;">
                <div class="row">
                     <div class=" form-group col">
-                        <label >Pharmacy</label>
+                        <b><label >Apoteka</label></b>
                     </div>
                     <div class=" form-group col">
-                        <label >Drug</label>
+                        <b><label >Lek</label></b>
                     </div>
                    
                     <div class=" form-group col">          
-                        <label > Drug amount</label>
+                        <b><label > Količina</label></b>
                     </div>
                     <div class=" form-group col">          
-                        <label >Delivery date</label>
+                        <b><label >Datum isporuke</label></b>
                     </div>
                     <div class=" form-group col">
                         <label ></label>
@@ -52,19 +54,19 @@
                             </div>
                            
                             <div class=" form-group col">
-                                <button  style="background-color:#17a2b8"  v-on:click = "showOffer($event,order)" class="btn btn-primary">Make an offer</button>
+                                <b-button pill variant="info"  v-on:click = "showOffer($event,order)" class="btn btn-primary">Daj ponudu</b-button>
                             </div>
                     </div>
                </div>
     </div>
     <div> 
-          <b-modal ref="quantity-modal" hide-footer scrollable title="Order specification" size="lg" modal-class="b-modal">
+          <b-modal ref="quantity-modal" hide-footer scrollable title="Specifikacija ponude" size="lg" modal-class="b-modal">
                <div modal-class="modal-dialog" role="document">
                     <div class="modal-content" style="background-color:whitesmoke">
                          <div class="modal-body">
                              <div class="row">
                                 <div class=" form-group col">
-                                     <label>Enter price: </label> 
+                                     <label>Unesite cenu: </label> 
                                 </div>
                                 <div class=" form-group col">  
                                     <input type="text" class="form-control" v-model="choosenOfferPrice" placeholder="Offer price...">
@@ -72,13 +74,14 @@
                              </div>
                              <div class="row">
                                 <div class=" form-group col">
-                                     <label>Enter delivery date: </label> 
+                                     <label>Unesite datum isporuke: </label> 
                                 </div>
                                 <div class=" form-group col">  
                                     <input type="text" class="form-control" v-model="choosenDeliveryDate" placeholder="Delivery date...">
                                 </div>
                              </div>
-                            <button v-on:click = "makeAnOffer" class="btn btn-primary">Confirm</button> 
+                             <b-button style="margin-left:250px; width:100px; margin-top:20px" pill variant="info" v-on:click = "giveUp" class="btn btn-primary">Odustani</b-button>
+                            <b-button v-on:click = "makeAnOffer" class="btn btn-primary"  pill variant="info" >Potvrdi</b-button> 
                                                        
                          </div>                
                     </div>
@@ -123,6 +126,9 @@ export default{
         
         showMyDrugs:  function(){
            window.location.href = "/drugs";
+        },
+        giveUp: function(){
+          this.$refs['quantity-modal'].hide();
         },
         showGiveOffers:  function(){
            window.location.href = "/giveOffers";
@@ -214,7 +220,7 @@ export default{
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
     .profile_style{
         position: fixed;

@@ -2,65 +2,69 @@
     <div id="adminProfile">
         <div class="homepage_style ">
             <span style="float: left; margin: 15px;">
-                 <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSystemAdminRegistration">Add system admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyAdminRegistration">Add pharmacy admin</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showPharmacyRegistration">Add pharmacy</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDermatologyRegistration">Add dermatology</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showSupplierRegistration">Add supplier</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Drugs</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty</button>
-                    <button class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Complaints</button>
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                     <b-button pill variant="info" style="margin-left:30px" class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                      <b-dropdown style="height:45px;color:black" text="Registracija" variant="info" pill >
+                         <b-dropdown-item href="/pharmacyRegistration">Apoteke</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Dermatologa</b-dropdown-item>
+                         <b-dropdown-item href="/dermatologyRegistration">Farmaceuta</b-dropdown-item>
+                         <b-dropdown-item href="/supplierRegistration">Dobavljača</b-dropdown-item>
+                    </b-dropdown>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showDrugManipulation">Lekovi</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showLoalty">Loalty klub</b-button>
+                    <b-button pill variant="info" class = "btn btn-info btn-lg space_style" v-on:click = "showComplaints">Žalbe</b-button>
             </span>
-            <span  style="float:right;margin:15px">
-                <button class = "btn btn-lg btn-light" style="margin-right:10px;" v-on:click = "logOut">Log Out</button>
+             <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
             </span>
         </div>
-          <div class="vue-tempalte">
+          <div class="vue-tempalte" style="margin-top:-20px">
        
-            <h3>Define loalty program</h3>
+            <h3 style="margin-top:30px">Definisanje loalty programa</h3>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-top:30px">
                  
                  <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Points for consulting</label>
+                        <label style="color:white">Poeni za savetovanje</label>
                         <input type="number" class="form-control" v-model="consultingPoints" placeholder="Enter points">
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Points for examination</label>
+                        <label style="color:white">Poeni za pregled</label>
                         <input type="number" class="form-control" v-model = "examinationPoints" placeholder="Enter points">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Regular users discount</label>
+                        <label style="color:white">Regular korisnički popust</label>
                         <input type="email" class="form-control" v-model="regularDiscount" placeholder="Enter discount">
                         </div>
                         
                     </div>
                       <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Silver users discount</label>
+                        <label style="color:white">Silver korisnički popust</label>
                         <input type="text" class="form-control" v-model="silverDiscount" placeholder="Enter discount">
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Minimun points for silver</label>
+                        <label style="color:white">Minimun poena za silver</label>
                         <input type="number" class="form-control" v-model="minimumSilverPoints" placeholder="Enter points">
                         </div>
                     </div>
                      <div class="form-row">
                         <div class="form-group col-md-6">
-                        <label style="color:white">Gold users discount</label>
+                        <label style="color:white">Gold korisnički popust</label>
                         <input type="text" class="form-control" v-model="goldDiscount" placeholder="Enter discount">
                         </div>
                         <div class="form-group col-md-6">
-                        <label style="color:white">Minimun points for gold</label>
+                        <label style="color:white">Minimun poena za gold</label>
                         <input type="number" class="form-control" v-model="minimumGoldPoints" placeholder="Enter points">
                         </div>
                     </div>
-                   <button v-on:click = "update" class="btn btn-primary">Confirm</button>
+                   <b-button pill variant="info" style="width:170px; margin-top:20px" v-on:click = "update" class="btn btn-primary">Potvrdi</b-button>
             </div>
     </div>
     </div>
@@ -229,7 +233,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
     }
 
     .space_style{

@@ -2,33 +2,36 @@
  img-src="https://st2.depositphotos.com/3470617/6425/v/950/depositphotos_64252163-stock-illustration-medical-icons-seamless-pattern.jpg">
     <div id="dermatologistNewExamination" style="max-width:100%" >
         <div class="homepage_style ">
-           <span style="float: left; margin: 15px; max-width: 100%;">
-                <img class="image_style space_style" style="width: 50px; height: 50px; margin-right:10px;" src="@/images/natural-medicine.png">
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showHomepage">Home</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profile</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">My patients</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Work calendar</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Create a vacation</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Examinations</button>
-                <button class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Schedule new examination</button>
+           <span style="float: left; margin: 15px">
+                <img class="image_style space_style" style="width: 170px; height: 50px; left:10px;"
+                src="@/images/benu.png">
+                <b-button style="margin-left:20px" pill class = "btn btn-info btn-lg space_style" v-on:click = "showProfile">Profil</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showPatients">Pacijenti</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showWorkCalendar">Radni kalendar</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showAbsenceRequest">Odmor</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showExaminations">Pregledi</b-button>
+                <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "showNewExamination">Nov pregled</b-button>
             </span>
-              <span  style="float:right;margin:15px">
-                    <button class = "btn btn-lg btn-light" style="margin-right:20px;" v-on:click = "logOut">Log Out</button>
-                </span>
+            <span  style="float:right;margin:15px">
+             <b-button pill class = "btn btn-info btn-lg space_style" v-on:click = "logOut">
+                     <b-icon icon="power"   aria-hidden="true"></b-icon> Odjavi se
+            </b-button>
+            </span>
         </div>
         <b-card 
-        style=" background: #e6f9fc; 
+        style=" background: white; 
         position: fixed;
         top: 9%;
         width: 100%;
         height: 100%;
         max-width: 100%;"
         >
-        <h4 class="ml-n mt-6 strong text-left" style="color: #17a2b8;"><b>Choose existing examination</b></h4>
+        <h4 class="ml-n mt-6 strong text-left" style="color: #17a2b8; margin-top:10px"><b>Izaberite neki od unapred kreiranih slobodnih termina</b></h4>
             <div style="width:44%; 
-            height:63%;
+            height:65%;
             border:2px 
             solid #17a2b8; 
+            margin-top:20px
             background-color: #ffffff;
             border:2px solid #17a2b8; ">
                 <h5 
@@ -36,25 +39,25 @@
                 style="margin-bottom:8%; 
                 margin-left: 2% !important; 
                 margin-top: 1% !important;">
-                    <b> 
-                        Search or chooese patient from list:
-                    </b>
+                    
+                        Pretražite ili izaberite pacijenta iz liste:
+                    
                 </h5>
                 <input 
                 list="my-list-id" 
                 v-model="selectedPatientE1" 
                 class="input_style" 
-                placeholder="Enter patient"
-                style="margin-top: 1% !important;">
+                placeholder="Pacijent"
+                style="margin-top: 2% !important;">
                     <datalist id="my-list-id">
                         <option v-for="patient in patients" v-bind:key="patient.id">
                             {{ patient.name }} {{patient.surname}} | {{patient.email}} 
                         </option>
                     </datalist>
                 <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important; margin-top: 12% !important;">
-                    <b> 
-                        Select pharmacy for examination:
-                    </b>
+                    
+                        Izaberite apoteku za pregled:
+                   
                 </h5>
                 <div
                 style="position:fixed;
@@ -66,7 +69,8 @@
                     </b-button>
                 </div>
                 <b-dropdown 
-                text="Select pharmacy" 
+                style="margin-top:15px"
+                text="Apoteka" 
                 variant="outline-info" 
                 class="dropdown_style" 
                 id="dropdown-divider">
@@ -82,17 +86,18 @@
                 left: 18%;
                 top: 38%; 
                 margin-left: 2%;">
-                     <b>
-                         Selected pharmacy: {{ selectedPharmacyNameE1 }}
-                    </b>
-                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 15% !important;"><b> Select one date from the list:</b></h5>
+                     
+                         Izabrana apoteka: {{ selectedPharmacyNameE1 }}
+                    
+                <h5 class="ml-n mt-6 strong text-left" style="margin-left: 2% !important;  margin-top: 15% !important;">
+                    Izaberite jedan datum iz liste:</h5>
                 <select
                 multiple = "true" 
                 text="Select date" 
                 variant="outline-info" 
                 class="dropdown_style" 
                 id="dropdown-divider"
-                style="margin-top: 8% !important;">
+                style="margin-top: 9% !important;">
                     <option
                     v-for="examination in examinations" v-bind:key="examination.id" :value="examination.id"
                     @click="selectedExamination = examination">
@@ -100,22 +105,24 @@
                     </option>
                 </select>
                 
-                <b-button 
+                <b-button pill variant="info"
                     class="btn btn-info btn-lg space_style object_space" 
-                    style="background-color:#17a2b8; width:16.3cm; margin-top: 17% !important;" 
+                    style="background-color:#17a2b8; width:170px; margin-top: 20% !important; margin-left:-430px" 
                     v-on:click = "scheduleSelectedExamination">
-                    Schedule
+                    Zakaži
                 </b-button>
             </div>  
             <div style="position: fixed;
             width:44%;
             height:75%; 
+            margin-top:24px;
             border:2px solid #17a2b8; 
             background-color: #ffffff; 
             left:52%;
             top: 16%;">
-            <div class="vl"></div>
-            <h4 class="ml-n mt-6  text_position" style="color: #17a2b8;"><b>Schedule new examination</b></h4>
+            
+            <h4 class="ml-n mt-6 strong text-left" style="color: #17a2b8; margin-top:-48px">
+                <b>Zakažite novi termin</b></h4>
             <div style="position: fixed;
                     top: 18%; 
                     max-width: 100%;
@@ -123,7 +130,8 @@
                     height: 450px;
                     width: 40%;
                     max-width: 100%;">
-                    <h5 class="ml-n mt-6 strong text-left" style="margin-bottom:8%; margin-top: 2% !important;"><b> Search or chooese patient from list:</b></h5>
+                    <h5 class="ml-n mt-6 strong text-left" style="margin-bottom:8%; margin-top: 2% !important; margin-left:-100px">
+                        Pretražite ili izaberite pacijenta iz liste:</h5>
                     <input list="my-list-id" v-model="selectedPatient" style=" width: 14%;
                     border: 3px solid #17a2b8;
                     position: fixed;
@@ -133,13 +141,14 @@
                     margin-top: 1% !important;
                     margin-bottom: 1% !important;
                     height: 5%;
-                    border-radius: 7%;" placeholder="      Enter patient">
+                    border-radius: 7%;" placeholder="Pacijent">
                     <datalist id="my-list-id">
                         <option v-for="patient in patients" v-bind:key="patient.id">
                             {{ patient.name }} {{patient.surname}} | {{patient.email}} 
                         </option>
                     </datalist>
-                    <h5 class="ml-n mt-6 strong text-left" style="margin-top: 10% !important;"><b> Select pharmacy for examination:</b></h5>
+                    <h5 class="ml-n mt-6 strong text-left" style="margin-top: 10% !important;margin-left:-100px">
+                         Izaberite apoteku za pregled:</h5>
                     <b-dropdown text="Select pharmacy" variant="outline-info" style="width: 14%;
                     position: fixed;
                     left: 53.5%;" id="dropdown-divider">
@@ -155,18 +164,24 @@
                     left: 68%;
                     top: 36%; 
                     margin-left: 2%;">
-                        <b>
-                            Selected pharmacy: {{ selectedPharmacyName }}
-                        </b>
+                        
+                            Izabrana apoteka: {{ selectedPharmacyName }}
+                       
                     <span></span>
-                    <h5 class="ml-n mt-6 strong text-left" style="margin-top:10%"><b>Select date of examination</b></h5>
-                    <b-form-input type="date" class="object_space" v-model="startDate" filled placeholder="Enter date of examination"></b-form-input>
-                    <h5 class="ml-n mt-6 strong text-left" ><b>Select start time of examination</b></h5>
-                    <b-form-input type="time" class="object_space" v-model="startTime" filled placeholder="Start time of examination"></b-form-input>
-                    <h5 class="ml-n mt-6 strong text-left"><b>Select end time of examination</b></h5>
-                    <b-form-input type="time" class="object_space" v-model="endTime" filled placeholder="End time of examination"></b-form-input>
+                    <h5 class="ml-n mt-6 strong text-left" style="margin-top:11%;margin-left:-100px">Izaberite datum pregleda</h5>
+                    <b-form-input style="margin-left:-100px" type="date" class="object_space" v-model="startDate" filled placeholder="Izaberite datum pregleda"></b-form-input>
+                    <h5 style="margin-left:-100px" class="ml-n mt-6 strong text-left" >Izaberite vreme početka pregleda</h5>
+                    <b-form-input style="margin-left:-100px" type="time" class="object_space" v-model="startTime" filled placeholder="Vreme početka pregleda"></b-form-input>
+                    <h5 style="margin-left:-100px" class="ml-n mt-6 strong text-left">Izaberite vreme kraja pregleda</h5>
+                    <b-form-input style="margin-left:-100px" type="time" class="object_space" v-model="endTime" filled placeholder="Vreme kraja pregleda"></b-form-input>
                     
-                    <b-button class="btn btn-info btn-lg space_style object_space" style="background-color:#17a2b8; width:18cm;" v-on:click = "scheduleExamination">Schedule</b-button>
+                    <b-button pill variant="info"
+                    class="btn btn-info btn-lg space_style object_space" 
+                    style="background-color:#17a2b8; width:170px; margin-top: 10% !important; margin-left:-608px" 
+                    v-on:click = "scheduleExamination">
+                    Zakaži
+                </b-button>
+                   
             </div>
         </div>
         </b-card>
@@ -383,7 +398,7 @@ export default {
         left: 0;
         z-index: 999;
         width: 100%;
-        height: 70px;
+        height: 73px;
         max-width: 100%;
     }
 

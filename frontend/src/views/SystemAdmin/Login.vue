@@ -3,38 +3,56 @@
 <template>
 <div id="login">
      <div class="vue-tempalte">
-        
-            <h3>Sign In</h3>
-
             <div class="form-group">
-                <label style="color:white">Email address</label>
-                <input type="email" class="form-control form-control-lg" v-model="email" required />
-                <label style="color:white">Password</label>
-                <input type="password" class="form-control form-control-lg" required v-model="password"/>
+                <label style="color:white">Email</label>
+                <b-input-group size="lg">
+                  <b-input-group-prepend is-text>
+                  <b-icon icon="envelope"></b-icon>
+                 </b-input-group-prepend>
+                    <b-form-input type="email" placeholder="me@example.com" v-model="email" required></b-form-input>
+                </b-input-group>
+                <label style="color:white; margin-top:10px">Šifra</label>
+                       <b-input-group size="lg">
+      <b-input-group-prepend is-text>
+        <b-icon icon="lock"></b-icon>
+      </b-input-group-prepend>
+      <b-form-input type="password" placeholder="me123" v-model="password" required></b-form-input>
+    </b-input-group>
+               
             </div>
 
             
-            <button style="color:white" type="submit" class="button" v-on:click = "loginUser">Sign In</button>
+            <b-button pill style="color:white" type="submit" class="button" v-on:click = "loginUser">Prijavi se</b-button>
 
-            <p class="forgot-password text-center mt-2 mb-4">
-                <router-link to="/forgot-password">Forgot password ?</router-link>
-            </p>
-
-       
     </div>
-   <b-modal ref="my-modal" hide-footer scrollable title="Please change password to continue" size="lg" modal-class="b-modal">
+   <b-modal ref="my-modal" hide-footer scrollable title="Molim vas promenite šifru prilikom prvog logovanja" size="lg" modal-class="b-modal">
             <div modal-class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-color:whitesmoke">
                     <div class="modal-body">
-                         <div class="form-group">
-                <label style="color:white">Existing Password</label>
-                <input type="email" class="form-control form-control-lg" v-model="currentPassword" required />
-                <label style="color:white">New Password</label>
-                <input type="password" class="form-control form-control-lg" required v-model="newPassword"/>
-                <label style="color:white">Confirm New Password</label>
-                <input type="password" class="form-control form-control-lg" required v-model="newPasswordRepeat"/>
+                         <div class="form-group" style="margin-top:60px">
+                <label style="color:white">Trenutna šifra</label>
+                <b-input-group size="lg">
+                  <b-input-group-prepend is-text>
+                  <b-icon icon="lock"></b-icon>
+                 </b-input-group-prepend>
+                    <b-form-input type="password" v-model="currentPassword" required></b-form-input>
+                </b-input-group>
+                <label style="color:white">Nova šifra</label>
+                <b-input-group size="lg">
+                  <b-input-group-prepend is-text>
+                  <b-icon icon="lock"></b-icon>
+                 </b-input-group-prepend>
+                    <b-form-input type="password" v-model="newPassword" required></b-form-input>
+                </b-input-group>
+                <label style="color:white">Potvrdite novu šifru</label>
+                <b-input-group size="lg">
+                  <b-input-group-prepend is-text>
+                  <b-icon icon="lock"></b-icon>
+                 </b-input-group-prepend>
+                    <b-form-input type="password" v-model="newPasswordRepeat" required></b-form-input>
+                </b-input-group>
             </div>
-                        <button @click= "changePassword($event)" class="btn btn-primary">Confirm</button>        
+                        <b-button style="width:160px; margin-left:290px; margin-top:-50px" pill variant="info" @click= "changePassword($event)" class="btn btn-primary">Potvrdi</b-button>        
                     </div>                
                 </div>
             </div>
@@ -89,13 +107,13 @@ export default {
                     }).then(response => {
                         
                             this.authority = response.data.authorities[0].authority;
-                            alert("OK?")
+                            
                             if(this.authority==="ROLE_PATIENT") 
                              if(response.data.firstLogged) {
                                     this.$refs['my-modal'].show();
                                 }
                                 else {
-                                    window.location.href = '/patientProfile';
+                                    window.location.href = '/profileInfo';
                                 }
                         
                             else if(this.authority==="ROLE_DERMATOLOGIST")
@@ -103,13 +121,13 @@ export default {
                                     this.$refs['my-modal'].show();
                                 }
                                 else {
-                                    window.location.href = '/dermatologistHomepage';
+                                    window.location.href = '/dermatologistProfile';
                                 }
                                 
                             else if(this.authority==="ROLE_SUPPLIER")
                                 if(response.data.firstLogged) {
                                     this.$refs['my-modal'].show();
-                                    alert("Please change password during first LogIn!"); 
+                                    alert("Molim vas promenite šifru prilikom prvog logovanja!"); 
                                 }
                                 else {
                                     window.location.href = '/profileDataSupplier';
@@ -118,7 +136,7 @@ export default {
                             else if(this.authority==="ROLE_SYSTEM_ADMINISTRATOR")
                                 if(response.data.firstLogged) {
                                      this.$refs['my-modal'].show();
-                                     alert("Please change password during first LogIn!"); 
+                                     alert("Molim vas promenite šifru prilikom prvog logovanja!"); 
                                 }
                                 else {
                                      window.location.href = '/profileData';
@@ -153,14 +171,14 @@ export default {
 
                             })
                 .catch(response => {
-                       alert("Please enter valid data!");
+                       alert("Molim vas unesite validne podatke!");
                         console.log(response);
                  });   
         },
     changePassword : function() {
 
         if(this.newPassword != this.newPasswordRepeat) {
-            alert("New passwords must be equal.")
+            alert("Nove šifre moraju biti jednake!")
             return;
         }
 
@@ -179,9 +197,9 @@ export default {
                     if(this.authority==="ROLE_SYSTEM_ADMINISTRATOR")
                         window.location.href = '/profileData';
                     else if(this.authority==="ROLE_PATIENT") 
-                        window.location.href = '/patientProfile';
+                        window.location.href = '/profileInfo';
                     else if(this.authority==="ROLE_DERMATOLOGIST")
-                       window.location.href = '/dermatologistHomepage';
+                       window.location.href = '/dermatologistProfile';
                     else if(this.authority==="ROLE_SUPPLIER")
                         window.location.href = '/profileDataSupplier';
                     else if(this.authority==="ROLE_PHARMACY_ADMIN")
