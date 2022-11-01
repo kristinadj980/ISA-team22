@@ -26,7 +26,9 @@ Pokretanje projekta<br />
 Baza podataka: PostgreSQL
   - Baza se nalazi na portu 5432
   - Potrebno je kreirati bazu pod nazivom isa
-  - Takodje, password za bazu je: root, a username: postgres
+  - Kredencijali za bazu su: 
+      password: root
+      username: postgres
   - U sklopu foldera resources nalazi se skripta data.sql koje se pokreće pokretanjem backend projekta.
     
 Pokretanje backend-a u Eclipse-u:
